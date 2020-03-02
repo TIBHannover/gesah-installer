@@ -1,0 +1,62 @@
+/*---------------------------------------------
+Homepage explore rectangular links with images for background
+----------------------------------------------*/
+.explore-panel {
+    display: block;
+    padding: 60px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: #ececec;
+    background-size: cover;
+    border: 1px solid #c9c9c9;
+    border-radius: 3px;
+    transition: background-position 0.65s ease;
+}
+.explore-panel span {
+    color: #fff;
+    font-size: 1.5em;
+    vertical-align: middle;
+    font-weight: bold;
+    /* 	text-shadow: 0px 0px 0px #ff0707; */
+}
+.explore-panel#ph1 {
+    background-image: url(../images/csm_01x_Tagung_Konferenz_RZ_46113560bc.jpg);
+}
+.explore-panel#ph2 {
+    background-image: url(../images/csm_04x_TIB_Institution_RZ_e10053c9f5.jpg);
+}
+.explore-panel#ph3 {
+    background-image: url(../images/csm_av-portal-2x_RZ_4a98a8b725.jpg);
+}
+.explore-panel#ph4 {
+    background-image: url(../images/csm_Slider_Schulung_01_7825b9f7e4.jpg);
+}
+.explore-panel:hover {
+    /*   background-position: 50% 85%; */
+}
+
+.icons-home h3 {
+    font-size: 2.6em;
+    font-family: "GenerikaBold", "Noto Sans", "Lucida Sans Unicode", "Lucida Grande", Geneva, helvetica, sans-serif;
+}
+
+/*---------------------------------------------
+Customise the about our research section
+----------------------------------------------*/
+.research-count {
+    background-image: url('../images/bg4.jpg');
+    padding: 60px;
+    color: #fff;
+    border-width: 1px 0 1px 0;
+    height: 575px;
+}
+#home-sections-list {
+    list-style: none;
+    padding: 0;
+    box-shadow: none;
+    color: #4b4b4b;
+}

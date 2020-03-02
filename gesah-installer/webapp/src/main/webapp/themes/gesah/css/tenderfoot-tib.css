@@ -1,0 +1,169 @@
+/*TIB Bootstrap modifications*/
+
+h2 {
+    color: #4b4b4b;
+}
+
+h3 {
+    color: #4b4b4b;
+}
+
+.input-group{
+    padding-left: 50px;
+    padding-top: 10px;
+    padding-right: 75px;
+}
+
+.input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group {
+    z-index: 2;
+    margin-left: -1px;
+    background: #AF1414;
+}
+
+.input-group-btn:last-child > .btn:hover, .input-group-btn:last-child > .btn-group:hover {
+    background-color: #4b4b4b;
+    border-color: #4b4b4b;
+    color: #fafafa;
+}
+
+.icon-search{
+    color: #FFFFFF;
+}
+
+.btn-default {
+    /* text-shadow: 0 1px 0 #fff; */
+}
+
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.icons-home {
+    background-image: url('../images/bg4.jpg');
+    background-repeat: no-repeat;
+}
+
+.icons-home .col-md-4 {
+    padding: 45px;
+}
+
+/*
+.col-md-4 {
+    width: 33.33333333%;
+}
+*/
+
+.icons-home a#icon1 {
+    background: #fff;
+    padding-left: 42.0%;
+}
+.icons-home a#icon1:hover {
+    background-color: #AF1414;
+    border-color: #AF1414;
+    color: #fafafa;
+}
+.icons-home a#icon1:hover .glyphicon,
+.icons-home a#icon1:hover h3 {
+    color: #fafafa;
+}
+
+.icons-home a#icon2 {
+    background: #fff;
+    padding-left: 42.0%;
+}
+.icons-home a#icon2:hover {
+    background-color: #AF1414;
+    border-color: #AF1414;
+    color: #fafafa;
+}
+.icons-home a#icon2:hover .glyphicon,
+.icons-home a#icon2:hover h3 {
+    color: #fafafa;
+}
+
+.icons-home a#icon3 {
+    background: #fff;
+    padding-left: 42.0%;
+}
+.icons-home a#icon3:hover {
+    background-color: #AF1414;
+    border-color: #AF1414;
+    color: #fafafa;
+}
+.icons-home a#icon3:hover .glyphicon,
+.icons-home a#icon3:hover h3 {
+    color: #fafafa;
+}
+
+.icons-home a {
+    padding: 30px 0 45px 0;
+    display: block;
+    color: #4B4B4B;
+    text-decoration: none;
+    transition: background 0.65s, color 0.45s;
+
+}
+
+.icons-home .glyphicon {
+    font-size: 75px;
+    width: 100%;
+    height: 100%;
+    line-height: 2em;
+}
+
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#search-field input.search {
+    margin-top: 5px;
+}
+
+#search-field input.search:hover {
+    background-color: #4b4b4b;
+    border-color: #4b4b4b;
+    color: #fafafa;
+}
+
+.person-details {
+    background-color: #E3E3E3;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+}
+
+#individual-admin .col-md-12 {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#property-tabs {
+    padding-left: 0px;
+}
+
+#ind-right-panel {
+    padding-right: 0px;
+}
+
+#property-tabs .col-md-12 {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#property-group-tabs .col-md-12 {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.photo-wrapper {
+    background-color: #E3E3E3;
+}

@@ -1,0 +1,395 @@
+legend {
+    display: none;
+}
+
+.navbar {
+    z-index: 10;
+}
+
+#nav {
+    background: #E3E3E3;
+}
+
+.navbar-default {
+    background-color: #E3E3E3;
+    background-image: none;
+    background-image: none;
+    background-image: none;
+    background-image: none;
+    background-image: none;
+    background-image: none;
+    background-repeat: no-repeat;
+    filter: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-color: #E3E3E3;
+}
+#nav.affix {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+/*
+    If you don't want navbar that anchors to the top of the screen, replace with
+
+    #nav.affix {
+        position: relative;
+    }
+ */
+
+#nav .container {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.navbar-collapse.in #main-nav {
+    padding-left: 15px;
+}
+
+.navbar-toggle .button-label {
+    display: inline-block;
+    float: left;
+    font-weight: bold;
+    line-height: 14px;
+    padding-right: 10px;
+}
+.button-bars {
+    display: inline-block;
+    float: left;
+}
+
+p.navbar-text {
+    margin-left: 15px;
+}
+
+#nav-searchbox {
+    float: right;
+}
+
+button.navbar-toggle {
+    z-index: 999;
+}
+
+body {
+    padding: 0;
+    height: 100%; /* needed for container min-height */
+    font-family: "Cabin Condensed", "Noto Sans", "Lucida Sans Unicode","Lucida Grande", Geneva, helvetica, sans-serif;
+    height: auto !important; /* real browsers */
+    height: 100%; /* IE6: treaded as min-height*/;
+    min-height: 100%; /* real browsers */
+    margin: 0 auto;
+    /*background: #f3f3f0 url(../images/header-background.png) center 0 no-repeat;*/
+}
+
+#wrapper-content {
+    background: none repeat scroll 0 0 #fff;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#property-tabs {
+    /*
+    padding-left: 0px;
+    padding-right: 0px;
+    */
+}
+
+.row {
+    background: #ffffff;
+}
+
+.row.title {
+    background: #AF1414;
+    padding-top: 7px;
+    padding-bottom: 3px;
+}
+
+.row.title span {
+    color: #ffffff;
+}
+
+.row.title h1 {
+    margin-left: 10px;
+}
+
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.photo-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #f3f3f0;
+    vertical-align: top;
+}
+
+.photo-wrapper img {
+//    height: 100%;
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+    object-fit: contain;
+}
+
+.person-details {
+    background: #f3f3f0;
+    padding-bottom: 5px;
+}
+
+/* HEADER ------>  */
+#branding {
+    border-bottom: 1px solid #AF1414;
+    position: relative;
+//    width: 970px;
+    height: 140px;
+    margin: 0 auto;
+}
+#branding .row {
+    background-color:rgba(255, 255, 255, 0);
+}
+/* HEADER NAV------>  */
+ul#header-nav {
+    float: right;
+    list-style: none;
+    height: 30px;
+    padding-top: 10px;
+    margin-right: 13px;
+}
+ul#header-nav li {
+    float: left;
+    display: block;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: 0px solid #7c7d7f;
+    font-size: .7em;
+    color: #fff;
+}
+ul#header-nav li:last-child {
+    padding-left: 1px;
+    padding-right: 0;
+    border-right: none;
+}
+ul#header-nav a {
+    color: #AF1414;
+}
+ul#header-nav a:hover,
+ul#header-nav a:active {
+    text-decoration: none;
+    color: #999;
+}
+ul#header-nav a.log-out {
+    padding-left: 10px;
+}
+/* SEARCH ------>  */
+#search {
+    height: 38px;
+    right: 10px;
+    padding-top: 5px;
+    padding-right: 15px;
+}
+#search-field {
+    height: 38px;
+}
+#search-field input.search {
+    background-color: #af1414;
+    color: #fff;
+    border: none;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    white-space: nowrap;
+    font-size: 14px;
+    border-radius: 0;
+    height: 30px;
+
+}
+input.search-vivo {
+    float: left;
+    width: 290px;
+    height: 25px;
+    border: 0;
+    font-size: 16px;
+    color: #5e6363;
+    margin-left: 10px;
+    margin-top: 5px;
+    padding: 0;
+}
+#search-form-modifier {
+    display: none;
+}
+/* FOOTER------>  */
+footer {
+    height: 88px;
+    margin: 0 auto;
+    font-size: .7em;
+    color: white;
+    background-color: #e3e3e3;
+    border-top: 2px solid #AF1414;
+}
+footer .row {
+    background-color: #e3e3e3;
+}
+footer p.copyright {
+    float: left;
+    padding-top: 55px;
+    color: #AF1414;
+}
+footer p.copyright small {
+    font-size: 1em;
+}
+ul#footer-nav {
+    float: right;
+    list-style: none;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    padding-top: 55px;
+}
+ul#footer-nav li {
+    float: left;
+    display: block;
+    padding-left: 10px;
+    padding-right: 10px;x
+    border-right: 1px solid #c9c8c8;
+}
+ul#footer-nav li:last-child,
+ul#header-nav li.last,
+ul#individual-hasResearchArea li:last-child,
+ul#individual-facultyMemberships li:last-child {
+    border-right: none;
+}
+#footer-nav a {
+    color: #AF1414;
+}
+#footer-nav a:hover,
+a.terms,
+a.powered-by-vivo {
+    color: #AF1414;
+    text-decoration: none;
+}
+#footer-nav  a.terms:hover,
+a.powered-by-vivo:hover {
+    color: #AF1414;
+    text-decoration: none;
+}
+#footer-nav p {
+    margin-bottom: 1.3em;
+}
+/* BRANDING ------>  */
+h1.vivo-logo {
+    position: absolute;
+    width: 100%;
+    max-width: 650px;
+    height: 120px;
+    top: 15px;
+    left: 0;
+    background: url(../images/gesah.jpg) 0 0 no-repeat;
+    background-size: 100% auto;
+}
+h1.vivo-logo a {
+    display: block;
+    width: 100%;
+    height: 59px;
+}
+.displace {
+    left: -9999px;
+    position: absolute;
+}
+h2 {
+    padding: 5px 0 3px 0;
+    margin: 0;
+    font-size: 1.375em;
+    color: #064d68;
+    line-height: 1.5em;
+}
+h2 a {
+    color: #AF1414;
+}
+h2 a:link,
+h2 a:visited {
+    text-decoration: none;
+}
+h3 {
+    padding: 5px 0 6px 0;
+    margin: 0;
+    font-size: 1.125em;
+    color: #064d68;
+}
+h4 {
+    padding: 5px 0 6px 0;
+    margin: 0;
+    font-size: 1em;
+    color: #064d68;
+}
+h5 {
+    padding: 5px 0 6px 0;
+    margin: 0;
+    font-size: .875em;
+    color: #064d68;
+}
+label {
+    display: block;
+}
+#developerPanel h1 {
+    line-height: 1.5em;
+}
+#developerPanel .container {
+    width: auto;
+}
+
+table.classHierarchy {
+    min-width: auto;
+    max-width: none;
+    display: block;
+    margin-right: 0px;
+}
+
+section#container div {
+    width: auto;
+}
+
+#flash-message {
+    border: 1px dotted #E2C822;
+    background-color: #FFF9D7;
+    padding: .5em;
+    margin-bottom: 10px;
+}
+#welcome-message {
+    border: 1px dotted #E2C822;
+    background-color: #FFF9D7;
+    padding: .25em;
+    margin-bottom: 8px;
+}
+#flash-msg-container,
+#welcome-msg-container {
+    width: 600px;
+    height:34px;
+    position: absolute;
+    z-index: 99;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+img.add-individual {
+    height: 15px;
+    width: 15px;
+}
+.reportDatasource {
+    border: 2px solid #AF1414;
+    background-color: #e3e3e3;
+    padding: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.reportDatasource button.delete {
+    float: right;
+}

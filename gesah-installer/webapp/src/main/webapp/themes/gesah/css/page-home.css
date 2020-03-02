@@ -1,0 +1,252 @@
+.jumbotron {
+    background-color: transparent;
+    color: #4b4b4b;
+    text-align: center;
+    text-align: left;
+}
+
+.jumbotron h1 {
+    font-size: 40px;
+}
+
+.jumbotron p {
+    color: #4b4b4b;
+    font-size: 18px;
+}
+
+.hero {
+   /* background: #283a4b url(../images/library.jpg) repeat-x 0 0; */
+}
+
+.hero form input,
+.hero form select {
+    margin-bottom: 0em;
+    margin-top: 0em;
+    margin-right: 0em;
+    margin-left: 0em;
+}
+
+/* HOME STATS----->  */
+#home-stats {
+    margin-top: 1em;
+    width: 921px;
+    height: 213px;
+    clear: both;
+}
+.home-sections h4 {
+    margin-top: 0;
+    height: 34px;
+    font-size: 18px;
+    text-align: center;
+    margin-left: 35px;
+    padding: 0;
+    line-height: 35px;
+}
+#home-stats h4 {
+    display: inline;
+    padding: 3px 10px;
+}
+#stats {
+    margin: 0 auto;
+    width: 875px;
+}
+#stats li {
+    float: left;
+    width: 108px;
+    height: 102px;
+    margin-top: 35px;
+    margin-right: 25px;
+}
+#stats p {
+
+}
+#stats li a {
+    text-decoration: none;
+}
+#stats li a:hover {
+
+}
+#stats li:first-child {
+    margin-left: 50px;
+}
+#stats .stats-count {
+    text-align: center;
+    font-size: 42px;
+    margin: 0;
+    padding-top: 30px;
+}
+#stats .stats-count span {
+    font-size: 18px;
+    padding-left: 2px;
+}
+#stats .stats-type {
+    font-size: 13px;
+    text-align: center;
+    margin: 0;
+    margin-top: 13px;
+}
+
+#home-sections-list {
+    list-style: none;
+    padding: 0;
+    box-shadow: none;
+    color: #4b4b4b;
+}
+#home-sections-list li {
+    margin: 0 0 5px 0;
+}
+#home-sections-list a:last-child {
+    color: #AF1414;
+
+}
+#home-sections-list a.list-group-item {
+    color: #AF1414;
+    margin: 6px 0;
+    border-radius: 4px;
+}
+#home-sections-list button.list-group-item {
+    color: #AF1414;
+    margin: 6px 0;
+
+}
+#home-sections-list span.badge {
+    font-size: 15px;
+    vertical-align: middle;
+}
+#home-sections-list a.list-group-item,
+button.list-group-item {
+    color: #555555;
+    margin: 6px 0;
+    border-radius: 0px;
+}
+#home-sections-list a:hover {
+    background-color: #AF1414;
+    color: #ffffff;
+}
+#home-sections-list a:last-child:hover {
+    background: none;
+    color: #AF1414;
+}
+
+
+#home-research  {
+    width: 100%;
+    float: left;
+    clear: both;
+    height: 280px;
+
+}
+#home-research ul {
+    padding: 0.7em 0 0.6em 0.75em;
+}
+#home-research li {
+    line-height: 1.25em;
+    margin-top: 0.7em;
+    font-size: 0.9em;
+}
+#home-research li:last-child {
+    text-align:right;
+    padding: 4px 16px 0 0;
+}
+#home-research li span {
+    color: #fff;
+    background: url(../../../images/count-background.png) no-repeat;
+    width: 65px;
+    height: 27px;
+    display: inline-block;
+    padding: 6px 8px 0 0;
+    margin-left: 4px;
+    text-align: center;
+}
+#home-academic-depts  {
+    width: 297px;
+    margin-left: 15px;
+    float: left;
+}
+#home-academic-depts h4,
+#home-faculty-mbrs h4,
+#home-geo-focus h4 {
+    display: inline;
+    padding: 3px 10px;
+}
+#home-academic-depts ul {
+    list-style: disc outside url(../../../images/arrowIcon.gif);
+    padding: 0.4em 0 0.6em 1.8em;
+}
+#home-academic-depts li {
+    line-height: 1.25em;
+    padding-top: 1.0em;
+    padding-right: 4px;
+}
+#home-faculty-mbrs  {
+    width: 297px;
+    margin: 0 0 20px 15px;
+    float: left;
+}
+div#tempSpacing {
+    margin-top:30px;
+    padding-left:20px;
+    height:325px;
+}
+div#research-faculty-mbrs {
+    font-size: 0.9em;
+    line-height: 16px;
+}
+div#research-faculty-mbrs li.individual {
+    clear: both;
+}
+div#research-faculty-mbrs ul li.individual:first-child {
+    clear: both;
+    padding-top: 20px
+}
+div#research-faculty-mbrs li h1 {
+    padding: 6px 0 2px 0;
+}
+div#research-faculty-mbrs li img {
+    width: 60px;
+    float: left;
+    padding: 0px 8px 10px 10px;
+}
+div#research-faculty-mbrs li span.title {
+    display: block;
+    font-size: 0.825em;
+    line-height: 1.25em;
+    padding-bottom: 8px;
+}
+div#research-faculty-mbrs ul#viewMoreFac  {
+    list-style:none;
+}
+div#research-faculty-mbrs ul#viewMoreFac li {
+    text-align:right;
+    padding: 0 16px 8px 0;
+    clear:both;
+}
+div#adjImgHeight {
+    height:65px;
+    overflow:hidden;
+    float:left;
+    margin-bottom:10px;
+}
+#home-geo-focus  {
+    clear: both;
+    display: inline-block;
+    margin-top: 30px;
+    height: 632px;
+    width: 921px;
+}
+#home-geo-focus div#timeIndicatorGeo {
+    text-align:center;
+    margin-top:100px;
+}
+div.faculty-home {
+    padding-top: 20px;
+}
+.faculty-home {
+
+}
+.research-count {
+    margin-bottom: 45px;
+}
+.faculty-home a {
+    font-size: 1.2em;
+}
