@@ -1,0 +1,36 @@
+# $This file is distributed under the terms of the license in LICENSE$ 
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix display: <http://vitro.mannlib.cornell.edu/ontologies/display/1.1#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix core: <http://vivoweb.org/ontology/core#> .
+@prefix vivoweb: <http://vivoweb.org/ontology#> .
+@prefix afn:  <http://jena.apache.org/ARQ/function#> .
+
+ 
+## associate the classes with the datagetter ##
+
+<http://ontology.tib.eu/gesah/Drawing> display:hasDataGetter display:checkForIIIFDG .
+<http://ontology.tib.eu/gesah/Print> display:hasDataGetter display:checkForIIIFDG .
+<http://ontology.tib.eu/gesah/Photomechanical_Print> display:hasDataGetter display:checkForIIIFDG .
+<http://ontology.tib.eu/gesah/Painting> display:hasDataGetter display:checkForIIIFDG .
+
+ 
+## define the datagetter ##
+
+display:checkForIIIFDG
+    a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter>;
+    display:saveToVar "digitalRepresentations";
+    display:query 
+        """
+        PREFIX obo: <http://purl.obolibrary.org/obo/> 
+        PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+        SELECT DISTINCT ?barcode ?fileNum
+        WHERE {
+            ?individualURI <http://ontology.tib.eu/gesah/has_digital_representation> ?digRep .
+            ?digRep <http://ontology.tib.eu/gesah/barcode> ?barcode .
+            ?digRep <http://ontology.tib.eu/gesah/image_file_number> ?fileNum .
+        }
+        """ .
+
