@@ -15,6 +15,7 @@
 <http://ontology.tib.eu/gesah/Print> display:hasDataGetter display:checkForIIIFDG .
 <http://ontology.tib.eu/gesah/Photomechanical_Print> display:hasDataGetter display:checkForIIIFDG .
 <http://ontology.tib.eu/gesah/Painting> display:hasDataGetter display:checkForIIIFDG .
+<http://ontology.tib.eu/gesah/Digital_Image> display:hasDataGetter display:checkForIIIFDG .
 
  
 ## define the datagetter ##
@@ -24,13 +25,19 @@ display:checkForIIIFDG
     display:saveToVar "digitalRepresentations";
     display:query 
         """
-        PREFIX obo: <http://purl.obolibrary.org/obo/> 
-        PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
         SELECT DISTINCT ?barcode ?fileNum
         WHERE {
-            ?individualURI <http://ontology.tib.eu/gesah/has_digital_representation> ?digRep .
-            ?digRep <http://ontology.tib.eu/gesah/barcode> ?barcode .
-            ?digRep <http://ontology.tib.eu/gesah/image_file_number> ?fileNum .
+            {
+                ?individualURI <http://ontology.tib.eu/gesah/has_digital_representation> ?digRep .
+                ?digRep <http://ontology.tib.eu/gesah/barcode> ?barcode .
+                ?digRep <http://ontology.tib.eu/gesah/image_file_number> ?fileNum .
+            }
+            UNION
+            {
+                ?individualURI a <http://ontology.tib.eu/gesah/Digital_Image> .
+                ?individualURI <http://ontology.tib.eu/gesah/barcode> ?barcode .
+                ?individualURI <http://ontology.tib.eu/gesah/image_file_number> ?fileNum .
+            }
         }
         """ .
 
