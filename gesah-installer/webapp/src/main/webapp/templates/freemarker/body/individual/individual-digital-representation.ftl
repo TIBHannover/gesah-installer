@@ -75,7 +75,7 @@
             prefixUrl: "${urls.base}/seadragon/images/",
             tileSources: [
             <#list digitalRepresentations as digRep>
-                "${iiifUrl}/iiif/2/${digRep["barcode"]}%2Fcontent%2Fstreams%2F${digRep["fileNum"]}/info.json"
+                <#list digitalRepresentations as digRep>"${iiifUrl}/iiif/2/${digRep["barcode"]}%2Fcontent%2Fstreams%2F${digRep["fileNum"]}/info.json"<#sep>, </#list>
             </#list>
             ]
         });
