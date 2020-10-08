@@ -120,5 +120,5 @@
         }  ORDER BY ?techniqueLabel  
     </query-select>
 
-     <template>propStatement-objectHasCreation.ftl</template>
+     <!-- template>propStatement-objectHasCreation.ftl</template -->
 </list-view-config>
