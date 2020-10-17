@@ -4,7 +4,7 @@
 
 <#-- leaving this edit/add mode code in for reference in case we decide we need it -->
 
-<#import "lib-vivo-form.ftl" as lvf>
+<#import "lib-gesah-form.ftl" as lgf>
 
 <#assign subjectName=""/>
 <#assign roleActivityUri="mysteryRoleActivityURI"/>
@@ -35,51 +35,51 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign flagClearLabelForExisting = "flagClearLabelForExisting" />
 
 <#--Retrieve variables needed-->
-<#assign newPersonValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newPerson")/>
-<#assign persLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "persLabel") />
-<#assign persLabelDisplayValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "persLabelDisplay") />
-<#assign litDateAppelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "litDateAppel") />
-<#assign descriptionValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "description") />
-<#assign newRoleValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newRole") />
-<#assign newRoleTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newRoleType") />
-<#assign newRoleTypeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newRoleTypeLabel") />
-<#assign newAttrTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newAttrType") />
-<#assign newAttrTypeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newAttrTypeLabel") />
-<#assign newTechniqueValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newTechnique") />
-<#assign newTechniqueLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newTechniqueLabel") />
-<#assign newMaterialValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newMaterial") />
-<#assign newMaterialLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newMaterialLabel") />
-<#assign newPlaceValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newPlace") />
-<#assign newPlaceLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newPlaceLabel") />
-<#assign existingPersValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingPers") />
-<#assign existingMaterialValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingMaterial") />
-<#assign existingMaterialLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingMaterialLabel") />
-<#assign existingTechniqueValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingTechnique") />
-<#assign existingTechniqueLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingTechniqueLabel") />
-<#assign existingAttrTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingAttrType") />
-<#assign existingAttrTypeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingAttrTypeLabel") />
-<#assign existingRoleTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingRoleType") />
-<#assign existingRoleTypeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingRoleTypeLabel") />
-<#assign existingPlaceValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingPlace") />
-<#assign existingPlaceLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingPlaceLabel") />
+<#assign newPersonValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newPerson")/>
+<#assign persLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "persLabel") />
+<#assign persLabelDisplayValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "persLabelDisplay") />
+<#assign litDateAppelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "litDateAppel") />
+<#assign descriptionValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "description") />
+<#assign newRoleValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newRole") />
+<#assign newRoleTypeValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newRoleType") />
+<#assign newRoleTypeLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newRoleTypeLabel") />
+<#assign newAttrTypeValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newAttrType") />
+<#assign newAttrTypeLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newAttrTypeLabel") />
+<#assign newTechniqueValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newTechnique") />
+<#assign newTechniqueLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newTechniqueLabel") />
+<#assign newMaterialValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newMaterial") />
+<#assign newMaterialLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newMaterialLabel") />
+<#assign newPlaceValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newPlace") />
+<#assign newPlaceLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newPlaceLabel") />
+<#assign existingPersValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingPers") />
+<#assign existingMaterialValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingMaterial") />
+<#assign existingMaterialLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingMaterialLabel") />
+<#assign existingTechniqueValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingTechnique") />
+<#assign existingTechniqueLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingTechniqueLabel") />
+<#assign existingAttrTypeValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingAttrType") />
+<#assign existingAttrTypeLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingAttrTypeLabel") />
+<#assign existingRoleTypeValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingRoleType") />
+<#assign existingRoleTypeLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingRoleTypeLabel") />
+<#assign existingPlaceValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingPlace") />
+<#assign existingPlaceLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingPlaceLabel") />
 <#--
-    <#assign existingTechniqueLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "techniqueLabel") />
+    <#assign existingTechniqueLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "techniqueLabel") />
 -->
 <#--
-    <#assign existingMaterialLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "materialLabel") />
--->
-
-<#--
-
-<#assign existingAttrTypeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingAttrTypeLabel") />
-
+    <#assign existingMaterialLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "materialLabel") />
 -->
 
 <#--
-    <#assign existingRoleTypeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "roleTypeLabel") />
+
+<#assign existingAttrTypeLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingAttrTypeLabel") />
+
+-->
+
+<#--
+    <#assign existingRoleTypeLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "roleTypeLabel") />
 -->
 <#--
-    <#assign existingPlaceLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "placeLabel") />
+    <#assign existingPlaceLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "placeLabel") />
 -->
 <#-- If edit submission exists, then retrieve validation errors if they exist-->
 <#if editSubmission?has_content && editSubmission.submissionExists = true && editSubmission.validationErrors?has_content>
@@ -128,27 +128,27 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 	        </#if>
         </#list>
         <#--Checking if Person field is empty-->
-         <#if lvf.submissionErrorExists(editSubmission, "newPerson")>
+         <#if lgf.submissionErrorExists(editSubmission, "newPerson")>
  	        ${i18n().select_a_person}
         </#if>
         <#--Checking if Person Name field is empty-->
-         <#if lvf.submissionErrorExists(editSubmission, "persLabel")>
+         <#if lgf.submissionErrorExists(editSubmission, "persLabel")>
  	        ${i18n().select_a_person}
         </#if>
         <#--Checking if Attribution Type field is empty-->
-         <#if lvf.submissionErrorExists(editSubmission, "newAttrType")>
+         <#if lgf.submissionErrorExists(editSubmission, "newAttrType")>
  	        ${i18n().select_attribution_type_value}<br />
         </#if>
 		<#--Checking if Technique field is empty-->
-         <#if lvf.submissionErrorExists(editSubmission, "newTechnique")>
+         <#if lgf.submissionErrorExists(editSubmission, "newTechnique")>
  	        ${i18n().select_technique_value}<br />
         </#if>
 		<#--Checking if Material field is empty-->
-         <#if lvf.submissionErrorExists(editSubmission, "newMaterial")>
+         <#if lgf.submissionErrorExists(editSubmission, "newMaterial")>
  	        ${i18n().select_material_value}<br />
         </#if>
 		<#--Checking if Role Type field is empty-->
-         <#if lvf.submissionErrorExists(editSubmission, "newRoleType")>
+         <#if lgf.submissionErrorExists(editSubmission, "newRoleType")>
  	        ${i18n().select_role_type_value}<br />
         </#if>
 
@@ -156,7 +156,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
     </section>
 </#if>
 
-<@lvf.unsupportedBrowser urls.base />
+<@lgf.unsupportedBrowser urls.base />
 
 <section id="objectHasCreation" role="region">
 

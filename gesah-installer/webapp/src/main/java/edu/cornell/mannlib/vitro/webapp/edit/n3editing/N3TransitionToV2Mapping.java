@@ -9,7 +9,7 @@ public class N3TransitionToV2Mapping extends HashMap<String, String>{
         Map<String,String> map = this;
 
         map.put("defaultAddMissingIndividualForm.jsp",
-                edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.VIVODefaultAddMissingIndividualFormGenerator.class.getName());
+                edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.DefaultAddMissingIndividualFormGenerator.class.getName());
 
         // gesah-vitro forms:
 
