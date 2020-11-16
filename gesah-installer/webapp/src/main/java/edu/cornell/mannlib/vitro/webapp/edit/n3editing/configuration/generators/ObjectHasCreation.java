@@ -28,8 +28,7 @@ import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
 
     Classes:
     gesah:Creation - primary new individual being created
-    foaf:Person - existing individual
-    foaf:Organization - new or existing individual - has to be implemented
+    foaf:Agent -  new or existing individual of type foaf:Person, foaf:Organization etc.  
     gesah:Cultural_Object - existing individual
 	obo:BFO_0000023 - new individual or existing while being edited
 	gesah:Role_Type - new or existing individual while being edited
@@ -93,7 +92,7 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
         conf.setUrisOnform( Arrays.asList( "existingAgent", "agentType", "existingMaterial","existingTechnique","existingAttrType", "existingRoleType", "existingRole", "existingPlace"));
         conf.setLiteralsOnForm( Arrays.asList("agentLabel", "techniqueLabel", "materialLabel", "roleTypeLabel", "agentLabelDisplay", "existingAttrTypeLabel", "placeLabel", "placeLabelDisplay","description", "litDateAppel"));
 
-        conf.addSparqlForExistingLiteral("agentLabel", persLabelQuery);
+        conf.addSparqlForExistingLiteral("agentLabel", agentLabelQuery);
 		conf.addSparqlForExistingLiteral("techniqueLabel", existingTechniqueLabelQuery);
 		conf.addSparqlForExistingLiteral("materialLabel", existingMaterialLabelQuery);
 		conf.addSparqlForExistingLiteral("placeLabel", existingPlaceLabelQuery);
@@ -107,7 +106,7 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
 
         conf.addSparqlForExistingUris("existingMaterial", existingMaterialQuery);
 		conf.addSparqlForExistingUris("existingTechnique", existingTechniqueQuery);
-        conf.addSparqlForExistingUris("existingAgent", existingPersQuery);
+        conf.addSparqlForExistingUris("existingAgent", existingAgentQuery);
         conf.addSparqlForExistingUris("existingAttrType", existingAttrTypeQuery);
         conf.addSparqlForExistingUris("agentType", agentTypeQuery);
         conf.addSparqlForExistingUris("existingRoleType", existingRoleTypeQuery);
