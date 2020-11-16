@@ -61,7 +61,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign existingRoleTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingRoleType") />
 <#assign existingRoleTypeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingRoleTypeLabel") />
 <#assign existingPlaceValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingPlace") />
-<#assign placeLabelDisplayValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "placeDisplay") />
+<#assign placeLabelDisplayValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "placeLabelDisplay") />
 
 <#-- If edit submission exists, then retrieve validation errors if they exist-->
 <#if editSubmission?has_content && editSubmission.submissionExists = true && editSubmission.validationErrors?has_content>
