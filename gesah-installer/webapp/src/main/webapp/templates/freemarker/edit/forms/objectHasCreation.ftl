@@ -8,7 +8,7 @@
 
 <#assign subjectName=""/>
 <#assign roleActivityUri="mysteryRoleActivityURI"/>
-<#assign personLabel="mysteryPersLabel"/>
+<#assign agentLabel="mysteryAgentLabel"/>
 
 <#--Retrieve certain edit configuration information-->
 <#-- assign editMode = editConfiguration.pageData.editMode /-->
@@ -35,12 +35,12 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign flagClearLabelForExisting = "flagClearLabelForExisting" />
 
 <#--Retrieve variables needed-->
-<#assign newPersonValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newPerson")/>
-<#assign persLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "persLabel") />
-<#assign persLabelDisplayValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "persLabelDisplay") />
+<#assign newAgentValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newAgent")/>
+<#assign agentLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "agentLabel") />
+<#assign agentLabelDisplayValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "agentLabelDisplay") />
+<#assign agentTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType")/>
 <#assign litDateAppelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "litDateAppel") />
 <#assign descriptionValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "description") />
-<#assign newRoleValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newRole") />
 <#assign newRoleTypeValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newRoleType") />
 <#assign newRoleTypeLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newRoleTypeLabel") />
 <#assign newAttrTypeValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newAttrType") />
@@ -50,8 +50,8 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign newMaterialValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newMaterial") />
 <#assign newMaterialLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newMaterialLabel") />
 <#assign newPlaceValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newPlace") />
-<#assign newPlaceLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "newPlaceLabel") />
-<#assign existingPersValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingPers") />
+<#assign placeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "placeLabel") />
+<#assign existingAgentValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingAgent") />
 <#assign existingMaterialValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingMaterial") />
 <#assign existingMaterialLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingMaterialLabel") />
 <#assign existingTechniqueValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingTechnique") />
@@ -61,26 +61,8 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign existingRoleTypeValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingRoleType") />
 <#assign existingRoleTypeLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingRoleTypeLabel") />
 <#assign existingPlaceValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingPlace") />
-<#assign existingPlaceLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingPlaceLabel") />
-<#--
-    <#assign existingTechniqueLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "techniqueLabel") />
--->
-<#--
-    <#assign existingMaterialLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "materialLabel") />
--->
+<#assign placeLabelDisplayValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "placeLabelDisplay") />
 
-<#--
-
-<#assign existingAttrTypeLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "existingAttrTypeLabel") />
-
--->
-
-<#--
-    <#assign existingRoleTypeLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "roleTypeLabel") />
--->
-<#--
-    <#assign existingPlaceLabelValue = lgf.getFormFieldValue(editSubmission, editConfiguration, "placeLabel") />
--->
 <#-- If edit submission exists, then retrieve validation errors if they exist-->
 <#if editSubmission?has_content && editSubmission.submissionExists = true && editSubmission.validationErrors?has_content>
 	<#assign submissionErrors = editSubmission.validationErrors/>
@@ -104,8 +86,11 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 
 <#--Display error messages if any-->
 <#if submissionErrors?has_content>
-    <#if persLabelDisplayValue?has_content >
-        <#assign persLabelValue = persLabelDisplayValue />
+    <#if agentLabelDisplayValue?has_content >
+        <#assign agentLabelValue = agentLabelDisplayValue />
+    </#if>
+    <#if placeLabelDisplayValue?has_content >
+        <#assign placeLabelValue = placeLabelDisplayValue />
     </#if>
     <section id="error-alert" role="alert">
         <img src="${urls.images}/iconAlert.png" width="24" height="24" alert="${i18n().error_alert_icon}" />
@@ -128,12 +113,16 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 	        </#if>
         </#list>
         <#--Checking if Person field is empty-->
-         <#if lgf.submissionErrorExists(editSubmission, "newPerson")>
- 	        ${i18n().select_a_person}
+         <#if lvf.submissionErrorExists(editSubmission, "newAgent")>
+ 	        ${i18n().select_a_participant}
+         </#if>
+        <#--Checking if Agent Name field is empty-->
+         <#if lvf.submissionErrorExists(editSubmission, "agentLabel")>
+ 	        ${i18n().select_a_participant}
         </#if>
-        <#--Checking if Person Name field is empty-->
-         <#if lgf.submissionErrorExists(editSubmission, "persLabel")>
- 	        ${i18n().select_a_person}
+        <#--Checking if Agent Type field is empty-->
+         <#if lvf.submissionErrorExists(editSubmission, "agentType")>
+ 	        ${i18n().select_participant_type}
         </#if>
         <#--Checking if Attribution Type field is empty-->
          <#if lgf.submissionErrorExists(editSubmission, "newAttrType")>
@@ -151,6 +140,14 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
          <#if lgf.submissionErrorExists(editSubmission, "newRoleType")>
  	        ${i18n().select_role_type_value}<br />
         </#if>
+        <#--Checking if Place field is empty-->
+         <#if lvf.submissionErrorExists(editSubmission, "newPlace")>
+ 	        ${i18n().select_a_place}
+        </#if>
+        <#--Checking if Place Name field is empty-->
+         <#if lvf.submissionErrorExists(editSubmission, "placeLabel")>
+ 	        ${i18n().select_a_place}
+        </#if>
 
         </p>
     </section>
@@ -162,20 +159,35 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 
     <form id="objectHasCreation" class="customForm noIE67" action="${submitUrl}"  role="add/edit creation">
 
-    <p>
-        <label for="relatedIndLabel">${i18n().person_capitalized} ${i18n().name_capitalized} ${requiredHint}</label>
-        <input class="acSelector" size="50"  type="text" id="relatedIndLabel" name="persLabel" acGroupName="person" value="${persLabelValue}"  />
-        <input class="display" type="hidden" id="persDisplay" acGroupName="person" name="persLabelDisplay" value="${persLabelDisplayValue}">
+    <p class="inline">
+        <label for="agentType">${i18n().agent_type_capitalized} ${requiredHint}</label>
+        <#assign agentTypeOpts = editConfiguration.pageData.agentType />
+        <select id="typeSelector" name="agentType" acGroupName="agentType">
+            <option value="" selected="selected">${i18n().select_one}</option>
+            <#list agentTypeOpts?keys as key>
+                <#if agentTypeValue = key>
+                    <option value="${key}"  selected >${agentTypeOpts[key]}</option>
+                <#else>
+                    <option value="${key}">${agentTypeOpts[key]}</option>
+                </#if>
+            </#list>
+        </select>
     </p>
 
-    <div class="acSelection" acGroupName="person">
+    <p>
+        <label for="relatedIndLabel">${i18n().agent_capitalized} ${i18n().name_capitalized} ${requiredHint}</label>
+        <input class="acSelector" size="50"  type="text" id="relatedIndLabel" name="agentLabel" acGroupName="agent" value="${agentLabelValue}"  />
+        <input class="display" type="hidden" id="agentDisplay" acGroupName="agent" name="agentLabelDisplay" value="${agentLabelDisplayValue}">
+    </p>
+
+    <div class="acSelection" acGroupName="agent">
         <p class="inline">
-            <label>${i18n().selected_person}:</label>
+            <label>${i18n().selected_agent}:</label>
             <span class="acSelectionInfo"></span>
             <a href="" class="verifyMatch"  title="${i18n().verify_match_capitalized}">(${i18n().verify_match_capitalized}</a> ${i18n().or}
             <a href="#" class="changeSelection" id="changeSelection">${i18n().change_selection})</a>
         </p>
-        <input class="acUriReceiver" type="hidden" id="persUri" name="existingPers" value="${existingPersValue}" ${flagClearLabelForExisting}="true" />
+        <input class="acUriReceiver" type="hidden" id="agentUri" name="existingAgent" value="${existingAgentValue}" ${flagClearLabelForExisting}="true" />
     </div>
 
 
@@ -266,25 +278,20 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 	
 	
 
-    <div class="entry">
-      <label for="placeUri">${i18n().place}</label>
+    <p>
+        <label for="placeLabel">${i18n().place_name_capitalized} </label>
+        <input type="text" id="placeLabel" name="placeLabel" acGroupName="place" size="50" class="acSelector" value="${placeLabelValue}"  />
+        <input class="display" type="hidden" id="placeLabel" acGroupName="place" name="placeLabelDisplay" value="${placeLabelDisplayValue}">
+    </p>
 
-      <#assign existingPlaceOpts = editConfiguration.pageData.existingPlace />
-      <select name="existingPlace" id="placeUri" >
-        <option value="" <#if existingPlaceValue = "">selected</#if>>${i18n().select_one}</option>
-               <#list existingPlaceOpts?keys as key>
-        <option value="${key}" <#if existingPlaceValue = key>selected</#if>>${existingPlaceOpts[key]}</option>
-        </#list>
-      </select>
-<#--
-      <#if editMode == "edit" || editMode == "repair">
-            <input type="hidden" id="newPlaceLabel" name="placeLabel" value=""/>
-            <input type="hidden" id="placeLabel" name="existingPlaceLabel" value="${existingPlaceLabelValue!}"/>
-      <#else>
-            <input type="hidden" id="placeLabel" name="placeLabel" value=""/>
-      </#if>
--->
-            <input type="hidden" id="placeLabel" name="placeLabel" value=""/>
+    <div class="acSelection" acGroupName="place">
+        <p class="inline">
+            <label>${i18n().selected_place}:</label>
+            <span class="acSelectionInfo"></span>
+            <a href="" class="verifyMatch"  title="${i18n().verify_match_capitalized}">(${i18n().verify_match_capitalized}</a> ${i18n().or}
+            <a href="#" class="changeSelection" id="changeSelection">${i18n().change_selection})</a>
+        </p>
+        <input class="acUriReceiver" type="hidden" id="placeUri" name="existingPlace" value="${existingPlaceValue}" ${flagClearLabelForExisting}="true" />
     </div>
 
     <p>
@@ -327,8 +334,8 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 var customFormData  = {
     acUrl: '${urls.base}/autocomplete?tokenize=true&stem=true',
     editMode: '${editMode}',
-    acTypes: {person: 'http://xmlns.com/foaf/0.1/Person'},
-    defaultTypeName: 'person',
+    acTypes: {agent: 'http://xmlns.com/foaf/0.1/Agent' , place: 'http://vivoweb.org/ontology/core#GeographicLocation'},
+    multipleTypeNames: { agent: 'participant' , place: 'place' },
     baseHref: '${urls.base}/individual?uri=',
     blankSentinel: '${blankSentinel}',
     flagClearLabelForExisting: '${flagClearLabelForExisting}',
