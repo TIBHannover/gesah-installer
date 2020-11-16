@@ -72,7 +72,7 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
         conf.setVarNameForObject("obCreation");
 
         conf.setN3Required( Arrays.asList(n3ForNewObCreation) );
-        conf.setN3Optional(Arrays.asList( descriptionAssertion,  n3ForNewAttrType, n3ForExistingAttrType, n3ForNewPers, n3ForExistingPers,
+        conf.setN3Optional(Arrays.asList( descriptionAssertion,  n3ForNewAttrType, n3ForExistingAttrType, n3ForNewAgent, n3ForExistingAgent,
                 n3ForNewTechnique, n3ForExistingTechnique, n3ForNewMaterial, n3ForExistingMaterial, n3ForNewRole, n3ForExistingRole, n3ForNewRoleType, n3ForExistingRoleType, n3ForNewPlace, n3ForExistingPlace, litDateAppelAssertion, n3ForStart, n3ForEnd ));
 
         conf.addNewResource("obCreation", DEFAULT_NS_FOR_NEW_RESOURCE);
@@ -81,7 +81,7 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
 		conf.addNewResource("newAttrType",DEFAULT_NS_FOR_NEW_RESOURCE);
 		conf.addNewResource("newTechnique",DEFAULT_NS_FOR_NEW_RESOURCE);
 		conf.addNewResource("newMaterial",DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource("newPerson",DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource("newAgent",DEFAULT_NS_FOR_NEW_RESOURCE);
 		conf.addNewResource("newPlace",DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addNewResource("intervalNode",DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addNewResource("startNode",DEFAULT_NS_FOR_NEW_RESOURCE);
@@ -90,10 +90,10 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
         //uris in scope: none
         //literals in scope: none
 
-        conf.setUrisOnform( Arrays.asList( "existingPers", "existingMaterial","existingTechnique","existingAttrType", "existingRoleType", "existingRole", "existingPlace"));
-        conf.setLiteralsOnForm( Arrays.asList("persLabel", "techniqueLabel", "materialLabel", "roleTypeLabel", "persLabelDisplay", "existingAttrTypeLabel", "placeLabel","description", "litDateAppel"));
+        conf.setUrisOnform( Arrays.asList( "existingAgent", "agentType", "existingMaterial","existingTechnique","existingAttrType", "existingRoleType", "existingRole", "existingPlace"));
+        conf.setLiteralsOnForm( Arrays.asList("agentLabel", "techniqueLabel", "materialLabel", "roleTypeLabel", "agentLabelDisplay", "existingAttrTypeLabel", "placeLabel", "placeLabelDisplay","description", "litDateAppel"));
 
-        conf.addSparqlForExistingLiteral("persLabel", persLabelQuery);
+        conf.addSparqlForExistingLiteral("agentLabel", persLabelQuery);
 		conf.addSparqlForExistingLiteral("techniqueLabel", existingTechniqueLabelQuery);
 		conf.addSparqlForExistingLiteral("materialLabel", existingMaterialLabelQuery);
 		conf.addSparqlForExistingLiteral("placeLabel", existingPlaceLabelQuery);
@@ -107,8 +107,9 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
 
         conf.addSparqlForExistingUris("existingMaterial", existingMaterialQuery);
 		conf.addSparqlForExistingUris("existingTechnique", existingTechniqueQuery);
-        conf.addSparqlForExistingUris("existingPers", existingPersQuery);
+        conf.addSparqlForExistingUris("existingAgent", existingPersQuery);
         conf.addSparqlForExistingUris("existingAttrType", existingAttrTypeQuery);
+        conf.addSparqlForExistingUris("agentType", agentTypeQuery);
         conf.addSparqlForExistingUris("existingRoleType", existingRoleTypeQuery);
 		conf.addSparqlForExistingUris("existingRole", existingRoleQuery);
         conf.addSparqlForExistingUris("existingPlace", existingPlaceQuery);
@@ -123,20 +124,30 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
 					
 
 		conf.addField( new FieldVTwo().
-                setName("existingPers").
+                setName("existingAgent").
                 setOptions( new IndividualsViaVClassOptions(
-                        personClass)));	
+                        agentClass)));	
 						
 		conf.addField( new FieldVTwo().
-                setName("newPerson").
+                setName("newAgent").
                 setOptions( new IndividualsViaVClassOptions(
-                        personClass)));	
-				
+                        agentClass)));	
+
+        conf.addField( new FieldVTwo().
+                setName("agentType").
+				setValidators( list("nonempty")).
+                setOptions( new ChildVClassesOptions(
+                        agentClass)));		
 
 		conf.addField( new FieldVTwo().
                 setName("existingPlace").
                 setOptions( new IndividualsViaVClassOptions(
-                        placeTypeClass)));					
+                        placeTypeClass)));		
+
+        conf.addField( new FieldVTwo().
+                setName("newPlace").
+                setOptions( new IndividualsViaVClassOptions(
+                        placeTypeClass)));                			
 
         conf.addField( new FieldVTwo().
                 setName("description").
@@ -157,7 +168,7 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
                 
 
         conf.addField( new FieldVTwo().
-                setName("persLabel").
+                setName("agentLabel").
                 setRangeDatatypeUri(XSD.xstring.toString() ).
                 setValidators( list("datatype:" + XSD.xstring.toString())));
 
@@ -182,12 +193,15 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
                 setValidators( list("datatype:" + XSD.xstring.toString())));		
 
         conf.addField( new FieldVTwo().
-                setName("persLabelDisplay").
+                setName("agentLabelDisplay").
                 setRangeDatatypeUri(XSD.xstring.toString() ));
 
         conf.addField( new FieldVTwo().
+                setName("placeLabelDisplay").
+                setRangeDatatypeUri(XSD.xstring.toString() ));        
+
+        conf.addField( new FieldVTwo().
                 setName("existingRoleType").
-                //setValidators( list("nonempty")).
                 setOptions( new IndividualsViaVClassOptions(
                         roleTypeClass)));
 						
@@ -207,12 +221,7 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
 		conf.addField( new FieldVTwo().
                 setName("newRole").
                 setOptions( new IndividualsViaVClassOptions(
-                        roleClass)));
-						
-		conf.addField( new FieldVTwo().
-                setName("existingRole").
-                setOptions( new IndividualsViaVClassOptions(
-                        roleClass)));				
+                        roleClass)));		
     
 
         FieldVTwo startField = new FieldVTwo().
@@ -243,58 +252,51 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
     /* N3 assertions for creation of a cultural object */
 
     final static String n3ForNewObCreation =
-        "@prefix gesah: <"+ gesah +"> .\n"+
         "?cultObject <http://ontology.tib.eu/gesah/output_of_creation>  ?obCreation .\n" +
-        "?obCreation  a <http://ontology.tib.eu/gesah/Creation> ;\n" +
-		" <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation ; \n" +
-		" a <http://purl.obolibrary.org/obo/BFO_0000023> . \n" +
+        "?obCreation  a <http://ontology.tib.eu/gesah/Creation> ; \n" +
+		"			 <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
+		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
         "?obCreation <http://ontology.tib.eu/gesah/has_creation_output> ?cultObject .";
 		
- final static String n3ForNewPers  =
-        "?obCreation <http://ontology.tib.eu/gesah/has_participant> ?newPerson . \n" +
-        "?newPerson <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
-		"?newPerson <http://ontology.tib.eu/gesah/has_role> ?newRole . \n" +
-		"?newRole <http://ontology.tib.eu/gesah/is_role_of> ?newPerson ; \n" +
-		" <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
-        "?newPerson a <http://xmlns.com/foaf/0.1/Person> . \n" +
-        "?newPerson <"+ label +"> ?persLabel . ";
+ final static String n3ForNewAgent  =
+		"@prefix rdfs: <"+ rdfs +">   .\n"+
+        "?obCreation <http://ontology.tib.eu/gesah/has_participant> ?newAgent . \n" +
+        "?newAgent <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
+		"?obCreation <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
+		"?newAgent <http://ontology.tib.eu/gesah/has_role> ?newRole . \n" +
+		"?newRole <http://ontology.tib.eu/gesah/is_role_of> ?newAgent . \n" +
+		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
+        "?newAgent a ?agentType . \n" +
+		"?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> .\n" +
+        "?newAgent rdfs:label ?agentLabel . ";
 
-    final static String n3ForExistingPers  =
-        "?obCreation <http://ontology.tib.eu/gesah/has_participant> ?existingPers . \n" +
-        "?existingPers <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
-        "?existingPers a <http://xmlns.com/foaf/0.1/Person> . \n" +
-		"?existingPers <http://ontology.tib.eu/gesah/has_role> ?newRole . \n" +
-		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation ; \n" +
-		" <http://ontology.tib.eu/gesah/is_role_of> ?existingPers . " ;
+    final static String n3ForExistingAgent  =
+		"@prefix rdfs: <"+ rdfs +">  . \n"+
+        "?obCreation <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
+		"?obCreation <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
+        "?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
+		"?existingAgent <http://ontology.tib.eu/gesah/has_role> ?newRole . \n" +
+		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
+		"?newRole <http://ontology.tib.eu/gesah/is_role_of> ?existingAgent . " ;
 
 	final static String n3ForNewRole  =
-	    "@prefix obo: <"+ obo +"> .\n"+
         "?obCreation <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-        "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation ; \n" +
-		" a <http://purl.obolibrary.org/obo/BFO_0000023> ; \n" +
-		" <http://ontology.tib.eu/gesah/has_role_type> ?roleType ; \n" +
-		" <http://ontology.tib.eu/gesah/is_role_of> ?newPerson . \n" +
-		"?newPerson <http://ontology.tib.eu/gesah/has_role> ?newRole . " ;
-		
-	final static String n3ForExistingRole  =
-	    "@prefix obo: <"+ obo +"> .\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n" +
-        "?existingRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation ; \n" +
-		" a <http://purl.obolibrary.org/obo/BFO_0000023> ; \n" +
-		" <http://ontology.tib.eu/gesah/has_role_type> ?roleType ; \n" +
-		" <http://ontology.tib.eu/gesah/is_role_of> ?newPerson . \n" +
-		"?newPerson <http://ontology.tib.eu/gesah/has_role> ?existingRole . " ;
-	
+        "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
+		"?newRole a <http://purl.obolibrary.org/obo/BFO_0000023> . " ;
+			
 
 	final static String n3ForNewRoleType  =
-        "?newRole <http://ontology.tib.eu/gesah/has_role_type> ?newRoleType . \n" +
+		"@prefix rdfs: <"+ rdfs +">  . \n"+
+        "?obCreation <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
+        "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
+		"?newRole <http://ontology.tib.eu/gesah/has_role_type> ?newRoleType . \n" +
         "?newRoleType <"+ label +"> ?newRoleTypeLabel . \n" +
 		"?newRoleType a  <http://ontology.tib.eu/gesah/Role_Type> . " ;
 			
 	final static String n3ForExistingRoleType  =
-        "?newRole <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . \n" +
-		"?existingRoleType a  <http://ontology.tib.eu/gesah/Role_Type> . " ;		
+		"?obCreation <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
+        "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
+        "?newRole <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . " ;		
 
 
     final static String n3ForNewAttrType  =
@@ -379,75 +381,85 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
 
     final static String existingAttrTypeQuery =
         "SELECT ?existingAttrType WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_type_of_attribution> ?existingAttrType . }\n";
+        "?obCreation <http://ontology.tib.eu/gesah/has_type_of_attribution> ?existingAttrType . }";
 
     final static String existingAttrTypeLabelQuery =
         "SELECT Distinct ?existingAttrTypeLabel WHERE {\n"+
         "?obCreation <http://ontology.tib.eu/gesah/has_type_of_attribution> ?existingAttrType . \n" +
-        "?existingAttrType <"+ label +"> ?existingAttrTypeLabel }\n";
+        "?existingAttrType <"+ label +"> ?existingAttrTypeLabel .}";
 
 	final static String existingTechniqueQuery =
         "SELECT ?existingTechnique WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/uses_technique> ?existingTechnique . }\n";
+        "?obCreation <http://ontology.tib.eu/gesah/uses_technique> ?existingTechnique . }";
 
     final static String existingTechniqueLabelQuery =
         "SELECT Distinct ?existingTechniqueLabel WHERE {\n"+
         "?obCreation <http://ontology.tib.eu/gesah/uses_technique> ?existingTechnique . \n" +
-        "?existingTechnique <"+ label +"> ?existingTechniqueLabel }\n";
+        "?existingTechnique <"+ label +"> ?existingTechniqueLabel }";
 
 	final static String existingMaterialQuery =
         "SELECT ?existingMaterial WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_material> ?existingMaterial  . }\n";
+        "?obCreation <http://ontology.tib.eu/gesah/has_material> ?existingMaterial  . }";
 
     final static String existingMaterialLabelQuery =
         "SELECT Distinct ?existingMaterialLabel WHERE {\n"+
         "?obCreation <http://ontology.tib.eu/gesah/has_material> ?existingMaterial . \n" +
-        "?existingMaterial <"+ label +"> ?existingMaterialLabel }\n";	
-		
-	final static String existingRoleQuery =
-        "SELECT ?existingRole WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n" +
-        "?existingRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation ; \n" +
-		" a <http://purl.obolibrary.org/obo/BFO_0000023> ; \n" +
-		" <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . }\n";	
+        "?existingMaterial <"+ label +"> ?existingMaterialLabel .}";	
 		
 	final static String existingRoleTypeQuery =
         "SELECT ?existingRoleType WHERE {\n"+
         "?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n" +
-        "?existingRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation ; \n" +
-		" <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . }\n";
-
-    final static String existingRoleTypeLabelQuery =
+        "?existingRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
+		"?existingRole <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . }";	
+		
+	final static String existingRoleTypeLabelQuery =
         "SELECT Distinct ?existingRoleTypeLabel WHERE {\n"+
         "?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n" +
-        "?existingRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation ; \n" +
-		" <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . \n" +
-        "?existingRoleType <"+ label +"> ?existingRoleTypeLabel }\n";		
+        "?existingRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
+		"?existingRole <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . \n" +
+        "?existingRoleType <"+ label +"> ?existingRoleTypeLabel . }";
+	
 		
 	final static String existingPlaceQuery =
         "SELECT  ?existingPlace WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_place> ?existingPlace  . }\n";
+        "?obCreation <http://ontology.tib.eu/gesah/has_place> ?existingPlace  . }";
 
     final static String existingPlaceLabelQuery =
         "SELECT Distinct ?existingPlaceLabel WHERE {\n"+
         "?obCreation <http://ontology.tib.eu/gesah/has_place> ?existingPlace . \n" +
-        "?existingPlace <"+ label +"> ?existingPlaceLabel }\n";	
+        "?existingPlace <"+ label +"> ?existingPlaceLabel }";	
 	
-    final static String existingPersQuery  =
+    final static String existingAgentQuery  =
         "PREFIX rdfs: <"+ rdfs +">   \n"+
-        "SELECT ?existingPers WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_participant> ?existingPers . \n" +
-		"?existingPers <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
-        "?existingPers a <http://xmlns.com/foaf/0.1/Person> . }\n" ;
+        "SELECT ?existingAgent WHERE {\n"+
+        "?obCreation <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
+		"?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
+		"?existingAgent <http://ontology.tib.eu/gesah/has_role> ?existingRole .\n" +
+		"?existingRole <http://ontology.tib.eu/gesah/is_role_of> ?existingAgent .\n" +
+		"?existingAgent a ?agentType . \n " +
+        "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> . }" ;
 
-    final static String persLabelQuery  =
+    final static String agentLabelQuery  =
         "PREFIX rdfs: <"+ rdfs +">   \n"+
-        "SELECT Distinct ?existingPersLabel WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_participant> ?existingPers . \n" +
-		"?existingPers <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
-        "?existingPers <"+ label +"> ?existingPersLabel .\n"+
-        "?existingPers a <http://xmlns.com/foaf/0.1/Person> . }\n";
+        "SELECT Distinct ?existingAgentLabel WHERE {\n"+
+        "?obCreation <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
+		"?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
+        "?existingAgent <"+ label +"> ?existingAgentLabel .\n"+
+        "?existingAgent a ?agentType . \n " +
+        "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> . }" ;
 
+    /* Limit type to subclasses of foaf:Agent. Otherwise, sometimes owl:Thing or another
+    type is returned and we don't get a match to the select element options. */
+	
+    final static String agentTypeQuery  =
+        "PREFIX rdfs: <"+ rdfs +">   \n"+
+        "SELECT ?agentType WHERE {\n"+
+        "?obCreation <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
+		"?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
+		"?existingAgent <http://ontology.tib.eu/gesah/has_role> ?existingRole .\n" +
+		"?existingRole <http://ontology.tib.eu/gesah/is_role_of> ?existingAgent .\n" +
+        "?existingAgent a ?agentType .\n"+
+        "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> .}";
 
     final static String descriptionQuery  =
         "SELECT ?existingDescription WHERE {\n"+
