@@ -41,6 +41,7 @@ public abstract class GesahBaseGenerator extends BaseEditConfigurationGenerator 
 
     final static String roleClass =obo + "BFO_0000023" ;
     final static String personClass = foaf + "Person";
+    final static String agentClass = foaf + "Agent";
 	
 
 }
