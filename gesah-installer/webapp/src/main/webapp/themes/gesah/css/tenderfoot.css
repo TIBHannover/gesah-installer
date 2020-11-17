@@ -13,11 +13,6 @@ legend {
 .navbar-default {
     background-color: #E3E3E3;
     background-image: none;
-    background-image: none;
-    background-image: none;
-    background-image: none;
-    background-image: none;
-    background-image: none;
     background-repeat: no-repeat;
     filter: none;
     -webkit-box-shadow: none;
@@ -256,7 +251,7 @@ ul#footer-nav li {
     float: left;
     display: block;
     padding-left: 10px;
-    padding-right: 10px;x
+    padding-right: 10px;
     border-right: 1px solid #c9c8c8;
 }
 ul#footer-nav li:last-child,
