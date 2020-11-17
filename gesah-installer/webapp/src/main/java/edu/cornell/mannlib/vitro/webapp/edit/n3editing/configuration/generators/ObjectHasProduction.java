@@ -134,7 +134,7 @@ public class ObjectHasProduction  extends GesahBaseGenerator implements EditConf
 				
 		conf.addField( new FieldVTwo().
                 setName("agentType").
-				//setValidators( list("nonempty")).
+				setValidators( list("nonempty")).
                 setOptions( new ChildVClassesOptions(
                         agentClass)));			
 
