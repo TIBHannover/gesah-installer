@@ -162,7 +162,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 	<p class="inline">
         <label for="agentType">${i18n().agent_type_capitalized} ${requiredHint}</label>
         <#assign agentTypeOpts = editConfiguration.pageData.agentType />
-        <select id="typeSelector" name="agentType" acGroupName="agentType">
+        <select id="typeSelector" name="agentType" acGroupName="agent">
             <option value="" selected="selected">${i18n().select_one}</option>
             <#list agentTypeOpts?keys as key>
                 <#if agentTypeValue = key>
