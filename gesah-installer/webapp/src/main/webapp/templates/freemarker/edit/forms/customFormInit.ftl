@@ -29,6 +29,11 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
     <#assign disabledVal="">
 </#if>
 
+<#--If edit submission exists, then retrieve validation errors if they exist-->
+<#if editSubmission?has_content && editSubmission.submissionExists = true && editSubmission.validationErrors?has_content>
+    <#assign submissionErrors = editSubmission.validationErrors/>
+</#if>
+
 <#-- Common HTML for form hints -->
 <#assign requiredHint="<span class='requiredHint'> *</span>"/>
 <#assign yearHint     = "<span class='hint'>(${i18n().year_hint_format})</span>" />

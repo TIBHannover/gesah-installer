@@ -4,6 +4,7 @@
 
 <#-- leaving this edit/add mode code in for reference in case we decide we need it -->
 
+<#import "lib-vitro-form.ftl" as lvf>
 <#import "lib-gesah-form.ftl" as lgf>
 
 <#assign subjectName=""/>
@@ -125,19 +126,19 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
  	        ${i18n().select_participant_type}
         </#if>
         <#--Checking if Attribution Type field is empty-->
-         <#if lgf.submissionErrorExists(editSubmission, "newAttrType")>
+         <#if lvf.submissionErrorExists(editSubmission, "newAttrType")>
  	        ${i18n().select_attribution_type_value}<br />
         </#if>
 		<#--Checking if Technique field is empty-->
-         <#if lgf.submissionErrorExists(editSubmission, "newTechnique")>
+         <#if lvf.submissionErrorExists(editSubmission, "newTechnique")>
  	        ${i18n().select_technique_value}<br />
         </#if>
 		<#--Checking if Material field is empty-->
-         <#if lgf.submissionErrorExists(editSubmission, "newMaterial")>
+         <#if lvf.submissionErrorExists(editSubmission, "newMaterial")>
  	        ${i18n().select_material_value}<br />
         </#if>
 		<#--Checking if Role Type field is empty-->
-         <#if lgf.submissionErrorExists(editSubmission, "newRoleType")>
+         <#if lvf.submissionErrorExists(editSubmission, "newRoleType")>
  	        ${i18n().select_role_type_value}<br />
         </#if>
         <#--Checking if Place field is empty-->
@@ -153,7 +154,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
     </section>
 </#if>
 
-<@lgf.unsupportedBrowser urls.base />
+<@lvf.unsupportedBrowser urls.base />
 
 <section id="objectHasCreation" role="region">
 

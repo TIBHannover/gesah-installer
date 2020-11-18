@@ -3,12 +3,11 @@ package edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationUtils;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTwo;
-import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils;
-import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class GesahEditConfigurationGenerator extends BaseEditConfigurationGenerator implements EditConfigurationGenerator  {
     protected EditConfigurationVTwo getDefaultConfiguration(VitroRequest vreq) {
@@ -17,6 +16,11 @@ public abstract class GesahEditConfigurationGenerator extends BaseEditConfigurat
         initObjectPropForm(conf, vreq);
         initPropertyParameters(conf, vreq);
         initFormSpecificData(conf, vreq);
+
+        conf.setVarNameForSubject("subject");
+        conf.setVarNameForPredicate("predicate");
+        conf.setVarNameForObject("object");
+
         return conf;
     }
 
@@ -53,13 +57,9 @@ public abstract class GesahEditConfigurationGenerator extends BaseEditConfigurat
 
     protected void initFormSpecificData(EditConfigurationVTwo editConf, VitroRequest vreq) {
         HashMap<String, Object> formSpecificData = new HashMap<String, Object>();
-        formSpecificData.put("editMode", getEditMode(vreq).name().toLowerCase());
+        getFormSpecificData(editConf, vreq, formSpecificData);
         editConf.setFormSpecificData(formSpecificData);
     }
 
-    protected FrontEndEditingUtils.EditMode getEditMode(VitroRequest vreq) {
-        List<String> predicates = new ArrayList<String>();
-        predicates.add("http://vivoweb.org/ontology/core#relates");
-        return EditModeUtils.getEditMode(vreq, predicates);
-    }
+    protected abstract void getFormSpecificData(EditConfigurationVTwo editConf, VitroRequest vreq, Map<String, Object> formSpecificData);
 }
