@@ -3,19 +3,33 @@ package edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationUtils;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTwo;
+import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public abstract class GesahEditConfigurationGenerator extends BaseEditConfigurationGenerator implements EditConfigurationGenerator  {
+    public EditConfigurationVTwo getEditConfiguration(VitroRequest vreq, HttpSession session) throws Exception {
+        EditConfigurationVTwo conf = getDefaultConfiguration(vreq);
+
+        configureForm(vreq, session, conf);
+
+        // Populate existing values, etc.
+        prepare(vreq, conf);
+        initFormSpecificData(conf, vreq);
+        return conf;
+    }
+
+    protected abstract void configureForm(VitroRequest vreq, HttpSession session, EditConfigurationVTwo conf) throws Exception;
+
     protected EditConfigurationVTwo getDefaultConfiguration(VitroRequest vreq) {
         EditConfigurationVTwo conf = new EditConfigurationVTwo();
         initBasics(conf, vreq);
         initObjectPropForm(conf, vreq);
         initPropertyParameters(conf, vreq);
-        initFormSpecificData(conf, vreq);
 
         conf.setVarNameForSubject("subject");
         conf.setVarNameForPredicate("predicate");
@@ -57,9 +71,12 @@ public abstract class GesahEditConfigurationGenerator extends BaseEditConfigurat
 
     protected void initFormSpecificData(EditConfigurationVTwo editConf, VitroRequest vreq) {
         HashMap<String, Object> formSpecificData = new HashMap<String, Object>();
-        getFormSpecificData(editConf, vreq, formSpecificData);
+
+        // Edit mode must be lowercase
+        formSpecificData.put("editMode", getEditMode(editConf, vreq).name().toLowerCase());
+
         editConf.setFormSpecificData(formSpecificData);
     }
 
-    protected abstract void getFormSpecificData(EditConfigurationVTwo editConf, VitroRequest vreq, Map<String, Object> formSpecificData);
+    protected abstract FrontEndEditingUtils.EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq);
 }

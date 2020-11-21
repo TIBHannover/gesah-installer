@@ -13,112 +13,89 @@
 		PREFIX obo: &lt;http://purl.obolibrary.org/obo/&gt;
 		
 
-        SELECT DISTINCT ?technique ?techniqueLabel ?obCreation
-            ?person ?personName
-            ?roleTypeLabel ?attrTypeLabel ?materialLabel  
-            ?placeLabel ?litteralDtAppel  ?description
+        SELECT DISTINCT ?obCreation
+            ?technique ?techniqueLabel
+            ?material ?materialLabel
+            ?role ?roleType ?roleTypeLabel ?person ?personName
+            ?attrType ?attrTypeLabel
+            ?place ?placeLabel
+            ?litteralDtAppel  ?description
             ?dateTimeStart ?dateTimeEnd
-			
+
         WHERE
         {
-            <precise-subquery>?subject ?property ?obCreation .
+            ?subject ?property ?obCreation .
             ?obCreation a gesah:Creation .
-			?obCreation gesah:uses_technique ?technique .
-			?technique a gesah:Technique .
-			?technique rdfs:label ?techniqueLabel .
-			?obCreation gesah:has_material ?material .
-			?material a gesah:Material .
-			?material rdfs:label ?materialLabel .</precise-subquery>
-            
+
+            OPTIONAL {
+                <preicse-subquery>?subject ?property ?obCreation .
+                ?obCreation a gesah:Creation .</preicse-subquery>
+                ?obCreation gesah:uses_technique ?technique .
+                ?technique a gesah:Technique .
+                ?technique rdfs:label ?techniqueLabel .
+            }
+
+            OPTIONAL {
+                <preicse-subquery>?subject ?property ?obCreation .
+                ?obCreation a gesah:Creation .</preicse-subquery>
+                ?obCreation gesah:has_material ?material .
+                ?material a gesah:Material .
+                ?material rdfs:label ?materialLabel .
+            }
+
             OPTIONAL {
                 <precise-subquery>?subject ?property ?obCreation .
-                ?obCreation a gesah:Creation .
-				?obCreation gesah:uses_technique ?technique .
-				?technique a gesah:Technique .
-				?technique rdfs:label ?techniqueLabel .
-				?obCreation gesah:has_material ?material .
-				?material a gesah:Material .
-				?material rdfs:label ?materialLabel .</precise-subquery>
+                ?obCreation a gesah:Creation .</precise-subquery>
                 ?obCreation gesah:realizes ?role .
-				?obCreation gesah:has_participant ?person .
-				?role gesah:is_role_of ?person 
+                ?obCreation gesah:has_participant ?person .
+                ?role gesah:is_role_of ?person .
                 ?role a obo:BFO_0000023 .
                 ?role gesah:has_role_type ?roleType .
-                ?roletype rdfs:label ?roleTypeLabel .				
-                ?person a foaf:Person. 
+                ?roleType rdfs:label ?roleTypeLabel .
+                ?person a foaf:Person.
                 ?person rdfs:label ?personName .
             }
+
             OPTIONAL {
                 <precise-subquery>?subject ?property ?obCreation .
-                ?obCreation a gesah:Creation .
-				?obCreation gesah:uses_technique ?technique .
-				?technique a gesah:Technique .
-				?technique rdfs:label ?techniqueLabel .
-				?obCreation gesah:has_material ?material .
-				?material a gesah:Material .
-				?material rdfs:label ?materialLabel .</precise-subquery>
+                ?obCreation a gesah:Creation .</precise-subquery>
                 ?obCreation gesah:has_type_of_attribution ?attrType .
-				?attrType a gesah:Attribution_Type .
-				?attrType rdfs:label ?attrTypeLabel .
-			}	
-           
-			OPTIONAL {
-                <precise-subquery>?subject ?property ?obCreation .
-                ?obCreation a gesah:Creation .
-				?obCreation gesah:uses_technique ?technique .
-				?technique a gesah:Technique .
-				?technique rdfs:label ?techniqueLabel .
-				?obCreation gesah:has_material ?material .
-				?material a gesah:Material .
-				?material rdfs:label ?materialLabel .</precise-subquery>
-                ?obCreation gesah:has_place ?place .
-				?place rdfs:subClassOf core:GeographicLocation .
-				?place rdfs:label ?placeLabel .	
+                ?attrType a gesah:Attribution_Type .
+                ?attrType rdfs:label ?attrTypeLabel .
             }
-			
-			OPTIONAL {
-                <precise-subquery>?subject ?property ?obCreation .
-                ?obCreation a gesah:Creation .
-				?obCreation gesah:uses_technique ?technique .
-				?technique a gesah:Technique .
-				?technique rdfs:label ?techniqueLabel .
-				?obCreation gesah:has_material ?material .
-				?material a gesah:Material .
-				?material rdfs:label ?materialLabel .</precise-subquery>
-                ?obCreation gesah:literal_date_appellation ?litteralDtAppel .
-				?obCreation gesah:description ?description .
-					
-            }
+
             OPTIONAL {
                 <precise-subquery>?subject ?property ?obCreation .
-                ?obCreation a gesah:Creation .
-				?obCreation gesah:uses_technique ?technique .
-				?technique a gesah:Technique .
-				?technique rdfs:label ?techniqueLabel .
-				?obCreation gesah:has_material ?material .
-				?material a gesah:Material .
-				?material rdfs:label ?materialLabel .</precise-subquery>
+                ?obCreation a gesah:Creation .</precise-subquery>
+                ?obCreation gesah:has_place ?place .
+                ?place rdfs:subClassOf core:GeographicLocation .
+                ?place rdfs:label ?placeLabel .
+            }
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?obCreation .
+                ?obCreation a gesah:Creation .</precise-subquery>
+                ?obCreation gesah:literal_date_appellation ?litteralDtAppel .
+                ?obCreation gesah:description ?description .
+            }
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?obCreation .
+                ?obCreation a gesah:Creation .</precise-subquery>
                 ?obCreation core:dateTimeInterval ?dateTimeInterval .
                 ?dateTimeInterval core:start ?dateTimeStartValue .
                 ?dateTimeStartValue core:dateTime ?dateTimeStart .
             }
+
             OPTIONAL {
                 <precise-subquery>?subject ?property ?obCreation .
-                ?obCreation a gesah:Creation .
-				?obCreation gesah:uses_technique ?technique .
-				?technique a gesah:Technique .
-				?technique rdfs:label ?techniqueLabel .
-				?obCreation gesah:has_material ?material .
-				?material a gesah:Material .
-				?material rdfs:label ?materialLabel .</precise-subquery>
+                ?obCreation a gesah:Creation .</precise-subquery>
                 ?obCreation core:dateTimeInterval ?dateTimeInterval .
                 ?dateTimeInterval core:end ?dateTimeEndValue .
                 ?dateTimeEndValue core:dateTime ?dateTimeEnd .
             }
-			
-			
-        }  ORDER BY ?techniqueLabel  
+        } ORDER BY ?techniqueLabel
     </query-select>
 
-     <!-- template>propStatement-objectHasCreation.ftl</template -->
+     <template>propStatement-objectHasCreation.ftl</template>
 </list-view-config>
