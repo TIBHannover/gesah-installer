@@ -1,0 +1,35 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix display: <http://vitro.mannlib.cornell.edu/ontologies/display/1.1#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix core: <http://vivoweb.org/ontology/core#> .
+@prefix vivoweb: <http://vivoweb.org/ontology#> .
+@prefix afn:  <http://jena.apache.org/ARQ/function#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://ontology.tib.eu/gesah/has_Title>
+    display:listViewConfigFile "listViewConfig-E35title.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/date_of_recording>
+    display:listViewConfigFile "listViewConfig-dateTimeValue.xml"^^xsd:string .
+
+<http://vivoweb.org/ontology/core#dateTimeInterval>
+    display:listViewConfigFile "listViewConfig-dateTimeInterval.xml"^^xsd:string .
+
+<http://vivoweb.org/ontology/core#dateTimeValue>
+    display:listViewConfigFile "listViewConfig-dateTimeValue.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/output_of_creation>
+    display:listViewConfigFile "listViewConfig-objectHasCreation.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/creation_date>
+    display:listViewConfigFile "listViewConfig-dateTimeValue.xml"^^xsd:string .
+
+<http://vivoweb.org/ontology/core#start>
+    display:listViewConfigFile "listViewConfig-dateTimeValue.xml"^^xsd:string .
+
+<http://vivoweb.org/ontology/core#end>
+    display:listViewConfigFile "listViewConfig-dateTimeValue.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/life_data>
+    display:listViewConfigFile "listViewConfig-dateTimeInterval.xml"^^xsd:string .

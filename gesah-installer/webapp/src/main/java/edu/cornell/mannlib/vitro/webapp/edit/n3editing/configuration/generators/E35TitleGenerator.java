@@ -11,7 +11,6 @@ import org.apache.jena.vocabulary.XSD;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Subject   - Cultural work
@@ -28,9 +27,8 @@ public class E35TitleGenerator extends GesahEditConfigurationGenerator {
     private final static String titlePred = "http://ontology.tib.eu/gesah/title";
 
     @Override
-    public EditConfigurationVTwo getEditConfiguration(VitroRequest vreq, HttpSession session) throws Exception {
-        EditConfigurationVTwo conf = getDefaultConfiguration(vreq);
-
+//    public EditConfigurationVTwo getEditConfiguration(VitroRequest vreq, HttpSession session) throws Exception {
+    protected void configureForm(VitroRequest vreq, HttpSession session, EditConfigurationVTwo conf) throws Exception {
         List<String> urisOnForm = new ArrayList<>();
         List<String> literalsOnForm = new ArrayList<>();
         List<String> n3required = new ArrayList<>();
@@ -69,20 +67,21 @@ public class E35TitleGenerator extends GesahEditConfigurationGenerator {
         conf.setN3Optional(n3optional);
 
         conf.addValidator(new AntiXssValidation());
-
-        // Populate existing values, etc.
-        prepare(vreq, conf);
-        return conf;
     }
 
     @Override
-    protected void getFormSpecificData(EditConfigurationVTwo editConf, VitroRequest vreq, Map<String, Object> formSpecificData) {
-        // Edit mode must be lower case
+    protected FrontEndEditingUtils.EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {
         if (editConf.getObject() != null) {
-            formSpecificData.put("editMode", FrontEndEditingUtils.EditMode.EDIT.name().toLowerCase());
-        } else {
-            formSpecificData.put("editMode", FrontEndEditingUtils.EditMode.ADD.name().toLowerCase());
+            return FrontEndEditingUtils.EditMode.EDIT;
+
+            // In theory, if the title is missing but the object is present, we should treat it as a REPAIR
+            // However, this still doesn't stop the retraction updates from failing, so we'll just leave it
+//            if (editConf.getLiteralsInScope().get("title") == null) {
+//                return FrontEndEditingUtils.EditMode.REPAIR;
+//            }
         }
+
+        return FrontEndEditingUtils.EditMode.ADD;
     }
 
     private final static String n3ForNewTitle =
