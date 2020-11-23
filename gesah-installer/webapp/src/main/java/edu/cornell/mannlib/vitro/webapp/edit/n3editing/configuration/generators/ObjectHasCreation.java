@@ -53,17 +53,23 @@ import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
  *
  *
  */
-public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfigurationGenerator{
+public class ObjectHasCreation  extends GesahEditConfigurationGenerator implements EditConfigurationGenerator {
+	private final static String agentClass = foaf + "Agent";
 
-    //TODO: can we get rid of the session and get it form the vreq?
-    public EditConfigurationVTwo getEditConfiguration(VitroRequest vreq, HttpSession session) throws Exception {
+	private final static String attributionTypeClass =gesah+"Attribution_Type" ;
+	private final static String materialTypeClass =gesah+"Material" ;
+	private final static String placeTypeClass = vivoCore+"GeographicLocation" ;
+	private final static String roleTypeClass =gesah +"Role_Type";
+	private final static String techniqueTypeClass =gesah+"Technique" ;
 
-        EditConfigurationVTwo conf = new EditConfigurationVTwo();
+	private final static String roleClass =obo + "BFO_0000023" ;
 
-        initBasics(conf, vreq);
-        initPropertyParameters(vreq, session, conf);
-        initObjectPropForm(conf, vreq);
+	private final static String desciptionPred =gesah+"description" ;
+	private final static String literalDateAppelPred =gesah+"literal_date_appellation" ;
 
+
+	@Override
+	protected void configureForm(VitroRequest vreq, HttpSession session, EditConfigurationVTwo conf) throws Exception {
         conf.setTemplate("objectHasCreation.ftl");
 
         conf.setVarNameForSubject("cultObject");
@@ -241,14 +247,9 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
         //Add validator
         conf.addValidator(new DateTimeIntervalValidationVTwo("startField","endField"));
         conf.addValidator(new AntiXssValidation());
-
-        //Adding additional data, specifically edit mode
-        //addFormSpecificData(conf, vreq);
-        prepare(vreq, conf);
-        return conf;
     }
 
-    /* N3 assertions for creation of a cultural object */
+	/* N3 assertions for creation of a cultural object */
 
     final static String n3ForNewObCreation =
         "?cultObject <http://ontology.tib.eu/gesah/output_of_creation>  ?obCreation .\n" +
@@ -291,7 +292,11 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
 		"?newRole <http://ontology.tib.eu/gesah/has_role_type> ?newRoleType . \n" +
         "?newRoleType <"+ label +"> ?newRoleTypeLabel . \n" +
 		"?newRoleType a  <http://ontology.tib.eu/gesah/Role_Type> . " ;
-			
+
+	final static String n3ForExistingRole  =
+		"@prefix gesah: <"+ gesah +"> .\n"+
+		"?obCreation <http://ontology.tib.eu/gesah/realizesl> ?existingRole . \n";
+
 	final static String n3ForExistingRoleType  =
 		"?obCreation <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
         "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
@@ -403,8 +408,12 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
     final static String existingMaterialLabelQuery =
         "SELECT Distinct ?existingMaterialLabel WHERE {\n"+
         "?obCreation <http://ontology.tib.eu/gesah/has_material> ?existingMaterial . \n" +
-        "?existingMaterial <"+ label +"> ?existingMaterialLabel .}";	
-		
+        "?existingMaterial <"+ label +"> ?existingMaterialLabel .}";
+
+	final static String existingRoleQuery =
+		"SELECT ?existingRole WHERE {\n"+
+		"?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole  . }";
+
 	final static String existingRoleTypeQuery =
         "SELECT ?existingRoleType WHERE {\n"+
         "?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n" +
@@ -526,17 +535,10 @@ public class ObjectHasCreation  extends GesahBaseGenerator implements EditConfig
 			+ "    WHERE { ?creationHasOutput owl:inverseOf <http://ontology.tib.eu/gesah/output_of_creation> . } ";
 
 
-  //Adding form specific data such as edit mode
-	public void addFormSpecificData(EditConfigurationVTwo editConfiguration, VitroRequest vreq) {
-		HashMap<String, Object> formSpecificData = new HashMap<String, Object>();
-		formSpecificData.put("editMode", getEditMode(vreq).name().toLowerCase());
-		editConfiguration.setFormSpecificData(formSpecificData);
-	}
-
-	public EditMode getEditMode(VitroRequest vreq) {
+	@Override
+	protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {
 		List<String> predicates = new ArrayList<String>();
 		predicates.add("http://ontology.tib.eu/gesah/output_of_creation");
 		return EditModeUtils.getEditMode(vreq, predicates);
 	}
-	
 }

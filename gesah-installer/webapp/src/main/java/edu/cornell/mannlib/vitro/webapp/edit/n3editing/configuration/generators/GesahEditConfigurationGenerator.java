@@ -1,6 +1,7 @@
 package edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators;
 
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
+import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationUtils;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTwo;
 import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils;
@@ -12,6 +13,23 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class GesahEditConfigurationGenerator extends BaseEditConfigurationGenerator implements EditConfigurationGenerator  {
+    protected final static String vivoCore ="http://vivoweb.org/ontology/core#" ;
+    protected final static String rdfs = VitroVocabulary.RDFS ;
+    protected final static String foaf = "http://xmlns.com/foaf/0.1/";
+    protected final static String type =VitroVocabulary.RDF_TYPE ;
+    protected final static String label =rdfs+"label" ;
+    protected final static String gesah = "http://ontology.tib.eu/gesah/";
+    protected final static String obo = "http://purl.obolibrary.org/obo/";
+
+    protected final static String dateTimeValue =vivoCore+"dateTime";
+    protected final static String dateTimeValueType =vivoCore+"DateTimeValue";
+    protected final static String dateTimePrecision =vivoCore+"dateTimePrecision";
+
+    protected final static String toInterval =vivoCore+"dateTimeInterval";
+    protected final static String intervalType =vivoCore+"DateTimeInterval";
+    protected final static String intervalToStart =vivoCore+"start";
+    protected final static String intervalToEnd =vivoCore+"end";
+
     public EditConfigurationVTwo getEditConfiguration(VitroRequest vreq, HttpSession session) throws Exception {
         EditConfigurationVTwo conf = getDefaultConfiguration(vreq);
 
