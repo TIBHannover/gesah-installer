@@ -55,14 +55,13 @@ import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
  */
 public class ObjectHasCreation  extends GesahEditConfigurationGenerator implements EditConfigurationGenerator {
 	private final static String agentClass = foaf + "Agent";
+	private final static String roleClass =obo + "BFO_0000023" ;
 
 	private final static String attributionTypeClass =gesah+"Attribution_Type" ;
 	private final static String materialTypeClass =gesah+"Material" ;
 	private final static String placeTypeClass = vivoCore+"GeographicLocation" ;
 	private final static String roleTypeClass =gesah +"Role_Type";
 	private final static String techniqueTypeClass =gesah+"Technique" ;
-
-	private final static String roleClass =obo + "BFO_0000023" ;
 
 	private final static String desciptionPred =gesah+"description" ;
 	private final static String literalDateAppelPred =gesah+"literal_date_appellation" ;

@@ -54,17 +54,21 @@ import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
  *
  *
  */
-public class ObjectHasProduction  extends GesahBaseGenerator implements EditConfigurationGenerator{
+public class ObjectHasProduction  extends GesahEditConfigurationGenerator implements EditConfigurationGenerator{
+	private final static String agentClass = foaf + "Agent";
+	private final static String roleClass =obo + "BFO_0000023" ;
 
-    //TODO: can we get rid of the session and get it form the vreq?
-    public EditConfigurationVTwo getEditConfiguration(VitroRequest vreq, HttpSession session) throws Exception {
+	final static String attributionTypeClass =gesah+"Attribution_Type" ;
+	private final static String materialTypeClass =gesah+"Material" ;
+	private final static String placeTypeClass = vivoCore+"GeographicLocation" ;
+	private final static String roleTypeClass =gesah +"Role_Type";
+	private final static String techniqueTypeClass =gesah+"Technique" ;
 
-        EditConfigurationVTwo conf = new EditConfigurationVTwo();
+	private final static String desciptionPred =gesah+"description" ;
+	private final static String literalDateAppelPred =gesah+"literal_date_appellation" ;
 
-        initBasics(conf, vreq);
-        initPropertyParameters(vreq, session, conf);
-        initObjectPropForm(conf, vreq);
-
+	@Override
+	protected void configureForm(VitroRequest vreq, HttpSession session, EditConfigurationVTwo conf) throws Exception {
         conf.setTemplate("objectHasProduction.ftl");
 
         conf.setVarNameForSubject("cultObject");
@@ -245,11 +249,6 @@ public class ObjectHasProduction  extends GesahBaseGenerator implements EditConf
         //Add validator
         conf.addValidator(new DateTimeIntervalValidationVTwo("startField","endField"));
         conf.addValidator(new AntiXssValidation());
-
-        //Adding additional data, specifically edit mode
-        //addFormSpecificData(conf, vreq);
-        prepare(vreq, conf);
-        return conf;
     }
 
     /* N3 assertions for production of a cultural object */
@@ -537,15 +536,9 @@ public class ObjectHasProduction  extends GesahBaseGenerator implements EditConf
 			+ "    WHERE { ?productionHasOutput owl:inverseOf <http://ontology.tib.eu/gesah/output_of_production> . } ";
 
 
-  //Adding form specific data such as edit mode
-	public void addFormSpecificData(EditConfigurationVTwo editConfiguration, VitroRequest vreq) {
-		HashMap<String, Object> formSpecificData = new HashMap<String, Object>();
-		formSpecificData.put("editMode", getEditMode(vreq).name().toLowerCase());
-		editConfiguration.setFormSpecificData(formSpecificData);
-	}
-
-	public EditMode getEditMode(VitroRequest vreq) {
-		List<String> predicates = new ArrayList<String>();
+	@Override
+	protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {
+	List<String> predicates = new ArrayList<String>();
 		predicates.add("http://ontology.tib.eu/gesah/output_of_production");
 		return EditModeUtils.getEditMode(vreq, predicates);
 	}
