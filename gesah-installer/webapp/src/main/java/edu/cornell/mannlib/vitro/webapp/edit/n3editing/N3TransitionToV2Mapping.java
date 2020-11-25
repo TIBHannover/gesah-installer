@@ -1,6 +1,8 @@
 /* $This file is distributed under the terms of the license in LICENSE$ */
 package edu.cornell.mannlib.vitro.webapp.edit.n3editing;
 
+import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.ObjectHasCreationGenerator;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +17,7 @@ public class N3TransitionToV2Mapping extends HashMap<String, String>{
 
         
         map.put("objectHasCreation.jsp",
-                edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators.ObjectHasCreation.class.getName());
+                ObjectHasCreationGenerator.class.getName());
         
 
 //        map.put("terminologyAnnotation.jsp",

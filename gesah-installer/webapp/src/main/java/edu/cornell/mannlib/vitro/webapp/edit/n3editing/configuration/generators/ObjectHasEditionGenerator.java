@@ -27,20 +27,21 @@ import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
     Form for adding an educational attainment to an individual
 
     Classes:
-    gesah:Creation - primary new individual being created
-    foaf:Agent -  new or existing individual of type foaf:Person, foaf:Organization etc.  
+    gesah:Edition - primary new individual being created
+    foaf:Person - new or existing individual
+    foaf:Organization - new or existing individual - has to be implemented
     gesah:Cultural_Object - existing individual
 	obo:BFO_0000023 - new individual or existing while being edited
-	gesah:Role_Type - new or existing individual while being edited
-	gesah:Attribution_Type - new or existing individual 
-	gesah:Material - new or existing individual 
-	gesah:Technique - new or existing individual 
+	gesah:Role_Type - existing individual while being edited
+	gesah:Attribution_Type - existing individual 
+	gesah:Material - existing individual 
+	gesah:Technique - existing individual 
     core:GeographicLocation - new or existing individual
 
 
 
     There are 4 modes that this form can be in:
-     1.  Add, there is a subject and a predicate but no position and nothing else.
+     1. Add, there is a subject and a predicate but no position and nothing else.
 
      2. normal edit where everything should already be filled out.  There is a subject, a object and an individual on
         the other end of the object's relationship.
@@ -53,7 +54,7 @@ import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
  *
  *
  */
-public class ObjectHasCreation  extends GesahEditConfigurationGenerator implements EditConfigurationGenerator {
+public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator implements EditConfigurationGenerator{
 	private final static String agentClass = foaf + "Agent";
 	private final static String roleClass =obo + "BFO_0000023" ;
 
@@ -66,20 +67,19 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
 	private final static String desciptionPred =gesah+"description" ;
 	private final static String literalDateAppelPred =gesah+"literal_date_appellation" ;
 
-
 	@Override
 	protected void configureForm(VitroRequest vreq, HttpSession session, EditConfigurationVTwo conf) throws Exception {
-        conf.setTemplate("objectHasCreation.ftl");
+        conf.setTemplate("objectHasEdition.ftl");
 
         conf.setVarNameForSubject("cultObject");
         conf.setVarNameForPredicate("predicate");
-        conf.setVarNameForObject("obCreation");
+        conf.setVarNameForObject("obEdition");
 
-        conf.setN3Required( Arrays.asList(n3ForNewObCreation) );
+        conf.setN3Required( Arrays.asList(n3ForNewObEdition) );
         conf.setN3Optional(Arrays.asList( descriptionAssertion,  n3ForNewAttrType, n3ForExistingAttrType, n3ForNewAgent, n3ForExistingAgent,
-                n3ForNewTechnique, n3ForExistingTechnique, n3ForNewMaterial, n3ForExistingMaterial, n3ForNewRole, n3ForExistingRole, n3ForNewRoleType, n3ForExistingRoleType, n3ForNewPlace, n3ForExistingPlace, litDateAppelAssertion, n3ForStart, n3ForEnd ));
+                n3ForNewTechnique, n3ForExistingTechnique, n3ForNewMaterial, n3ForExistingMaterial, n3ForNewRole, n3ForNewRoleType, n3ForExistingRoleType, n3ForNewPlace, n3ForExistingPlace, litDateAppelAssertion, n3ForStart, n3ForEnd ));
 
-        conf.addNewResource("obCreation", DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource("obEdition", DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addNewResource("newRole",DEFAULT_NS_FOR_NEW_RESOURCE);
 		conf.addNewResource("newRoleType",DEFAULT_NS_FOR_NEW_RESOURCE);
 		conf.addNewResource("newAttrType",DEFAULT_NS_FOR_NEW_RESOURCE);
@@ -94,8 +94,8 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
         //uris in scope: none
         //literals in scope: none
 
-        conf.setUrisOnform( Arrays.asList( "existingAgent", "agentType", "existingMaterial","existingTechnique","existingAttrType", "existingRoleType", "existingRole", "existingPlace"));
-        conf.setLiteralsOnForm( Arrays.asList("agentLabel", "techniqueLabel", "materialLabel", "roleTypeLabel", "agentLabelDisplay", "existingAttrTypeLabel", "placeLabel", "placeLabelDisplay","description", "litDateAppel"));
+        conf.setUrisOnform( Arrays.asList( "existingAgent", "agentType", "existingMaterial","existingTechnique", "existingAttrType", "existingRoleType", "existingPlace"));
+        conf.setLiteralsOnForm( Arrays.asList("agentLabel", "techniqueLabel", "materialLabel",  "roleTypeLabel", "agentLabelDisplay", "existingAttrTypeLabel", "placeLabel", "placeLabelDisplay","description", "litDateAppel"));
 
         conf.addSparqlForExistingLiteral("agentLabel", agentLabelQuery);
 		conf.addSparqlForExistingLiteral("techniqueLabel", existingTechniqueLabelQuery);
@@ -113,9 +113,8 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
 		conf.addSparqlForExistingUris("existingTechnique", existingTechniqueQuery);
         conf.addSparqlForExistingUris("existingAgent", existingAgentQuery);
         conf.addSparqlForExistingUris("existingAttrType", existingAttrTypeQuery);
-        conf.addSparqlForExistingUris("agentType", agentTypeQuery);
         conf.addSparqlForExistingUris("existingRoleType", existingRoleTypeQuery);
-		conf.addSparqlForExistingUris("existingRole", existingRoleQuery);
+		conf.addSparqlForExistingUris("agentType", agentTypeQuery);
         conf.addSparqlForExistingUris("existingPlace", existingPlaceQuery);
         conf.addSparqlForExistingUris("intervalNode",existingIntervalNodeQuery);
         conf.addSparqlForExistingUris("startNode", existingStartNodeQuery);
@@ -123,7 +122,7 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
         conf.addSparqlForExistingUris("startField-precision", existingStartPrecisionQuery);
         conf.addSparqlForExistingUris("endField-precision", existingEndPrecisionQuery);
         //Add sparql to include inverse property as well
-        conf.addSparqlForAdditionalUrisInScope("creationHasOutput", creationHasOutputQuery);
+        conf.addSparqlForAdditionalUrisInScope("editionHasOutput", editionHasOutputQuery);
 			
 					
 
@@ -136,8 +135,8 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
                 setName("newAgent").
                 setOptions( new IndividualsViaVClassOptions(
                         agentClass)));	
-
-        conf.addField( new FieldVTwo().
+				
+		conf.addField( new FieldVTwo().
                 setName("agentType").
 				setValidators( list("nonempty")).
                 setOptions( new ChildVClassesOptions(
@@ -146,12 +145,12 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
 		conf.addField( new FieldVTwo().
                 setName("existingPlace").
                 setOptions( new IndividualsViaVClassOptions(
-                        placeTypeClass)));		
+                        placeTypeClass)));
 
-        conf.addField( new FieldVTwo().
+		conf.addField( new FieldVTwo().
                 setName("newPlace").
                 setOptions( new IndividualsViaVClassOptions(
-                        placeTypeClass)));                			
+                        placeTypeClass)));				
 
         conf.addField( new FieldVTwo().
                 setName("description").
@@ -166,7 +165,6 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
 
         conf.addField( new FieldVTwo().
                 setName("existingAttrType").
-                setValidators( list("nonempty")).
                 setOptions( new IndividualsViaVClassOptions(
                         attributionTypeClass)));
                 
@@ -180,6 +178,7 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
                 setName("techniqueLabel").
                 setRangeDatatypeUri(XSD.xstring.toString() ).
                 setValidators( list("datatype:" + XSD.xstring.toString())));
+						
 
         conf.addField( new FieldVTwo().
                 setName("existingAttrTypeLabel").
@@ -190,6 +189,7 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
                 setName("materialLabel").
                 setRangeDatatypeUri(XSD.xstring.toString() ).
                 setValidators( list("datatype:" + XSD.xstring.toString())));
+						
 				
 		conf.addField( new FieldVTwo().
                 setName("roleTypeLabel").
@@ -199,10 +199,14 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
         conf.addField( new FieldVTwo().
                 setName("agentLabelDisplay").
                 setRangeDatatypeUri(XSD.xstring.toString() ));
-
-        conf.addField( new FieldVTwo().
+				
+		conf.addField( new FieldVTwo().
                 setName("placeLabelDisplay").
-                setRangeDatatypeUri(XSD.xstring.toString() ));        
+                setRangeDatatypeUri(XSD.xstring.toString() ));	
+		
+		conf.addField( new FieldVTwo().
+                setName("placeLabel").
+                setRangeDatatypeUri(XSD.xstring.toString() ));
 
         conf.addField( new FieldVTwo().
                 setName("existingRoleType").
@@ -213,19 +217,19 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
                 setName("existingMaterial").
                 setValidators( list("nonempty")).
                 setOptions( new IndividualsViaVClassOptions(
-                        materialTypeClass)));;	
+                        materialTypeClass)));	
 
 		conf.addField( new FieldVTwo().
                 setName("existingTechnique").
                 setValidators( list("nonempty")).
                 setOptions( new IndividualsViaVClassOptions(
                         techniqueTypeClass)));	
- 
-						
+		
 		conf.addField( new FieldVTwo().
                 setName("newRole").
                 setOptions( new IndividualsViaVClassOptions(
-                        roleClass)));		
+                        roleClass)));	
+			
     
 
         FieldVTwo startField = new FieldVTwo().
@@ -248,121 +252,122 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
         conf.addValidator(new AntiXssValidation());
     }
 
-	/* N3 assertions for creation of a cultural object */
+	/* N3 assertions for production of a cultural object */
 
-    final static String n3ForNewObCreation =
-        "?cultObject <http://ontology.tib.eu/gesah/output_of_creation>  ?obCreation .\n" +
-        "?obCreation  a <http://ontology.tib.eu/gesah/Creation> ; \n" +
-		"			 <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
-        "?obCreation <http://ontology.tib.eu/gesah/has_creation_output> ?cultObject .";
+    final static String n3ForNewObEdition =
+        "?cultObject <http://ontology.tib.eu/gesah/object_of_publication>  ?obEdition .\n" +
+        "?obEdition  a <http://ontology.tib.eu/gesah/Edition> .\n" +
+		"?obEdition <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
+		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obEdition . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/has_edition_object> ?cultObject .";
 		
  final static String n3ForNewAgent  =
 		"@prefix rdfs: <"+ rdfs +">   .\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_participant> ?newAgent . \n" +
-        "?newAgent <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
-		"?obCreation <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/has_participant> ?newAgent . \n" +
+        "?newAgent <http://ontology.tib.eu/gesah/participates_in> ?obEdition . \n" +
+		"?obEdition <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
 		"?newAgent <http://ontology.tib.eu/gesah/has_role> ?newRole . \n" +
 		"?newRole <http://ontology.tib.eu/gesah/is_role_of> ?newAgent . \n" +
-		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
+		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obEdition . \n" +
         "?newAgent a ?agentType . \n" +
 		"?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> .\n" +
         "?newAgent rdfs:label ?agentLabel . ";
 
     final static String n3ForExistingAgent  =
 		"@prefix rdfs: <"+ rdfs +">  . \n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
-		"?obCreation <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-        "?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
+		"?obEdition <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
+        "?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obEdition . \n" +
 		"?existingAgent <http://ontology.tib.eu/gesah/has_role> ?newRole . \n" +
-		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
+		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obEdition . \n" +
 		"?newRole <http://ontology.tib.eu/gesah/is_role_of> ?existingAgent . " ;
 
 	final static String n3ForNewRole  =
-        "?obCreation <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-        "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
+        "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obEdition . \n" +
 		"?newRole a <http://purl.obolibrary.org/obo/BFO_0000023> . " ;
-			
+		
+	
 
 	final static String n3ForNewRoleType  =
 		"@prefix rdfs: <"+ rdfs +">  . \n"+
-        "?obCreation <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-        "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
+        "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obEdition . \n" +
 		"?newRole <http://ontology.tib.eu/gesah/has_role_type> ?newRoleType . \n" +
         "?newRoleType <"+ label +"> ?newRoleTypeLabel . \n" +
 		"?newRoleType a  <http://ontology.tib.eu/gesah/Role_Type> . " ;
-
-	final static String n3ForExistingRole  =
-		"@prefix gesah: <"+ gesah +"> .\n"+
-		"?obCreation <http://ontology.tib.eu/gesah/realizesl> ?existingRole . \n";
-
+			
 	final static String n3ForExistingRoleType  =
-		"?obCreation <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-        "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
+		"?obEdition <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
+        "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obEdition . \n" +
         "?newRole <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . " ;		
 
 
     final static String n3ForNewAttrType  =
         "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_type_of_attribution> ?newAttrType . \n" +
-        "?newAttrType <http://ontology.tib.eu/gesah/is_attribution_type_of> ?obCreation . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/has_type_of_attribution> ?newAttrType . \n" +
+        "?newAttrType <http://ontology.tib.eu/gesah/is_attribution_type_of> ?obEdition . \n" +
         "?newAttrType <"+ label +"> ?attrTypeLabel . \n" +
         "?newAttrType a <http://ontology.tib.eu/gesah/Attribution_Type> .";
 		
 	final static String n3ForExistingAttrType  =
         "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_type_of_attribution> ?existingAttrType . \n" +
-        "?existingAttrType <http://ontology.tib.eu/gesah/is_attribution_type_of> ?obCreation . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/has_type_of_attribution> ?existingAttrType . \n" +
+        "?existingAttrType <http://ontology.tib.eu/gesah/is_attribution_type_of> ?obEdition . \n" +
         "?existingAttrType a <http://ontology.tib.eu/gesah/Attribution_Type> .";	
 
    
     final static String n3ForNewTechnique  =
         "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/uses_technique> ?newTechnique . \n" +
-        "?newTechnique <http://ontology.tib.eu/gesah/used_in> ?obCreation . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/uses_technique> ?newTechnique . \n" +
+        "?newTechnique <http://ontology.tib.eu/gesah/used_in> ?obEdition . \n" +
         "?newTechnique <"+ label +"> ?techniqueLabel . \n" +
         "?newTechnique a <http://ontology.tib.eu/gesah/Technique> .";
 		
+		
 	final static String n3ForExistingTechnique  =
         "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/uses_technique> ?existingTechnique . \n" +
-        "?existingTechnique <http://ontology.tib.eu/gesah/used_in> ?obCreation . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/uses_technique> ?existingTechnique . \n" +
+        "?existingTechnique <http://ontology.tib.eu/gesah/used_in> ?obEdition . \n" +
         "?existingTechnique a <http://ontology.tib.eu/gesah/Technique> .";	
+			
 		
 	final static String n3ForNewMaterial  =
         "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_material> ?newMaterial . \n" +
-        "?newMaterial <http://ontology.tib.eu/gesah/incorporated_in> ?obCreation . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/has_material> ?newMaterial . \n" +
+        "?newMaterial <http://ontology.tib.eu/gesah/incorporated_in> ?obEdition . \n" +
         "?newMaterial <"+ label +"> ?materialLabel . \n" +
         "?newMaterial a <http://ontology.tib.eu/gesah/Material> .";
 		
+		
 	final static String n3ForExistingMaterial  =
         "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_material> ?existingMaterial . \n" +
-        "?existingMaterial <http://ontology.tib.eu/gesah/incorporated_in> ?obCreation . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/has_material> ?existingMaterial . \n" +
+        "?existingMaterial <http://ontology.tib.eu/gesah/incorporated_in> ?obEdition . \n" +
         "?existingMaterial a <http://ontology.tib.eu/gesah/Material> .";
 		
+	
 	final static String n3ForNewPlace  =
         "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_place> ?newPlace . \n" +
-        "?newPlace <http://ontology.tib.eu/gesah/is_place_of> ?obCreation . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/has_place> ?newPlace . \n" +
+        "?newPlace <http://ontology.tib.eu/gesah/is_place_of> ?obEdition . \n" +
         "?newPlace <"+ label +"> ?placeLabel . \n" +
         "?newPlace a <http://vivoweb.org/ontology/core#GeographicLocation> .";
 		
 	final static String n3ForExistingPlace  =
         "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_place> ?existingPlace . \n" +
-        "?existingPlace <http://ontology.tib.eu/gesah/is_place_of> ?obCreation . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/has_place> ?existingPlace . \n" +
+        "?existingPlace <http://ontology.tib.eu/gesah/is_place_of> ?obEdition . \n" +
         "?existingPlace a <http://vivoweb.org/ontology/core#GeographicLocation> .";
 		
     final static String descriptionAssertion  =
-        "?obCreation <http://ontology.tib.eu/gesah/description> ?description .";
+        "?obEdition <http://ontology.tib.eu/gesah/description> ?description .";
 		
 	final static String litDateAppelAssertion  =
-        "?obCreation <http://ontology.tib.eu/gesah/literal_date_appellation> ?litDateAppel .";	
+        "?obEdition <http://ontology.tib.eu/gesah/literal_date_appellation> ?litDateAppel .";	
 
     final static String n3ForStart =
-        "?obCreation      <"+ toInterval +"> ?intervalNode .\n"+
+        "?obEdition      <"+ toInterval +"> ?intervalNode .\n"+
         "?intervalNode  <"+ type +"> <"+ intervalType +"> .\n"+
         "?intervalNode <"+ intervalToStart +"> ?startNode .\n"+
         "?startNode  <"+ type +"> <"+ dateTimeValueType +"> .\n"+
@@ -370,7 +375,7 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
         "?startNode  <"+ dateTimePrecision +"> ?startField-precision .";
 
     final static String n3ForEnd =
-        "?obCreation     <"+ toInterval +"> ?intervalNode . \n"+
+        "?obEdition     <"+ toInterval +"> ?intervalNode . \n"+
         "?intervalNode  <"+ type +"> <"+ intervalType +"> .\n"+
         "?intervalNode <"+ intervalToEnd +"> ?endNode .\n"+
         "?endNode  <"+ type +"> <"+ dateTimeValueType +"> .\n"+
@@ -380,117 +385,115 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
 
 
  
-  //Queries for editing an existing creation entry
+  //Queries for editing an existing production entry
 
     final static String existingAttrTypeQuery =
         "SELECT ?existingAttrType WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_type_of_attribution> ?existingAttrType . }";
+        "?obEdition <http://ontology.tib.eu/gesah/has_type_of_attribution> ?existingAttrType . }\n";
 
     final static String existingAttrTypeLabelQuery =
         "SELECT Distinct ?existingAttrTypeLabel WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_type_of_attribution> ?existingAttrType . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/has_type_of_attribution> ?existingAttrType . \n" +
         "?existingAttrType <"+ label +"> ?existingAttrTypeLabel .}";
 
 	final static String existingTechniqueQuery =
         "SELECT ?existingTechnique WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/uses_technique> ?existingTechnique . }";
+        "?obEdition <http://ontology.tib.eu/gesah/uses_technique> ?existingTechnique . }";
 
     final static String existingTechniqueLabelQuery =
         "SELECT Distinct ?existingTechniqueLabel WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/uses_technique> ?existingTechnique . \n" +
-        "?existingTechnique <"+ label +"> ?existingTechniqueLabel }";
+        "?obEdition <http://ontology.tib.eu/gesah/uses_technique> ?existingTechnique . \n" +
+        "?existingTechnique <"+ label +"> ?existingTechniqueLabel .}";
+		
 
 	final static String existingMaterialQuery =
         "SELECT ?existingMaterial WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_material> ?existingMaterial  . }";
+        "?obEdition <http://ontology.tib.eu/gesah/has_material> ?existingMaterial  . }";
 
     final static String existingMaterialLabelQuery =
         "SELECT Distinct ?existingMaterialLabel WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_material> ?existingMaterial . \n" +
-        "?existingMaterial <"+ label +"> ?existingMaterialLabel .}";
-
-	final static String existingRoleQuery =
-		"SELECT ?existingRole WHERE {\n"+
-		"?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole  . }";
-
+        "?obEdition <http://ontology.tib.eu/gesah/has_material> ?existingMaterial . \n" +
+        "?existingMaterial <"+ label +"> ?existingMaterialLabel . }";	
+				
+		
 	final static String existingRoleTypeQuery =
         "SELECT ?existingRoleType WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n" +
-        "?existingRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
-		"?existingRole <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . }";	
-		
-	final static String existingRoleTypeLabelQuery =
+        "?obEdition <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n" +
+        "?existingRole <http://ontology.tib.eu/gesah/realized_in> ?obEdition . \n" +
+		"?existingRole <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . }";
+
+    final static String existingRoleTypeLabelQuery =
         "SELECT Distinct ?existingRoleTypeLabel WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n" +
-        "?existingRole <http://ontology.tib.eu/gesah/realized_in> ?obCreation . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n" +
+        "?existingRole <http://ontology.tib.eu/gesah/realized_in> ?obEdition . \n" +
 		"?existingRole <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . \n" +
-        "?existingRoleType <"+ label +"> ?existingRoleTypeLabel . }";
-	
+        "?existingRoleType <"+ label +"> ?existingRoleTypeLabel . }";		
 		
 	final static String existingPlaceQuery =
         "SELECT  ?existingPlace WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_place> ?existingPlace  . }";
+        "?obEdition <http://ontology.tib.eu/gesah/has_place> ?existingPlace  . }";
 
     final static String existingPlaceLabelQuery =
         "SELECT Distinct ?existingPlaceLabel WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_place> ?existingPlace . \n" +
-        "?existingPlace <"+ label +"> ?existingPlaceLabel }";	
+        "?obEdition <http://ontology.tib.eu/gesah/has_place> ?existingPlace . \n" +
+        "?existingPlace <"+ label +"> ?existingPlaceLabel .}";	
 	
     final static String existingAgentQuery  =
         "PREFIX rdfs: <"+ rdfs +">   \n"+
         "SELECT ?existingAgent WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
-		"?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
+		"?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obEdition . \n" +
 		"?existingAgent <http://ontology.tib.eu/gesah/has_role> ?existingRole .\n" +
 		"?existingRole <http://ontology.tib.eu/gesah/is_role_of> ?existingAgent .\n" +
 		"?existingAgent a ?agentType . \n " +
         "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> . }" ;
-
+		
     final static String agentLabelQuery  =
         "PREFIX rdfs: <"+ rdfs +">   \n"+
         "SELECT Distinct ?existingAgentLabel WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
-		"?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
+		"?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obEdition . \n" +
         "?existingAgent <"+ label +"> ?existingAgentLabel .\n"+
         "?existingAgent a ?agentType . \n " +
-        "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> . }" ;
+        "?agentType rdfs:subClassOf <"+ agentClass +"> . }" ;
 
-    /* Limit type to subclasses of foaf:Agent. Otherwise, sometimes owl:Thing or another
+		
+	/* Limit type to subclasses of foaf:Agent. Otherwise, sometimes owl:Thing or another
     type is returned and we don't get a match to the select element options. */
 	
     final static String agentTypeQuery  =
         "PREFIX rdfs: <"+ rdfs +">   \n"+
         "SELECT ?agentType WHERE {\n"+
-        "?obCreation <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
+        "?obEdition <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
 		"?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
 		"?existingAgent <http://ontology.tib.eu/gesah/has_role> ?existingRole .\n" +
 		"?existingRole <http://ontology.tib.eu/gesah/is_role_of> ?existingAgent .\n" +
         "?existingAgent a ?agentType .\n"+
-        "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> .}";
+        "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> .}";		
 
     final static String descriptionQuery  =
         "SELECT ?existingDescription WHERE {\n"+
-        "?obCreation <"+ desciptionPred +"> ?existingDescription . }";
+        "?obEdition <"+ desciptionPred +"> ?existingDescription . }";
 
     final static String litDateAppelQuery  =
         "SELECT ?existinglitDateAppel WHERE {\n"+
-        "?obCreation <"+ literalDateAppelPred +"> ?existinglitDateAppel . }";
+        "?obEdition <"+ literalDateAppelPred +"> ?existinglitDateAppel . }";
 
     final static String existingIntervalNodeQuery  =
         "SELECT ?existingIntervalNode WHERE {\n"+
-        "?obCreation <"+ toInterval +"> ?existingIntervalNode .\n"+
+        "?obEdition <"+ toInterval +"> ?existingIntervalNode .\n"+
         "?existingIntervalNode <"+ type +"> <"+ intervalType +"> . }";
 
     final static String existingStartNodeQuery  =
         "SELECT ?existingStartNode WHERE {\n"+
-        "?obCreation <"+ toInterval +"> ?intervalNode .\n"+
+        "?obEdition <"+ toInterval +"> ?intervalNode .\n"+
         "?intervalNode <"+ type +"> <"+ intervalType +"> .\n"+
         "?intervalNode <"+ intervalToStart +"> ?existingStartNode . \n"+
         "?existingStartNode <"+ type +"> <"+ dateTimeValueType +"> .}";
 
     final static String existingStartDateQuery  =
         "SELECT ?existingDateStart WHERE {\n"+
-        "?obCreation <"+ toInterval +"> ?intervalNode .\n"+
+        "?obEdition <"+ toInterval +"> ?intervalNode .\n"+
         "?intervalNode <"+ type +"> <"+ intervalType +"> .\n"+
         "?intervalNode <"+ intervalToStart +"> ?startNode .\n"+
         "?startNode <"+ type +"> <"+ dateTimeValueType +"> .\n"+
@@ -498,7 +501,7 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
 
     final static String existingStartPrecisionQuery  =
         "SELECT ?existingStartPrecision WHERE {\n"+
-        "?obCreation <"+ toInterval +"> ?intervalNode .\n"+
+        "?obEdition <"+ toInterval +"> ?intervalNode .\n"+
         "?intervalNode <"+ type +"> <"+ intervalType +"> .\n"+
         "?intervalNode <"+ intervalToStart +"> ?startNode .\n"+
         "?startNode <"+ type +"> <"+ dateTimeValueType +"> . \n"+
@@ -506,14 +509,14 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
 
     final static String existingEndNodeQuery  =
         "SELECT ?existingEndNode WHERE { \n"+
-        "?obCreation <"+ toInterval +"> ?intervalNode .\n"+
+        "?obEdition <"+ toInterval +"> ?intervalNode .\n"+
         "?intervalNode <"+ type +"> <"+ intervalType +"> .\n"+
         "?intervalNode <"+ intervalToEnd +"> ?existingEndNode . \n"+
         "?existingEndNode <"+ type +"> <"+ dateTimeValueType +"> .}";
 
     final static String existingEndDateQuery  =
         "SELECT ?existingEndDate WHERE {\n"+
-        "?obCreation <"+ toInterval +"> ?intervalNode .\n"+
+        "?obEdition <"+ toInterval +"> ?intervalNode .\n"+
         "?intervalNode <"+ type +"> <"+ intervalType +"> .\n"+
         "?intervalNode <"+ intervalToEnd +"> ?endNode .\n"+
         "?endNode <"+ type +"> <"+ dateTimeValueType +"> .\n"+
@@ -521,23 +524,24 @@ public class ObjectHasCreation  extends GesahEditConfigurationGenerator implemen
 
     final static String existingEndPrecisionQuery  =
         "SELECT ?existingEndPrecision WHERE {\n"+
-        "?obCreation <"+ toInterval +"> ?intervalNode .\n"+
+        "?obEdition <"+ toInterval +"> ?intervalNode .\n"+
         "?intervalNode <"+ type +"> <"+ intervalType +"> .\n"+
         "?intervalNode <"+ intervalToEnd +"> ?endNode .\n"+
         "?endNode <"+ type +"> <"+ dateTimeValueType +"> .\n"+
         "?endNode <"+ dateTimePrecision +"> ?existingEndPrecision . }";
 
     //Query for inverse property
-    final static String creationHasOutputQuery  =
+    final static String editionHasOutputQuery  =
     	  "PREFIX owl:  <http://www.w3.org/2002/07/owl#>"
-			+ " SELECT ?creationHasOutput "
-			+ "    WHERE { ?creationHasOutput owl:inverseOf <http://ontology.tib.eu/gesah/output_of_creation> . } ";
+			+ " SELECT ?editionHasOutput "
+			+ "    WHERE { ?editionHasOutput owl:inverseOf <http://ontology.tib.eu/gesah/object_of_publication> . } ";
 
 
 	@Override
 	protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {
 		List<String> predicates = new ArrayList<String>();
-		predicates.add("http://ontology.tib.eu/gesah/output_of_creation");
+		predicates.add("http://ontology.tib.eu/gesah/object_of_publication");
 		return EditModeUtils.getEditMode(vreq, predicates);
 	}
+	
 }

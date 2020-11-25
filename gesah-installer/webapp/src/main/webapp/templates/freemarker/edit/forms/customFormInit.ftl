@@ -3,7 +3,7 @@
 <#import "lib-vitro-form.ftl" as lvf>
 
 <#--Retrieve certain edit configuration information-->
-<#-- assign htmlForElements = editConfiguration.pageData.htmlForElements / -->
+<#assign htmlForElements = editConfiguration.pageData.htmlForElements />
 <#assign editMode = editConfiguration.pageData.editMode />
 
 <#assign blankSentinel = "" />
@@ -20,10 +20,12 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 
 <#-- Determine if in create or edit mode -->
 <#if editMode == "edit">
+    <#assign titleVerb="${i18n().edit_capitalized}">
     <#assign formAction="${i18n().edit_capitalized}">
     <#assign submitButtonText="${i18n().save_changes}">
     <#assign disabledVal="disabled">
 <#else>
+    <#assign titleVerb="${i18n().create_capitalized}">
     <#assign formAction="${i18n().create_capitalized}">
     <#assign submitButtonText="${i18n().create_entry}">
     <#assign disabledVal="">

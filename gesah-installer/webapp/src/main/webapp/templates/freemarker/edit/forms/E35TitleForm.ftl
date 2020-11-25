@@ -1,6 +1,6 @@
 <#include "customFormInit.ftl">
 
-<#-- h2>${titleVerb}&nbsp;${i18n().title_for} ${editConfiguration.subjectName}</h2 -->
+<h2>${titleVerb}&nbsp;${i18n().title_for} ${editConfiguration.subjectName}</h2>
 
 <#include "E35TitleFormErrors.ftl">
 
