@@ -64,15 +64,18 @@
             </div>
         </div>
     </div>
-
+<!--
+    collectionMode:       true,
+    collectionRows:       3,
+    collectionTileSize:   1024,
+    collectionTileMargin: 56,
+-->
     <script type="text/javascript">
         var viewer = OpenSeadragon({
             id: "viewer",
-            collectionMode:       true,
-            collectionRows:       3,
-            collectionTileSize:   1024,
-            collectionTileMargin: 56,
             prefixUrl: "${urls.base}/seadragon/images/",
+            sequenceMode:         true,
+            showReferenceStrip:   true,
             tileSources: [
             <#list digitalRepresentations as digRep>"${iiifUrl}/iiif/2/${digRep["barcode"]}%2Fcontent%2Fstreams%2F${digRep["fileNum"]}/info.json"<#sep>, </#list>
             ]
