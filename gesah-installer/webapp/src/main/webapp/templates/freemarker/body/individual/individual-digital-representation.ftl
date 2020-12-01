@@ -19,7 +19,6 @@
 <#--@dumpAll /-->
 <#include "individual-adminPanel.ftl">
 <section id="individual-intro" class="vcard" role="region" <@mf.sectionSchema individual/>>
-
     <!-- start section individual-info -->
     <section id="individual-info" ${infoClass!} role="region">
 
@@ -27,7 +26,11 @@
             ${individualProductExtensionPreHeader}
         </#if>
 
-        <header>
+        <#if digitalRepresentations?has_content>
+            <!-- Download button -->
+            <div onclick="downloadImage()" style="float: right"><img src="${urls.images}/icons/down-arrow.svg" width="30"></div>
+        </#if>
+        <header style="float: left">
             <#if relatedSubject??>
                 <h2>${relatedSubject.relatingPredicateDomainPublic} for ${relatedSubject.name}</h2>
                 <p><a href="${relatedSubject.url}" title="${i18n().return_to(relatedSubject.name)}">&larr; ${i18n().return_to(relatedSubject.name)}</a></p>
@@ -66,6 +69,9 @@
     </div>
 
     <script type="text/javascript">
+        var imageDownloadUrls = [
+            <#list digitalRepresentations as digRep>"${iiifUrl}/iiif/2/${digRep["barcode"]}%2Fcontent%2Fstreams%2F${digRep["fileNum"]}/full/full/0/default.tif"<#sep>, </#list>
+        ];
         var viewer = OpenSeadragon({
             id: "viewer",
             collectionMode:       true,
@@ -74,11 +80,12 @@
             collectionTileMargin: 56,
             prefixUrl: "${urls.base}/seadragon/images/",
             tileSources: [
-            <#list digitalRepresentations as digRep>
                 <#list digitalRepresentations as digRep>"${iiifUrl}/iiif/2/${digRep["barcode"]}%2Fcontent%2Fstreams%2F${digRep["fileNum"]}/info.json"<#sep>, </#list>
-            </#list>
             ]
         });
+        function downloadImage() {
+            window.location = imageDownloadUrls[viewer.currentPage()];
+        }
     </script>
 <#--
     "http://gesah01.develop.labs.tib.eu:8080/gesah-iiif/iiif/2/${digRep["barcode"]}%2Fcontent%2Fstreams%2Fmaster_${digRep["barcode"]}_${digRep["fileNum"]}.tif/info.json"
