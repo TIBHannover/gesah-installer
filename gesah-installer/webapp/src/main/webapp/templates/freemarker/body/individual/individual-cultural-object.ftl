@@ -76,7 +76,7 @@
 -->
     <script type="text/javascript">
         var imageDownloadUrls = [
-            <#list digitalRepresentations as digRep>"${iiifUrl}/iiif/2/${digRep["barcode"]}%2Fcontent%2Fstreams%2F${digRep["fileNum"]}/full/full/0/default.tif"<#sep>, </#list>
+            <#list digitalRepresentations as digRep>"${iiifUrl}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/full/full/0/default.tif"<#sep>, </#list>
         ];
         var viewer = OpenSeadragon({
             id: "viewer",
@@ -84,7 +84,7 @@
             sequenceMode:         true,
             showReferenceStrip:   true,
             tileSources: [
-            <#list digitalRepresentations as digRep>"${iiifUrl}/iiif/2/${digRep["barcode"]}%2Fcontent%2Fstreams%2F${digRep["fileNum"]}/info.json"<#sep>, </#list>
+            <#list digitalRepresentations as digRep>"${iiifUrl}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/info.json"<#sep>, </#list>
             ]
         });
         function downloadImage() {
