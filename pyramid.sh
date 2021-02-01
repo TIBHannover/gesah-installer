@@ -7,8 +7,14 @@ do
 	then
 		echo Converting $file
 		convert $file -define tiff:tile-geometry=256x256 -compress lzw 'ptif:temp.tif'
-		rm $file
-		mv temp.tif $file
+		status=$?
+		if [ $status -ne 0 ]; then
+		  echo Error converting $file
+		  rm temp.tif
+		else
+      rm $file
+      mv temp.tif $file
+		fi
 	fi
 done
 
