@@ -14,6 +14,10 @@
             <#if lvf.submissionErrorExists(editSubmission, "width")>
                 ${i18n().enter_width_value}<br />
             </#if>
+
+            <#if lvf.submissionErrorExists(editSubmission, "measurementsSpecification")>
+                ${i18n().enter_specification_value}<br />
+            </#if>
         </p>
     </section>
 </#if>

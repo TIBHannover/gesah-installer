@@ -10,6 +10,9 @@
 <http://ontology.tib.eu/gesah/has_Title>
     display:listViewConfigFile "listViewConfig-E35title.xml"^^xsd:string .
 
+<http://ontology.tib.eu/gesah/has_measurements>
+    display:listViewConfigFile "listViewConfig-measurements.xml"^^xsd:string .
+
 <http://ontology.tib.eu/gesah/date_of_recording>
     display:listViewConfigFile "listViewConfig-dateTimeValue.xml"^^xsd:string .
 

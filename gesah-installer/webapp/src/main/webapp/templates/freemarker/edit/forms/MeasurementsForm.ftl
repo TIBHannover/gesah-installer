@@ -9,21 +9,21 @@
         <#-- Height Entry -->
         <#assign heightValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "height")/>
         <p>
-            <label for="height">${i18n().height} ${requiredHint}</label>
+            <label for="height">${i18n().height}</label>
             <input  size="30"  type="text" id="height" name="height" value="${heightValue}" role="input" />
         </p>
 
         <#-- Width Entry -->
         <#assign widthValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "width")/>
         <p>
-            <label for="width">${i18n().width} ${requiredHint}</label>
+            <label for="width">${i18n().width}</label>
             <input  size="30"  type="text" id="width" name="width" value="${widthValue}" role="input" />
         </p>
 
         <#-- Depth Entry -->
         <#assign depthValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "depth")/>
         <p>
-            <label for="depth">${i18n().depth} ${requiredHint}</label>
+            <label for="depth">${i18n().depth}</label>
             <input  size="30"  type="text" id="depth" name="depth" value="${depthValue}" role="input" />
         </p>
 

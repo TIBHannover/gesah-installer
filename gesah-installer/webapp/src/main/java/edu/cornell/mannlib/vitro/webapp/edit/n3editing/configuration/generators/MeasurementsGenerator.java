@@ -53,31 +53,28 @@ public class MeasurementsGenerator extends GesahEditConfigurationGenerator {
         // Add options data
         // Depth
         literalsOnForm.add("depth");
-        n3required.add(n3ForNewDepth);
+        n3optional.add(n3ForNewDepth);
         conf.addSparqlForExistingLiteral("depth", depthQuery);          // Retrieve current literal
         conf.addField( new FieldVTwo().
                 setName("depth")
-                .setRangeDatatypeUri( XSD.xstring.toString() ).
-                        setValidators( list("nonempty") ) );            // Require not empty
+                .setRangeDatatypeUri( XSD.xstring.toString() ) );
 
         // Height
         literalsOnForm.add("height");
-        n3required.add(n3ForNewHeight);
+        n3optional.add(n3ForNewHeight);
         conf.addSparqlForExistingLiteral("height", heightQuery);          // Retrieve current literal
         conf.addField( new FieldVTwo().
                 setName("height")
-                .setRangeDatatypeUri( XSD.xstring.toString() ).
-                        setValidators( list("nonempty") ) );            // Require not empty
+                .setRangeDatatypeUri( XSD.xstring.toString() ) );
 
 
         // Width
         literalsOnForm.add("width");
-        n3required.add(n3ForNewWidth);
+        n3optional.add(n3ForNewWidth);
         conf.addSparqlForExistingLiteral("width", widthQuery);          // Retrieve current literal
         conf.addField( new FieldVTwo().
                 setName("width")
-                .setRangeDatatypeUri( XSD.xstring.toString() ).
-                        setValidators( list("nonempty") ) );            // Require not empty
+                .setRangeDatatypeUri( XSD.xstring.toString() ) );
 
         // Diameter
         literalsOnForm.add("diameter");
@@ -93,7 +90,9 @@ public class MeasurementsGenerator extends GesahEditConfigurationGenerator {
         conf.addSparqlForExistingUris("measurementsSpecification", measurementsSpecificationQuery);     // Retrieve selected URI
         conf.addField( new FieldVTwo().
                 setName("measurementsSpecification").
-                setOptions(new IndividualsViaVClassOptions(measurementsSpecificationClass)));   // Populate options with individuals
+                setOptions(new IndividualsViaVClassOptions(measurementsSpecificationClass))                 // Populate options with individuals
+//                setValidators( list("nonempty") )                                                     // Require not empty
+        );
 
         conf.setUrisOnform(urisOnForm);
         conf.setLiteralsOnForm(literalsOnForm);
