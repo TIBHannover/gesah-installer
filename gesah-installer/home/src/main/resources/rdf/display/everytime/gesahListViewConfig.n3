@@ -25,6 +25,9 @@
 <http://ontology.tib.eu/gesah/output_of_creation>
     display:listViewConfigFile "listViewConfig-objectHasCreation.xml"^^xsd:string .
 
+<http://ontology.tib.eu/gesah/object_of_inscription>
+    display:listViewConfigFile "listViewConfig-objectHasInscription.xml"^^xsd:string .
+
 <http://ontology.tib.eu/gesah/output_of_production>
     display:listViewConfigFile "listViewConfig-objectHasProduction.xml"^^xsd:string .
 
