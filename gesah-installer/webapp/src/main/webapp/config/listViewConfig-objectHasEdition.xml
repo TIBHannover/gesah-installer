@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- $This file is distributed under the terms of the license in LICENSE$ -->
+
+<!-- See guidelines at https://wiki.duraspace.org/x/eYXVAw -->
+
+<list-view-config>
+    <query-select>
+        PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+        PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+        PREFIX core: &lt;http://vivoweb.org/ontology/core#&gt;
+        PREFIX vitro: &lt;http://vitro.mannlib.cornell.edu/ns/vitro/0.7#&gt;
+        PREFIX gesah: &lt;http://ontology.tib.eu/gesah/&gt;
+        PREFIX obo: &lt;http://purl.obolibrary.org/obo/&gt;
+
+        SELECT
+            ?objEdition
+            ?person ?personName
+            ?place ?placeLabel
+            ?dateTimeStart ?dateTimeEnd
+            (group_concat(DISTINCT ?roleTypeLabel ; separator=", ") AS ?roleTypeLabels)
+
+        WHERE
+        {
+            ?subject ?property ?objEdition .
+            ?objEdition a gesah:Edition .
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .</precise-subquery>
+                ?objEdition gesah:realizes ?role .
+                ?role gesah:is_role_of ?person .
+                ?role a obo:BFO_0000023 .
+                ?role gesah:has_role_type ?roleType .
+                ?roleType rdfs:label ?roleTypeLabel .
+                ?person a foaf:Person.
+                ?person rdfs:label ?personName .
+            }
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .</precise-subquery>
+                ?objEdition gesah:has_place ?place .
+                ?place a core:GeographicLocation .
+                ?place rdfs:label ?placeLabel .
+            }
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .</precise-subquery>
+                ?objEdition core:dateTimeInterval ?dateTimeInterval .
+                ?dateTimeInterval core:start ?dateTimeStartValue .
+                ?dateTimeStartValue core:dateTime ?dateTimeStart .
+            }
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .</precise-subquery>
+                ?objEdition core:dateTimeInterval ?dateTimeInterval .
+                ?dateTimeInterval core:end ?dateTimeEndValue .
+                ?dateTimeEndValue core:dateTime ?dateTimeEnd .
+            }
+        }
+        GROUP BY ?objEdition ?person ?personName ?place ?placeLabel ?dateTimeStart ?dateTimeEnd
+        ORDER BY ?objEdition
+    </query-select>
+
+    <!--
+        Use CONSTRUCT so that a language filter is applied to the model before the GROUP_CONCAT is evaluated
+        Without this, the GROUP_CONCAT would result in all language variations being included in the list.
+    -->
+    <query-construct>
+        PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+        PREFIX foaf:  &lt;http://xmlns.com/foaf/0.1/&gt;
+        PREFIX core: &lt;http://vivoweb.org/ontology/core#&gt;
+        PREFIX vitro: &lt;http://vitro.mannlib.cornell.edu/ns/vitro/0.7#&gt;
+        PREFIX gesah: &lt;http://ontology.tib.eu/gesah/&gt;
+        PREFIX obo: &lt;http://purl.obolibrary.org/obo/&gt;
+
+        CONSTRUCT {
+            ?subject ?property ?objEdition .
+            ?objEdition a gesah:Edition .
+            ?objEdition gesah:realizes ?role .
+            ?role gesah:is_role_of ?person .
+            ?role a obo:BFO_0000023 .
+            ?role gesah:has_role_type ?roleType .
+            ?roleType rdfs:label ?roleTypeLabel .
+            ?person a foaf:Person.
+            ?person rdfs:label ?personName .
+            ?objEdition gesah:has_place ?place .
+            ?place a core:GeographicLocation .
+            ?place rdfs:label ?placeLabel .
+            ?objEdition core:dateTimeInterval ?dateTimeInterval .
+            ?dateTimeInterval core:start ?dateTimeStartValue .
+            ?dateTimeStartValue core:dateTime ?dateTimeStart .
+            ?dateTimeInterval core:end ?dateTimeEndValue .
+            ?dateTimeEndValue core:dateTime ?dateTimeEnd .
+        }
+        WHERE {
+            {
+                ?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .
+            } UNION {
+                ?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .
+                ?objEdition gesah:realizes ?role .
+                ?role gesah:is_role_of ?person .
+                ?role a obo:BFO_0000023 .
+                ?role gesah:has_role_type ?roleType .
+                ?roleType rdfs:label ?roleTypeLabel .
+                ?person a foaf:Person.
+                ?person rdfs:label ?personName .
+            } UNION {
+                ?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .
+                ?objEdition gesah:has_place ?place .
+                ?place a core:GeographicLocation .
+                ?place rdfs:label ?placeLabel .
+            } UNION {
+                ?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .
+                ?objEdition core:dateTimeInterval ?dateTimeInterval .
+                ?dateTimeInterval core:start ?dateTimeStartValue .
+                ?dateTimeStartValue core:dateTime ?dateTimeStart .
+            } UNION {
+                ?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .
+                ?objEdition core:dateTimeInterval ?dateTimeInterval .
+                ?dateTimeInterval core:end ?dateTimeEndValue .
+                ?dateTimeEndValue core:dateTime ?dateTimeEnd .
+            }
+
+        }
+    </query-construct>
+
+    <template>propStatement-objectHasEdition.ftl</template>
+</list-view-config>
