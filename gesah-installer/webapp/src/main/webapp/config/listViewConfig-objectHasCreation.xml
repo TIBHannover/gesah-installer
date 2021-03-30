@@ -75,7 +75,6 @@
             OPTIONAL {
                 <precise-subquery>?subject ?property ?obCreation .
                 ?obCreation a gesah:Creation .</precise-subquery>
-                ?obCreation gesah:literal_date_appellation ?litteralDtAppel .
                 ?obCreation gesah:description ?description .
             }
 
@@ -185,6 +184,9 @@
                 ?subject ?property ?obCreation .
                 ?obCreation a gesah:Creation .
                 ?obCreation gesah:literal_date_appellation ?litteralDtAppel .
+            } UNION {
+                ?subject ?property ?obCreation .
+                ?obCreation a gesah:Creation .
                 ?obCreation gesah:description ?description .
             } UNION {
                 ?subject ?property ?obCreation .
