@@ -8,20 +8,45 @@
 
 <#import "lib-meta-tags.ftl" as lmt>
 
-<#if ! statement.measurementsSpecification??>
-    <a href="${profileUrl(statement.uri("measurementsObj"))}">Missing Spec</a>;
-<#else>
-    <a href="${profileUrl(statement.uri("measurementsObj"))}">${statement.measurementsSpecification}</a>;
-</#if>
-<#if statement.height??>
-    ${i18n().height}: ${statement.height}
-</#if>
-<#if statement.width??>
-    , ${i18n().width}: ${statement.width}
-</#if>
-<#if statement.depth??>
-    , ${i18n().depth}: ${statement.depth}
-</#if>
-<#if statement.diameter??>
-    , ${i18n().diameter}: ${statement.diameter}
-</#if>
+<@showMeasures statement />
+<#-- Use a macro to keep variable assignments local; otherwise the values carry over to the next statement -->
+
+<#macro showMeasures statement>
+    <#local measurements=""/>
+    <#local separator=""/>
+    <#if statement.height??>
+        <#local measurements>
+            ${measurements}${separator}${statement.height}
+        </#local>
+        <#local separator=" x "/>
+    </#if>
+    <#if statement.width??>
+        <#local measurements>
+            ${measurements}${separator}${statement.width}
+        </#local>
+        <#local separator=" x "/>
+    </#if>
+    <#if statement.depth??>
+        <#local measurements>
+            ${measurements}${separator}${statement.depth}
+        </#local>
+        <#local separator=" x "/>
+    </#if>
+    <#if statement.diameter??>
+        <#local measurements>
+            ${measurements}${separator}${statement.diameter}
+        </#local>
+        <#local separator=" x "/>
+    </#if>
+    <#if measurements??>
+        <#if statement.measurementsSpecification??>
+            ${statement.measurementsSpecification}: ${measurements}
+        <#else>
+            ${measurements}
+        </#if>
+    </#if>
+    <#-- If user can edit individual, show a link to the context object -->
+    <#if individual.showAdminPanel>
+        <div class="contextLink"><a href="${profileUrl(statement.uri("measurementsObj"))}">${statement.measurementsObj?keep_after_last("/")}</a></div>
+    </#if>
+</#macro>
