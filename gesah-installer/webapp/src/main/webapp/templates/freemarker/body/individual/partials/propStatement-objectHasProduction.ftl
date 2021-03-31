@@ -29,7 +29,9 @@
 			<b>${i18n().place_capitalized}:</b> <a href="${profileUrl(statement.uri("place"))}">${statement.placeLabel}</a>
 			<br />
 		</#if>
-		<#if statement.dateTimeStart??>
+		<#if statement.litteralDtAppel??>
+			<b>${i18n().date_capitalized}:</b> ${statement.litteralDtAppel}<br />
+		<#elseif statement.dateTimeStart??>
 			<b>${i18n().date_capitalized}:</b>
 			<#if statement.dateTimeEnd??>
 				<@dt.yearIntervalSpan "${statement.dateTimeStart!}" "${statement.dateTimeEnd!}" />

@@ -15,6 +15,7 @@
         SELECT ?obCreation
             ?person ?personName
             ?place ?placeLabel
+            ?litteralDtAppel
             ?dateTimeStart ?dateTimeEnd
             (group_concat(DISTINCT ?roleTypeLabel ; separator=", ") AS ?roleTypeLabels)
             (group_concat(DISTINCT ?techniqueLabel ; separator=", ") AS ?techniqueLabels)
@@ -81,6 +82,12 @@
             OPTIONAL {
                 <precise-subquery>?subject ?property ?obCreation .
                 ?obCreation a gesah:Creation .</precise-subquery>
+                ?obCreation gesah:literal_date_appellation ?litteralDtAppel .
+            }
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?obCreation .
+                ?obCreation a gesah:Creation .</precise-subquery>
                 ?obCreation core:dateTimeInterval ?dateTimeInterval .
                 ?dateTimeInterval core:start ?dateTimeStartValue .
                 ?dateTimeStartValue core:dateTime ?dateTimeStart .
@@ -94,7 +101,7 @@
                 ?dateTimeEndValue core:dateTime ?dateTimeEnd .
             }
         }
-        GROUP BY ?obCreation ?person ?personName ?place ?placeLabel ?dateTimeStart ?dateTimeEnd
+        GROUP BY ?obCreation ?person ?personName ?place ?placeLabel ?litteralDtAppel ?dateTimeStart ?dateTimeEnd
         ORDER BY ?obCreation
     </query-select>
 

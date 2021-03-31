@@ -23,8 +23,8 @@
 			<b>${i18n().transcription_capitalized}:</b> ${statement.transcriptions}
 			<br />
 		</#if>
-		<#if statement.inscriptionTypess??>
-			(${statement.inscriptionTypess})
+		<#if statement.inscriptionTypes??>
+			(${statement.inscriptionTypes})
 			<br />
 		</#if>
 		<#if statement.descriptions??>

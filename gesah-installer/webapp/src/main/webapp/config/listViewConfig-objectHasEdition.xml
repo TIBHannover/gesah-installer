@@ -16,6 +16,7 @@
             ?objEdition
             ?person ?personName
             ?place ?placeLabel
+            ?litteralDtAppel
             ?dateTimeStart ?dateTimeEnd
             (group_concat(DISTINCT ?roleTypeLabel ; separator=", ") AS ?roleTypeLabels)
 
@@ -47,6 +48,12 @@
             OPTIONAL {
                 <precise-subquery>?subject ?property ?objEdition .
                 ?objEdition a gesah:Edition .</precise-subquery>
+                ?objEdition gesah:literal_date_appellation ?litteralDtAppel .
+            }
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .</precise-subquery>
                 ?objEdition core:dateTimeInterval ?dateTimeInterval .
                 ?dateTimeInterval core:start ?dateTimeStartValue .
                 ?dateTimeStartValue core:dateTime ?dateTimeStart .
@@ -60,7 +67,7 @@
                 ?dateTimeEndValue core:dateTime ?dateTimeEnd .
             }
         }
-        GROUP BY ?objEdition ?person ?personName ?place ?placeLabel ?dateTimeStart ?dateTimeEnd
+        GROUP BY ?objEdition ?person ?personName ?place ?placeLabel ?litteralDtAppel ?dateTimeStart ?dateTimeEnd
         ORDER BY ?objEdition
     </query-select>
 
@@ -89,6 +96,7 @@
             ?objEdition gesah:has_place ?place .
             ?place a core:GeographicLocation .
             ?place rdfs:label ?placeLabel .
+            ?objEdition gesah:literal_date_appellation ?litteralDtAppel .
             ?objEdition core:dateTimeInterval ?dateTimeInterval .
             ?dateTimeInterval core:start ?dateTimeStartValue .
             ?dateTimeStartValue core:dateTime ?dateTimeStart .
@@ -115,6 +123,10 @@
                 ?objEdition gesah:has_place ?place .
                 ?place a core:GeographicLocation .
                 ?place rdfs:label ?placeLabel .
+            } UNION {
+                ?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .
+                ?objEdition gesah:literal_date_appellation ?litteralDtAppel .
             } UNION {
                 ?subject ?property ?objEdition .
                 ?objEdition a gesah:Edition .

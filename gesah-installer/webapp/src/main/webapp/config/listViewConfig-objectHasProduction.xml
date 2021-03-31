@@ -16,6 +16,7 @@
             ?objProduction
             ?person ?personName
             ?place ?placeLabel
+            ?litteralDtAppel
             ?dateTimeStart ?dateTimeEnd
             (group_concat(DISTINCT ?roleTypeLabel ; separator=", ") AS ?roleTypeLabels)
             (group_concat(DISTINCT ?attrTypeLabel ; separator=", ") AS ?attrTypeLabels)
@@ -47,6 +48,12 @@
                 ?objProduction gesah:has_place ?place .
                 ?place a core:GeographicLocation .
                 ?place rdfs:label ?placeLabel .
+            }
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objProduction .
+                ?objProduction a gesah:Production .</precise-subquery>
+                ?objProduction gesah:literal_date_appellation ?litteralDtAppel .
             }
 
             OPTIONAL {
@@ -95,7 +102,7 @@
                 ?objProduction gesah:description ?description .
             }
         }
-        GROUP BY ?objProduction ?person ?personName ?place ?placeLabel ?dateTimeStart ?dateTimeEnd
+        GROUP BY ?objProduction ?person ?personName ?place ?placeLabel ?litteralDtAppel ?dateTimeStart ?dateTimeEnd
         ORDER BY ?objProduction
     </query-select>
 
@@ -125,6 +132,7 @@
             ?objProduction gesah:has_place ?place .
             ?place a core:GeographicLocation .
             ?place rdfs:label ?placeLabel .
+            ?objProduction gesah:literal_date_appellation ?litteralDtAppel .
             ?objProduction core:dateTimeInterval ?dateTimeInterval .
             ?dateTimeInterval core:start ?dateTimeStartValue .
             ?dateTimeStartValue core:dateTime ?dateTimeStart .
@@ -162,6 +170,10 @@
                 ?objProduction gesah:has_place ?place .
                 ?place a core:GeographicLocation .
                 ?place rdfs:label ?placeLabel .
+            } UNION {
+                ?subject ?property ?objProduction .
+                ?objProduction a gesah:Production .
+                ?objProduction gesah:literal_date_appellation ?litteralDtAppel .
             } UNION {
                 ?subject ?property ?objProduction .
                 ?objProduction a gesah:Production .

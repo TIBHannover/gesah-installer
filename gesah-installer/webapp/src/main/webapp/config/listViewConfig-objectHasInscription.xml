@@ -65,7 +65,7 @@
             }
         }
         GROUP BY ?objInscriptionActivity ?inscriptionLabel ?person ?personName
-        ORDER BY ?objInscriptionActivity
+        ORDER BY ?inscriptionLabel ?objInscriptionActivity
     </query-select>
 
     <!--
