@@ -29,6 +29,9 @@
 .listViewCard {
     width: 100%;
 }
+#has_measurements-Measurement-List p {
+    display: inline;
+}
 .listViewCard ~ .listViewCard:before {
     content: '';
     position: absolute;
