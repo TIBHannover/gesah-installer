@@ -9,7 +9,7 @@
         PREFIX gesah: &lt;http://ontology.tib.eu/gesah/&gt;
         PREFIX ecrm: &lt;http://erlangen-crm.org/170309/&gt;
 
-        SELECT DISTINCT ?measurementsObj ?depth ?diameter ?height ?width ?measurementsSpecification
+        SELECT ?measurementsObj ?depth ?diameter ?height ?width ?measurementsSpecification
 
         WHERE
         {

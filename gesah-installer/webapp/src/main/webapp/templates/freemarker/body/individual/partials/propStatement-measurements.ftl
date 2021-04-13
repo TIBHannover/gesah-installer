@@ -46,7 +46,7 @@
         </#if>
     </#if>
     <#-- If user can edit individual, show a link to the context object -->
-    <#if individual.showAdminPanel>
+    <#-- if individual.showAdminPanel>
         <div class="contextLink"><a href="${profileUrl(statement.uri("measurementsObj"))}">${statement.measurementsObj?keep_after_last("/")}</a></div>
-    </#if>
+    </#if -->
 </#macro>
