@@ -76,7 +76,6 @@
                 ?preservationObj gesah:realizes ?roleObj .
                 ?roleObj a obo:BFO_0000023 .
                 ?roleObj gesah:is_role_of ?person .
-                ?person a foaf:Person .
                 ?person rdfs:label ?personName .
             }
             OPTIONAL {
@@ -124,7 +123,6 @@
             ?roleObj gesah:is_role_of ?person .
             ?roleTypeObj a gesah:Role_Type .
             ?roleTypeObj rdfs:label ?roleTypeLabel .
-            ?person a foaf:Person .
             ?person rdfs:label ?personName .
             ?treatmentObj rdfs:label ?treatmentLabel .
         } WHERE {
@@ -175,7 +173,6 @@
                 ?preservationObj gesah:realizes ?roleObj .
                 ?roleObj a obo:BFO_0000023 .
                 ?roleObj gesah:is_role_of ?person .
-                ?person a foaf:Person .
                 ?person rdfs:label ?personName .
             } UNION {
                 ?subject ?property ?preservationObj .

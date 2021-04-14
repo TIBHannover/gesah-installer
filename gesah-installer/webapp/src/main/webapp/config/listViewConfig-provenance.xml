@@ -75,7 +75,6 @@
                 ?provenanceObj gesah:realizes ?roleObj .
                 ?roleObj a obo:BFO_0000023 .
                 ?roleObj gesah:is_role_of ?person .
-                ?person a foaf:Person .
                 ?person rdfs:label ?personName .
             }
         }
@@ -116,7 +115,6 @@
             ?roleObj gesah:is_role_of ?person .
             ?roleTypeObj a gesah:Role_Type .
             ?roleTypeObj rdfs:label ?roleTypeLabel .
-            ?person a foaf:Person .
             ?person rdfs:label ?personName .
         } WHERE {
             {
@@ -166,7 +164,6 @@
                 ?provenanceObj gesah:realizes ?roleObj .
                 ?roleObj a obo:BFO_0000023 .
                 ?roleObj gesah:is_role_of ?person .
-                ?person a foaf:Person .
                 ?person rdfs:label ?personName .
             }
         }
