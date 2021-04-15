@@ -16,7 +16,7 @@
 <#macro showObCreation statement>
 	<div class="listViewCard">
 		<#if statement.person??>
-			<b>${i18n().person_capitalized}:</b> <a href="${profileUrl(statement.uri("person"))}">${statement.personName}</a>
+			<a href="${profileUrl(statement.uri("person"))}">${statement.personName}</a>
 			<#if statement.roleTypeLabels??>
 				(${statement.roleTypeLabels})
 			</#if>
