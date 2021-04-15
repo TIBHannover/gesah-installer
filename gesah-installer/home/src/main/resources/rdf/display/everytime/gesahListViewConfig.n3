@@ -25,6 +25,9 @@
 <http://vivoweb.org/ontology/core#dateTimeValue>
     display:listViewConfigFile "listViewConfig-dateTimeValue.xml"^^xsd:string .
 
+<http://ontology.tib.eu/gesah/has_current_holding_institution>
+    display:listViewConfigFile "listViewConfig-currentHoldingInstitution.xml"^^xsd:string .
+
 <http://ontology.tib.eu/gesah/output_of_creation>
     display:listViewConfigFile "listViewConfig-objectHasCreation.xml"^^xsd:string .
 

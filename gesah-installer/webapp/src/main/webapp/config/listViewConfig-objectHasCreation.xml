@@ -48,7 +48,6 @@
                 <precise-subquery>?subject ?property ?obCreation .
                 ?obCreation a gesah:Creation .</precise-subquery>
                 ?obCreation gesah:realizes ?role .
-                ?obCreation gesah:has_participant ?person .
                 ?role gesah:is_role_of ?person .
                 ?role a obo:BFO_0000023 .
                 ?role gesah:has_role_type ?roleType .
@@ -127,7 +126,6 @@
             ?material a gesah:Material .
             ?material rdfs:label ?materialLabel .
             ?obCreation gesah:realizes ?role .
-            ?obCreation gesah:has_participant ?person .
             ?role gesah:is_role_of ?person .
             ?role a obo:BFO_0000023 .
             ?role gesah:has_role_type ?roleType .
@@ -168,7 +166,6 @@
                 ?subject ?property ?obCreation .
                 ?obCreation a gesah:Creation .
                 ?obCreation gesah:realizes ?role .
-                ?obCreation gesah:has_participant ?person .
                 ?role gesah:is_role_of ?person .
                 ?role a obo:BFO_0000023 .
                 ?role gesah:has_role_type ?roleType .
