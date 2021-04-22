@@ -34,11 +34,15 @@
                 ?objProduction a gesah:Production .</precise-subquery>
                 ?objProduction gesah:realizes ?role .
                 ?role gesah:is_role_of ?person .
-                ?role a obo:BFO_0000023 .
+                ?person rdfs:label ?personName .
+            }
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objProduction .
+                ?objProduction a gesah:Production .</precise-subquery>
+                ?objProduction gesah:realizes ?role .
                 ?role gesah:has_role_type ?roleType .
                 ?roleType rdfs:label ?roleTypeLabel .
-                ?person a foaf:Person.
-                ?person rdfs:label ?personName .
             }
 
             OPTIONAL {
@@ -156,11 +160,13 @@
                 ?objProduction a gesah:Production .
                 ?objProduction gesah:realizes ?role .
                 ?role gesah:is_role_of ?person .
-                ?role a obo:BFO_0000023 .
+                ?person rdfs:label ?personName .
+            } UNION {
+                ?subject ?property ?objProduction .
+                ?objProduction a gesah:Production .
+                ?objProduction gesah:realizes ?role .
                 ?role gesah:has_role_type ?roleType .
                 ?roleType rdfs:label ?roleTypeLabel .
-                ?person a foaf:Person.
-                ?person rdfs:label ?personName .
             } UNION {
                 ?subject ?property ?objProduction .
                 ?objProduction a gesah:Production .

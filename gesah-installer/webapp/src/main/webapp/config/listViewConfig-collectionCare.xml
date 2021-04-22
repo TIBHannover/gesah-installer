@@ -65,16 +65,13 @@
                 <precise-subquery>?subject ?property ?preservationObj .
                 ?preservationObj a gesah:Preservation_Activity .</precise-subquery>
                 ?preservationObj gesah:realizes ?roleObj .
-                ?roleObj a obo:BFO_0000023 .
                 ?roleObj gesah:has_role_type ?roleTypeObj .
-                ?roleTypeObj a gesah:Role_Type .
                 ?roleTypeObj rdfs:label ?roleTypeLabel .
             }
             OPTIONAL {
                 <precise-subquery>?subject ?property ?preservationObj .
                 ?preservationObj a gesah:Preservation_Activity .</precise-subquery>
                 ?preservationObj gesah:realizes ?roleObj .
-                ?roleObj a obo:BFO_0000023 .
                 ?roleObj gesah:is_role_of ?person .
                 ?person rdfs:label ?personName .
             }
@@ -163,7 +160,6 @@
                 ?subject ?property ?preservationObj .
                 ?preservationObj a gesah:Preservation_Activity .
                 ?preservationObj gesah:realizes ?roleObj .
-                ?roleObj a obo:BFO_0000023 .
                 ?roleObj gesah:has_role_type ?roleTypeObj .
                 ?roleTypeObj a gesah:Role_Type .
                 ?roleTypeObj rdfs:label ?roleTypeLabel .
@@ -171,7 +167,6 @@
                 ?subject ?property ?preservationObj .
                 ?preservationObj a gesah:Preservation_Activity .
                 ?preservationObj gesah:realizes ?roleObj .
-                ?roleObj a obo:BFO_0000023 .
                 ?roleObj gesah:is_role_of ?person .
                 ?person rdfs:label ?personName .
             } UNION {

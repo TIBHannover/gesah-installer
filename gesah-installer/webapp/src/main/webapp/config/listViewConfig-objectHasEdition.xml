@@ -30,11 +30,15 @@
                 ?objEdition a gesah:Edition .</precise-subquery>
                 ?objEdition gesah:realizes ?role .
                 ?role gesah:is_role_of ?person .
-                ?role a obo:BFO_0000023 .
+                ?person rdfs:label ?personName .
+            }
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .</precise-subquery>
+                ?objEdition gesah:realizes ?role .
                 ?role gesah:has_role_type ?roleType .
                 ?roleType rdfs:label ?roleTypeLabel .
-                ?person a foaf:Person.
-                ?person rdfs:label ?personName .
             }
 
             OPTIONAL {
@@ -112,11 +116,13 @@
                 ?objEdition a gesah:Edition .
                 ?objEdition gesah:realizes ?role .
                 ?role gesah:is_role_of ?person .
-                ?role a obo:BFO_0000023 .
+                ?person rdfs:label ?personName .
+            } UNION {
+                ?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .
+                ?objEdition gesah:realizes ?role .
                 ?role gesah:has_role_type ?roleType .
                 ?roleType rdfs:label ?roleTypeLabel .
-                ?person a foaf:Person.
-                ?person rdfs:label ?personName .
             } UNION {
                 ?subject ?property ?objEdition .
                 ?objEdition a gesah:Edition .

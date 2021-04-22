@@ -240,7 +240,7 @@
     <distributionManagement>
         <site>
             <id>gesah-installer</id>
-            <url>http://vivo-project.github.io/</url>
+            <url>https://git.tib.eu/OSL/gesah</url>
         </site>
     </distributionManagement>
 

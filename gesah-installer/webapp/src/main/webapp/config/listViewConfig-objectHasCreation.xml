@@ -49,11 +49,15 @@
                 ?obCreation a gesah:Creation .</precise-subquery>
                 ?obCreation gesah:realizes ?role .
                 ?role gesah:is_role_of ?person .
-                ?role a obo:BFO_0000023 .
+                ?person rdfs:label ?personName .
+            }
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?obCreation .
+                ?obCreation a gesah:Creation .</precise-subquery>
+                ?obCreation gesah:realizes ?role .
                 ?role gesah:has_role_type ?roleType .
                 ?roleType rdfs:label ?roleTypeLabel .
-                ?person a foaf:Person.
-                ?person rdfs:label ?personName .
             }
 
             OPTIONAL {
@@ -167,11 +171,14 @@
                 ?obCreation a gesah:Creation .
                 ?obCreation gesah:realizes ?role .
                 ?role gesah:is_role_of ?person .
-                ?role a obo:BFO_0000023 .
+                ?person rdfs:label ?personName .
+            } UNION {
+                ?subject ?property ?obCreation .
+                ?obCreation a gesah:Creation .
+                ?obCreation gesah:realizes ?role .
+                ?role gesah:is_role_of ?person .
                 ?role gesah:has_role_type ?roleType .
                 ?roleType rdfs:label ?roleTypeLabel .
-                ?person a foaf:Person.
-                ?person rdfs:label ?personName .
             } UNION {
                 ?subject ?property ?obCreation .
                 ?obCreation a gesah:Creation .

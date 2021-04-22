@@ -20,7 +20,7 @@
                             <a class="terms" href="${i18n().menu_imprimnt_url}" title="${i18n().menu_imprint}">${i18n().menu_imprint}</a></small> |
 
 
-                        ${i18n().menu_powered} <a class="powered-by-vivo" href="http://vivoweb.org" target="_blank" title="${i18n().menu_powered} VIVO and TIB ">  <strong>VIVO</strong> and <strong>TIB</strong></a>
+                        ${i18n().menu_powered} <a class="powered-by-vivo" href="http://vivoweb.org" target="_blank" title="${i18n().menu_powered} Vitro and TIB ">  <strong>Vitro</strong> and <strong>TIB</strong></a>
                         <#if user.hasRevisionInfoAccess>
                             | ${i18n().menu_version} <a href="${version.moreInfoUrl}" title="${i18n().menu_version}">${version.label}</a>
                         </#if>

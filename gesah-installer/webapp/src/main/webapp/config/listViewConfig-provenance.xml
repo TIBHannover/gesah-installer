@@ -64,16 +64,13 @@
                 <precise-subquery>?subject ?property ?provenanceObj .
                 ?provenanceObj a gesah:Provenance .</precise-subquery>
                 ?provenanceObj gesah:realizes ?roleObj .
-                ?roleObj a obo:BFO_0000023 .
                 ?roleObj gesah:has_role_type ?roleTypeObj .
-                ?roleTypeObj a gesah:Role_Type .
                 ?roleTypeObj rdfs:label ?roleTypeLabel .
             }
             OPTIONAL {
                 <precise-subquery>?subject ?property ?provenanceObj .
                 ?provenanceObj a gesah:Provenance .</precise-subquery>
                 ?provenanceObj gesah:realizes ?roleObj .
-                ?roleObj a obo:BFO_0000023 .
                 ?roleObj gesah:is_role_of ?person .
                 ?person rdfs:label ?personName .
             }
@@ -154,15 +151,12 @@
                 ?subject ?property ?provenanceObj .
                 ?provenanceObj a gesah:Provenance .
                 ?provenanceObj gesah:realizes ?roleObj .
-                ?roleObj a obo:BFO_0000023 .
                 ?roleObj gesah:has_role_type ?roleTypeObj .
-                ?roleTypeObj a gesah:Role_Type .
                 ?roleTypeObj rdfs:label ?roleTypeLabel .
             } UNION {
                 ?subject ?property ?provenanceObj .
                 ?provenanceObj a gesah:Provenance .
                 ?provenanceObj gesah:realizes ?roleObj .
-                ?roleObj a obo:BFO_0000023 .
                 ?roleObj gesah:is_role_of ?person .
                 ?person rdfs:label ?personName .
             }
