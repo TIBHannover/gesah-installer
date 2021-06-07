@@ -26,7 +26,7 @@ ecrm:E35_Title rdfs:subClassOf
                                  owl:allValuesFrom rdfs:Literal
                                ] ,
                                [ rdf:type owl:Restriction ;
-                                 owl:onProperty gesah:description ;
+                                 owl:onProperty gesah:comment ;
                                  owl:allValuesFrom rdfs:Literal
                                ] .
 							   
@@ -39,7 +39,7 @@ gesah:Attribution_Type rdfs:subClassOf
 							   
 gesah:Collection rdfs:subClassOf 
                             [ rdf:type owl:Restriction ;
-                              owl:onProperty gesah:description ;
+                              owl:onProperty gesah:comment ;
                               owl:allValuesFrom rdfs:Literal
                             ]  .		
 
@@ -113,7 +113,7 @@ gesah:Depiction_Type
 gesah:Feature 
          rdfs:subClassOf 
                          [ rdf:type owl:Restriction ;
-                           owl:onProperty gesah:description ;
+                           owl:onProperty gesah:comment ;
                            owl:allValuesFrom rdfs:Literal
                          ] .		
 
@@ -154,7 +154,7 @@ gesah:Iconography
 gesah:Inscription 
              rdfs:subClassOf 
                              [ rdf:type owl:Restriction ;
-                               owl:onProperty gesah:description ;
+                               owl:onProperty gesah:comment ;
                                owl:allValuesFrom rdfs:Literal
                              ] .				
 
@@ -170,7 +170,7 @@ gesah:Inscription_Type
 gesah:Mark 
       rdfs:subClassOf 
                       [ rdf:type owl:Restriction ;
-                        owl:onProperty gesah:description ;
+                        owl:onProperty gesah:comment ;
                         owl:allValuesFrom rdfs:Literal
                       ]  .		
 
@@ -264,7 +264,7 @@ gesah:Title_Type
 gesah:Watermark 
            rdfs:subClassOf 
                            [ rdf:type owl:Restriction ;
-                             owl:onProperty gesah:description ;
+                             owl:onProperty gesah:comment ;
                              owl:allValuesFrom rdfs:Literal
                            ]  .
 						   
@@ -275,7 +275,7 @@ obo:BFO_0000015
                                   owl:allValuesFrom vivo:DateTimeInterval
                                 ] ,
                                 [ rdf:type owl:Restriction ;
-                                  owl:onProperty gesah:description ;
+                                  owl:onProperty gesah:comment ;
                                   owl:allValuesFrom rdfs:Literal
                                 ] .		
 
