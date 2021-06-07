@@ -10,10 +10,10 @@
 <#import "lib-datetime.ftl" as dt>
 <#import "lib-meta-tags.ftl" as lmt>
 
-<@showObCreation statement />
+<@showObjProduction statement />
 <#-- Use a macro to keep variable assignments local; otherwise the values carry over to the next statement -->
 
-<#macro showObCreation statement>
+<#macro showObjProduction statement>
 	<div class="listViewCard">
 		<#if statement.person??>
 			<a href="${profileUrl(statement.uri("person"))}">${statement.personName}</a>
@@ -21,9 +21,6 @@
 				(${statement.roleTypeLabels})
 			</#if>
 			<br />
-		</#if>
-		<#if statement.attrTypeLabels??>
-			${statement.attrTypeLabels}<br />
 		</#if>
 		<#if statement.place??>
 			<b>${i18n().place_capitalized}:</b> <a href="${profileUrl(statement.uri("place"))}">${statement.placeLabel}</a>
@@ -44,21 +41,9 @@
 			<@dt.yearSpan "${statement.dateTimeEnd!}" />
 			<br />
 		</#if>
-		<#if statement.techniqueLabels??>
-			<b>${i18n().technique_capitalized}:</b> ${statement.techniqueLabels}
-			<br />
-		</#if>
-		<#if statement.materialLabels??>
-			<b>${i18n().material_capitalized}:</b> ${statement.materialLabels}
-			<br />
-		</#if>
-		<#if statement.descriptions??>
-			<b>${i18n().description_capitalized}:</b> ${statement.descriptions}
-			<br />
-		</#if>
 		<#-- If user can edit individual, show a link to the context object -->
 		<#if individual.showAdminPanel>
-			<div class="contextLink"><a href="${profileUrl(statement.uri("obCreation"))}">${statement.obCreation?keep_after_last("/")}</a></div>
+			<div class="contextLink"><a href="${profileUrl(statement.uri("objEdition"))}">${statement.objEdition?keep_after_last("/")}</a></div>
 		</#if>
 	</div>
 </#macro>

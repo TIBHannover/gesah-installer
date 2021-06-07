@@ -26,7 +26,9 @@ public class GesahIndividualResponseBuilderExtension implements IndividualRespon
     public void addOptions(VitroRequest vreq, Map<String, Object> body) {
         ConfigurationProperties props = ConfigurationProperties.getBean(vreq);
 
-        String iiifUrl = props.getProperty("iiif.url.base", "http://gesah01.develop.labs.tib.eu:8080/gesah-iiif");
+        String iiifUrl = props.getProperty("iiif.url.base", "https://osl.tib.eu/gesah-iiif");
+        String iiifSlash = props.getProperty("iiif.slash", "%2F");
         body.put("iiifUrl", iiifUrl);
+        body.put("iiifSlash", iiifSlash);
     }
 }

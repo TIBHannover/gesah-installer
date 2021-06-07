@@ -10,6 +10,12 @@
 <http://ontology.tib.eu/gesah/has_Title>
     display:listViewConfigFile "listViewConfig-E35title.xml"^^xsd:string .
 
+<http://ontology.tib.eu/gesah/has_mark_designation>
+    display:listViewConfigFile "listViewConfig-markDesignation.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/has_measurements>
+    display:listViewConfigFile "listViewConfig-measurements.xml"^^xsd:string .
+
 <http://ontology.tib.eu/gesah/date_of_recording>
     display:listViewConfigFile "listViewConfig-dateTimeValue.xml"^^xsd:string .
 
@@ -19,8 +25,26 @@
 <http://vivoweb.org/ontology/core#dateTimeValue>
     display:listViewConfigFile "listViewConfig-dateTimeValue.xml"^^xsd:string .
 
+<http://ontology.tib.eu/gesah/has_current_holding_institution>
+    display:listViewConfigFile "listViewConfig-currentHoldingInstitution.xml"^^xsd:string .
+
 <http://ontology.tib.eu/gesah/output_of_creation>
     display:listViewConfigFile "listViewConfig-objectHasCreation.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/object_of_edition>
+    display:listViewConfigFile "listViewConfig-objectHasEdition.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/object_of_inscription>
+    display:listViewConfigFile "listViewConfig-objectHasInscription.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/output_of_production>
+    display:listViewConfigFile "listViewConfig-objectHasProduction.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/object_of_preservation>
+    display:listViewConfigFile "listViewConfig-collectionCare.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/object_of_provenance>
+    display:listViewConfigFile "listViewConfig-provenance.xml"^^xsd:string .
 
 <http://ontology.tib.eu/gesah/creation_date>
     display:listViewConfigFile "listViewConfig-dateTimeValue.xml"^^xsd:string .

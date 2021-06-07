@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- $This file is distributed under the terms of the license in LICENSE$ -->
+
+<!-- See guidelines at https://wiki.duraspace.org/x/eYXVAw -->
+
+<list-view-config>
+    <query-select>
+        PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+        PREFIX foaf:  &lt;http://xmlns.com/foaf/0.1/&gt;
+        PREFIX core: &lt;http://vivoweb.org/ontology/core#&gt;
+        PREFIX vitro: &lt;http://vitro.mannlib.cornell.edu/ns/vitro/0.7#&gt;
+        PREFIX gesah: &lt;http://ontology.tib.eu/gesah/&gt;
+        PREFIX obo: &lt;http://purl.obolibrary.org/obo/&gt;
+
+        SELECT
+            ?objInscriptionActivity
+            ?inscriptionLabel
+            ?person ?personName
+            (group_concat(DISTINCT ?roleTypeLabel ; separator=", ") AS ?roleTypeLabels)
+            (group_concat(DISTINCT ?inscriptionType ; separator=", ") AS ?inscriptionTypes)
+            (group_concat(DISTINCT ?transcription ; separator=", ") AS ?transcriptions)
+            (group_concat(DISTINCT ?description ; separator=", ") AS ?descriptions)
+
+        WHERE
+        {
+            ?subject ?property ?objInscriptionActivity .
+            ?objInscriptionActivity a gesah:Inscription_Activity .
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objInscriptionActivity .
+                ?objInscriptionActivity a gesah:Inscription_Activity .</precise-subquery>
+                ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
+                ?objInscription vitro:mostSpecificType ?objInscriptionClass .
+                ?objInscriptionClass rdfs:label ?inscriptionLabel .
+            }
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objInscriptionActivity .
+                ?objInscriptionActivity a gesah:Inscription_Activity .</precise-subquery>
+                ?objInscriptionActivity gesah:realizes ?role .
+                ?role gesah:is_role_of ?person .
+                ?person rdfs:label ?personName .
+            }
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objInscriptionActivity .
+                ?objInscriptionActivity a gesah:Inscription_Activity .</precise-subquery>
+                ?objInscriptionActivity gesah:realizes ?role .
+                ?role gesah:has_role_type ?roleType .
+                ?roleType rdfs:label ?roleTypeLabel .
+            }
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objInscriptionActivity .
+                ?objInscriptionActivity a gesah:Inscription_Activity .</precise-subquery>
+                ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
+                ?objInscription gesah:has_inscription_type ?objInscriptionType .
+                ?objInscriptionType rdfs:label ?inscriptionType .
+            }
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objInscriptionActivity .
+                ?objInscriptionActivity a gesah:Inscription_Activity .</precise-subquery>
+                ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
+                ?objInscription gesah:transcription ?transcription .
+            }
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objInscriptionActivity .
+                ?objInscriptionActivity a gesah:Inscription_Activity .</precise-subquery>
+                ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
+                ?objInscription gesah:description ?description .
+            }
+        }
+        GROUP BY ?objInscriptionActivity ?inscriptionLabel ?person ?personName
+        ORDER BY ?inscriptionLabel ?objInscriptionActivity
+    </query-select>
+
+    <!--
+        Use CONSTRUCT so that a language filter is applied to the model before the GROUP_CONCAT is evaluated
+        Without this, the GROUP_CONCAT would result in all language variations being included in the list.
+    -->
+    <query-construct>
+        PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+        PREFIX foaf:  &lt;http://xmlns.com/foaf/0.1/&gt;
+        PREFIX core: &lt;http://vivoweb.org/ontology/core#&gt;
+        PREFIX vitro: &lt;http://vitro.mannlib.cornell.edu/ns/vitro/0.7#&gt;
+        PREFIX gesah: &lt;http://ontology.tib.eu/gesah/&gt;
+        PREFIX obo: &lt;http://purl.obolibrary.org/obo/&gt;
+
+        CONSTRUCT {
+            ?subject ?property ?objInscriptionActivity .
+            ?objInscriptionActivity a gesah:Inscription_Activity .
+            ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
+            ?objInscription vitro:mostSpecificType ?objInscriptionClass .
+            ?objInscriptionClass rdfs:label ?inscriptionLabel .
+            ?objInscriptionActivity gesah:realizes ?role .
+            ?role gesah:is_role_of ?person .
+            ?role a obo:BFO_0000023 .
+            ?role gesah:has_role_type ?roleType .
+            ?roleType rdfs:label ?roleTypeLabel .
+            ?person a foaf:Person.
+            ?person rdfs:label ?personName .
+            ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
+            ?objInscription gesah:has_inscription_type ?objInscriptionType .
+            ?objInscriptionType rdfs:label ?inscriptionType .
+            ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
+            ?objInscription gesah:transcription ?transcription .
+            ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
+            ?objInscription gesah:description ?description .
+        }
+        WHERE {
+            {
+                ?subject ?property ?objInscriptionActivity .
+                ?objInscriptionActivity a gesah:Inscription_Activity .
+            } UNION {
+                ?subject ?property ?objInscriptionActivity .
+                ?objInscriptionActivity a gesah:Inscription_Activity .
+                ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
+                ?objInscription vitro:mostSpecificType ?objInscriptionClass .
+                ?objInscriptionClass rdfs:label ?inscriptionLabel .
+            } UNION {
+                ?subject ?property ?objInscriptionActivity .
+                ?objInscriptionActivity a gesah:Inscription_Activity .
+                ?objInscriptionActivity gesah:realizes ?role .
+                ?role gesah:is_role_of ?person .
+                ?person rdfs:label ?personName .
+            } UNION {
+                ?subject ?property ?objInscriptionActivity .
+                ?objInscriptionActivity a gesah:Inscription_Activity .
+                ?objInscriptionActivity gesah:realizes ?role .
+                ?role gesah:has_role_type ?roleType .
+                ?roleType rdfs:label ?roleTypeLabel .
+            } UNION {
+                ?subject ?property ?objInscriptionActivity .
+                ?objInscriptionActivity a gesah:Inscription_Activity .
+                ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
+                ?objInscription gesah:has_inscription_type ?objInscriptionType .
+                ?objInscriptionType rdfs:label ?inscriptionType .
+            } UNION {
+                ?subject ?property ?objInscriptionActivity .
+                ?objInscriptionActivity a gesah:Inscription_Activity .
+                ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
+                ?objInscription gesah:transcription ?transcription .
+            } UNION {
+                ?subject ?property ?objInscriptionActivity .
+                ?objInscriptionActivity a gesah:Inscription_Activity .
+                ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
+                ?objInscription gesah:description ?description .
+            }
+        }
+    </query-construct>
+
+    <template>propStatement-objectHasInscription.ftl</template>
+</list-view-config>

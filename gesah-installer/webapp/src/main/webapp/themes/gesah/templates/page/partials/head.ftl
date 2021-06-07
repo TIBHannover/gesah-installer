@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>VIVO</title>
+<title>${i18n().page_title}</title>
 
 <#-- VIVO OpenSocial Extension by UCSF -->
 <#if openSocial??>

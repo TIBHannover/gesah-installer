@@ -10,10 +10,10 @@
 <#import "lib-datetime.ftl" as dt>
 <#import "lib-meta-tags.ftl" as lmt>
 
-<@showObCreation statement />
+<@showObjProduction statement />
 <#-- Use a macro to keep variable assignments local; otherwise the values carry over to the next statement -->
 
-<#macro showObCreation statement>
+<#macro showObjProduction statement>
 	<div class="listViewCard">
 		<#if statement.person??>
 			<a href="${profileUrl(statement.uri("person"))}">${statement.personName}</a>
@@ -58,7 +58,7 @@
 		</#if>
 		<#-- If user can edit individual, show a link to the context object -->
 		<#if individual.showAdminPanel>
-			<div class="contextLink"><a href="${profileUrl(statement.uri("obCreation"))}">${statement.obCreation?keep_after_last("/")}</a></div>
+			<div class="contextLink"><a href="${profileUrl(statement.uri("objProduction"))}">${statement.objProduction?keep_after_last("/")}</a></div>
 		</#if>
 	</div>
 </#macro>
