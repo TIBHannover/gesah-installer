@@ -355,7 +355,7 @@ public class ObjectHasCreationGenerator extends GesahEditConfigurationGenerator 
         "?existingPlace <http://ontology.tib.eu/gesah/is_place_of> ?obCreation . \n" +
         "?existingPlace a <http://vivoweb.org/ontology/core#GeographicLocation> .";
 		
-    final static String descriptionAssertion  =
+    final static String commentAssertion  =
         "?obCreation <http://ontology.tib.eu/gesah/comment> ?comment .";
 		
 	final static String litDateAppelAssertion  =
