@@ -118,6 +118,14 @@ gesah:Feature
                          ] .		
 
 
+vivo:Exhibit 
+         rdfs:subClassOf 
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty gesah:comment ;
+                           owl:allValuesFrom rdfs:Literal
+                         ] .	
+
+
 gesah:Genre 
        rdfs:subClassOf 
                        [ rdf:type owl:Restriction ;
@@ -232,7 +240,7 @@ gesah:Role_Type
 gesah:Series 
         rdfs:subClassOf 
                         [ rdf:type owl:Restriction ;
-                          owl:onProperty gesah:description ;
+                          owl:onProperty gesah:comment ;
                           owl:allValuesFrom rdfs:Literal
                         ] .				
 
