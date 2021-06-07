@@ -40,11 +40,11 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <h2>${titleVerb}&nbsp;${i18n().edition_for} ${editConfiguration.subjectName}</h2>
 
 <#--Display error messages if any-->
-<#include "objectHasEditionErrors.ftl"/>
+<#include "objectHasEditionErrors.ftl" />
 
 <section id="objectHasEdition" role="region">
 
-    <form id="objectHasEdition" class="customForm noIE67" action="${submitUrl}"  role="add/edit production">
+    <form id="objectHasEdition" class="customForm noIE67" action="${submitUrl}"  role="add/edit edition">
 
     <p class="inline">
         <label for="agentType">${i18n().agent_type_capitalized} ${requiredHint}</label>
