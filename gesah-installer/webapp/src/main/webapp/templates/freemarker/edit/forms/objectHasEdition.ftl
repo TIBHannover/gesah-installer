@@ -14,7 +14,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign agentLabelDisplayValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentLabelDisplay") />
 <#assign agentTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType")/>
 <#assign litDateAppelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "litDateAppel") />
-<#assign descriptionValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "description") />
+<#assign commentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "comment") />
 <#assign newRoleTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newRoleType") />
 <#assign newRoleTypeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newRoleTypeLabel") />
 <#assign newAttrTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newAttrType") />
@@ -40,11 +40,11 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <h2>${titleVerb}&nbsp;${i18n().edition_for} ${editConfiguration.subjectName}</h2>
 
 <#--Display error messages if any-->
-<#include "objectHasEditionErrors.ftl"/>
+<#include "objectHasEditionErrors.ftl" />
 
 <section id="objectHasEdition" role="region">
 
-    <form id="objectHasEdition" class="customForm noIE67" action="${submitUrl}"  role="add/edit production">
+    <form id="objectHasEdition" class="customForm noIE67" action="${submitUrl}"  role="add/edit edition">
 
     <p class="inline">
         <label for="agentType">${i18n().agent_type_capitalized} ${requiredHint}</label>
@@ -187,10 +187,10 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
     </p>
 
     <p>
-        <label for="description">${i18n().description}
+        <label for="comment">${i18n().comment}
             <span class="hint">&nbsp;${i18n().supplemental_information_hint_origin}</span>
         </label>
-        <input  size="60"  type="text" id="description" name="description" value="${descriptionValue}" />
+        <input  size="60"  type="text" id="comment" name="comment" value="${commentValue}" />
 
     </p>
     <p></p>

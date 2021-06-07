@@ -64,7 +64,7 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
 	private final static String roleTypeClass =gesah +"Role_Type";
 	private final static String techniqueTypeClass =gesah+"Technique" ;
 
-	private final static String desciptionPred =gesah+"description" ;
+	private final static String commentPred =gesah+"comment" ;
 	private final static String literalDateAppelPred =gesah+"literal_date_appellation" ;
 
 	@Override
@@ -76,7 +76,7 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
         conf.setVarNameForObject("obEdition");
 
         conf.setN3Required( Arrays.asList(n3ForNewObEdition) );
-        conf.setN3Optional(Arrays.asList( descriptionAssertion,  n3ForNewAttrType, n3ForExistingAttrType, n3ForNewAgent, n3ForExistingAgent,
+        conf.setN3Optional(Arrays.asList( commentAssertion,  n3ForNewAttrType, n3ForExistingAttrType, n3ForNewAgent, n3ForExistingAgent,
                 n3ForNewTechnique, n3ForExistingTechnique, n3ForNewMaterial, n3ForExistingMaterial, n3ForNewRole, n3ForNewRoleType, n3ForExistingRoleType, n3ForNewPlace, n3ForExistingPlace, litDateAppelAssertion, n3ForStart, n3ForEnd ));
 
         conf.addNewResource("obEdition", DEFAULT_NS_FOR_NEW_RESOURCE);
@@ -95,7 +95,7 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
         //literals in scope: none
 
         conf.setUrisOnform( Arrays.asList( "existingAgent", "agentType", "existingMaterial","existingTechnique", "existingAttrType", "existingRoleType", "existingPlace"));
-        conf.setLiteralsOnForm( Arrays.asList("agentLabel", "techniqueLabel", "materialLabel",  "roleTypeLabel", "agentLabelDisplay", "existingAttrTypeLabel", "placeLabel", "placeLabelDisplay","description", "litDateAppel"));
+        conf.setLiteralsOnForm( Arrays.asList("agentLabel", "techniqueLabel", "materialLabel",  "roleTypeLabel", "agentLabelDisplay", "existingAttrTypeLabel", "placeLabel", "placeLabelDisplay","comment", "litDateAppel"));
 
         conf.addSparqlForExistingLiteral("agentLabel", agentLabelQuery);
 		conf.addSparqlForExistingLiteral("techniqueLabel", existingTechniqueLabelQuery);
@@ -103,7 +103,7 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
 		conf.addSparqlForExistingLiteral("placeLabel", existingPlaceLabelQuery);
 		conf.addSparqlForExistingLiteral("attrTypeLabel", existingAttrTypeLabelQuery);
 		conf.addSparqlForExistingLiteral("roleTypeLabel", existingRoleTypeLabelQuery);
-        conf.addSparqlForExistingLiteral("description", descriptionQuery);
+        conf.addSparqlForExistingLiteral("comment", commentQuery);
         conf.addSparqlForExistingLiteral("litDateAppel", litDateAppelQuery);
         conf.addSparqlForExistingLiteral("startField-value", existingStartDateQuery);
         conf.addSparqlForExistingLiteral("endField-value", existingEndDateQuery);
@@ -153,7 +153,7 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
                         placeTypeClass)));				
 
         conf.addField( new FieldVTwo().
-                setName("description").
+                setName("comment").
                 setRangeDatatypeUri( XSD.xstring.toString() ).
                 setValidators(list("datatype:" + XSD.xstring.toString())));
 				
@@ -360,8 +360,8 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
         "?existingPlace <http://ontology.tib.eu/gesah/is_place_of> ?obEdition . \n" +
         "?existingPlace a <http://vivoweb.org/ontology/core#GeographicLocation> .";
 		
-    final static String descriptionAssertion  =
-        "?obEdition <http://ontology.tib.eu/gesah/description> ?description .";
+    final static String commentAssertion  =
+        "?obEdition <http://ontology.tib.eu/gesah/comment> ?comment .";
 		
 	final static String litDateAppelAssertion  =
         "?obEdition <http://ontology.tib.eu/gesah/literal_date_appellation> ?litDateAppel .";	
@@ -471,9 +471,9 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
         "?existingAgent a ?agentType .\n"+
         "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> .}";		
 
-    final static String descriptionQuery  =
-        "SELECT ?existingDescription WHERE {\n"+
-        "?obEdition <"+ desciptionPred +"> ?existingDescription . }";
+    final static String commentQuery  =
+        "SELECT ?existingComment WHERE {\n"+
+        "?obEdition <"+ commentPred +"> ?existingComment . }";
 
     final static String litDateAppelQuery  =
         "SELECT ?existinglitDateAppel WHERE {\n"+
