@@ -18,7 +18,7 @@
             ?person ?personName
             (group_concat(DISTINCT ?roleTypeLabel ; separator=", ") AS ?roleTypeLabels)
             (group_concat(DISTINCT ?treatmentLabel ; separator=", ") AS ?treatmentLabels)
-            (group_concat(DISTINCT ?description ; separator=", ") AS ?descriptions)
+            (group_concat(DISTINCT ?comment ; separator=", ") AS ?comments)
 
         WHERE
         {
@@ -59,7 +59,7 @@
             OPTIONAL {
                 <precise-subquery>?subject ?property ?preservationObj .
                 ?preservationObj a gesah:Preservation_Activity .</precise-subquery>
-                ?preservationObj gesah:description ?description .
+                ?preservationObj gesah:comment ?comment .
             }
             OPTIONAL {
                 <precise-subquery>?subject ?property ?preservationObj .
@@ -106,7 +106,7 @@
             ?preservationObj gesah:has_place ?placeObj .
             ?preservationObj gesah:literal_date_appellation ?litteralDtAppel .
             ?preservationObj core:dateTimeInterval ?dateTimeInterval .
-            ?preservationObj gesah:description ?description .
+            ?preservationObj gesah:comment ?comment .
             ?preservationObj gesah:realizes ?roleObj .
             ?preservationObj gesah:has_measure_specifics ?treatmentObj .
             ?subclass rdfs:label ?preservationLabel .
@@ -155,7 +155,7 @@
             } UNION {
                 ?subject ?property ?preservationObj .
                 ?preservationObj a gesah:Preservation_Activity .
-                ?preservationObj gesah:description ?description .
+                ?preservationObj gesah:comment ?comment .
             } UNION {
                 ?subject ?property ?preservationObj .
                 ?preservationObj a gesah:Preservation_Activity .
