@@ -19,7 +19,7 @@
             (group_concat(DISTINCT ?roleTypeLabel ; separator=", ") AS ?roleTypeLabels)
             (group_concat(DISTINCT ?inscriptionType ; separator=", ") AS ?inscriptionTypes)
             (group_concat(DISTINCT ?transcription ; separator=", ") AS ?transcriptions)
-            (group_concat(DISTINCT ?description ; separator=", ") AS ?descriptions)
+            (group_concat(DISTINCT ?comment ; separator=", ") AS ?comments)
 
         WHERE
         {
@@ -64,7 +64,7 @@
                 <precise-subquery>?subject ?property ?objInscriptionActivity .
                 ?objInscriptionActivity a gesah:Inscription_Activity .</precise-subquery>
                 ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
-                ?objInscription gesah:description ?description .
+                ?objInscription gesah:comment ?comment .
             }
         }
         GROUP BY ?objInscriptionActivity ?inscriptionLabel ?person ?personName
@@ -102,7 +102,7 @@
             ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
             ?objInscription gesah:transcription ?transcription .
             ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
-            ?objInscription gesah:description ?description .
+            ?objInscription gesah:comment ?comment .
         }
         WHERE {
             {
@@ -141,7 +141,7 @@
                 ?subject ?property ?objInscriptionActivity .
                 ?objInscriptionActivity a gesah:Inscription_Activity .
                 ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
-                ?objInscription gesah:description ?description .
+                ?objInscription gesah:comment ?comment .
             }
         }
     </query-construct>
