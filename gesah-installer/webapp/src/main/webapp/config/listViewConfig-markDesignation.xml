@@ -9,7 +9,7 @@
         PREFIX gesah: &lt;http://ontology.tib.eu/gesah/&gt;
         PREFIX ecrm: &lt;http://erlangen-crm.org/170309/&gt;
 
-        SELECT DISTINCT ?markDesignationObj ?markLocation ?markObj ?markLabel ?markID ?markURL ?markDescription
+        SELECT DISTINCT ?markDesignationObj ?markLocation ?markObj ?markLabel ?markID ?markURL ?markComment
 
         WHERE
         {
@@ -43,7 +43,7 @@
                 <precise-subquery>?subject ?property ?markDesignationObj .
                 ?markDesignationObj a gesah:Mark_Designation .</precise-subquery>
                 ?markDesignationObj gesah:uses_mark ?markObj .
-                ?markObj gesah:description ?markDescription .
+                ?markObj gesah:comment ?markComment .
             }
         } ORDER BY ?markDesignationObj ?markLocation ?markObj ?markLabel
     </query-select>
