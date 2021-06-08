@@ -31,8 +31,8 @@
         </#if>
         <br />
     </#if>
-    <#if statement.markDescription??>
-        ${statement.markDescription}<br />
+    <#if statement.markComment??>
+        ${statement.markComment}<br />
     </#if>
     <#-- If user can edit individual, show a link to the context object -->
     <#if individual.showAdminPanel>
