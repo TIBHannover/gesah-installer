@@ -43,8 +43,8 @@
         <@dt.yearSpan "${statement.dateTimeEnd!}" />
         <br />
     </#if>
-    <#if statement.descriptions??>
-        <b>${i18n().description_capitalized}:</b> ${statement.descriptions}
+    <#if statement.comments??>
+        <b>${i18n().comment_capitalized}:</b> ${statement.comments}
         <br />
     </#if>
 <#-- If user can edit individual, show a link to the context object -->
