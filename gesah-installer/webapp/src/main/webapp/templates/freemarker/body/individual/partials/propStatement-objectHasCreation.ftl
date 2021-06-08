@@ -52,7 +52,7 @@
 			<b>${i18n().material_capitalized}:</b> ${statement.materialLabels}
 			<br />
 		</#if>
-		<#if statement.comment??>
+		<#if statement.comments??>
 			<b>${i18n().comment_capitalized}:</b> ${statement.comments}
 			<br />
 		</#if>
