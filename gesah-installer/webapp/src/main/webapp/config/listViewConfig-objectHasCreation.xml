@@ -21,7 +21,7 @@
             (group_concat(DISTINCT ?techniqueLabel ; separator=", ") AS ?techniqueLabels)
             (group_concat(DISTINCT ?materialLabel ; separator=", ") AS ?materialLabels)
             (group_concat(DISTINCT ?attrTypeLabel ; separator=", ") AS ?attrTypeLabels)
-            (group_concat(DISTINCT ?description ; separator=", ") AS ?descriptions)
+            (group_concat(DISTINCT ?comment ; separator=", ") AS ?comments)
 
         WHERE
         {
@@ -79,7 +79,7 @@
             OPTIONAL {
                 <precise-subquery>?subject ?property ?obCreation .
                 ?obCreation a gesah:Creation .</precise-subquery>
-                ?obCreation gesah:description ?description .
+                ?obCreation gesah:comment ?comment .
             }
 
             OPTIONAL {
@@ -143,7 +143,7 @@
             ?place a core:GeographicLocation .
             ?place rdfs:label ?placeLabel .
             ?obCreation gesah:literal_date_appellation ?litteralDtAppel .
-            ?obCreation gesah:description ?description .
+            ?obCreation gesah:comment ?comment .
             ?obCreation core:dateTimeInterval ?dateTimeInterval .
             ?dateTimeInterval core:start ?dateTimeStartValue .
             ?dateTimeStartValue core:dateTime ?dateTimeStart .
@@ -198,7 +198,7 @@
             } UNION {
                 ?subject ?property ?obCreation .
                 ?obCreation a gesah:Creation .
-                ?obCreation gesah:description ?description .
+                ?obCreation gesah:comment ?comment .
             } UNION {
                 ?subject ?property ?obCreation .
                 ?obCreation a gesah:Creation .

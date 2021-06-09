@@ -17,7 +17,7 @@
             ?litteralDtAppel ?dateTimeStart ?dateTimeEnd
             ?person ?personName
             (group_concat(DISTINCT ?roleTypeLabel ; separator=", ") AS ?roleTypeLabels)
-            (group_concat(DISTINCT ?description ; separator=", ") AS ?descriptions)
+            (group_concat(DISTINCT ?comment ; separator=", ") AS ?comments)
 
         WHERE
         {
@@ -58,7 +58,7 @@
             OPTIONAL {
                 <precise-subquery>?subject ?property ?provenanceObj .
                 ?provenanceObj a gesah:Provenance .</precise-subquery>
-                ?provenanceObj gesah:description ?description .
+                ?provenanceObj gesah:comment ?comment .
             }
             OPTIONAL {
                 <precise-subquery>?subject ?property ?provenanceObj .
@@ -99,7 +99,7 @@
             ?provenanceObj gesah:has_place ?placeObj .
             ?provenanceObj gesah:literal_date_appellation ?litteralDtAppel .
             ?provenanceObj core:dateTimeInterval ?dateTimeInterval .
-            ?provenanceObj gesah:description ?description .
+            ?provenanceObj gesah:comment ?comment .
             ?provenanceObj gesah:realizes ?roleObj .
             ?subclass rdfs:label ?provenanceLabel .
             ?placeObj rdfs:label ?placeLabel .
@@ -146,7 +146,7 @@
             } UNION {
                 ?subject ?property ?provenanceObj .
                 ?provenanceObj a gesah:Provenance .
-                ?provenanceObj gesah:description ?description .
+                ?provenanceObj gesah:comment ?comment .
             } UNION {
                 ?subject ?property ?provenanceObj .
                 ?provenanceObj a gesah:Provenance .

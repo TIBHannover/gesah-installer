@@ -22,7 +22,7 @@
             (group_concat(DISTINCT ?attrTypeLabel ; separator=", ") AS ?attrTypeLabels)
             (group_concat(DISTINCT ?materialLabel ; separator=", ") AS ?materialLabels)
             (group_concat(DISTINCT ?techniqueLabel ; separator=", ") AS ?techniqueLabels)
-            (group_concat(DISTINCT ?description ; separator=", ") AS ?descriptions)
+            (group_concat(DISTINCT ?comment ; separator=", ") AS ?comments)
 
         WHERE
         {
@@ -102,7 +102,7 @@
             OPTIONAL {
                 <precise-subquery>?subject ?property ?objProduction .
                 ?objProduction a gesah:Production .</precise-subquery>
-                ?objProduction gesah:description ?description .
+                ?objProduction gesah:comment ?comment .
             }
         }
         GROUP BY ?objProduction ?person ?personName ?place ?placeLabel ?litteralDtAppel ?dateTimeStart ?dateTimeEnd
@@ -149,7 +149,7 @@
             ?objProduction gesah:uses_technique ?technique .
             ?technique a gesah:Technique .
             ?technique rdfs:label ?techniqueLabel .
-            ?objProduction gesah:description ?description .
+            ?objProduction gesah:comment ?comment .
         }
         WHERE {
             {
@@ -210,7 +210,7 @@
             } UNION {
                 ?subject ?property ?objProduction .
                 ?objProduction a gesah:Production .
-                ?objProduction gesah:description ?description .
+                ?objProduction gesah:comment ?comment .
             }
 
         }
