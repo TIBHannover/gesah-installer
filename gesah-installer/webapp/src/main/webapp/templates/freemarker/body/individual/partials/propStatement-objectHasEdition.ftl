@@ -22,6 +22,9 @@
 			</#if>
 			<br />
 		</#if>
+		<#if statement.attrTypeLabels??>
+			${statement.attrTypeLabels}<br />
+		</#if>
 		<#if statement.place??>
 			<b>${i18n().place_capitalized}:</b> <a href="${profileUrl(statement.uri("place"))}">${statement.placeLabel}</a>
 			<br />
@@ -39,6 +42,18 @@
 		<#elseif statement.dateTimeEnd??>
 			<b>${i18n().date_capitalized}:</b>
 			<@dt.yearSpan "${statement.dateTimeEnd!}" />
+			<br />
+		</#if>
+		<#if statement.techniqueLabels??>
+			<b>${i18n().technique_capitalized}:</b> ${statement.techniqueLabels}
+			<br />
+		</#if>
+		<#if statement.materialLabels??>
+			<b>${i18n().material_capitalized}:</b> ${statement.materialLabels}
+			<br />
+		</#if>
+		<#if statement.comments??>
+			<b>${i18n().comment_capitalized}:</b> ${statement.comments}
 			<br />
 		</#if>
 		<#-- If user can edit individual, show a link to the context object -->
