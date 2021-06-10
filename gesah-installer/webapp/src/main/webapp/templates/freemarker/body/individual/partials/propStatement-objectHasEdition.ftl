@@ -10,10 +10,10 @@
 <#import "lib-datetime.ftl" as dt>
 <#import "lib-meta-tags.ftl" as lmt>
 
-<@showObjProduction statement />
+<@showObjEdition statement />
 <#-- Use a macro to keep variable assignments local; otherwise the values carry over to the next statement -->
 
-<#macro showObjProduction statement>
+<#macro showObjEdition statement>
 	<div class="listViewCard">
 		<#if statement.person??>
 			<a href="${profileUrl(statement.uri("person"))}">${statement.personName}</a>
