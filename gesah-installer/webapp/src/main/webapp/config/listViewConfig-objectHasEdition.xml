@@ -19,6 +19,11 @@
             ?litteralDtAppel
             ?dateTimeStart ?dateTimeEnd
             (group_concat(DISTINCT ?roleTypeLabel ; separator=", ") AS ?roleTypeLabels)
+            (group_concat(DISTINCT ?techniqueLabel ; separator=", ") AS ?techniqueLabels)
+            (group_concat(DISTINCT ?materialLabel ; separator=", ") AS ?materialLabels)
+            (group_concat(DISTINCT ?attrTypeLabel ; separator=", ") AS ?attrTypeLabels)
+            (group_concat(DISTINCT ?comment ; separator=", ") AS ?comments)
+
 
         WHERE
         {
@@ -36,10 +41,36 @@
             OPTIONAL {
                 <precise-subquery>?subject ?property ?objEdition .
                 ?objEdition a gesah:Edition .</precise-subquery>
+                ?objEdition gesah:uses_technique ?technique .
+                ?technique a gesah:Technique .
+                ?technique rdfs:label ?techniqueLabel .
+            }
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .</precise-subquery>
+                ?objEdition gesah:has_material ?material .
+                ?material a gesah:Material .
+                ?material rdfs:label ?materialLabel .
+            }
+
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .</precise-subquery>
                 ?objEdition gesah:realizes ?role .
                 ?role gesah:has_role_type ?roleType .
                 ?roleType rdfs:label ?roleTypeLabel .
             }
+
+             OPTIONAL {
+                <precise-subquery>?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .</precise-subquery>
+                ?objEdition gesah:has_type_of_attribution ?attrType .
+                ?attrType a gesah:Attribution_Type .
+                ?attrType rdfs:label ?attrTypeLabel .
+            }
+
 
             OPTIONAL {
                 <precise-subquery>?subject ?property ?objEdition .
@@ -54,6 +85,13 @@
                 ?objEdition a gesah:Edition .</precise-subquery>
                 ?objEdition gesah:literal_date_appellation ?litteralDtAppel .
             }
+
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .</precise-subquery>
+                ?objEdition gesah:comment ?comment .
+            }
+
 
             OPTIONAL {
                 <precise-subquery>?subject ?property ?objEdition .
@@ -95,12 +133,22 @@
             ?role a obo:BFO_0000023 .
             ?role gesah:has_role_type ?roleType .
             ?roleType rdfs:label ?roleTypeLabel .
+            ?objEdition gesah:uses_technique ?technique .
+            ?technique a gesah:Technique .
+            ?technique rdfs:label ?techniqueLabel .
+            ?objEdition gesah:has_material ?material .
+            ?material a gesah:Material .
+            ?material rdfs:label ?materialLabel .
+            ?objEdition gesah:has_type_of_attribution ?attrType .
+            ?attrType a gesah:Attribution_Type .
+            ?attrType rdfs:label ?attrTypeLabel .
             ?person a foaf:Person.
             ?person rdfs:label ?personName .
             ?objEdition gesah:has_place ?place .
             ?place a core:GeographicLocation .
             ?place rdfs:label ?placeLabel .
             ?objEdition gesah:literal_date_appellation ?litteralDtAppel .
+            ?objEdition gesah:comment ?comment .
             ?objEdition core:dateTimeInterval ?dateTimeInterval .
             ?dateTimeInterval core:start ?dateTimeStartValue .
             ?dateTimeStartValue core:dateTime ?dateTimeStart .
@@ -111,6 +159,24 @@
             {
                 ?subject ?property ?objEdition .
                 ?objEdition a gesah:Edition .
+            }  UNION {
+                ?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .
+                ?objEdition gesah:uses_technique ?technique .
+                ?technique a gesah:Technique .
+                ?technique rdfs:label ?techniqueLabel .
+            } UNION {
+                ?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .
+                ?objEdition gesah:has_material ?material .
+                ?material a gesah:Material .
+                ?material rdfs:label ?materialLabel .
+            } UNION {
+                ?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .
+                ?objEdition gesah:has_type_of_attribution ?attrType .
+                ?attrType a gesah:Attribution_Type .
+                ?attrType rdfs:label ?attrTypeLabel .
             } UNION {
                 ?subject ?property ?objEdition .
                 ?objEdition a gesah:Edition .
@@ -133,6 +199,10 @@
                 ?subject ?property ?objEdition .
                 ?objEdition a gesah:Edition .
                 ?objEdition gesah:literal_date_appellation ?litteralDtAppel .
+            } UNION {
+                ?subject ?property ?objEdition .
+                ?objEdition a gesah:Edition .
+                ?objEdition gesah:comment ?comment .
             } UNION {
                 ?subject ?property ?objEdition .
                 ?objEdition a gesah:Edition .
