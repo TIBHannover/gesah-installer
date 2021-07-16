@@ -166,7 +166,7 @@ public class ObjectHasCreationGenerator extends GesahEditConfigurationGenerator 
 
         conf.addField( new FieldVTwo().
                 setName("existingAttrType").
-                setValidators( list("nonempty")).
+                //setValidators( list("nonempty")).
                 setOptions( new IndividualsViaVClassOptions(
                         attributionTypeClass)));
                 
@@ -211,13 +211,13 @@ public class ObjectHasCreationGenerator extends GesahEditConfigurationGenerator 
 						
 		conf.addField( new FieldVTwo().
                 setName("existingMaterial").
-                setValidators( list("nonempty")).
+                //setValidators( list("nonempty")).
                 setOptions( new IndividualsViaVClassOptions(
                         materialTypeClass)));;	
 
 		conf.addField( new FieldVTwo().
                 setName("existingTechnique").
-                setValidators( list("nonempty")).
+                //setValidators( list("nonempty")).
                 setOptions( new IndividualsViaVClassOptions(
                         techniqueTypeClass)));	
  
