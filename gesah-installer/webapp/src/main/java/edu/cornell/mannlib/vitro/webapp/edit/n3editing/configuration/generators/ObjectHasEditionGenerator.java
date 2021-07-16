@@ -215,13 +215,13 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
 						
 		conf.addField( new FieldVTwo().
                 setName("existingMaterial").
-                setValidators( list("nonempty")).
+                //setValidators( list("nonempty")).
                 setOptions( new IndividualsViaVClassOptions(
                         materialTypeClass)));	
 
 		conf.addField( new FieldVTwo().
                 setName("existingTechnique").
-                setValidators( list("nonempty")).
+                //setValidators( list("nonempty")).
                 setOptions( new IndividualsViaVClassOptions(
                         techniqueTypeClass)));	
 		
