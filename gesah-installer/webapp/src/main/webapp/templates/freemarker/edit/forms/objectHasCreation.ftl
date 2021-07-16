@@ -87,7 +87,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
         </div>
 
         <div class="entry">
-            <label for="attributionType">${i18n().attribution_type} ${requiredHint}</label>
+            <label for="attributionType">${i18n().attribution_type} </label>
             <#assign existingAttrTypeOpts = editConfiguration.pageData.existingAttrType />
             <select name="existingAttrType" style="margin-top:-2px" >
                 <option value="" <#if existingAttrTypeValue == "">selected</#if>>${i18n().select_one}</option>
@@ -99,7 +99,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
     	</div>
 	
         <div class="entry">
-            <label for="material">${i18n().material} ${requiredHint}</label>
+            <label for="material">${i18n().material} </label>
             <#assign existingMaterialOpts = editConfiguration.pageData.existingMaterial />
             <select name="existingMaterial" style="margin-top:-2px" >
                 <option value="" <#if existingMaterialValue == "">selected</#if>>${i18n().select_one}</option>
@@ -111,7 +111,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
     	</div>
 	
     	<div class="entry">
-            <label for="techniqueUri">${i18n().technique} ${requiredHint}</label>
+            <label for="techniqueUri">${i18n().technique} </label>
 
             <#assign existingTechniqueOpts = editConfiguration.pageData.existingTechnique />
             <select name="existingTechnique" id="techniqueUri" >
