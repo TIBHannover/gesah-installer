@@ -1,0 +1,33 @@
+@prefix mydomain: <http://tib.eu/gesah/individual> .
+@prefix gesah: <http://ontology.tib.eu/gesah/> .
+@prefix display: <http://vitro.mannlib.cornell.edu/ontologies/display/1.1#>
+<http://ontology.tib.eu/gesah/Drawing> display:hasCustomView mydomain:imageSearchShortView .
+
+mydomain:imageSearchShortView 
+  a display:customViewForIndividual ; 
+  display:appliesToContext "SEARCH" ;
+  display:hasTemplate "image_search_short_view.ftl" ;
+  display:hasDataGetter mydomain:imageSearchShortViewDataGetter .
+
+mydomain:imageSearchShortViewDataGetter
+  a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
+  display:saveToVar "imageInfo" ;
+  display:query
+     """
+     PREFIX gesah: <http://ontology.tib.eu/gesah/>
+     SELECT DISTINCT ?barcode ?fileNum
+        WHERE {
+            {
+                ?individualUri gesah:has_digital_representation ?digRep .
+                ?digRep gesah:barcode ?barcode .
+                ?digRep gesah:image_file_number ?fileNum .
+            }
+            UNION
+            {
+                ?individualUri a gesah:Digital_Image .
+                ?individualUri gesah:barcode ?barcode .
+                ?individualUri gesah:image_file_number ?fileNum .
+            }
+        }
+
+     """ .
