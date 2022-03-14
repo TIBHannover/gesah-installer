@@ -1,7 +1,12 @@
 @prefix mydomain: <http://tib.eu/gesah/individual> .
 @prefix gesah: <http://ontology.tib.eu/gesah/> .
 @prefix display: <http://vitro.mannlib.cornell.edu/ontologies/display/1.1#>
-<http://ontology.tib.eu/gesah/Drawing> display:hasCustomView mydomain:imageSearchShortView .
+
+gesah:Drawing display:hasCustomView mydomain:imageSearchShortView .
+gesah:Print display:hasCustomView mydomain:imageSearchShortView .
+gesah:Photomechanical_Print display:hasCustomView mydomain:imageSearchShortView .
+gesah:Painting display:hasCustomView mydomain:imageSearchShortView .
+gesah:Digital_Image display:hasCustomView mydomain:imageSearchShortView .
 
 mydomain:imageSearchShortView 
   a display:customViewForIndividual ; 
@@ -28,6 +33,6 @@ mydomain:imageSearchShortViewDataGetter
                 ?individualUri gesah:barcode ?barcode .
                 ?individualUri gesah:image_file_number ?fileNum .
             }
-        }
+        } ORDER BY ASC(?fileNum) LIMIT 1 OFFSET 1
 
      """ .
