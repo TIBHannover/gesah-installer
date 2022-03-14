@@ -20,14 +20,21 @@ mydomain:imagePersonInfoSearchShortViewDataGetter
   display:saveToVar "personInfo" ;
   display:query
      """
-     PREFIX gesah: <http://ontology.tib.eu/gesah/>
-     PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
-     SELECT DISTINCT ?label
-     WHERE {
-       ?individualUri gesah:has_mark_designation ?mark .
-       ?mark gesah:uses_mark ?person .
-       ?person rdfs:label ?label .
-     }
+	PREFIX vitro:    <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
+	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+	PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+	SELECT DISTINCT ?participantName ?participationType ?date ?roleName
+	WHERE
+	{
+	      ?individualUri gesah:output_of_creation|gesah:output_of_production|gesah:object_of_edition ?participation .
+	      ?participation vitro:mostSpecificType ?participationType . 
+	      OPTIONAL{ ?participation gesah:literal_date_appellation ?date . }
+	      ?participant gesah:participates_in ?participation .
+	      ?participant rdfs:label ?participantName .
+	      ?participant gesah:has_role ?participantRole .
+	      ?participantRole gesah:has_role_type ?roleType .
+	      ?roleType rdfs:label ?roleName .
+	} ORDER BY ?participantName ?participationType ?roleName
      """ .
 
 mydomain:imageSearchShortViewDataGetter
