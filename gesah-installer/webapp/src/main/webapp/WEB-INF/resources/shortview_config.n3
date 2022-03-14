@@ -12,7 +12,23 @@ mydomain:imageSearchShortView
   a display:customViewForIndividual ; 
   display:appliesToContext "SEARCH" ;
   display:hasTemplate "image_search_short_view.ftl" ;
-  display:hasDataGetter mydomain:imageSearchShortViewDataGetter .
+  display:hasDataGetter mydomain:imageSearchShortViewDataGetter ;
+  display:hasDataGetter mydomain:imagePersonInfoSearchShortViewDataGetter .
+
+mydomain:imagePersonInfoSearchShortViewDataGetter
+  a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
+  display:saveToVar "personInfo" ;
+  display:query
+     """
+     PREFIX gesah: <http://ontology.tib.eu/gesah/>
+     PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+     SELECT DISTINCT ?label
+     WHERE {
+       ?individualUri gesah:has_mark_designation ?mark .
+       ?mark gesah:uses_mark ?person .
+       ?person rdfs:label ?label .
+     }
+     """ .
 
 mydomain:imageSearchShortViewDataGetter
   a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
