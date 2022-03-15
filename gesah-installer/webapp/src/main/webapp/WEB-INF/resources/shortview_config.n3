@@ -14,26 +14,66 @@ mydomain:imageSearchShortView
   display:hasTemplate "image_search_short_view.ftl" ;
   display:hasDataGetter mydomain:elementImageSearchShortViewDataGetter ;
   display:hasDataGetter mydomain:elementCreationDateSearchShortViewDataGetter ;
-  display:hasDataGetter mydomain:elementInfoSearchShortViewDataGetter .
+  display:hasDataGetter mydomain:elementInfoCreatedSearchShortViewDataGetter ;
+  display:hasDataGetter mydomain:elementInfoProducedSearchShortViewDataGetter ;
+  display:hasDataGetter mydomain:elementInfoEditedSearchShortViewDataGetter .
+  
 
-mydomain:elementInfoSearchShortViewDataGetter
+mydomain:elementInfoCreatedSearchShortViewDataGetter
   a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
-  display:saveToVar "participations" ;
+  display:saveToVar "creators" ;
   display:query
      """
 	PREFIX vitro:    <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
 	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
 	PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
-	SELECT DISTINCT ?type ?name ?role
+	SELECT DISTINCT ?name ?role
 	WHERE {
-	      ?individualUri gesah:output_of_creation|gesah:output_of_production|gesah:object_of_edition ?participation .
-	      ?participation vitro:mostSpecificType ?type . 
+	      ?individualUri gesah:output_of_creation ?participation .
 	      ?participant gesah:participates_in ?participation .
 	      ?participant rdfs:label ?name .
 	      ?participant gesah:has_role ?participantRole .
 	      ?participantRole gesah:has_role_type ?roleType .
 	      ?roleType rdfs:label ?role .
-	} ORDER BY ?type ?name ?role
+	} ORDER BY ?name ?role
+     """ .
+     
+mydomain:elementInfoProducedSearchShortViewDataGetter
+  a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
+  display:saveToVar "producers" ;
+  display:query
+     """
+	PREFIX vitro:    <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
+	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+	PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+	SELECT DISTINCT ?name ?role
+	WHERE {
+	      ?individualUri gesah:output_of_production ?participation .
+	      ?participant gesah:participates_in ?participation .
+	      ?participant rdfs:label ?name .
+	      ?participant gesah:has_role ?participantRole .
+	      ?participantRole gesah:has_role_type ?roleType .
+	      ?roleType rdfs:label ?role .
+	} ORDER BY ?name ?role
+     """ .
+     
+mydomain:elementInfoEditedSearchShortViewDataGetter
+  a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
+  display:saveToVar "editors" ;
+  display:query
+     """
+	PREFIX vitro:    <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
+	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+	PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+	SELECT DISTINCT ?name ?role
+	WHERE {
+	      ?individualUri gesah:object_of_edition ?participation .
+	      ?participant gesah:participates_in ?participation .
+	      ?participant rdfs:label ?name .
+	      ?participant gesah:has_role ?participantRole .
+	      ?participantRole gesah:has_role_type ?roleType .
+	      ?roleType rdfs:label ?role .
+	} ORDER BY ?name ?role
      """ .
      
 mydomain:elementImageSearchShortViewDataGetter

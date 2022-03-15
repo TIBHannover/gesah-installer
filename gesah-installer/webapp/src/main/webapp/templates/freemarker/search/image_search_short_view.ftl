@@ -10,7 +10,7 @@
       <@createImageThumbnail image.barcode image.fileNum individual.profileUrl />
     </#if>
   </#list> 
-  <@printParticipations participations />
+  <@printParticipations />
 </div>
 
 <#macro closeParticipationRoleList participation type name >
@@ -45,15 +45,16 @@
   </p>
 </#macro>
 
-<#macro openType type>
-  <p>
-  <#if type == "http://ontology.tib.eu/gesah/Edition">
-    ${i18n().gesah_search_element_edited_by}
-  <#elseif type == "http://ontology.tib.eu/gesah/Production">
-    ${i18n().gesah_search_element_producted_by}
-  <#elseif type == "http://ontology.tib.eu/gesah/Creation">
-    ${i18n().gesah_search_element_created_by}
-  </#if>
+<#macro openCreators>
+  <p>${i18n().gesah_search_element_created_by}
+</#macro>
+
+<#macro openEditors>
+  <p>${i18n().gesah_search_element_edited_by}
+</#macro>
+
+<#macro openProducers>
+  <p>${i18n().gesah_search_element_producted_by}
 </#macro>
 
 <#macro closeType>
@@ -66,42 +67,32 @@
     </#if>
 </#macro>
 
-<#macro printParticipations participations>
-	<#if participations?has_content>
+<#macro printParticipations>
 	  <div class="search-element-information">
 	    <@printCreationDate creationDate />
-	    <#assign type = "" />
+	     <#if creators?has_content>
+	       <@openCreators />
+	 	   <@printTypeInfo creators />
+	     </#if>
+	     <#if producers?has_content>
+	       <@openProducers />
+	 	   <@printTypeInfo producers />
+	     </#if>
+	     <#if editors?has_content>
+	       <@openEditors />
+	 	   <@printTypeInfo editors />
+	     </#if>
+	  </div>
+</#macro>
+
+<#macro printTypeInfo people>
 	    <#assign name = "" />
 	    <#assign role = "" />
 	    <#assign rolesIsStarted = false />
 	    <#assign nameIsStarted = false />
-	    <#assign typeIsStarted = false />
-	
-	    <#list participations as participation>
-	    
-	    	<#--  participation type has changed? -->
-	    	<#if type != participation.type >
-	    	  <#--  previous type description is started? -->
-	    	  <#if typeIsStarted >
-	    	    <#-- close roles list if roles list is started -->
-	    	    <#if rolesIsStarted>
-	    	      <@closeRoles />
-	    	      <#assign rolesIsStarted = false />
-	    	    </#if>
-	    	    <#-- close participant naming if it is started -->
-	    	    <#if nameIsStarted>
-	    	      <@closeName />
-	    	      <#assign nameIsStarted = false />
-	    	    </#if>
-	    	    <@closeType />
-	    	    <#assign typeIsStarted = false />
-	    	  </#if>
-	    	  <#-- all previous types, roles and participant naming are closed -->
-	    	  <#assign type = participation.type />
-	    	  <@openType type />
-	    	  <#assign typeIsStarted = true />
-	        </#if>
-	        
+	 	
+	    <#list people as participation>
+	    	        
 	    	<#if name != participation.name >
 	    	  <#if rolesIsStarted>
 	    	    <@closeRoles />
@@ -112,7 +103,7 @@
 	    	    <#assign nameIsStarted = false />
 	    	  </#if>
 	    	  <#assign name = participation.name />
-	    	  <@openName name/>
+	    	  <@openName name />
 	    	  <#assign nameIsStarted = true />
 	        </#if>
 	        
@@ -126,7 +117,6 @@
 	    	  <#assign role = participation.role />
 			  <@printRole role/>
 	        </#if>
-	
 	    </#list>
 	    <#if rolesIsStarted>
 	      <@closeRoles />
@@ -134,11 +124,7 @@
 	    <#if nameIsStarted>
 	      <@closeName />
 	    </#if>
-	    <#if typeIsStarted>
-	      <@closeType />
-	    </#if>
-	  </div>
-	</#if>
+	    <@closeType />
 </#macro>
 
 <#macro createImageThumbnail barcode fileName profileUrl>
