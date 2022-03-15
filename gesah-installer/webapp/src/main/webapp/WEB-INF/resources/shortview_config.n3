@@ -12,32 +12,31 @@ mydomain:imageSearchShortView
   a display:customViewForIndividual ; 
   display:appliesToContext "SEARCH" ;
   display:hasTemplate "image_search_short_view.ftl" ;
-  display:hasDataGetter mydomain:imageSearchShortViewDataGetter ;
-  display:hasDataGetter mydomain:imagePersonInfoSearchShortViewDataGetter .
+  display:hasDataGetter mydomain:elementImageSearchShortViewDataGetter ;
+  display:hasDataGetter mydomain:elementCreationDateSearchShortViewDataGetter ;
+  display:hasDataGetter mydomain:elementInfoSearchShortViewDataGetter .
 
-mydomain:imagePersonInfoSearchShortViewDataGetter
+mydomain:elementInfoSearchShortViewDataGetter
   a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
-  display:saveToVar "personInfo" ;
+  display:saveToVar "participations" ;
   display:query
      """
 	PREFIX vitro:    <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
 	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
 	PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
-	SELECT DISTINCT ?participantName ?participationType ?date ?roleName
-	WHERE
-	{
+	SELECT DISTINCT ?type ?name ?role
+	WHERE {
 	      ?individualUri gesah:output_of_creation|gesah:output_of_production|gesah:object_of_edition ?participation .
-	      ?participation vitro:mostSpecificType ?participationType . 
-	      OPTIONAL{ ?participation gesah:literal_date_appellation ?date . }
+	      ?participation vitro:mostSpecificType ?type . 
 	      ?participant gesah:participates_in ?participation .
-	      ?participant rdfs:label ?participantName .
+	      ?participant rdfs:label ?name .
 	      ?participant gesah:has_role ?participantRole .
 	      ?participantRole gesah:has_role_type ?roleType .
-	      ?roleType rdfs:label ?roleName .
-	} ORDER BY ?participantName ?participationType ?roleName
+	      ?roleType rdfs:label ?role .
+	} ORDER BY ?type ?name ?role
      """ .
-
-mydomain:imageSearchShortViewDataGetter
+     
+mydomain:elementImageSearchShortViewDataGetter
   a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
   display:saveToVar "imageInfo" ;
   display:query
@@ -57,5 +56,20 @@ mydomain:imageSearchShortViewDataGetter
                 ?individualUri gesah:image_file_number ?fileNum .
             }
         } ORDER BY ASC(?fileNum) LIMIT 1 OFFSET 1
-
      """ .
+     
+mydomain:elementCreationDateSearchShortViewDataGetter
+  a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
+  display:saveToVar "creationDate" ;
+  display:query
+     """
+	    PREFIX vitro:    <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
+		PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT ?date
+		WHERE {
+		      <https://vivo.tib.eu/gesah/individual/n868> gesah:output_of_creation ?participation .
+		      ?participation vitro:mostSpecificType gesah:Creation . 
+	                ?participation gesah:literal_date_appellation ?date .
+		} LIMIT 1
+     """ .
+     
