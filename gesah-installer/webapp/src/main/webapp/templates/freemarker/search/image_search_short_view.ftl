@@ -73,14 +73,17 @@
 	     <#if creators?has_content>
 	       <@openCreators />
 	 	   <@printTypeInfo creators />
+	 	   <@closeType />
 	     </#if>
 	     <#if producers?has_content>
 	       <@openProducers />
 	 	   <@printTypeInfo producers />
+	 	   <@closeType />
 	     </#if>
 	     <#if editors?has_content>
 	       <@openEditors />
 	 	   <@printTypeInfo editors />
+	 	   <@closeType />
 	     </#if>
 	  </div>
 </#macro>
@@ -97,6 +100,7 @@
 	    	  <#if rolesIsStarted>
 	    	    <@closeRoles />
 	    	    <#assign rolesIsStarted = false />
+	    	    <#assign role = "" />
 	    	  </#if>
 	    	  <#if nameIsStarted>
 	    	    <@closeName />
@@ -124,7 +128,6 @@
 	    <#if nameIsStarted>
 	      <@closeName />
 	    </#if>
-	    <@closeType />
 </#macro>
 
 <#macro createImageThumbnail barcode fileName profileUrl>

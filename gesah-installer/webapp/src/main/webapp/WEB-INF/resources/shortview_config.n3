@@ -30,11 +30,11 @@ mydomain:elementInfoCreatedSearchShortViewDataGetter
 	SELECT DISTINCT ?name ?role
 	WHERE {
 	      ?individualUri gesah:output_of_creation ?participation .
-	      ?participant gesah:participates_in ?participation .
-	      ?participant rdfs:label ?name .
-	      ?participant gesah:has_role ?participantRole .
-	      ?participantRole gesah:has_role_type ?roleType .
+	      ?participation gesah:realizes ?participationRole .
+          ?participationRole gesah:has_role_type ?roleType .
 	      ?roleType rdfs:label ?role .
+          ?participationRole  gesah:is_role_of ?participant .
+	      ?participant rdfs:label ?name .
 	} ORDER BY ?name ?role
      """ .
      
@@ -49,11 +49,11 @@ mydomain:elementInfoProducedSearchShortViewDataGetter
 	SELECT DISTINCT ?name ?role
 	WHERE {
 	      ?individualUri gesah:output_of_production ?participation .
-	      ?participant gesah:participates_in ?participation .
-	      ?participant rdfs:label ?name .
-	      ?participant gesah:has_role ?participantRole .
-	      ?participantRole gesah:has_role_type ?roleType .
+	      ?participation gesah:realizes ?participationRole .
+          ?participationRole gesah:has_role_type ?roleType .
 	      ?roleType rdfs:label ?role .
+          ?participationRole  gesah:is_role_of ?participant .
+	      ?participant rdfs:label ?name .
 	} ORDER BY ?name ?role
      """ .
      
@@ -68,11 +68,11 @@ mydomain:elementInfoEditedSearchShortViewDataGetter
 	SELECT DISTINCT ?name ?role
 	WHERE {
 	      ?individualUri gesah:object_of_edition ?participation .
-	      ?participant gesah:participates_in ?participation .
-	      ?participant rdfs:label ?name .
-	      ?participant gesah:has_role ?participantRole .
-	      ?participantRole gesah:has_role_type ?roleType .
+          ?participation gesah:realizes ?participationRole .
+          ?participationRole gesah:has_role_type ?roleType .
 	      ?roleType rdfs:label ?role .
+          ?participationRole  gesah:is_role_of ?participant .
+	      ?participant rdfs:label ?name .
 	} ORDER BY ?name ?role
      """ .
      
