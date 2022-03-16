@@ -1,9 +1,11 @@
 
 <#assign iiifUrl="https://osl.tib.eu/gesah-iiif" />
-<#assign iiifSlash="^" />
+<#assign iiifSlash="^" /> 
 
-<a href="${individual.profileUrl}" title="individual profile">${individual.name}</a>
-		
+<a href="${individual.profileUrl}" title="individual profile">${individual.name} <@mostSpecificType individual/></a>
+
+<@printCurInventoryNumber />
+				
 <div class="imageThumbnails">
   <#list imageInfo as image>
     <#if image.fileNum?has_content && image.barcode?has_content>
@@ -17,7 +19,13 @@
  <#if name?has_content && type?has_content && ( participation.name != name || participation.type != type )>
    <@roleCloseList />
  </#if>
-  
+</#macro>
+
+
+<#macro mostSpecificType individual>
+  <#if individual.mostSpecificTypes?has_content && individual.mostSpecificTypes[0]?has_content>
+    (${individual.mostSpecificTypes[0]})
+  </#if>
 </#macro>
 
 <#macro printRole role>
@@ -46,30 +54,47 @@
 </#macro>
 
 <#macro openCreators>
-  <p>${i18n().gesah_search_element_created_by}
+  <p>${i18n().gesah_search_element_created}
+  <@printDate creators />
+  <@byPeople />
+</#macro>
+
+<#macro printDate yearInfo>
+  <#if yearInfo?has_content && yearInfo[0].literalDate?has_content>
+    ${yearInfo[0].literalDate}
+  <#elseif yearInfo?has_content && yearInfo[0].year?has_content >
+    ${i18n().gesah_search_in_year} ${yearInfo[0].year}
+  </#if>
+</#macro>
+
+<#macro byPeople>
+    ${i18n().gesah_search_created_by} 
 </#macro>
 
 <#macro openEditors>
-  <p>${i18n().gesah_search_element_edited_by}
+  <p>${i18n().gesah_search_element_edited}
+  <@printDate editors />
+  <@byPeople />
 </#macro>
 
 <#macro openProducers>
-  <p>${i18n().gesah_search_element_producted_by}
+  <p>${i18n().gesah_search_element_produced}
+  <@printDate producers />
+  <@byPeople />
 </#macro>
 
 <#macro closeType>
   </p>
 </#macro>
 
-<#macro printCreationDate creationDate>
-    <#if creationDate[0].date?has_content>
-      <p>${i18n().gesah_search_element_creation_date} ${creationDate[0].date}</p>
+<#macro printCurInventoryNumber >
+    <#if elementInfo?has_content && elementInfo[0].curNumber?has_content>
+      <p>${i18n().gesah_current_inventory_number} ${elementInfo[0].curNumber}</p>
     </#if>
 </#macro>
 
 <#macro printParticipations>
 	  <div class="search-element-information">
-	    <@printCreationDate creationDate />
 	     <#if creators?has_content>
 	       <@openCreators />
 	 	   <@printTypeInfo creators />
