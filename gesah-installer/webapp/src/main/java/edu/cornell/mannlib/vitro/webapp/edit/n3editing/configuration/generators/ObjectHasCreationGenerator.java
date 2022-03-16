@@ -115,6 +115,7 @@ public class ObjectHasCreationGenerator extends GesahEditConfigurationGenerator 
         conf.addSparqlForExistingUris("existingAttrType", existingAttrTypeQuery);
         conf.addSparqlForExistingUris("agentType", agentTypeQuery);
         conf.addSparqlForExistingUris("existingRoleType", existingRoleTypeQuery);
+		conf.addSparqlForExistingUris("newRole", existingRoleQuery);
 		conf.addSparqlForExistingUris("existingRole", existingRoleQuery);
         conf.addSparqlForExistingUris("existingPlace", existingPlaceQuery);
         conf.addSparqlForExistingUris("intervalNode",existingIntervalNodeQuery);
