@@ -114,6 +114,7 @@ public class ObjectHasProductionGenerator extends GesahEditConfigurationGenerato
         conf.addSparqlForExistingUris("existingAgent", existingAgentQuery);
         conf.addSparqlForExistingUris("existingAttrType", existingAttrTypeQuery);
         conf.addSparqlForExistingUris("existingRoleType", existingRoleTypeQuery);
+		conf.addSparqlForExistingUris("newRole", existingRoleQuery);
 		conf.addSparqlForExistingUris("agentType", agentTypeQuery);
         conf.addSparqlForExistingUris("existingPlace", existingPlaceQuery);
         conf.addSparqlForExistingUris("intervalNode",existingIntervalNodeQuery);
@@ -535,6 +536,10 @@ public class ObjectHasProductionGenerator extends GesahEditConfigurationGenerato
 			+ " SELECT ?productionHasOutput "
 			+ "    WHERE { ?productionHasOutput owl:inverseOf <http://ontology.tib.eu/gesah/output_of_production> . } ";
 
+
+	final static String existingRoleQuery =
+			"SELECT ?existingRole WHERE {\n"+
+			"?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole  . }";
 
 	@Override
 	protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {

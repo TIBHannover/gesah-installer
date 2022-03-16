@@ -102,6 +102,7 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
         conf.addSparqlForExistingUris("existingAgent", existingAgentQuery);
         conf.addSparqlForExistingUris("existingInscType", existingInscTypeQuery);
         conf.addSparqlForExistingUris("existingRoleType", existingRoleTypeQuery);
+		conf.addSparqlForExistingUris("newRole", existingRoleQuery);
 		conf.addSparqlForExistingUris("agentType", agentTypeQuery);
         conf.addSparqlForExistingUris("inscriptionOutputType", inscriptionOutputTypeQuery);
 		//conf.addSparqlForExistingUris("inscriptionOutput", inscriptionOutputQuery);
@@ -371,7 +372,10 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
 			+ " SELECT ?hasInscriptionObject "
 			+ "    WHERE { ?hasInscriptionObject owl:inverseOf <http://ontology.tib.eu/gesah/object_of_inscription> . } ";
 
-
+    final static String existingRoleQuery =
+			"SELECT ?existingRole WHERE {\n"+
+			"?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole  . }";
+    
 	@Override
 	protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {
 	List<String> predicates = new ArrayList<String>();
