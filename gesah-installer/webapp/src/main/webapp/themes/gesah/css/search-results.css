@@ -1,0 +1,8 @@
+.imageThumbnail{
+	display: inline-block;
+	width: max-content;
+}
+.search-element-information{
+	display: inline-block;
+	vertical-align: top;
+}
