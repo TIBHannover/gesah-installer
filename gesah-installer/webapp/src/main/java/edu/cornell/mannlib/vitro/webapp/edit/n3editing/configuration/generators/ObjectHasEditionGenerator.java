@@ -114,9 +114,11 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
         conf.addSparqlForExistingUris("existingAgent", existingAgentQuery);
         conf.addSparqlForExistingUris("existingAttrType", existingAttrTypeQuery);
         conf.addSparqlForExistingUris("existingRoleType", existingRoleTypeQuery);
+
 		conf.addSparqlForExistingUris("agentType", agentTypeQuery);
         conf.addSparqlForExistingUris("existingPlace", existingPlaceQuery);
         conf.addSparqlForExistingUris("intervalNode",existingIntervalNodeQuery);
+        conf.addSparqlForExistingUris("newRole", existingRoleQuery);
         conf.addSparqlForExistingUris("startNode", existingStartNodeQuery);
         conf.addSparqlForExistingUris("endNode", existingEndNodeQuery);
         conf.addSparqlForExistingUris("startField-precision", existingStartPrecisionQuery);
@@ -536,7 +538,10 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
 			+ " SELECT ?editionHasOutput "
 			+ "    WHERE { ?editionHasOutput owl:inverseOf <http://ontology.tib.eu/gesah/object_of_publication> . } ";
 
-
+	final static String existingRoleQuery =
+			"SELECT ?existingRole WHERE {\n"+
+			"?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole  . }";
+	
 	@Override
 	protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {
 		List<String> predicates = new ArrayList<String>();

@@ -48,7 +48,7 @@
         <br />
     </#if>
 <#-- If user can edit individual, show a link to the context object -->
-    <#if individual.showAdminPanel>
+    <#if individual?has_content && individual.showAdminPanel>
         <div class="contextLink"><a href="${profileUrl(statement.uri("preservationObj"))}">${statement.preservationObj?keep_after_last("/")}</a></div>
     </#if>
 </#macro>
