@@ -2,16 +2,32 @@
 @prefix gesah: <http://ontology.tib.eu/gesah/> .
 @prefix display: <http://vitro.mannlib.cornell.edu/ontologies/display/1.1#>
 
-gesah:Drawing display:hasCustomView mydomain:imageSearchShortView .
-gesah:Print display:hasCustomView mydomain:imageSearchShortView .
-gesah:Photomechanical_Print display:hasCustomView mydomain:imageSearchShortView .
-gesah:Painting display:hasCustomView mydomain:imageSearchShortView .
-gesah:Digital_Image display:hasCustomView mydomain:imageSearchShortView .
+gesah:Drawing display:hasCustomView mydomain:elementSearchShortView .
+gesah:Print display:hasCustomView mydomain:elementSearchShortView .
+gesah:Photomechanical_Print display:hasCustomView mydomain:elementSearchShortView .
+gesah:Painting display:hasCustomView mydomain:elementSearchShortView .
+gesah:Digital_Image display:hasCustomView mydomain:elementSearchShortView .
 
-mydomain:imageSearchShortView 
+gesah:Drawing display:hasCustomView mydomain:imageIndexShortView .
+gesah:Print display:hasCustomView mydomain:imageIndexShortView .
+gesah:Photomechanical_Print display:hasCustomView mydomain:imageIndexShortView .
+gesah:Painting display:hasCustomView mydomain:imageIndexShortView .
+gesah:Digital_Image display:hasCustomView mydomain:imageIndexShortView .
+
+mydomain:elementSearchShortView 
   a display:customViewForIndividual ; 
   display:appliesToContext "SEARCH" ;
-  display:hasTemplate "image_search_short_view.ftl" ;
+  display:hasTemplate "element_short_view.ftl" ;
+  display:hasDataGetter mydomain:elementImageSearchShortViewDataGetter ;
+  display:hasDataGetter mydomain:elementCreationDateSearchShortViewDataGetter ;
+  display:hasDataGetter mydomain:elementInfoCreatedSearchShortViewDataGetter ;
+  display:hasDataGetter mydomain:elementInfoProducedSearchShortViewDataGetter ;
+  display:hasDataGetter mydomain:elementInfoEditedSearchShortViewDataGetter .
+  
+mydomain:imageIndexShortView 
+  a display:customViewForIndividual ; 
+  display:appliesToContext "INDEX" ;
+  display:hasTemplate "element_short_view.ftl" ;
   display:hasDataGetter mydomain:elementImageSearchShortViewDataGetter ;
   display:hasDataGetter mydomain:elementCreationDateSearchShortViewDataGetter ;
   display:hasDataGetter mydomain:elementInfoCreatedSearchShortViewDataGetter ;
