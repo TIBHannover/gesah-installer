@@ -2,30 +2,16 @@
 @prefix gesah: <http://ontology.tib.eu/gesah/> .
 @prefix display: <http://vitro.mannlib.cornell.edu/ontologies/display/1.1#>
 
-gesah:Drawing display:hasCustomView mydomain:elementSearchShortView .
-gesah:Print display:hasCustomView mydomain:elementSearchShortView .
-gesah:Photomechanical_Print display:hasCustomView mydomain:elementSearchShortView .
-gesah:Painting display:hasCustomView mydomain:elementSearchShortView .
-gesah:Digital_Image display:hasCustomView mydomain:elementSearchShortView .
+gesah:Drawing display:hasCustomView mydomain:elementShortView .
+gesah:Print display:hasCustomView mydomain:elementShortView .
+gesah:Photomechanical_Print display:hasCustomView mydomain:elementShortView .
+gesah:Painting display:hasCustomView mydomain:elementShortView .
+gesah:Digital_Image display:hasCustomView mydomain:elementShortView .
 
-gesah:Drawing display:hasCustomView mydomain:imageIndexShortView .
-gesah:Print display:hasCustomView mydomain:imageIndexShortView .
-gesah:Photomechanical_Print display:hasCustomView mydomain:imageIndexShortView .
-gesah:Painting display:hasCustomView mydomain:imageIndexShortView .
-gesah:Digital_Image display:hasCustomView mydomain:imageIndexShortView .
-
-mydomain:elementSearchShortView 
+mydomain:elementShortView
   a display:customViewForIndividual ; 
+  display:appliesToContext "BROWSE" ;
   display:appliesToContext "SEARCH" ;
-  display:hasTemplate "element_short_view.ftl" ;
-  display:hasDataGetter mydomain:elementImageSearchShortViewDataGetter ;
-  display:hasDataGetter mydomain:elementCreationDateSearchShortViewDataGetter ;
-  display:hasDataGetter mydomain:elementInfoCreatedSearchShortViewDataGetter ;
-  display:hasDataGetter mydomain:elementInfoProducedSearchShortViewDataGetter ;
-  display:hasDataGetter mydomain:elementInfoEditedSearchShortViewDataGetter .
-  
-mydomain:imageIndexShortView 
-  a display:customViewForIndividual ; 
   display:appliesToContext "INDEX" ;
   display:hasTemplate "element_short_view.ftl" ;
   display:hasDataGetter mydomain:elementImageSearchShortViewDataGetter ;
@@ -33,7 +19,6 @@ mydomain:imageIndexShortView
   display:hasDataGetter mydomain:elementInfoCreatedSearchShortViewDataGetter ;
   display:hasDataGetter mydomain:elementInfoProducedSearchShortViewDataGetter ;
   display:hasDataGetter mydomain:elementInfoEditedSearchShortViewDataGetter .
-  
 
 mydomain:elementInfoCreatedSearchShortViewDataGetter
   a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
