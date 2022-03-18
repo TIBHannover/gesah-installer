@@ -76,7 +76,7 @@ public class ObjectHasProductionGenerator extends GesahEditConfigurationGenerato
         conf.setVarNameForObject("obProduction");
 
         conf.setN3Required( Arrays.asList(n3ForNewObProduction) );
-        conf.setN3Optional(Arrays.asList( commentAssertion,  n3ForNewAttrType, n3ForExistingAttrType, n3ForNewAgent, n3ForExistingAgent, n3ForNewRole,
+        conf.setN3Optional(Arrays.asList( commentAssertion,  n3ForNewAttrType, n3ForExistingAttrType, n3ForNewAgent, n3ForExistingAgent, n3ForNewRole, n3ForExistingRole,
                 n3ForNewTechnique, n3ForExistingTechnique, n3ForNewMaterial,  n3ForExistingMaterial,  n3ForNewRoleType, n3ForExistingRoleType, n3ForNewPlace, n3ForExistingPlace, litDateAppelAssertion, n3ForStart, n3ForEnd ));
 
         conf.addNewResource("obProduction", DEFAULT_NS_FOR_NEW_RESOURCE);
@@ -114,8 +114,9 @@ public class ObjectHasProductionGenerator extends GesahEditConfigurationGenerato
         conf.addSparqlForExistingUris("existingAgent", existingAgentQuery);
         conf.addSparqlForExistingUris("existingAttrType", existingAttrTypeQuery);
         conf.addSparqlForExistingUris("existingRoleType", existingRoleTypeQuery);
-		conf.addSparqlForExistingUris("newRole", existingRoleQuery);
-		conf.addSparqlForExistingUris("agentType", agentTypeQuery);
+        conf.addSparqlForExistingUris("newRole", existingRoleQuery);
+        conf.addSparqlForExistingUris("existingRole", existingRoleQuery);
+        conf.addSparqlForExistingUris("agentType", agentTypeQuery);
         conf.addSparqlForExistingUris("existingPlace", existingPlaceQuery);
         conf.addSparqlForExistingUris("intervalNode",existingIntervalNodeQuery);
         conf.addSparqlForExistingUris("startNode", existingStartNodeQuery);
@@ -295,7 +296,11 @@ public class ObjectHasProductionGenerator extends GesahEditConfigurationGenerato
 		"?newRole <http://ontology.tib.eu/gesah/has_role_type> ?newRoleType . \n" +
         "?newRoleType <"+ label +"> ?newRoleTypeLabel . \n" +
 		"?newRoleType a  <http://ontology.tib.eu/gesah/Role_Type> . " ;
-			
+
+	final static String n3ForExistingRole  =
+			"@prefix gesah: <"+ gesah +"> .\n"+
+			"?obProduction <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n";
+	
 	final static String n3ForExistingRoleType  =
 		"?obProduction <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
         "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obProduction . \n" +
@@ -410,6 +415,10 @@ public class ObjectHasProductionGenerator extends GesahEditConfigurationGenerato
         "SELECT ?existingMaterial WHERE {\n"+
         "?obProduction <http://ontology.tib.eu/gesah/has_material> ?existingMaterial  . }";
 
+	final static String existingRoleQuery =
+			"SELECT ?existingRole WHERE {\n"+
+			"?obProduction <http://ontology.tib.eu/gesah/realizes> ?existingRole  . }";
+	
     final static String existingMaterialLabelQuery =
         "SELECT Distinct ?existingMaterialLabel WHERE {\n"+
         "?obProduction <http://ontology.tib.eu/gesah/has_material> ?existingMaterial . \n" +
@@ -536,10 +545,6 @@ public class ObjectHasProductionGenerator extends GesahEditConfigurationGenerato
 			+ " SELECT ?productionHasOutput "
 			+ "    WHERE { ?productionHasOutput owl:inverseOf <http://ontology.tib.eu/gesah/output_of_production> . } ";
 
-
-	final static String existingRoleQuery =
-			"SELECT ?existingRole WHERE {\n"+
-			"?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole  . }";
 
 	@Override
 	protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {
