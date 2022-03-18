@@ -87,15 +87,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 				<option value="${key}"  <#if existingRoleTypeValue == key>selected</#if>><#if existingRoleTypeOpts[key] == "Other">${i18n().or_other}<#else>${existingRoleTypeOpts[key]}</#if></option>
 			</#list>
 		</select>
-<#--
-      <#if editMode == "edit" || editMode == "repair">
-            <input type="hidden" id="newRoleTypeLabel" name="roleTypeLabel" value=""/>
-            <input type="hidden" id="roleTypeLabel" name="existingRoleTypeLabel" value="${existingRoleTypeLabelValue!}"/>
-      <#else>
-            <input type="hidden" id="roleTypeLabel" name="roleTypeLabel" value=""/>
-      </#if>
--->
-            <input type="hidden" id="roleTypeLabel" name="roleTypeLabel" value=""/>
+        <input type="hidden" id="roleTypeLabel" name="roleTypeLabel" value=""/>
     </div>		
 
 	<div class="entry">
