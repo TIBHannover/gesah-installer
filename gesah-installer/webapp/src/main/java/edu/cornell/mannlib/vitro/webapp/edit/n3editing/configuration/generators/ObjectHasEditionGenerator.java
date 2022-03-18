@@ -77,7 +77,7 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
 
         conf.setN3Required( Arrays.asList(n3ForNewObEdition) );
         conf.setN3Optional(Arrays.asList( commentAssertion,  n3ForNewAttrType, n3ForExistingAttrType, n3ForNewAgent, n3ForExistingAgent,
-                n3ForNewTechnique, n3ForExistingTechnique, n3ForNewMaterial, n3ForExistingMaterial, n3ForNewRole, n3ForNewRoleType, n3ForExistingRoleType, n3ForNewPlace, n3ForExistingPlace, litDateAppelAssertion, n3ForStart, n3ForEnd ));
+                n3ForNewTechnique, n3ForExistingTechnique, n3ForNewMaterial, n3ForExistingMaterial, n3ForNewRole, n3ForExistingRole, n3ForNewRoleType, n3ForExistingRoleType, n3ForNewPlace, n3ForExistingPlace, litDateAppelAssertion, n3ForStart, n3ForEnd ));
 
         conf.addNewResource("obEdition", DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addNewResource("newRole",DEFAULT_NS_FOR_NEW_RESOURCE);
@@ -94,15 +94,15 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
         //uris in scope: none
         //literals in scope: none
 
-        conf.setUrisOnform( Arrays.asList( "existingAgent", "agentType", "existingMaterial","existingTechnique", "existingAttrType", "existingRoleType", "existingPlace"));
-        conf.setLiteralsOnForm( Arrays.asList("agentLabel", "techniqueLabel", "materialLabel",  "roleTypeLabel", "agentLabelDisplay", "existingAttrTypeLabel", "placeLabel", "placeLabelDisplay","comment", "litDateAppel"));
+        conf.setUrisOnform( Arrays.asList( "existingAgent", "agentType", "existingMaterial","existingTechnique", "existingAttrType", "existingRoleType", "existingRole", "existingPlace"));
+        conf.setLiteralsOnForm( Arrays.asList("agentLabel", "techniqueLabel", "materialLabel", "roleTypeLabel", "agentLabelDisplay", "existingAttrTypeLabel", "placeLabel", "placeLabelDisplay","comment", "litDateAppel"));
 
         conf.addSparqlForExistingLiteral("agentLabel", agentLabelQuery);
-		conf.addSparqlForExistingLiteral("techniqueLabel", existingTechniqueLabelQuery);
-		conf.addSparqlForExistingLiteral("materialLabel", existingMaterialLabelQuery);
-		conf.addSparqlForExistingLiteral("placeLabel", existingPlaceLabelQuery);
-		conf.addSparqlForExistingLiteral("attrTypeLabel", existingAttrTypeLabelQuery);
-		conf.addSparqlForExistingLiteral("roleTypeLabel", existingRoleTypeLabelQuery);
+        conf.addSparqlForExistingLiteral("techniqueLabel", existingTechniqueLabelQuery);
+        conf.addSparqlForExistingLiteral("materialLabel", existingMaterialLabelQuery);
+        conf.addSparqlForExistingLiteral("placeLabel", existingPlaceLabelQuery);
+        conf.addSparqlForExistingLiteral("attrTypeLabel", existingAttrTypeLabelQuery);
+        conf.addSparqlForExistingLiteral("roleTypeLabel", existingRoleTypeLabelQuery);
         conf.addSparqlForExistingLiteral("comment", commentQuery);
         conf.addSparqlForExistingLiteral("litDateAppel", litDateAppelQuery);
         conf.addSparqlForExistingLiteral("startField-value", existingStartDateQuery);
@@ -110,15 +110,15 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
 
 
         conf.addSparqlForExistingUris("existingMaterial", existingMaterialQuery);
-		conf.addSparqlForExistingUris("existingTechnique", existingTechniqueQuery);
+        conf.addSparqlForExistingUris("existingTechnique", existingTechniqueQuery);
         conf.addSparqlForExistingUris("existingAgent", existingAgentQuery);
         conf.addSparqlForExistingUris("existingAttrType", existingAttrTypeQuery);
+        conf.addSparqlForExistingUris("agentType", agentTypeQuery);
         conf.addSparqlForExistingUris("existingRoleType", existingRoleTypeQuery);
-
-		conf.addSparqlForExistingUris("agentType", agentTypeQuery);
+        conf.addSparqlForExistingUris("newRole", existingRoleQuery);
+        conf.addSparqlForExistingUris("existingRole", existingRoleQuery);
         conf.addSparqlForExistingUris("existingPlace", existingPlaceQuery);
         conf.addSparqlForExistingUris("intervalNode",existingIntervalNodeQuery);
-        conf.addSparqlForExistingUris("newRole", existingRoleQuery);
         conf.addSparqlForExistingUris("startNode", existingStartNodeQuery);
         conf.addSparqlForExistingUris("endNode", existingEndNodeQuery);
         conf.addSparqlForExistingUris("startField-precision", existingStartPrecisionQuery);
@@ -126,30 +126,28 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
         //Add sparql to include inverse property as well
         conf.addSparqlForAdditionalUrisInScope("editionHasOutput", editionHasOutputQuery);
 			
-					
-
-		conf.addField( new FieldVTwo().
+        conf.addField( new FieldVTwo().
                 setName("existingAgent").
                 setOptions( new IndividualsViaVClassOptions(
                         agentClass)));	
 						
-		conf.addField( new FieldVTwo().
+        conf.addField( new FieldVTwo().
                 setName("newAgent").
                 setOptions( new IndividualsViaVClassOptions(
                         agentClass)));	
-				
-		conf.addField( new FieldVTwo().
+    				
+    		conf.addField( new FieldVTwo().
                 setName("agentType").
 				setValidators( list("nonempty")).
                 setOptions( new ChildVClassesOptions(
                         agentClass)));		
 
-		conf.addField( new FieldVTwo().
+    		conf.addField( new FieldVTwo().
                 setName("existingPlace").
                 setOptions( new IndividualsViaVClassOptions(
                         placeTypeClass)));
 
-		conf.addField( new FieldVTwo().
+    		conf.addField( new FieldVTwo().
                 setName("newPlace").
                 setOptions( new IndividualsViaVClassOptions(
                         placeTypeClass)));				
@@ -159,11 +157,10 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
                 setRangeDatatypeUri( XSD.xstring.toString() ).
                 setValidators(list("datatype:" + XSD.xstring.toString())));
 				
-		conf.addField( new FieldVTwo().
+        conf.addField( new FieldVTwo().
                 setName("litDateAppel").
                 setRangeDatatypeUri( XSD.xstring.toString() ).
                 setValidators(list("datatype:" + XSD.xstring.toString())));		
-
 
         conf.addField( new FieldVTwo().
                 setName("existingAttrType").
@@ -186,8 +183,8 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
                 setName("existingAttrTypeLabel").
                 setRangeDatatypeUri(XSD.xstring.toString() ).
                 setValidators( list("datatype:" + XSD.xstring.toString())));
-		
-		conf.addField( new FieldVTwo().
+    		
+    		conf.addField( new FieldVTwo().
                 setName("materialLabel").
                 setRangeDatatypeUri(XSD.xstring.toString() ).
                 setValidators( list("datatype:" + XSD.xstring.toString())));
@@ -298,11 +295,15 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
 		"?newRole <http://ontology.tib.eu/gesah/has_role_type> ?newRoleType . \n" +
         "?newRoleType <"+ label +"> ?newRoleTypeLabel . \n" +
 		"?newRoleType a  <http://ontology.tib.eu/gesah/Role_Type> . " ;
-			
+	
+	final static String n3ForExistingRole  =
+			"@prefix gesah: <"+ gesah +"> .\n"+
+			"?obEdition <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n";
+	
 	final static String n3ForExistingRoleType  =
 		"?obEdition <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-        "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obEdition . \n" +
-        "?newRole <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . " ;		
+    "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obEdition . \n" +
+    "?newRole <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . " ;		
 
 
     final static String n3ForNewAttrType  =
@@ -398,20 +399,23 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
         "?obEdition <http://ontology.tib.eu/gesah/has_type_of_attribution> ?existingAttrType . \n" +
         "?existingAttrType <"+ label +"> ?existingAttrTypeLabel .}";
 
-	final static String existingTechniqueQuery =
+    final static String existingTechniqueQuery =
         "SELECT ?existingTechnique WHERE {\n"+
         "?obEdition <http://ontology.tib.eu/gesah/uses_technique> ?existingTechnique . }";
-
-    final static String existingTechniqueLabelQuery =
+	
+		final static String existingTechniqueLabelQuery =
         "SELECT Distinct ?existingTechniqueLabel WHERE {\n"+
         "?obEdition <http://ontology.tib.eu/gesah/uses_technique> ?existingTechnique . \n" +
         "?existingTechnique <"+ label +"> ?existingTechniqueLabel .}";
-		
 
-	final static String existingMaterialQuery =
+		final static String existingMaterialQuery =
         "SELECT ?existingMaterial WHERE {\n"+
         "?obEdition <http://ontology.tib.eu/gesah/has_material> ?existingMaterial  . }";
 
+		final static String existingRoleQuery =
+			"SELECT ?existingRole WHERE {\n"+
+			"?obEdition <http://ontology.tib.eu/gesah/realizes> ?existingRole  . }"; 
+	
     final static String existingMaterialLabelQuery =
         "SELECT Distinct ?existingMaterialLabel WHERE {\n"+
         "?obEdition <http://ontology.tib.eu/gesah/has_material> ?existingMaterial . \n" +
@@ -467,7 +471,7 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
         "PREFIX rdfs: <"+ rdfs +">   \n"+
         "SELECT ?agentType WHERE {\n"+
         "?obEdition <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
-		"?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obCreation . \n" +
+		"?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obEdition . \n" +
 		"?existingAgent <http://ontology.tib.eu/gesah/has_role> ?existingRole .\n" +
 		"?existingRole <http://ontology.tib.eu/gesah/is_role_of> ?existingAgent .\n" +
         "?existingAgent a ?agentType .\n"+
@@ -538,10 +542,6 @@ public class ObjectHasEditionGenerator extends GesahEditConfigurationGenerator i
 			+ " SELECT ?editionHasOutput "
 			+ "    WHERE { ?editionHasOutput owl:inverseOf <http://ontology.tib.eu/gesah/object_of_publication> . } ";
 
-	final static String existingRoleQuery =
-			"SELECT ?existingRole WHERE {\n"+
-			"?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole  . }";
-	
 	@Override
 	protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {
 		List<String> predicates = new ArrayList<String>();

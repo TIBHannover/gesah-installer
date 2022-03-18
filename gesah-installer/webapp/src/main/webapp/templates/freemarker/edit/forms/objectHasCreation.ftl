@@ -129,7 +129,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
             <input class="display" type="hidden" id="placeLabel" acGroupName="place" name="placeLabelDisplay" value="${placeLabelDisplayValue}">
         </p>
 
-        <div class="acSelection" acGroupName="place">
+        <div class="acSelection" id="typeSelector" acGroupName="place">
             <p class="inline">
                 <label>${i18n().selected_place}:</label>
                 <span class="acSelectionInfo"></span>

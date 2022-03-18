@@ -98,11 +98,11 @@ public class ObjectHasCreationGenerator extends GesahEditConfigurationGenerator 
         conf.setLiteralsOnForm( Arrays.asList("agentLabel", "techniqueLabel", "materialLabel", "roleTypeLabel", "agentLabelDisplay", "existingAttrTypeLabel", "placeLabel", "placeLabelDisplay","comment", "litDateAppel"));
 
         conf.addSparqlForExistingLiteral("agentLabel", agentLabelQuery);
-		conf.addSparqlForExistingLiteral("techniqueLabel", existingTechniqueLabelQuery);
-		conf.addSparqlForExistingLiteral("materialLabel", existingMaterialLabelQuery);
-		conf.addSparqlForExistingLiteral("placeLabel", existingPlaceLabelQuery);
-		conf.addSparqlForExistingLiteral("attrTypeLabel", existingAttrTypeLabelQuery);
-		conf.addSparqlForExistingLiteral("roleTypeLabel", existingRoleTypeLabelQuery);
+        conf.addSparqlForExistingLiteral("techniqueLabel", existingTechniqueLabelQuery);
+        conf.addSparqlForExistingLiteral("materialLabel", existingMaterialLabelQuery);
+        conf.addSparqlForExistingLiteral("placeLabel", existingPlaceLabelQuery);
+        conf.addSparqlForExistingLiteral("attrTypeLabel", existingAttrTypeLabelQuery);
+        conf.addSparqlForExistingLiteral("roleTypeLabel", existingRoleTypeLabelQuery);
         conf.addSparqlForExistingLiteral("comment", commentQuery);
         conf.addSparqlForExistingLiteral("litDateAppel", litDateAppelQuery);
         conf.addSparqlForExistingLiteral("startField-value", existingStartDateQuery);
@@ -110,13 +110,13 @@ public class ObjectHasCreationGenerator extends GesahEditConfigurationGenerator 
 
 
         conf.addSparqlForExistingUris("existingMaterial", existingMaterialQuery);
-		conf.addSparqlForExistingUris("existingTechnique", existingTechniqueQuery);
+        conf.addSparqlForExistingUris("existingTechnique", existingTechniqueQuery);
         conf.addSparqlForExistingUris("existingAgent", existingAgentQuery);
         conf.addSparqlForExistingUris("existingAttrType", existingAttrTypeQuery);
         conf.addSparqlForExistingUris("agentType", agentTypeQuery);
         conf.addSparqlForExistingUris("existingRoleType", existingRoleTypeQuery);
-		conf.addSparqlForExistingUris("newRole", existingRoleQuery);
-		conf.addSparqlForExistingUris("existingRole", existingRoleQuery);
+        conf.addSparqlForExistingUris("newRole", existingRoleQuery);
+        conf.addSparqlForExistingUris("existingRole", existingRoleQuery);
         conf.addSparqlForExistingUris("existingPlace", existingPlaceQuery);
         conf.addSparqlForExistingUris("intervalNode",existingIntervalNodeQuery);
         conf.addSparqlForExistingUris("startNode", existingStartNodeQuery);
@@ -126,14 +126,12 @@ public class ObjectHasCreationGenerator extends GesahEditConfigurationGenerator 
         //Add sparql to include inverse property as well
         conf.addSparqlForAdditionalUrisInScope("creationHasOutput", creationHasOutputQuery);
 			
-					
-
-		conf.addField( new FieldVTwo().
+        conf.addField( new FieldVTwo().
                 setName("existingAgent").
                 setOptions( new IndividualsViaVClassOptions(
                         agentClass)));	
 						
-		conf.addField( new FieldVTwo().
+        conf.addField( new FieldVTwo().
                 setName("newAgent").
                 setOptions( new IndividualsViaVClassOptions(
                         agentClass)));	
@@ -144,7 +142,7 @@ public class ObjectHasCreationGenerator extends GesahEditConfigurationGenerator 
                 setOptions( new ChildVClassesOptions(
                         agentClass)));		
 
-		conf.addField( new FieldVTwo().
+        conf.addField( new FieldVTwo().
                 setName("existingPlace").
                 setOptions( new IndividualsViaVClassOptions(
                         placeTypeClass)));		
@@ -159,18 +157,16 @@ public class ObjectHasCreationGenerator extends GesahEditConfigurationGenerator 
                 setRangeDatatypeUri( XSD.xstring.toString() ).
                 setValidators(list("datatype:" + XSD.xstring.toString())));
 				
-		conf.addField( new FieldVTwo().
+        conf.addField( new FieldVTwo().
                 setName("litDateAppel").
                 setRangeDatatypeUri( XSD.xstring.toString() ).
                 setValidators(list("datatype:" + XSD.xstring.toString())));		
-
 
         conf.addField( new FieldVTwo().
                 setName("existingAttrType").
                 //setValidators( list("nonempty")).
                 setOptions( new IndividualsViaVClassOptions(
                         attributionTypeClass)));
-                
 
         conf.addField( new FieldVTwo().
                 setName("agentLabel").
@@ -187,12 +183,12 @@ public class ObjectHasCreationGenerator extends GesahEditConfigurationGenerator 
                 setRangeDatatypeUri(XSD.xstring.toString() ).
                 setValidators( list("datatype:" + XSD.xstring.toString())));
 		
-		conf.addField( new FieldVTwo().
+        conf.addField( new FieldVTwo().
                 setName("materialLabel").
                 setRangeDatatypeUri(XSD.xstring.toString() ).
                 setValidators( list("datatype:" + XSD.xstring.toString())));
 				
-		conf.addField( new FieldVTwo().
+        conf.addField( new FieldVTwo().
                 setName("roleTypeLabel").
                 setRangeDatatypeUri(XSD.xstring.toString() ).
                 setValidators( list("datatype:" + XSD.xstring.toString())));		
@@ -209,25 +205,23 @@ public class ObjectHasCreationGenerator extends GesahEditConfigurationGenerator 
                 setName("existingRoleType").
                 setOptions( new IndividualsViaVClassOptions(
                         roleTypeClass)));
-						
-		conf.addField( new FieldVTwo().
+    						
+    		conf.addField( new FieldVTwo().
                 setName("existingMaterial").
                 //setValidators( list("nonempty")).
                 setOptions( new IndividualsViaVClassOptions(
                         materialTypeClass)));;	
 
-		conf.addField( new FieldVTwo().
+        conf.addField( new FieldVTwo().
                 setName("existingTechnique").
                 //setValidators( list("nonempty")).
                 setOptions( new IndividualsViaVClassOptions(
                         techniqueTypeClass)));	
  
-						
-		conf.addField( new FieldVTwo().
+        conf.addField( new FieldVTwo().
                 setName("newRole").
                 setOptions( new IndividualsViaVClassOptions(
                         roleClass)));		
-    
 
         FieldVTwo startField = new FieldVTwo().
         						setName("startField");
@@ -295,7 +289,7 @@ public class ObjectHasCreationGenerator extends GesahEditConfigurationGenerator 
 
 	final static String n3ForExistingRole  =
 		"@prefix gesah: <"+ gesah +"> .\n"+
-		"?obCreation <http://ontology.tib.eu/gesah/realizesl> ?existingRole . \n";
+		"?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n";
 
 	final static String n3ForExistingRoleType  =
 		"?obCreation <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
@@ -405,14 +399,14 @@ public class ObjectHasCreationGenerator extends GesahEditConfigurationGenerator 
         "SELECT ?existingMaterial WHERE {\n"+
         "?obCreation <http://ontology.tib.eu/gesah/has_material> ?existingMaterial  . }";
 
+	final static String existingRoleQuery =
+		"SELECT ?existingRole WHERE {\n"+
+		"?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole  . }";
+	
     final static String existingMaterialLabelQuery =
         "SELECT Distinct ?existingMaterialLabel WHERE {\n"+
         "?obCreation <http://ontology.tib.eu/gesah/has_material> ?existingMaterial . \n" +
         "?existingMaterial <"+ label +"> ?existingMaterialLabel .}";
-
-	final static String existingRoleQuery =
-		"SELECT ?existingRole WHERE {\n"+
-		"?obCreation <http://ontology.tib.eu/gesah/realizes> ?existingRole  . }";
 
 	final static String existingRoleTypeQuery =
         "SELECT ?existingRoleType WHERE {\n"+
