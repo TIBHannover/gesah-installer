@@ -37,6 +37,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign existingPlaceValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingPlace") />
 <#assign placeLabelDisplayValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "placeLabelDisplay") />
 
+
 <h2>${titleVerb}&nbsp;${i18n().creation_for} ${editConfiguration.subjectName}</h2>
 
 <#include "objectHasCreationErrors.ftl" />
@@ -125,7 +126,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 
         <p>
             <label for="placeLabel">${i18n().place_name_capitalized} </label>
-            <input type="text" id="placeLabel" name="placeLabel" acGroupName="place" size="50" class="acSelector" value="${placeLabelValue}"  />
+            <input type="text" id="place" name="placeLabel" acGroupName="place" size="50" class="acSelector" value="${placeLabelValue}"  />
             <input class="display" type="hidden" id="placeLabel" acGroupName="place" name="placeLabelDisplay" value="${placeLabelDisplayValue}">
         </p>
 
