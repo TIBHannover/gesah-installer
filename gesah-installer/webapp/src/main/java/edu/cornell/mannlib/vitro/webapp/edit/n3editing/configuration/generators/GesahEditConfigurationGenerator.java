@@ -13,22 +13,22 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class GesahEditConfigurationGenerator extends BaseEditConfigurationGenerator implements EditConfigurationGenerator  {
-    protected final static String vivoCore ="http://vivoweb.org/ontology/core#" ;
-    protected final static String rdfs = VitroVocabulary.RDFS ;
-    protected final static String foaf = "http://xmlns.com/foaf/0.1/";
-    protected final static String type =VitroVocabulary.RDF_TYPE ;
-    protected final static String label =rdfs+"label" ;
-    protected final static String gesah = "http://ontology.tib.eu/gesah/";
-    protected final static String obo = "http://purl.obolibrary.org/obo/";
+  	protected final static String VIVO_CORE = "http://vivoweb.org/ontology/core#";
+  	protected final static String RDFS = VitroVocabulary.RDFS;
+  	protected final static String FOAF = "http://xmlns.com/foaf/0.1/";
+  	protected final static String TYPE = VitroVocabulary.RDF_TYPE;
+  	protected final static String LABEL = RDFS + "label";
+  	protected final static String GESAH = "http://ontology.tib.eu/gesah/";
+  	protected final static String OBO = "http://purl.obolibrary.org/obo/";
 
-    protected final static String dateTimeValue =vivoCore+"dateTime";
-    protected final static String dateTimeValueType =vivoCore+"DateTimeValue";
-    protected final static String dateTimePrecision =vivoCore+"dateTimePrecision";
+		protected final static String DATE_TIME_VALUE = VIVO_CORE + "dateTime";
+		protected final static String DATE_TIME_VALUE_TYPE = VIVO_CORE + "DateTimeValue";
+		protected final static String DATE_TIME_PRECISION = VIVO_CORE + "dateTimePrecision";
 
-    protected final static String toInterval =vivoCore+"dateTimeInterval";
-    protected final static String intervalType =vivoCore+"DateTimeInterval";
-    protected final static String intervalToStart =vivoCore+"start";
-    protected final static String intervalToEnd =vivoCore+"end";
+		protected final static String TO_INTERVAL = VIVO_CORE + "dateTimeInterval";
+		protected final static String INTERVAL_TYPE = VIVO_CORE + "DateTimeInterval";
+		protected final static String INTERVAL_TO_START = VIVO_CORE + "start";
+		protected final static String INTERVAL_TO_END = VIVO_CORE + "end";
 
     public EditConfigurationVTwo getEditConfiguration(VitroRequest vreq, HttpSession session) throws Exception {
         EditConfigurationVTwo conf = getDefaultConfiguration(vreq);

@@ -54,187 +54,179 @@ import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
  *
  *
  */
-public class ObjectHasProductionGenerator extends GesahEditConfigurationGenerator implements EditConfigurationGenerator{
-	private final static String agentClass = foaf + "Agent";
-	private final static String roleClass =obo + "BFO_0000023" ;
+public class ObjectHasProductionGenerator extends AbstractCulturalObjectGenerator implements EditConfigurationGenerator{
 
-	final static String attributionTypeClass =gesah+"Attribution_Type" ;
-	private final static String materialTypeClass =gesah+"Material" ;
-	private final static String placeTypeClass = vivoCore+"GeographicLocation" ;
-	private final static String roleTypeClass =gesah +"Role_Type";
-	private final static String techniqueTypeClass =gesah+"Technique" ;
-
-	private final static String commentPred =gesah+"comment" ;
-	private final static String literalDateAppelPred =gesah+"literal_date_appellation" ;
+	private static final String EXISTING_MATERIAL_LABEL = "existingMaterialLabel";
+	private static final String PRODUCTION_HAS_OUTPUT = "productionHasOutput";
+	private static final String OUTPUT_OF_PRODUCTION = "output_of_production";
+	private static final String LIT_DATE_APPEL = "litDateAppel";
+	private static final String OBJECT_HAS_PRODUCTION_FTL = "objectHasProduction.ftl";
 
 	@Override
 	protected void configureForm(VitroRequest vreq, HttpSession session, EditConfigurationVTwo conf) throws Exception {
-        conf.setTemplate("objectHasProduction.ftl");
+        conf.setTemplate(OBJECT_HAS_PRODUCTION_FTL);
 
-        conf.setVarNameForSubject("cultObject");
-        conf.setVarNameForPredicate("predicate");
-        conf.setVarNameForObject("obProduction");
+        conf.setVarNameForSubject(CULT_OBJECT);
+        conf.setVarNameForPredicate(PREDICATE);
+        conf.setVarNameForObject(OB_CULTURAL_OBJECT);
 
         conf.setN3Required( Arrays.asList(n3ForNewObProduction) );
-        conf.setN3Optional(Arrays.asList( commentAssertion,  n3ForNewAttrType, n3ForExistingAttrType, n3ForNewAgent, n3ForExistingAgent, n3ForNewRole, n3ForExistingRole,
-                n3ForNewTechnique, n3ForExistingTechnique, n3ForNewMaterial,  n3ForExistingMaterial,  n3ForNewRoleType, n3ForExistingRoleType, n3ForNewPlace, n3ForExistingPlace, litDateAppelAssertion, n3ForStart, n3ForEnd ));
+        conf.setN3Optional(Arrays.asList( commentAssertion,  n3ForNewAttrType, n3ForExistingAttrType, n3ForNewAgent,
+        		n3ForExistingAgent, n3ForNewRole, n3ForExistingRole, n3ForNewTechnique, n3ForExistingTechnique, n3ForNewMaterial,
+        		n3ForExistingMaterial,  n3ForNewRoleType, n3ForExistingRoleType, n3ForNewPlace, n3ForExistingPlace, 
+        		litDateAppelAssertion, n3ForStart, n3ForEnd ));
 
-        conf.addNewResource("obProduction", DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource("newRole",DEFAULT_NS_FOR_NEW_RESOURCE);
-		conf.addNewResource("newRoleType",DEFAULT_NS_FOR_NEW_RESOURCE);
-		conf.addNewResource("newAttrType",DEFAULT_NS_FOR_NEW_RESOURCE);
-		conf.addNewResource("newTechnique",DEFAULT_NS_FOR_NEW_RESOURCE);
-		conf.addNewResource("newMaterial",DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource("newAgent",DEFAULT_NS_FOR_NEW_RESOURCE);
-		conf.addNewResource("newPlace",DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource("intervalNode",DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource("startNode",DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource("endNode",DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource(OB_CULTURAL_OBJECT, DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource(NEW_ROLE,DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource(NEW_ROLE_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource(NEW_ATTR_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource(NEW_TECHNIQUE,DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource(NEW_MATERIAL,DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource(NEW_AGENT,DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource(NEW_PLACE,DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource(INTERVAL_NODE,DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource(START_NODE,DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource(END_NODE,DEFAULT_NS_FOR_NEW_RESOURCE);
 
         //uris in scope: none
         //literals in scope: none
 
-        conf.setUrisOnform( Arrays.asList( "existingAgent", "agentType", "existingMaterial","existingTechnique", "existingAttrType", "existingRoleType", "existingPlace"));
-        conf.setLiteralsOnForm( Arrays.asList("agentLabel", "techniqueLabel", "materialLabel", "roleTypeLabel", "agentLabelDisplay", "existingAttrTypeLabel", "placeLabel", "placeLabelDisplay","comment", "litDateAppel"));
+        conf.setUrisOnform( Arrays.asList( EXISTING_AGENT, AGENT_TYPE, EXISTING_MATERIAL,EXISTING_TECHNIQUE, EXISTING_ATTR_TYPE,
+        		EXISTING_ROLE_TYPE, EXISTING_ROLE, EXISTING_PLACE));
+        conf.setLiteralsOnForm( Arrays.asList(AGENT_LABEL, TECHNIQUE_LABEL, MATERIAL_LABEL, ROLE_TYPE_LABEL, AGENT_LABEL_DISPLAY, 
+        		EXISTING_ATTR_TYPE_LABEL, PLACE_LABEL, PLACE_LABEL_DISPLAY, COMMENT, LIT_DATE_APPEL));
 
-        conf.addSparqlForExistingLiteral("agentLabel", agentLabelQuery);
-		conf.addSparqlForExistingLiteral("techniqueLabel", existingTechniqueLabelQuery);
-		conf.addSparqlForExistingLiteral("materialLabel", existingMaterialLabelQuery);
-		conf.addSparqlForExistingLiteral("placeLabel", existingPlaceLabelQuery);
-		conf.addSparqlForExistingLiteral("attrTypeLabel", existingAttrTypeLabelQuery);
-		conf.addSparqlForExistingLiteral("roleTypeLabel", existingRoleTypeLabelQuery);
-        conf.addSparqlForExistingLiteral("comment", commentQuery);
-        conf.addSparqlForExistingLiteral("litDateAppel", litDateAppelQuery);
-        conf.addSparqlForExistingLiteral("startField-value", existingStartDateQuery);
-        conf.addSparqlForExistingLiteral("endField-value", existingEndDateQuery);
+        conf.addSparqlForExistingLiteral(AGENT_LABEL, agentLabelQuery);
+        conf.addSparqlForExistingLiteral(TECHNIQUE_LABEL, existingTechniqueLabelQuery);
+        conf.addSparqlForExistingLiteral(MATERIAL_LABEL, existingMaterialLabelQuery);
+        conf.addSparqlForExistingLiteral(PLACE_LABEL, existingPlaceLabelQuery);
+        conf.addSparqlForExistingLiteral(ATTR_TYPE_LABEL, existingAttrTypeLabelQuery);
+        conf.addSparqlForExistingLiteral(ROLE_TYPE_LABEL, existingRoleTypeLabelQuery);
+        conf.addSparqlForExistingLiteral(COMMENT, commentQuery);
+        conf.addSparqlForExistingLiteral(LIT_DATE_APPEL, litDateAppelQuery);
+        conf.addSparqlForExistingLiteral(START_FIELD_VALUE, existingStartDateQuery);
+        conf.addSparqlForExistingLiteral(END_FIELD_VALUE, existingEndDateQuery);
 
 
-        conf.addSparqlForExistingUris("existingMaterial", existingMaterialQuery);
-		conf.addSparqlForExistingUris("existingTechnique", existingTechniqueQuery);
-        conf.addSparqlForExistingUris("existingAgent", existingAgentQuery);
-        conf.addSparqlForExistingUris("existingAttrType", existingAttrTypeQuery);
-        conf.addSparqlForExistingUris("existingRoleType", existingRoleTypeQuery);
-        conf.addSparqlForExistingUris("newRole", existingRoleQuery);
-        conf.addSparqlForExistingUris("existingRole", existingRoleQuery);
-        conf.addSparqlForExistingUris("agentType", agentTypeQuery);
-        conf.addSparqlForExistingUris("existingPlace", existingPlaceQuery);
-        conf.addSparqlForExistingUris("intervalNode",existingIntervalNodeQuery);
-        conf.addSparqlForExistingUris("startNode", existingStartNodeQuery);
-        conf.addSparqlForExistingUris("endNode", existingEndNodeQuery);
-        conf.addSparqlForExistingUris("startField-precision", existingStartPrecisionQuery);
-        conf.addSparqlForExistingUris("endField-precision", existingEndPrecisionQuery);
+        conf.addSparqlForExistingUris(EXISTING_MATERIAL, existingMaterialQuery);
+        conf.addSparqlForExistingUris(EXISTING_TECHNIQUE, existingTechniqueQuery);
+        conf.addSparqlForExistingUris(EXISTING_AGENT, existingAgentQuery);
+        conf.addSparqlForExistingUris(EXISTING_ATTR_TYPE, existingAttrTypeQuery);
+        conf.addSparqlForExistingUris(EXISTING_ROLE_TYPE, existingRoleTypeQuery);
+        conf.addSparqlForExistingUris(NEW_ROLE, existingRoleQuery);
+        conf.addSparqlForExistingUris(EXISTING_ROLE, existingRoleQuery);
+        conf.addSparqlForExistingUris(AGENT_TYPE, agentTypeQuery);
+        conf.addSparqlForExistingUris(EXISTING_PLACE, existingPlaceQuery);
+        conf.addSparqlForExistingUris(INTERVAL_NODE,existingIntervalNodeQuery);
+        conf.addSparqlForExistingUris(START_NODE, existingStartNodeQuery);
+        conf.addSparqlForExistingUris(END_NODE, existingEndNodeQuery);
+        conf.addSparqlForExistingUris(START_FIELD_PRECISION, existingStartPrecisionQuery);
+        conf.addSparqlForExistingUris(END_FIELD_PRECISION, existingEndPrecisionQuery);
         //Add sparql to include inverse property as well
-        conf.addSparqlForAdditionalUrisInScope("productionHasOutput", productionHasOutputQuery);
-			
-					
+        conf.addSparqlForAdditionalUrisInScope(PRODUCTION_HAS_OUTPUT, productionHasOutputQuery);
 
-		conf.addField( new FieldVTwo().
-                setName("existingAgent").
+        conf.addField( new FieldVTwo().
+                setName(EXISTING_AGENT).
                 setOptions( new IndividualsViaVClassOptions(
-                        agentClass)));	
+                        AGENT_CLASS)));	
 						
-		conf.addField( new FieldVTwo().
-                setName("newAgent").
+        conf.addField( new FieldVTwo().
+                setName(NEW_AGENT).
                 setOptions( new IndividualsViaVClassOptions(
-                        agentClass)));	
+                        AGENT_CLASS)));	
 				
-		conf.addField( new FieldVTwo().
-                setName("agentType").
-				setValidators( list("nonempty")).
+        conf.addField( new FieldVTwo().
+                setName(AGENT_TYPE).
+                setValidators( list(NONEMPTY)).
                 setOptions( new ChildVClassesOptions(
-                        agentClass)));			
-
-		conf.addField( new FieldVTwo().
-                setName("existingPlace").
-                setOptions( new IndividualsViaVClassOptions(
-                        placeTypeClass)));
-
-		conf.addField( new FieldVTwo().
-                setName("newPlace").
-                setOptions( new IndividualsViaVClassOptions(
-                        placeTypeClass)));				
+                        AGENT_CLASS)));			
 
         conf.addField( new FieldVTwo().
-                setName("comment").
+                setName(EXISTING_PLACE).
+                setOptions( new IndividualsViaVClassOptions(
+                        PLACE_TYPE_CLASS)));
+
+        conf.addField( new FieldVTwo().
+                setName(NEW_PLACE).
+                setOptions( new IndividualsViaVClassOptions(
+                        PLACE_TYPE_CLASS)));				
+
+        conf.addField( new FieldVTwo().
+                setName(COMMENT).
                 setRangeDatatypeUri( XSD.xstring.toString() ).
-                setValidators(list("datatype:" + XSD.xstring.toString())));
+                setValidators(list(DATATYPE + XSD.xstring.toString())));
 				
-		conf.addField( new FieldVTwo().
-                setName("litDateAppel").
+        conf.addField( new FieldVTwo().
+                setName(LIT_DATE_APPEL).
                 setRangeDatatypeUri( XSD.xstring.toString() ).
-                setValidators(list("datatype:" + XSD.xstring.toString())));		
-
+                setValidators(list(DATATYPE + XSD.xstring.toString())));		
 
         conf.addField( new FieldVTwo().
-                setName("existingAttrType").
+                setName(EXISTING_ATTR_TYPE).
                 setOptions( new IndividualsViaVClassOptions(
-                        attributionTypeClass)));
-                
+                        ATTRIBUTION_TYPE_CLASS)));
 
         conf.addField( new FieldVTwo().
-                setName("agentLabel").
+                setName(AGENT_LABEL).
                 setRangeDatatypeUri(XSD.xstring.toString() ).
-                setValidators( list("datatype:" + XSD.xstring.toString())));
+                setValidators( list(DATATYPE + XSD.xstring.toString())));
 
         conf.addField( new FieldVTwo().
-                setName("techniqueLabel").
+                setName(TECHNIQUE_LABEL).
                 setRangeDatatypeUri(XSD.xstring.toString() ).
-                setValidators( list("datatype:" + XSD.xstring.toString())));
-						
+                setValidators( list(DATATYPE + XSD.xstring.toString())));
 
         conf.addField( new FieldVTwo().
-                setName("existingAttrTypeLabel").
+                setName(EXISTING_ATTR_TYPE_LABEL).
                 setRangeDatatypeUri(XSD.xstring.toString() ).
-                setValidators( list("datatype:" + XSD.xstring.toString())));
+                setValidators( list(DATATYPE + XSD.xstring.toString())));
 		
-		conf.addField( new FieldVTwo().
-                setName("materialLabel").
+        conf.addField( new FieldVTwo().
+                setName(MATERIAL_LABEL).
                 setRangeDatatypeUri(XSD.xstring.toString() ).
-                setValidators( list("datatype:" + XSD.xstring.toString())));
-						
+                setValidators( list(DATATYPE + XSD.xstring.toString())));
 				
-		conf.addField( new FieldVTwo().
-                setName("roleTypeLabel").
+        conf.addField( new FieldVTwo().
+                setName(ROLE_TYPE_LABEL).
                 setRangeDatatypeUri(XSD.xstring.toString() ).
-                setValidators( list("datatype:" + XSD.xstring.toString())));		
+                setValidators( list(DATATYPE + XSD.xstring.toString())));		
 
         conf.addField( new FieldVTwo().
-                setName("agentLabelDisplay").
+                setName(AGENT_LABEL_DISPLAY).
                 setRangeDatatypeUri(XSD.xstring.toString() ));
 				
-		conf.addField( new FieldVTwo().
-                setName("placeLabelDisplay").
+        conf.addField( new FieldVTwo().
+                setName(PLACE_LABEL_DISPLAY).
                 setRangeDatatypeUri(XSD.xstring.toString() ));	
 		
-		conf.addField( new FieldVTwo().
-                setName("placeLabel").
+        conf.addField( new FieldVTwo().
+                setName(PLACE_LABEL).
                 setRangeDatatypeUri(XSD.xstring.toString() ));
 
         conf.addField( new FieldVTwo().
-                setName("existingRoleType").
+                setName(EXISTING_ROLE_TYPE).
                 setOptions( new IndividualsViaVClassOptions(
-                        roleTypeClass)));
+                        ROLE_TYPE_CLASS)));
 						
-		conf.addField( new FieldVTwo().
-                setName("existingMaterial").
+        conf.addField( new FieldVTwo().
+                setName(EXISTING_MATERIAL).
                 //setValidators( list("nonempty")).
                 setOptions( new IndividualsViaVClassOptions(
-                        materialTypeClass)));	
+                        MATERIAL_TYPE_CLASS)));	
 
-		conf.addField( new FieldVTwo().
-                setName("existingTechnique").
+        conf.addField( new FieldVTwo().
+                setName(EXISTING_TECHNIQUE).
                 //setValidators( list("nonempty")).
                 setOptions( new IndividualsViaVClassOptions(
-                        techniqueTypeClass)));	
+                        TECHNIQUE_TYPE_CLASS)));	
  				
-		conf.addField( new FieldVTwo().
-                setName("newRole").
+        conf.addField( new FieldVTwo().
+                setName(NEW_ROLE).
                 setOptions( new IndividualsViaVClassOptions(
-                        roleClass)));							
-    
+                        ROLE_CLASS)));							
 
         FieldVTwo startField = new FieldVTwo().
-        						setName("startField");
+        						setName(START_FIELD);
         conf.addField(startField.
             setEditElement(
                     new DateTimeWithPrecisionVTwo(startField,
@@ -242,315 +234,38 @@ public class ObjectHasProductionGenerator extends GesahEditConfigurationGenerato
                     VitroVocabulary.Precision.NONE.uri())));
 
         FieldVTwo endField = new FieldVTwo().
-								setName("endField");
+								setName(END_FIELD);
         conf.addField( endField.
                 setEditElement(
                         new DateTimeWithPrecisionVTwo(endField,
                         VitroVocabulary.Precision.YEAR.uri(),
                         VitroVocabulary.Precision.NONE.uri())));
         //Add validator
-        conf.addValidator(new DateTimeIntervalValidationVTwo("startField","endField"));
+        conf.addValidator(new DateTimeIntervalValidationVTwo(START_FIELD,END_FIELD));
         conf.addValidator(new AntiXssValidation());
     }
 
     /* N3 assertions for production of a cultural object */
 
     final static String n3ForNewObProduction =
-        "?cultObject <http://ontology.tib.eu/gesah/output_of_production>  ?obProduction .\n" +
-        "?obProduction  a <http://ontology.tib.eu/gesah/Production> ; \n" +
-		"	 <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obProduction . \n" +
-        "?obProduction <http://ontology.tib.eu/gesah/has_production_output> ?cultObject .";
-		
- final static String n3ForNewAgent  =
-		"@prefix rdfs: <"+ rdfs +">   .\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_participant> ?newAgent . \n" +
-        "?newAgent <http://ontology.tib.eu/gesah/participates_in> ?obProduction . \n" +
-		"?obProduction <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-		"?newAgent <http://ontology.tib.eu/gesah/has_role> ?newRole . \n" +
-		"?newRole <http://ontology.tib.eu/gesah/is_role_of> ?newAgent . \n" +
-		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obProduction . \n" +
-        "?newAgent a ?agentType . \n" +
-		"?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> .\n" +
-        "?newAgent rdfs:label ?agentLabel . ";
-
-    final static String n3ForExistingAgent  =
-		"@prefix rdfs: <"+ rdfs +">  . \n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
-		"?obProduction <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-        "?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obProduction . \n" +
-		"?existingAgent <http://ontology.tib.eu/gesah/has_role> ?newRole . \n" +
-		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obProduction . \n" +
-		"?newRole <http://ontology.tib.eu/gesah/is_role_of> ?existingAgent . " ;
-
-	final static String n3ForNewRole  =
-		"?obProduction <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-		"?newRole <http://ontology.tib.eu/gesah/realized_in> ?obProduction . \n" +
-		"?newRole a <http://purl.obolibrary.org/obo/BFO_0000023> . " ;
-		
-
-	final static String n3ForNewRoleType  =
-		"@prefix rdfs: <"+ rdfs +">  . \n"+
-        "?obProduction <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-        "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obProduction . \n" +
-		"?newRole <http://ontology.tib.eu/gesah/has_role_type> ?newRoleType . \n" +
-        "?newRoleType <"+ label +"> ?newRoleTypeLabel . \n" +
-		"?newRoleType a  <http://ontology.tib.eu/gesah/Role_Type> . " ;
-
-	final static String n3ForExistingRole  =
-			"@prefix gesah: <"+ gesah +"> .\n"+
-			"?obProduction <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n";
-	
-	final static String n3ForExistingRoleType  =
-		"?obProduction <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-        "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obProduction . \n" +
-        "?newRole <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . " ;		
-
-
-    final static String n3ForNewAttrType  =
-        "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_type_of_attribution> ?newAttrType . \n" +
-        "?newAttrType <http://ontology.tib.eu/gesah/is_attribution_type_of> ?obProduction . \n" +
-        "?newAttrType <"+ label +"> ?attrTypeLabel . \n" +
-        "?newAttrType a <http://ontology.tib.eu/gesah/Attribution_Type> .";
-		
-	final static String n3ForExistingAttrType  =
-        "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_type_of_attribution> ?existingAttrType . \n" +
-        "?existingAttrType <http://ontology.tib.eu/gesah/is_attribution_type_of> ?obProduction . \n" +
-        "?existingAttrType a <http://ontology.tib.eu/gesah/Attribution_Type> .";	
-
-   
-    final static String n3ForNewTechnique  =
-        "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/uses_technique> ?newTechnique . \n" +
-        "?newTechnique <http://ontology.tib.eu/gesah/used_in> ?obProduction . \n" +
-        "?newTechnique <"+ label +"> ?techniqueLabel . \n" +
-        "?newTechnique a <http://ontology.tib.eu/gesah/Technique> .";
-		
-		
-	final static String n3ForExistingTechnique  =
-        "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/uses_technique> ?existingTechnique . \n" +
-        "?existingTechnique <http://ontology.tib.eu/gesah/used_in> ?obProduction . \n" +
-        "?existingTechnique a <http://ontology.tib.eu/gesah/Technique> .";	
-				
-		
-	final static String n3ForNewMaterial  =
-        "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_material> ?newMaterial . \n" +
-        "?newMaterial <http://ontology.tib.eu/gesah/incorporated_in> ?obProduction . \n" +
-        "?newMaterial <"+ label +"> ?materialLabel . \n" +
-        "?newMaterial a <http://ontology.tib.eu/gesah/Material> .";
-		
-		
-	final static String n3ForExistingMaterial  =
-        "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_material> ?existingMaterial . \n" +
-        "?existingMaterial <http://ontology.tib.eu/gesah/incorporated_in> ?obProduction . \n" +
-        "?existingMaterial a <http://ontology.tib.eu/gesah/Material> .";
-		
-		
-	final static String n3ForNewPlace  =
-        "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_place> ?newPlace . \n" +
-        "?newPlace <http://ontology.tib.eu/gesah/is_place_of> ?obProduction . \n" +
-        "?newPlace <"+ label +"> ?placeLabel . \n" +
-        "?newPlace a <http://vivoweb.org/ontology/core#GeographicLocation> .";
-		
-	final static String n3ForExistingPlace  =
-        "@prefix gesah: <"+ gesah +"> .\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_place> ?existingPlace . \n" +
-        "?existingPlace <http://ontology.tib.eu/gesah/is_place_of> ?obProduction . \n" +
-        "?existingPlace a <http://vivoweb.org/ontology/core#GeographicLocation> .";
-		
-    final static String commentAssertion  =
-        "?obProduction <http://ontology.tib.eu/gesah/comment> ?comment .";
-		
-	final static String litDateAppelAssertion  =
-        "?obProduction <http://ontology.tib.eu/gesah/literal_date_appellation> ?litDateAppel .";	
-
-    final static String n3ForStart =
-        "?obProduction      <"+ toInterval +"> ?intervalNode .\n"+
-        "?intervalNode  <"+ type +"> <"+ intervalType +"> .\n"+
-        "?intervalNode <"+ intervalToStart +"> ?startNode .\n"+
-        "?startNode  <"+ type +"> <"+ dateTimeValueType +"> .\n"+
-        "?startNode  <"+ dateTimeValue +"> ?startField-value .\n"+
-        "?startNode  <"+ dateTimePrecision +"> ?startField-precision .";
-
-    final static String n3ForEnd =
-        "?obProduction     <"+ toInterval +"> ?intervalNode . \n"+
-        "?intervalNode  <"+ type +"> <"+ intervalType +"> .\n"+
-        "?intervalNode <"+ intervalToEnd +"> ?endNode .\n"+
-        "?endNode  <"+ type +"> <"+ dateTimeValueType +"> .\n"+
-        "?endNode  <"+ dateTimeValue +"> ?endField-value .\n"+
-        "?endNode  <"+ dateTimePrecision +"> ?endField-precision .";
-
-
-
- 
-  //Queries for editing an existing production entry
-  
-	 
-    final static String existingAttrTypeQuery =
-        "SELECT ?existingAttrType WHERE {\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_type_of_attribution> ?existingAttrType . }";
-
-    final static String existingAttrTypeLabelQuery =
-        "SELECT Distinct ?existingAttrTypeLabel WHERE {\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_type_of_attribution> ?existingAttrType . \n" +
-        "?existingAttrType <"+ label +"> ?existingAttrTypeLabel . }";
-
-	final static String existingTechniqueQuery =
-        "SELECT ?existingTechnique WHERE {\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/uses_technique> ?existingTechnique . }";
-
-    final static String existingTechniqueLabelQuery =
-        "SELECT Distinct ?existingTechniqueLabel WHERE {\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/uses_technique> ?existingTechnique . \n" +
-        "?existingTechnique <"+ label +"> ?existingTechniqueLabel }";
-		
-
-	final static String existingMaterialQuery =
-        "SELECT ?existingMaterial WHERE {\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_material> ?existingMaterial  . }";
-
-	final static String existingRoleQuery =
-			"SELECT ?existingRole WHERE {\n"+
-			"?obProduction <http://ontology.tib.eu/gesah/realizes> ?existingRole  . }";
-	
-    final static String existingMaterialLabelQuery =
-        "SELECT Distinct ?existingMaterialLabel WHERE {\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_material> ?existingMaterial . \n" +
-        "?existingMaterial <"+ label +"> ?existingMaterialLabel }";			
-		
-	final static String existingRoleTypeQuery =
-        "SELECT ?existingRoleType WHERE {\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n" +
-        "?existingRole <http://ontology.tib.eu/gesah/realized_in> ?obProduction . \n" +
-		"?existingRole <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . }";
-		
-
-    final static String existingRoleTypeLabelQuery =
-        "SELECT Distinct ?existingRoleTypeLabel WHERE {\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/realizes> ?existingRole . \n" +
-        "?existingRole <http://ontology.tib.eu/gesah/realized_in> ?obProduction . \n" +
-		"?existingRole <http://ontology.tib.eu/gesah/has_role_type> ?existingRoleType . \n" +
-        "?existingRoleType <"+ label +"> ?existingRoleTypeLabel . }";		
-		
-	final static String existingPlaceQuery =
-        "SELECT  ?existingPlace WHERE {\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_place> ?existingPlace  . }";
-
-    final static String existingPlaceLabelQuery =
-        "SELECT Distinct ?existingPlaceLabel WHERE {\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_place> ?existingPlace . \n" +
-        "?existingPlace <"+ label +"> ?existingPlaceLabel .}";	
-	
-    final static String existingAgentQuery  =
-        "PREFIX rdfs: <"+ rdfs +">   \n"+
-        "SELECT ?existingAgent WHERE {\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
-		"?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obProduction . \n" +
-		"?existingAgent <http://ontology.tib.eu/gesah/has_role> ?existingRole .\n" +
-		"?existingRole <http://ontology.tib.eu/gesah/is_role_of> ?existingAgent .\n" +
-		"?existingAgent a ?agentType . \n " +
-        "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> . }" ;
-
-    final static String agentLabelQuery  =
-        "PREFIX rdfs: <"+ rdfs +">   \n"+
-        "SELECT Distinct ?existingAgentLabel WHERE {\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
-		"?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obProduction . \n" +
-        "?existingAgent <"+ label +"> ?existingAgentLabel .\n"+
-        "?existingAgent a ?agentType . \n " +
-        "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> . }" ;
-
-
-	/* Limit type to subclasses of foaf:Agent. Otherwise, sometimes owl:Thing or another
-    type is returned and we don't get a match to the select element options. */
-	
-    final static String agentTypeQuery  =
-        "PREFIX rdfs: <"+ rdfs +">   \n"+
-        "SELECT ?agentType WHERE {\n"+
-        "?obProduction <http://ontology.tib.eu/gesah/has_participant> ?existingAgent . \n" +
-		"?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obProduction . \n" +
-		"?existingAgent <http://ontology.tib.eu/gesah/has_role> ?existingRole .\n" +
-		"?existingRole <http://ontology.tib.eu/gesah/is_role_of> ?existingAgent .\n" +
-        "?existingAgent a ?agentType .\n"+
-        "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> .}";		
-	
-    final static String commentQuery  =
-        "SELECT ?existingComment WHERE {\n"+
-        "?obProduction <"+ commentPred +"> ?existingComment . }";
-
-    final static String litDateAppelQuery  =
-        "SELECT ?existinglitDateAppel WHERE {\n"+
-        "?obProduction <"+ literalDateAppelPred +"> ?existinglitDateAppel . }";
-
-    final static String existingIntervalNodeQuery  =
-        "SELECT ?existingIntervalNode WHERE {\n"+
-        "?obProduction <"+ toInterval +"> ?existingIntervalNode .\n"+
-        "?existingIntervalNode <"+ type +"> <"+ intervalType +"> . }";
-
-    final static String existingStartNodeQuery  =
-        "SELECT ?existingStartNode WHERE {\n"+
-        "?obProduction <"+ toInterval +"> ?intervalNode .\n"+
-        "?intervalNode <"+ type +"> <"+ intervalType +"> .\n"+
-        "?intervalNode <"+ intervalToStart +"> ?existingStartNode . \n"+
-        "?existingStartNode <"+ type +"> <"+ dateTimeValueType +"> .}";
-
-    final static String existingStartDateQuery  =
-        "SELECT ?existingDateStart WHERE {\n"+
-        "?obProduction <"+ toInterval +"> ?intervalNode .\n"+
-        "?intervalNode <"+ type +"> <"+ intervalType +"> .\n"+
-        "?intervalNode <"+ intervalToStart +"> ?startNode .\n"+
-        "?startNode <"+ type +"> <"+ dateTimeValueType +"> .\n"+
-        "?startNode <"+ dateTimeValue +"> ?existingDateStart . }";
-
-    final static String existingStartPrecisionQuery  =
-        "SELECT ?existingStartPrecision WHERE {\n"+
-        "?obProduction <"+ toInterval +"> ?intervalNode .\n"+
-        "?intervalNode <"+ type +"> <"+ intervalType +"> .\n"+
-        "?intervalNode <"+ intervalToStart +"> ?startNode .\n"+
-        "?startNode <"+ type +"> <"+ dateTimeValueType +"> . \n"+
-        "?startNode <"+ dateTimePrecision +"> ?existingStartPrecision . }";
-
-    final static String existingEndNodeQuery  =
-        "SELECT ?existingEndNode WHERE { \n"+
-        "?obProduction <"+ toInterval +"> ?intervalNode .\n"+
-        "?intervalNode <"+ type +"> <"+ intervalType +"> .\n"+
-        "?intervalNode <"+ intervalToEnd +"> ?existingEndNode . \n"+
-        "?existingEndNode <"+ type +"> <"+ dateTimeValueType +"> .}";
-
-    final static String existingEndDateQuery  =
-        "SELECT ?existingEndDate WHERE {\n"+
-        "?obProduction <"+ toInterval +"> ?intervalNode .\n"+
-        "?intervalNode <"+ type +"> <"+ intervalType +"> .\n"+
-        "?intervalNode <"+ intervalToEnd +"> ?endNode .\n"+
-        "?endNode <"+ type +"> <"+ dateTimeValueType +"> .\n"+
-        "?endNode <"+ dateTimeValue +"> ?existingEndDate . }";
-
-    final static String existingEndPrecisionQuery  =
-        "SELECT ?existingEndPrecision WHERE {\n"+
-        "?obProduction <"+ toInterval +"> ?intervalNode .\n"+
-        "?intervalNode <"+ type +"> <"+ intervalType +"> .\n"+
-        "?intervalNode <"+ intervalToEnd +"> ?endNode .\n"+
-        "?endNode <"+ type +"> <"+ dateTimeValueType +"> .\n"+
-        "?endNode <"+ dateTimePrecision +"> ?existingEndPrecision . }";
+        "?cultObject" + " " + "<" + GESAH + "output_of_production> " + " " + VAR + OB_CULTURAL_OBJECT + " .\n" +
+        VAR + OB_CULTURAL_OBJECT + "  a" + " " + "<" + GESAH + "Production> ; \n" +
+        "	<" + GESAH_REALIZES + ">" + " " + VAR + NEW_ROLE + " . \n" +
+        VAR + NEW_ROLE +" " + "<" + GESAH + "realized_in" + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . \n" +
+        VAR + OB_CULTURAL_OBJECT +" " + "<" + GESAH + "has_production_output> ?cultObject .";
 
     //Query for inverse property
     final static String productionHasOutputQuery  =
-    	  "PREFIX owl:  <http://www.w3.org/2002/07/owl#>"
-			+ " SELECT ?productionHasOutput "
-			+ "    WHERE { ?productionHasOutput owl:inverseOf <http://ontology.tib.eu/gesah/output_of_production> . } ";
+    	  "PREFIX owl:  <http://www.w3.org/2002/07/owl#" + ">" +
+			  " SELECT" + " " + VAR + PRODUCTION_HAS_OUTPUT + " " +
+			  " WHERE {" + " " + VAR + PRODUCTION_HAS_OUTPUT + " owl:inverseOf " + "<" + GESAH + OUTPUT_OF_PRODUCTION +">" + " " + ". } ";
 
 
-	@Override
-	protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {
-	List<String> predicates = new ArrayList<String>();
-		predicates.add("http://ontology.tib.eu/gesah/output_of_production");
-		return EditModeUtils.getEditMode(vreq, predicates);
-	}
+		@Override
+		protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {
+			List<String> predicates = new ArrayList<String>();
+			predicates.add(GESAH + OUTPUT_OF_PRODUCTION);
+			return EditModeUtils.getEditMode(vreq, predicates);
+		}
 	
 }
