@@ -197,6 +197,10 @@ public class ObjectHasCreationGenerator extends AbstractCulturalObjectGenerator 
                 setRangeDatatypeUri(XSD.xstring.toString() ));        
 
         conf.addField( new FieldVTwo().
+            setName(PLACE_LABEL).
+            setRangeDatatypeUri(XSD.xstring.toString() ));
+        
+        conf.addField( new FieldVTwo().
                 setName(EXISTING_ROLE_TYPE).
                 setOptions( new IndividualsViaVClassOptions(
                         ROLE_TYPE_CLASS)));
