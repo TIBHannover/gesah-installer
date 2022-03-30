@@ -2,6 +2,7 @@ package edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators
 
 
 public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigurationGenerator {
+	public static final String SPACE = " ";
 	public static final String AGENT = "Agent";
 	public final static String AGENT_CLASS = FOAF + AGENT;
 	public static final String AGENT_LABEL = "agentLabel";
@@ -113,262 +114,262 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	public static final String VAR = "?";
 	
   final static String commentQuery  =
-      "SELECT" + " " + VAR + EXISTING_COMMENT + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + COMMENT_PRED + ">" + " " + VAR + EXISTING_COMMENT + " . }";
+      "SELECT" + SPACE + " (STR(?existCommentColumn) as " + VAR + EXISTING_COMMENT + " ) WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + COMMENT_PRED + ">" + SPACE + VAR + "existCommentColumn" + " . }";
   
   final static String litDateAppelAssertion  =
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_LITERAL_DATE_APPELATION + "> " + VAR + LIT_DATE_APPEL + " .";	
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_LITERAL_DATE_APPELATION + "> " + VAR + LIT_DATE_APPEL + " .";	
   
   final static String n3ForExistingAttrType  =
-      "@prefix gesah:" + " " + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + " " + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
-      VAR + EXISTING_ATTR_TYPE + " " + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-      VAR + EXISTING_ATTR_TYPE + " a" + " " + "<" + GESAH_ATTRIBUTION_TYPE + "> .";	
+      "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
+      VAR + EXISTING_ATTR_TYPE + SPACE + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + EXISTING_ATTR_TYPE + " a" + SPACE + "<" + GESAH_ATTRIBUTION_TYPE + "> .";	
 	
   final static String n3ForNewAttrType  =
-      "@prefix gesah:" + " " + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + " " + VAR + NEW_ATTR_TYPE + " . " + "\n" +
-      VAR + NEW_ATTR_TYPE + " " + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-      VAR + NEW_ATTR_TYPE + " " + "<" + LABEL + ">" + " " + VAR + ATTR_TYPE_LABEL + " . " + "\n" +
+      "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + NEW_ATTR_TYPE + " . " + "\n" +
+      VAR + NEW_ATTR_TYPE + SPACE + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + NEW_ATTR_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + ATTR_TYPE_LABEL + " . " + "\n" +
       VAR + NEW_ATTR_TYPE + " a " + "<" + GESAH_ATTRIBUTION_TYPE + "> .";
 	
   final static String n3ForExistingRoleType  =
-			VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_REALIZES + ">" + " " + VAR + NEW_ROLE + " . " + "\n" +
-			VAR + NEW_ROLE + " " + "<" + GESAH_REALIZED_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-			VAR + NEW_ROLE + " " + "<" + GESAH_HAS_ROLE_TYPE + ">" + " " + VAR + EXISTING_ROLE_TYPE + " . " ;	
+			VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
+			VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+			VAR + NEW_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . " ;	
 	
   final static String n3ForExistingRole  =
-			"@prefix gesah:" + " " + "<" + GESAH + ">" + " ." + "\n" +
-			VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_REALIZES + ">" + " " + VAR + EXISTING_ROLE + " . " + "\n";
+			"@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
+			VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n";
 	
   final static String n3ForNewRoleType  =
-			"@prefix rdfs:" + " " + "<" + RDFS + ">" + "  . " + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_REALIZES + ">" + " " + VAR + NEW_ROLE + " . " + "\n" +
-      VAR + NEW_ROLE + " " + "<" + GESAH_REALIZED_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-      VAR + NEW_ROLE + " " + "<" + GESAH_HAS_ROLE_TYPE + ">" + " " + VAR + NEW_ROLE_TYPE + " . " + "\n" +
-      VAR + NEW_ROLE_TYPE + " " + "<" + LABEL + ">" + " " + VAR + NEW_ROLE_TYPE_LABEL + " . " + "\n" +
+			"@prefix rdfs:" + SPACE + "<" + RDFS + ">" + "  . " + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
+      VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + NEW_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + NEW_ROLE_TYPE + " . " + "\n" +
+      VAR + NEW_ROLE_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + NEW_ROLE_TYPE_LABEL + " . " + "\n" +
       VAR + NEW_ROLE_TYPE + " a " + "<" + GESAH_ROLE_TYPE + "> . " ;
 	
   final static String n3ForNewRole  =
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_REALIZES + ">" + " " + VAR + NEW_ROLE + " . " + "\n" +
-      VAR + NEW_ROLE + " " + "<" + GESAH_REALIZED_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
+      VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
 	    VAR + NEW_ROLE + " a " + "<" + OBO + "BFO_0000023> . " ;
   
   //Should work only if participant wasn't selected
   final static String n3ForNewAgent  =
-  		"@prefix rdfs:" + " " + "<" + RDFS + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_PARTICIPANT + ">" + " " + VAR + NEW_AGENT + " . " + "\n" +
-      VAR + NEW_AGENT + " " + "<" + GESAH_PARTICIPATES_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-  		VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_REALIZES + ">" + " " + VAR + NEW_ROLE + " . " + "\n" +
-  		VAR + NEW_AGENT + " " + "<" + GESAH_HAS_ROLE + ">" + " " + VAR + NEW_ROLE + " . " + "\n" +
-  		VAR + NEW_ROLE + " " + "<" + GESAH_IS_ROLE_OF + ">" + " " + VAR + NEW_AGENT + " . " + "\n" +
-  		VAR + NEW_ROLE + " " + "<" + GESAH_REALIZED_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+  		"@prefix rdfs:" + SPACE + "<" + RDFS + ">" + " ." + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + NEW_AGENT + " . " + "\n" +
+      VAR + NEW_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+  		VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
+  		VAR + NEW_AGENT + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
+  		VAR + NEW_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + NEW_AGENT + " . " + "\n" +
+  		VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
       VAR + NEW_AGENT + " a " + VAR + AGENT_TYPE + " . " + "\n" +
   		VAR + AGENT_TYPE + " rdfs:subClassOf <" + AGENT_CLASS + "> ." + "\n" +
       VAR + NEW_AGENT + " rdfs:label " + VAR + AGENT_LABEL + " . ";
   
   final static String n3ForExistingAgent  =
-  		"@prefix rdfs:" + " " + "<" + RDFS +">" + " " + " . \n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_PARTICIPANT + ">" + " " + VAR + EXISTING_AGENT + " . \n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_REALIZES + ">" + " " + VAR + NEW_ROLE + " . \n" +
-      VAR + EXISTING_AGENT +" " + "<" + GESAH_PARTICIPATES_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . \n" +
-      VAR + EXISTING_AGENT +" " + "<" + GESAH_HAS_ROLE + ">" + " " + VAR + NEW_ROLE + " . \n" +
-      VAR + NEW_ROLE +" " + "<" + GESAH_REALIZED_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . \n" +
-      VAR + NEW_ROLE +" " + "<" + GESAH_IS_ROLE_OF + ">" + " " + VAR + EXISTING_AGENT + " . " ;
+  		"@prefix rdfs:" + SPACE + "<" + RDFS +">" + SPACE + " . \n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . \n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . \n" +
+      VAR + EXISTING_AGENT +SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . \n" +
+      VAR + EXISTING_AGENT +SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + NEW_ROLE + " . \n" +
+      VAR + NEW_ROLE +SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . \n" +
+      VAR + NEW_ROLE +SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_AGENT + " . " ;
   
   final static String n3ForStart =
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + TO_INTERVAL + ">" + " " + VAR + INTERVAL_NODE + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + " " + "<" + TYPE + ">" + " " + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + "<" + INTERVAL_TO_START + ">" + " " + VAR + START_NODE + " ." + "\n" +
-      VAR + START_NODE + " " + " " + "<" + TYPE + ">" + " " + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
-      VAR + START_NODE + " " + " " + "<" + DATE_TIME_VALUE + ">" + " " + VAR + START_FIELD_VALUE + "." + "\n" +
-      VAR + START_NODE + " " + " " + "<" + DATE_TIME_PRECISION + ">" + " " + VAR + START_FIELD_PRECISION + " .";
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_START + ">" + SPACE + VAR + START_NODE + " ." + "\n" +
+      VAR + START_NODE + SPACE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
+      VAR + START_NODE + SPACE + SPACE + "<" + DATE_TIME_VALUE + ">" + SPACE + VAR + START_FIELD_VALUE + "." + "\n" +
+      VAR + START_NODE + SPACE + SPACE + "<" + DATE_TIME_PRECISION + ">" + SPACE + VAR + START_FIELD_PRECISION + " .";
 
   final static String n3ForEnd =
-      VAR + OB_CULTURAL_OBJECT + " " + " " + "<" + TO_INTERVAL + ">" + " " + VAR + INTERVAL_NODE + " . " + "\n" +
-      VAR + INTERVAL_NODE + " " + " " + "<" + TYPE + ">" + " " + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + "<" + INTERVAL_TO_END + ">" + " " + VAR + END_NODE + " ." + "\n" +
-      VAR + END_NODE + " " + " " + "<" + TYPE + ">" + " " + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
-      VAR + END_NODE + " " + " " + "<" + DATE_TIME_VALUE + ">" + " " + VAR + END_FIELD_VALUE + " ." + "\n" +
-      VAR + END_NODE + " " + " " + "<" + DATE_TIME_PRECISION + ">" + " " + VAR + END_FIELD_PRECISION + " .";
+      VAR + OB_CULTURAL_OBJECT + SPACE + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " . " + "\n" +
+      VAR + INTERVAL_NODE + SPACE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_END + ">" + SPACE + VAR + END_NODE + " ." + "\n" +
+      VAR + END_NODE + SPACE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
+      VAR + END_NODE + SPACE + SPACE + "<" + DATE_TIME_VALUE + ">" + SPACE + VAR + END_FIELD_VALUE + " ." + "\n" +
+      VAR + END_NODE + SPACE + SPACE + "<" + DATE_TIME_PRECISION + ">" + SPACE + VAR + END_FIELD_PRECISION + " .";
   
   final static String commentAssertion  =
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_COMMENT + ">" + " " + VAR + COMMENT + " .";
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_COMMENT + ">" + SPACE + VAR + COMMENT + " .";
   
 	final static String existingRoleQuery =
-			"SELECT" + " " + VAR + EXISTING_ROLE + " WHERE {" + "\n" +
-			VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_REALIZES + ">" + " " + VAR + EXISTING_ROLE + "  . }";
+			"SELECT" + SPACE + VAR + EXISTING_ROLE + " WHERE {" + "\n" +
+			VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + "  . }";
 	
   final static String existingRoleTypeQuery =
-      "SELECT" + " " + VAR + EXISTING_ROLE_TYPE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_REALIZES + ">" + " " + VAR + EXISTING_ROLE + " . " + "\n" +
-      VAR + EXISTING_ROLE + " " + "<" + GESAH_REALIZED_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-      VAR + EXISTING_ROLE + " " + "<" + GESAH_HAS_ROLE_TYPE + ">" + " " + VAR + EXISTING_ROLE_TYPE + " . }";
+      "SELECT" + SPACE + VAR + EXISTING_ROLE_TYPE + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
+      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . }";
 
   final static String existingRoleTypeLabelQuery =
-      "SELECT Distinct" + " " + VAR + EXISTING_ROLE_TYPE_LABEL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_REALIZES + ">" + " " + VAR + EXISTING_ROLE + " . " + "\n" +
-      VAR + EXISTING_ROLE + " " + "<" + GESAH_REALIZED_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-      VAR + EXISTING_ROLE + " " + "<" + GESAH_HAS_ROLE_TYPE + ">" + " " + VAR + EXISTING_ROLE_TYPE + " . " + "\n" +
-      VAR + EXISTING_ROLE_TYPE + " " + "<" + LABEL + ">" + " " + VAR + EXISTING_ROLE_TYPE_LABEL + " . }";		
+      "SELECT Distinct" + SPACE + VAR + EXISTING_ROLE_TYPE_LABEL + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
+      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . " + "\n" +
+      VAR + EXISTING_ROLE_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_ROLE_TYPE_LABEL + " . }";		
   
   final static String existingAgentQuery  =
-      "PREFIX rdfs:" + " " + "<" + RDFS + ">" + "   " + "\n" +
-      "SELECT" + " " + VAR + EXISTING_AGENT + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_PARTICIPANT + ">" + " " + VAR + EXISTING_AGENT + " . " + "\n" +
-      VAR + EXISTING_AGENT + " " + "<" + GESAH_PARTICIPATES_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-      VAR + EXISTING_AGENT + " " + "<" + GESAH_HAS_ROLE + ">" + " " + VAR + EXISTING_ROLE + " ." + "\n" +
-      VAR + EXISTING_ROLE + " " + "<" + GESAH_IS_ROLE_OF + ">" + " " + VAR + EXISTING_AGENT + " ." + "\n" +
-      VAR + EXISTING_AGENT + " a" + " " + VAR + AGENT_TYPE + " . \n " +
+      "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
+      "SELECT" + SPACE + VAR + EXISTING_AGENT + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . " + "\n" +
+      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + EXISTING_ROLE + " ." + "\n" +
+      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_AGENT + " ." + "\n" +
+      VAR + EXISTING_AGENT + " a" + SPACE + VAR + AGENT_TYPE + " . \n " +
       VAR + AGENT_TYPE + " rdfs:subClassOf <" + AGENT_CLASS + "> . }" ;
 	
   final static String agentLabelQuery  =
-      "PREFIX rdfs:" + " " + "<" + RDFS + ">" + "   " + "\n" +
-      "SELECT Distinct" + " " + VAR + EXISTING_AGENT_LABEL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_PARTICIPANT + ">" + " " + VAR + EXISTING_AGENT + " . " + "\n" +
-      VAR + EXISTING_AGENT + " " + "<" + GESAH_PARTICIPATES_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-      VAR + EXISTING_AGENT + " " + "<" + LABEL + ">" + " " + VAR + EXISTING_AGENT_LABEL + " ." + "\n" +
-      VAR + EXISTING_AGENT + " a" + " " + VAR + AGENT_TYPE + " . \n " +
-      VAR + AGENT_TYPE + " rdfs:subClassOf" + " " + "<" + AGENT_CLASS + ">" + " . }" ;
+      "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
+      "SELECT Distinct" + SPACE + VAR + EXISTING_AGENT_LABEL + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . " + "\n" +
+      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + EXISTING_AGENT + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_AGENT_LABEL + " ." + "\n" +
+      VAR + EXISTING_AGENT + " a" + SPACE + VAR + AGENT_TYPE + " . \n " +
+      VAR + AGENT_TYPE + " rdfs:subClassOf" + SPACE + "<" + AGENT_CLASS + ">" + " . }" ;
   
   final static String agentTypeQuery  =
-      "PREFIX rdfs:" + " " + "<" + RDFS + ">" + "   " + "\n" +
-      "SELECT" + " " + VAR + AGENT_TYPE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_PARTICIPANT + ">" + " " + VAR + EXISTING_AGENT + " . " + "\n" +
-      VAR + EXISTING_AGENT + " " + "<" + GESAH_PARTICIPATES_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-      VAR + EXISTING_AGENT + " " + "<" + GESAH_HAS_ROLE + ">" + " " + VAR + EXISTING_ROLE + " ." + "\n" +
-      VAR + EXISTING_ROLE + " " + "<" + GESAH_IS_ROLE_OF + ">" + " " + VAR + EXISTING_AGENT + " ." + "\n" +
-      VAR + EXISTING_AGENT + " a" + " " + VAR + AGENT_TYPE + " ." + "\n" +
+      "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
+      "SELECT" + SPACE + VAR + AGENT_TYPE + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . " + "\n" +
+      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + EXISTING_ROLE + " ." + "\n" +
+      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_AGENT + " ." + "\n" +
+      VAR + EXISTING_AGENT + " a" + SPACE + VAR + AGENT_TYPE + " ." + "\n" +
       VAR + AGENT_TYPE + " rdfs:subClassOf <" + AGENT_CLASS + "> .}";		
   
   
   final static String litDateAppelQuery  =
-      "SELECT" + " " + VAR + EXISTINGLIT_DATE_APPEL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + LITERAL_DATE_APPEAL_PRED + ">" + " " + VAR + EXISTINGLIT_DATE_APPEL + " . }";
+      "SELECT" + SPACE + " (STR(?existLocColumn) as " + VAR + EXISTINGLIT_DATE_APPEL + " ) " + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + LITERAL_DATE_APPEAL_PRED + ">" + SPACE + VAR + "existLocColumn" + " . }";
 
   final static String existingIntervalNodeQuery  =
-      "SELECT" + " " + VAR + EXISTING_INTERVAL_NODE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + TO_INTERVAL + ">" + " " + VAR + EXISTING_INTERVAL_NODE + " ." + "\n" +
-      VAR + EXISTING_INTERVAL_NODE + " " + "<" + TYPE + ">" + " " + "<" + INTERVAL_TYPE + ">" + " . }";
+      "SELECT" + SPACE + VAR + EXISTING_INTERVAL_NODE + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + EXISTING_INTERVAL_NODE + " ." + "\n" +
+      VAR + EXISTING_INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " . }";
 
   final static String existingStartNodeQuery  =
-      "SELECT" + " " + VAR + EXISTING_START_NODE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + TO_INTERVAL + ">" + " " + VAR + INTERVAL_NODE + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + "<" + TYPE + ">" + " " + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + "<" + INTERVAL_TO_START + ">" + " " + VAR + EXISTING_START_NODE + " . " + "\n" +
-      VAR + EXISTING_START_NODE + " " + "<" + TYPE + ">" + " " + "<" + DATE_TIME_VALUE_TYPE + ">" + " .}";
+      "SELECT" + SPACE + VAR + EXISTING_START_NODE + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_START + ">" + SPACE + VAR + EXISTING_START_NODE + " . " + "\n" +
+      VAR + EXISTING_START_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " .}";
 
   final static String existingStartDateQuery  =
-      "SELECT" + " " + VAR + EXISTING_DATE_START + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + TO_INTERVAL + ">" + " " + VAR + INTERVAL_NODE + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + "<" + TYPE + ">" + " " + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + "<" + INTERVAL_TO_START + ">" + " " + VAR + START_NODE + " ." + "\n" +
-      VAR + START_NODE + " " + "<" + TYPE + ">" + " " + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
-      VAR + START_NODE + " " + "<" + DATE_TIME_VALUE + ">" + " " + VAR + EXISTING_DATE_START + " . }";
+      "SELECT" + SPACE + VAR + EXISTING_DATE_START + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_START + ">" + SPACE + VAR + START_NODE + " ." + "\n" +
+      VAR + START_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
+      VAR + START_NODE + SPACE + "<" + DATE_TIME_VALUE + ">" + SPACE + VAR + EXISTING_DATE_START + " . }";
 
   final static String existingStartPrecisionQuery  =
-      "SELECT" + " " + VAR + EXISTING_START_PRECISION + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + TO_INTERVAL + ">" + " " + VAR + INTERVAL_NODE + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + "<" + TYPE + ">" + " " + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + "<" + INTERVAL_TO_START + ">" + " " + VAR + START_NODE + " ." + "\n" +
-      VAR + START_NODE + " " + "<" + TYPE + ">" + " " + "<" + DATE_TIME_VALUE_TYPE + ">" + " . " + "\n" +
-      VAR + START_NODE + " " + "<" + DATE_TIME_PRECISION + ">" + " " + VAR + EXISTING_START_PRECISION + " . }";
+      "SELECT" + SPACE + VAR + EXISTING_START_PRECISION + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_START + ">" + SPACE + VAR + START_NODE + " ." + "\n" +
+      VAR + START_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " . " + "\n" +
+      VAR + START_NODE + SPACE + "<" + DATE_TIME_PRECISION + ">" + SPACE + VAR + EXISTING_START_PRECISION + " . }";
 
   final static String existingEndNodeQuery  =
-      "SELECT" + " " + VAR + EXISTING_END_NODE + " WHERE { " + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + TO_INTERVAL + ">" + " " + VAR + INTERVAL_NODE + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + "<" + TYPE + ">" + " " + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + "<" + INTERVAL_TO_END + ">" + " " + VAR + EXISTING_END_NODE + " . " + "\n" +
-      VAR + EXISTING_END_NODE + " " + "<" + TYPE + ">" + " " + "<" + DATE_TIME_VALUE_TYPE + ">" + " .}";
+      "SELECT" + SPACE + VAR + EXISTING_END_NODE + " WHERE { " + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_END + ">" + SPACE + VAR + EXISTING_END_NODE + " . " + "\n" +
+      VAR + EXISTING_END_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " .}";
 
   final static String existingEndDateQuery  =
-      "SELECT" + " " + VAR + EXISTING_END_DATE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + TO_INTERVAL + ">" + " " + VAR + INTERVAL_NODE + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + "<" + TYPE + ">" + " " + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + "<" + INTERVAL_TO_END + ">" + " " + VAR + END_NODE + " ." + "\n" +
-      VAR + END_NODE + " " + "<" + TYPE + ">" + " " + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
-      VAR + END_NODE + " " + "<" + DATE_TIME_VALUE + ">" + " " + VAR + EXISTING_END_DATE + " . }";
+      "SELECT" + SPACE + VAR + EXISTING_END_DATE + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_END + ">" + SPACE + VAR + END_NODE + " ." + "\n" +
+      VAR + END_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
+      VAR + END_NODE + SPACE + "<" + DATE_TIME_VALUE + ">" + SPACE + VAR + EXISTING_END_DATE + " . }";
 
   final static String existingEndPrecisionQuery  =
-      "SELECT" + " " + VAR + EXISTING_END_PRECISION + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + TO_INTERVAL + ">" + " " + VAR + INTERVAL_NODE + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + "<" + TYPE + ">" + " " + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
-      VAR + INTERVAL_NODE + " " + "<" + INTERVAL_TO_END + ">" + " " + VAR + END_NODE + " ." + "\n" +
-      VAR + END_NODE + " " + "<" + TYPE + ">" + " " + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
-      VAR + END_NODE + " " + "<" + DATE_TIME_PRECISION + ">" + " " + VAR + EXISTING_END_PRECISION + " . }";
+      "SELECT" + SPACE + VAR + EXISTING_END_PRECISION + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
+      VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_END + ">" + SPACE + VAR + END_NODE + " ." + "\n" +
+      VAR + END_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
+      VAR + END_NODE + SPACE + "<" + DATE_TIME_PRECISION + ">" + SPACE + VAR + EXISTING_END_PRECISION + " . }";
   
   final static String n3ForNewTechnique  =
-      "@prefix gesah:" + " " + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_USES_TECHNIQUE + ">" + " " + VAR + NEW_TECHNIQUE + " . " + "\n" +
-      VAR + NEW_TECHNIQUE + " " + "<" + GESAH_USED_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-      VAR + NEW_TECHNIQUE + " " + "<" + LABEL + ">" + " " + VAR + TECHNIQUE_LABEL + " . " + "\n" +
-      VAR + NEW_TECHNIQUE + " a" + " " + "<" + GESAH_TECHNIQUE + "> .";
+      "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + NEW_TECHNIQUE + " . " + "\n" +
+      VAR + NEW_TECHNIQUE + SPACE + "<" + GESAH_USED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + NEW_TECHNIQUE + SPACE + "<" + LABEL + ">" + SPACE + VAR + TECHNIQUE_LABEL + " . " + "\n" +
+      VAR + NEW_TECHNIQUE + " a" + SPACE + "<" + GESAH_TECHNIQUE + "> .";
 	
   final static String n3ForExistingTechnique  =
-      "@prefix gesah:" + " " + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_USES_TECHNIQUE + ">" + " " + VAR + EXISTING_TECHNIQUE + " . " + "\n" +
-      VAR + EXISTING_TECHNIQUE + " " + "<" + GESAH_USED_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-      VAR + EXISTING_TECHNIQUE + " a" + " " + "<" + GESAH_TECHNIQUE + "> .";	
+      "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + EXISTING_TECHNIQUE + " . " + "\n" +
+      VAR + EXISTING_TECHNIQUE + SPACE + "<" + GESAH_USED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + EXISTING_TECHNIQUE + " a" + SPACE + "<" + GESAH_TECHNIQUE + "> .";	
 	
   final static String n3ForNewMaterial  =
-      "@prefix gesah:" + " " + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_MATERIAL + ">" + " " + VAR + NEW_MATERIAL + " . " + "\n" +
-      VAR + NEW_MATERIAL + " " + "<" + GESAH_INCORPORATED_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-      VAR + NEW_MATERIAL + " " + "<" + LABEL + ">" + " " + VAR + MATERIAL_LABEL + " . " + "\n" +
-      VAR + NEW_MATERIAL + " a" + " " + "<" + GESAH_MATERIAL + "> .";
+      "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_MATERIAL + ">" + SPACE + VAR + NEW_MATERIAL + " . " + "\n" +
+      VAR + NEW_MATERIAL + SPACE + "<" + GESAH_INCORPORATED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + NEW_MATERIAL + SPACE + "<" + LABEL + ">" + SPACE + VAR + MATERIAL_LABEL + " . " + "\n" +
+      VAR + NEW_MATERIAL + " a" + SPACE + "<" + GESAH_MATERIAL + "> .";
 	
   final static String n3ForExistingMaterial  =
-      "@prefix gesah:" + " " + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_MATERIAL + ">" + " " + VAR + EXISTING_MATERIAL + " . " + "\n" +
-      VAR + EXISTING_MATERIAL + " " + "<" + GESAH_INCORPORATED_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-      VAR + EXISTING_MATERIAL + " a" + " " + "<" + GESAH_MATERIAL + "> .";
+      "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_MATERIAL + ">" + SPACE + VAR + EXISTING_MATERIAL + " . " + "\n" +
+      VAR + EXISTING_MATERIAL + SPACE + "<" + GESAH_INCORPORATED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + EXISTING_MATERIAL + " a" + SPACE + "<" + GESAH_MATERIAL + "> .";
 
   final static String n3ForNewPlace  =
-      "@prefix gesah:" + " " + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_PLACE + ">" + " " + VAR + NEW_PLACE + " . " + "\n" +
-      VAR + NEW_PLACE + " " + "<" + GESAH_IS_PLACE_OF + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-      VAR + NEW_PLACE + " " + "<" + LABEL + ">" + " " + VAR + PLACE_LABEL + " . " + "\n" +
+      "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + NEW_PLACE + " . " + "\n" +
+      VAR + NEW_PLACE + SPACE + "<" + GESAH_IS_PLACE_OF + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + NEW_PLACE + SPACE + "<" + LABEL + ">" + SPACE + VAR + PLACE_LABEL + " . " + "\n" +
       VAR + NEW_PLACE + " a <http://vivoweb.org/ontology/core#GeographicLocation> .";
 	
   final static String n3ForExistingPlace  =
-      "@prefix gesah:" + " " + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_PLACE + ">" + " " + VAR + EXISTING_PLACE + " . " + "\n" +
-      VAR + EXISTING_PLACE + " " + "<" + GESAH_IS_PLACE_OF + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + EXISTING_PLACE + " . " + "\n" +
+      VAR + EXISTING_PLACE + SPACE + "<" + GESAH_IS_PLACE_OF + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
       VAR + EXISTING_PLACE + " a <http://vivoweb.org/ontology/core#GeographicLocation> .";
   
   final static String existingPlaceQuery =
-      "SELECT " + " " + VAR + EXISTING_PLACE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_PLACE + ">" + " " + VAR + EXISTING_PLACE + "  . }";
+      "SELECT " + SPACE + VAR + EXISTING_PLACE + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + EXISTING_PLACE + "  . }";
 
   final static String existingPlaceLabelQuery =
-      "SELECT Distinct" + " " + VAR + EXISTING_PLACE_LABEL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_PLACE + ">" + " " + VAR + EXISTING_PLACE + " . " + "\n" +
-      VAR + EXISTING_PLACE + " " + "<" + LABEL + ">" + " " + VAR + EXISTING_PLACE_LABEL + " .}";	
+      "SELECT Distinct" + SPACE + VAR + EXISTING_PLACE_LABEL + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + EXISTING_PLACE + " . " + "\n" +
+      VAR + EXISTING_PLACE + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_PLACE_LABEL + " .}";	
   
   final static String existingTechniqueQuery =
-      "SELECT" + " " + VAR + EXISTING_TECHNIQUE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_USES_TECHNIQUE + ">" + " " + VAR + EXISTING_TECHNIQUE + " . }";
+      "SELECT" + SPACE + VAR + EXISTING_TECHNIQUE + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + EXISTING_TECHNIQUE + " . }";
 
 	final static String existingTechniqueLabelQuery =
-      "SELECT Distinct" + " " + VAR + EXISTING_TECHNIQUE_LABEL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_USES_TECHNIQUE + ">" + " " + VAR + EXISTING_TECHNIQUE + " . " + "\n" +
-      VAR + EXISTING_TECHNIQUE + " " + "<" + LABEL + ">" + " " + VAR + EXISTING_TECHNIQUE_LABEL + " .}";
+      "SELECT Distinct" + SPACE + VAR + EXISTING_TECHNIQUE_LABEL + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + EXISTING_TECHNIQUE + " . " + "\n" +
+      VAR + EXISTING_TECHNIQUE + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_TECHNIQUE_LABEL + " .}";
 
 	final static String existingMaterialQuery =
-      "SELECT" + " " + VAR + EXISTING_MATERIAL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_MATERIAL + ">" + " " + VAR + EXISTING_MATERIAL + "  . }";
+      "SELECT" + SPACE + VAR + EXISTING_MATERIAL + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_MATERIAL + ">" + SPACE + VAR + EXISTING_MATERIAL + "  . }";
 	
   final static String existingMaterialLabelQuery =
-      "SELECT Distinct" + " " + VAR + EXISTING_MATERIAL + "Label" + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_MATERIAL + ">" + " " + VAR + EXISTING_MATERIAL + " . " + "\n" +
-      VAR + EXISTING_MATERIAL + " " + "<" + LABEL + ">" + " " + VAR + EXISTING_MATERIAL + "Label" + " . }";	
+      "SELECT Distinct" + SPACE + VAR + EXISTING_MATERIAL + "Label" + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_MATERIAL + ">" + SPACE + VAR + EXISTING_MATERIAL + " . " + "\n" +
+      VAR + EXISTING_MATERIAL + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_MATERIAL + "Label" + " . }";	
 
   final static String existingAttrTypeQuery =
-      "SELECT" + " " + VAR + EXISTING_ATTR_TYPE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + " " + VAR + EXISTING_ATTR_TYPE + " . }" + "\n";
+      "SELECT" + SPACE + VAR + EXISTING_ATTR_TYPE + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . }" + "\n";
 
   final static String existingAttrTypeLabelQuery =
-      "SELECT Distinct" + " " + VAR + EXISTING_ATTR_TYPE_LABEL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + " " + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
-      VAR + EXISTING_ATTR_TYPE + " " + "<" + LABEL + ">" + " " + VAR + EXISTING_ATTR_TYPE_LABEL + " .}";
+      "SELECT Distinct" + SPACE + VAR + EXISTING_ATTR_TYPE_LABEL + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
+      VAR + EXISTING_ATTR_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_ATTR_TYPE_LABEL + " .}";
 }

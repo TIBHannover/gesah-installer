@@ -184,14 +184,14 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 	
     <p>
         <label for="litDateAppel">${i18n().literal_date_appelatlion}</label>
-        <input type="text" id="litDateAppel" name="litDateAppel" size="30" value="${litDateAppelValue}"/>
+        <textarea type="text" id="litDateAppel" name="litDateAppel" size="30">${litDateAppelValue}</textarea>
     </p>
 
     <p>
         <label for="comment">${i18n().comment}
             <span class="hint">&nbsp;${i18n().supplemental_information_hint_origin}</span>
         </label>
-        <input  size="60"  type="text" id="comment" name="comment" value="${commentValue}" />
+        <textarea size="60" type="text" id="comment" name="comment">${commentValue}</textarea>
 
     </p>
     <p></p>

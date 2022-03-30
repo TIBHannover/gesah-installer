@@ -54,6 +54,8 @@ import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
  *
  */
 public class ObjectHasCreationGenerator extends AbstractCulturalObjectGenerator implements EditConfigurationGenerator {
+	private static final String GESAH_OUTPUT_OF_CREATION = GESAH + "output_of_creation";
+	private static final String GESAH_CREATION = GESAH + "Creation";
 	private static final String OUTPUT_OF_CREATION = "output_of_creation";
 	private static final String CREATION_HAS_OUTPUT = "creationHasOutput";
 	private static final String OBJECT_HAS_CREATION_FTL = "objectHasCreation.ftl";
@@ -245,10 +247,10 @@ public class ObjectHasCreationGenerator extends AbstractCulturalObjectGenerator 
 	/* N3 assertions for creation of a cultural object */
 
     final static String n3ForNewObCreation =
-        "?cultObject <" + GESAH + "output_of_creation>  ?" + OB_CULTURAL_OBJECT + " .\n" +
-        VAR + OB_CULTURAL_OBJECT + "  a <" + GESAH + "Creation> ; \n" +
-        "	<" + GESAH + "realizes> ?" + NEW_ROLE + " . \n" +
-        VAR + NEW_ROLE + " <" + GESAH + "realized_in> ?" + OB_CULTURAL_OBJECT + " . \n" +
+        VAR + CULT_OBJECT + " " + "<" + GESAH_OUTPUT_OF_CREATION + "> " + VAR + OB_CULTURAL_OBJECT + " .\n" +
+        VAR + OB_CULTURAL_OBJECT + " a <" + GESAH_CREATION + "> ; \n" +
+        "	<" + GESAH_REALIZES + "> " + VAR + NEW_ROLE + " . \n" +
+        VAR + NEW_ROLE + " <" + GESAH + "realized_in> " + VAR + OB_CULTURAL_OBJECT + " . \n" +
         VAR + OB_CULTURAL_OBJECT + " <" + GESAH + "has_creation_output> ?cultObject .";
 		
     //Query for inverse property
