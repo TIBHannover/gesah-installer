@@ -40,6 +40,8 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
 	private static final String MARK_EXISTING_LOCATION = "markExistingLocation";
 	private static final String EXISTING_MARK_URI = "existingMark";
 	private static final String COLLECTORS_MARK = "collectorsMark";
+	private static final String NEW_COLLECTORS_MARK = "newCollectorsMark";
+
 	
 	private static final String GESAH_MARK_LOCATION = LT + GESAH + "mark_location" + GT;
 
@@ -72,16 +74,15 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
     conf.setVarNameForObject(MARK_DESIGNATION);
     
     conf.setN3Required( Arrays.asList(n3ForNewMarkDesignation) );
-    conf.setN3Optional( Arrays.asList(n3ForNewMarkDesignationLabel, n3ForNewMarkLocation, n3ForNewDesignationUsesMark) );
+		conf.setN3Optional(Arrays.asList(n3ForNewMarkDesignationLabel, n3ForNewMarkLocation, n3SelectedMark,
+				n3ForNew_Mark_with_title_id_url));
 
-
-    
     conf.addNewResource(MARK_DESIGNATION, DEFAULT_NS_FOR_NEW_RESOURCE);
-    //conf.addNewResource(COLLECTORS_MARK, DEFAULT_NS_FOR_NEW_RESOURCE);
+    conf.addNewResource(NEW_COLLECTORS_MARK, DEFAULT_NS_FOR_NEW_RESOURCE);
+
+    conf.setLiteralsOnForm( Arrays.asList(MARK_DESIGNATION_LABEL, MARK_LOCATION, COLLECTORS_MARK_LABEL, MARK_ID, MARK_URL, MARK_TITLE));
     
-    conf.setUrisOnform( Arrays.asList( COLLECTORS_MARK )); 
-    
-    conf.setLiteralsOnForm( Arrays.asList(MARK_DESIGNATION_LABEL, MARK_LOCATION, COLLECTORS_MARK_LABEL));
+    conf.setUrisOnform( Arrays.asList( COLLECTORS_MARK, NEW_COLLECTORS_MARK )); 
     
     conf.addSparqlForExistingLiteral(MARK_DESIGNATION_LABEL, sparqlForExistingMarkDesignationLabel);
     conf.addSparqlForExistingLiteral(MARK_LOCATION, sparqlForExistingMarkLocation);
@@ -92,10 +93,22 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
     conf.addField( new FieldVTwo().
         setName(COLLECTORS_MARK).
         setOptions( new IndividualsViaVClassOptions(
-                GESAH_MARK_CLASS)));	
+        		GESAH + "Mark")));	
     
     conf.addField( new FieldVTwo().
         setName(COLLECTORS_MARK_LABEL).
+        setRangeDatatypeUri(XSD.xstring.toString() ));
+    
+    conf.addField( new FieldVTwo().
+        setName(MARK_ID).
+        setRangeDatatypeUri(XSD.xstring.toString() ));
+    
+    conf.addField( new FieldVTwo().
+        setName(MARK_URL).
+        setRangeDatatypeUri(XSD.xstring.toString() ));
+    
+    conf.addField( new FieldVTwo().
+        setName(MARK_TITLE).
         setRangeDatatypeUri(XSD.xstring.toString() ));
     
     conf.addField( new FieldVTwo().
@@ -107,6 +120,7 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
         setRangeDatatypeUri(XSD.xstring.toString() ));
     
 	}
+	
 	final static String existingMarkQuery = ""
 			+ SELECT + VAR + EXISTING_MARK_URI + WHERE
 			+ VAR + MARK_DESIGNATION + GESAH_USES_MARK  + VAR + EXISTING_MARK_URI + LINE_END
@@ -121,8 +135,6 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
 			+ VAR + EXISTING_MARK_URI + A + GESAH_MARK_CLASS + LINE_END 
 			+ VAR + EXISTING_MARK_URI + LT +LABEL + GT + VAR + EXISTING_MARK_LABEL + LINE_END
 			+ "}";
-	
-	
 	
 	final static String sparqlForExistingMarkDesignationLabel = ""
 			+ SELECT + VAR + EXISTING_MARK_DESIGNATION_LABEL + WHERE
@@ -149,18 +161,17 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
   final static String n3ForNewMarkDesignationLocation = ""
   		+ VAR + MARK_DESIGNATION + SPACE + GESAH_MARK_LOCATION + SPACE + VAR + MARK_LOCATION + LINE_END;
 
-  final static String n3ForNewDesignationUsesMark = ""
+  final static String n3SelectedMark = ""
   		+ VAR + MARK_DESIGNATION + SPACE + GESAH_USES_MARK + SPACE + VAR + COLLECTORS_MARK + LINE_END
   		+ VAR + COLLECTORS_MARK + SPACE + GESAH_IS_MARK_USED_IN + SPACE + VAR + MARK_DESIGNATION + LINE_END;
   
-  final static String n3ForNewMarkTitle = ""
-  		+ VAR + COLLECTORS_MARK + LT + LABEL + GT + VAR + MARK_TITLE + LINE_END;
-
-  final static String n3ForNewMarkID= ""
-  		+ VAR + COLLECTORS_MARK + SPACE + GESAH_MARK_ID + SPACE + VAR + MARK_ID + LINE_END;
-
-  final static String n3ForNewMarkURL= ""
-  		+ VAR + COLLECTORS_MARK + SPACE + GESAH_MARK_URL + SPACE + VAR + MARK_URL + LINE_END;
+  final static String n3ForNew_Mark_with_title_id_url = ""
+  		+ VAR + MARK_DESIGNATION + SPACE + GESAH_USES_MARK + SPACE + VAR + NEW_COLLECTORS_MARK + LINE_END
+  		+ VAR + NEW_COLLECTORS_MARK + SPACE + GESAH_IS_MARK_USED_IN + SPACE + VAR + MARK_DESIGNATION + LINE_END
+  		+ VAR + NEW_COLLECTORS_MARK + A + GESAH_MARK_CLASS + LINE_END
+  		+ VAR + NEW_COLLECTORS_MARK + LT + LABEL + GT + VAR + MARK_TITLE + LINE_END
+  		+ VAR + NEW_COLLECTORS_MARK + SPACE + GESAH_MARK_ID + SPACE + VAR + MARK_ID + LINE_END
+  		+ VAR + NEW_COLLECTORS_MARK + SPACE + GESAH_MARK_URL + SPACE + VAR + MARK_URL + LINE_END;
 
 	@Override
 	protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {
