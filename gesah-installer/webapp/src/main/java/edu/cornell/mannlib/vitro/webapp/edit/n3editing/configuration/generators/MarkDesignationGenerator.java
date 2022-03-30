@@ -80,7 +80,7 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
     conf.addNewResource(MARK_DESIGNATION, DEFAULT_NS_FOR_NEW_RESOURCE);
     conf.addNewResource(NEW_COLLECTORS_MARK, DEFAULT_NS_FOR_NEW_RESOURCE);
 
-    conf.setLiteralsOnForm( Arrays.asList(MARK_DESIGNATION_LABEL, MARK_LOCATION, COLLECTORS_MARK_LABEL, MARK_ID, MARK_URL, MARK_TITLE));
+    conf.setLiteralsOnForm( Arrays.asList(MARK_DESIGNATION_LABEL, MARK_LOCATION, COLLECTORS_MARK_LABEL, MARK_ID, MARK_URL, MARK_TITLE, COMMENT));
     
     conf.setUrisOnform( Arrays.asList( COLLECTORS_MARK, NEW_COLLECTORS_MARK )); 
     
@@ -118,6 +118,11 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
     conf.addField( new FieldVTwo().
         setName(MARK_LOCATION).
         setRangeDatatypeUri(XSD.xstring.toString() ));
+    
+    conf.addField( new FieldVTwo().
+        setName(COMMENT).
+        setRangeDatatypeUri( XSD.xstring.toString() ).
+        setValidators(list(DATATYPE + XSD.xstring.toString())));
     
 	}
 	
@@ -171,7 +176,8 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
   		+ VAR + NEW_COLLECTORS_MARK + A + GESAH_MARK_CLASS + LINE_END
   		+ VAR + NEW_COLLECTORS_MARK + LT + LABEL + GT + VAR + MARK_TITLE + LINE_END
   		+ VAR + NEW_COLLECTORS_MARK + SPACE + GESAH_MARK_ID + SPACE + VAR + MARK_ID + LINE_END
-  		+ VAR + NEW_COLLECTORS_MARK + SPACE + GESAH_MARK_URL + SPACE + VAR + MARK_URL + LINE_END;
+  		+ VAR + NEW_COLLECTORS_MARK + SPACE + GESAH_MARK_URL + SPACE + VAR + MARK_URL + LINE_END
+  		+ VAR + NEW_COLLECTORS_MARK + SPACE + LT + GESAH_COMMENT + GT +  SPACE + VAR + COMMENT + LINE_END;
 
 	@Override
 	protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {

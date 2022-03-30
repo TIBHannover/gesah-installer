@@ -23,6 +23,8 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 
 <#assign markId = lvf.getFormFieldValue(editSubmission, editConfiguration, "markId") />
 <#assign markUrl = lvf.getFormFieldValue(editSubmission, editConfiguration, "markUrl") />
+<#assign commentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "comment") />
+
 
 <h2>${titleVerb}&nbsp;mark designation for ${editConfiguration.subjectName}</h2>
 
@@ -40,8 +42,14 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
         
         	<label for="markID">${i18n().mark_id} ${requiredHint}</label>
 			<textarea type="text" id="markID" name="markId" autocomplete="off" class="useTinyMce" >${markId}</textarea>
+			
 			<label for="markUrl">${i18n().mark_url} ${requiredHint}</label>
 			<input type="text" id="markUrl" name="markUrl" autocomplete="off" value="${markUrl}" />
+			
+			<label for="comment">${i18n().comment} ${requiredHint}
+                <span class="hint">&nbsp;${i18n().supplemental_information_hint_origin}</span>
+            </label>
+            <textarea  size="60"  type="text" id="comment" name="comment" >${commentValue}</textarea>
         </p>
         <div class="acSelection" id="typeSelector" acGroupName="collectors_mark">
             <p class="inline">
