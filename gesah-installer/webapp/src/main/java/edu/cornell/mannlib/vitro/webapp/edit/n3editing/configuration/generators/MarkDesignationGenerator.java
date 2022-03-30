@@ -142,8 +142,8 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
 			+ "}";
 	
 	final static String sparqlForExistingMarkLocation = ""
-			+ SELECT + VAR + MARK_EXISTING_LOCATION + WHERE
-			+ VAR + MARK_DESIGNATION + GESAH_MARK_LOCATION + VAR + MARK_EXISTING_LOCATION + LINE_END
+			+ SELECT + " (STR(?existLocColumn) as " + VAR + MARK_EXISTING_LOCATION + " ) " + WHERE
+			+ VAR + MARK_DESIGNATION + GESAH_MARK_LOCATION + VAR + "existLocColumn" + LINE_END
 			+ "}";
 	
 	

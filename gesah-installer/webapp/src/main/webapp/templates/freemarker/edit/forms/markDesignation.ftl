@@ -1,5 +1,10 @@
 <#include "customFormInit.ftl">
 
+
+<script type="text/javascript" src="/gesah/js/tiny_mce/tiny_mce.js?version=f10c"></script>
+<script type="text/javascript" src="/gesah/js/tiny_mce/jquery.tinymce.js?version=f10c"></script>
+<script type="text/javascript" src="/gesah/js/edit/initTinyMce.js?version=f10c"></script>
+
 <#assign subjectName=""/>
 <#assign roleActivityUri="mysteryRoleActivityURI"/>
 <#assign agentLabel="mysteryAgentLabel"/>
@@ -26,7 +31,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 		<label for="markDesignationLabel">${i18n().mark_designation_label}</label>
 		<input type="text" id="markDesignationLabel" name="markDesignationLabel" autocomplete="off" value="${markDesignationLabel}" />
 		<label for="markLocation">${i18n().mark_designation_location}</label>
-		<input type="text" id="markLocation" name="markLocation" autocomplete="off" value="${markLocation}" />
+		<textarea id="markLocation" name="markLocation" class="useTinyMce" role="textarea" autocomplete="off">${markLocation}</textarea>
 		
 		<p>
             <label for="markTitle">${i18n().mark_designation_collectors_mark} ${requiredHint}</label>
@@ -34,7 +39,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
             <input class="display" type="hidden" id="collectors_mark" acGroupName="collectors_mark" name="newMarkLabelDisplay" value="${oldCollectorsMark}">
         
         	<label for="markID">${i18n().mark_id} ${requiredHint}</label>
-			<input type="text" id="markID" name="markId" autocomplete="off" value="${markId}" />
+			<textarea type="text" id="markID" name="markId" autocomplete="off" class="useTinyMce" >${markId}</textarea>
 			<label for="markUrl">${i18n().mark_url} ${requiredHint}</label>
 			<input type="text" id="markUrl" name="markUrl" autocomplete="off" value="${markUrl}" />
         </p>
