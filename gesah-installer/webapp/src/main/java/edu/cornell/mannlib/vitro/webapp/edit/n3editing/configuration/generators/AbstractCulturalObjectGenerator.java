@@ -114,8 +114,8 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	public static final String VAR = "?";
 	
   final static String commentQuery  =
-      "SELECT" + SPACE + VAR + EXISTING_COMMENT + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + COMMENT_PRED + ">" + SPACE + VAR + EXISTING_COMMENT + " . }";
+      "SELECT" + SPACE + " (STR(?existCommentColumn) as " + VAR + EXISTING_COMMENT + " ) WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + COMMENT_PRED + ">" + SPACE + VAR + "existCommentColumn" + " . }";
   
   final static String litDateAppelAssertion  =
       VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_LITERAL_DATE_APPELATION + "> " + VAR + LIT_DATE_APPEL + " .";	
@@ -244,8 +244,8 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
   
   
   final static String litDateAppelQuery  =
-      "SELECT" + SPACE + VAR + EXISTINGLIT_DATE_APPEL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + LITERAL_DATE_APPEAL_PRED + ">" + SPACE + VAR + EXISTINGLIT_DATE_APPEL + " . }";
+      "SELECT" + SPACE + " (STR(?existLocColumn) as " + VAR + EXISTINGLIT_DATE_APPEL + " ) " + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + LITERAL_DATE_APPEAL_PRED + ">" + SPACE + VAR + "existLocColumn" + " . }";
 
   final static String existingIntervalNodeQuery  =
       "SELECT" + SPACE + VAR + EXISTING_INTERVAL_NODE + " WHERE {" + "\n" +
