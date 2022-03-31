@@ -75,7 +75,7 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
     
     conf.setN3Required( Arrays.asList(n3ForNewMarkDesignation) );
 		conf.setN3Optional(Arrays.asList(n3ForNewMarkDesignationLabel, n3ForNewMarkLocation, n3SelectedMark,
-				n3ForNew_Mark_with_title_id_url));
+				n3ForNewMarkWithTitle, n3ForNewMarkId, n3ForNewMarkUrl, n3ForNewMarkComment));
 
     conf.addNewResource(MARK_DESIGNATION, DEFAULT_NS_FOR_NEW_RESOURCE);
     conf.addNewResource(NEW_COLLECTORS_MARK, DEFAULT_NS_FOR_NEW_RESOURCE);
@@ -170,13 +170,19 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
   		+ VAR + MARK_DESIGNATION + SPACE + GESAH_USES_MARK + SPACE + VAR + COLLECTORS_MARK + LINE_END
   		+ VAR + COLLECTORS_MARK + SPACE + GESAH_IS_MARK_USED_IN + SPACE + VAR + MARK_DESIGNATION + LINE_END;
   
-  final static String n3ForNew_Mark_with_title_id_url = ""
+  final static String n3ForNewMarkWithTitle = ""
   		+ VAR + MARK_DESIGNATION + SPACE + GESAH_USES_MARK + SPACE + VAR + NEW_COLLECTORS_MARK + LINE_END
   		+ VAR + NEW_COLLECTORS_MARK + SPACE + GESAH_IS_MARK_USED_IN + SPACE + VAR + MARK_DESIGNATION + LINE_END
   		+ VAR + NEW_COLLECTORS_MARK + A + GESAH_MARK_CLASS + LINE_END
-  		+ VAR + NEW_COLLECTORS_MARK + LT + LABEL + GT + VAR + MARK_TITLE + LINE_END
-  		+ VAR + NEW_COLLECTORS_MARK + SPACE + GESAH_MARK_ID + SPACE + VAR + MARK_ID + LINE_END
-  		+ VAR + NEW_COLLECTORS_MARK + SPACE + GESAH_MARK_URL + SPACE + VAR + MARK_URL + LINE_END
+  		+ VAR + NEW_COLLECTORS_MARK + LT + LABEL + GT + VAR + MARK_TITLE + LINE_END;
+
+  final static String n3ForNewMarkId = ""  		
+  		+ VAR + NEW_COLLECTORS_MARK + SPACE + GESAH_MARK_ID + SPACE + VAR + MARK_ID + LINE_END;
+  
+  final static String n3ForNewMarkUrl = ""  		
+  		+ VAR + NEW_COLLECTORS_MARK + SPACE + GESAH_MARK_URL + SPACE + VAR + MARK_URL + LINE_END;
+  
+  final static String n3ForNewMarkComment = ""  	
   		+ VAR + NEW_COLLECTORS_MARK + SPACE + LT + GESAH_COMMENT + GT +  SPACE + VAR + COMMENT + LINE_END;
 
 	@Override

@@ -40,16 +40,16 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
             <input class="acSelector" size="50" type="text" id="markTitle" name="markTitle" acGroupName="collectors_mark" value="${oldCollectorsMarkLabel}"  />
             <input class="display" type="hidden" id="collectors_mark" acGroupName="collectors_mark" name="newMarkLabelDisplay" value="${oldCollectorsMark}">
         
-        	<label for="markID">${i18n().mark_id} ${requiredHint}</label>
-			<textarea type="text" id="markID" name="markId" autocomplete="off" class="useTinyMce" >${markId}</textarea>
+        	<label for="markID">${i18n().mark_id}</label>
+			<textarea type="text" id="markID" name="markId" autocomplete="off" class="useTinyMce">${markId}</textarea>
 			
-			<label for="markUrl">${i18n().mark_url} ${requiredHint}</label>
+			<label for="markUrl">${i18n().mark_url}</label>
 			<input type="text" id="markUrl" name="markUrl" autocomplete="off" value="${markUrl}" />
 			
-			<label for="comment">${i18n().comment} ${requiredHint}
+			<label for="comment">${i18n().comment}
                 <span class="hint">&nbsp;${i18n().supplemental_information_hint_origin}</span>
             </label>
-            <textarea  size="60"  type="text" id="comment" name="comment" >${commentValue}</textarea>
+            <textarea  size="60"  type="text" id="comment" name="comment" class="useTinyMce" >${commentValue}</textarea>
         </p>
         <div class="acSelection" id="typeSelector" acGroupName="collectors_mark">
             <p class="inline">
@@ -81,3 +81,5 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 	    selectedString: '${i18n().selected}'
 	};
 </script>  
+<#--  <#include "customFormInitTinyMCE.ftl">  -->
+
