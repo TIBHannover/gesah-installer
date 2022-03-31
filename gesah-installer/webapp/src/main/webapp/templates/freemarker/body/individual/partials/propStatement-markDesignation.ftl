@@ -24,7 +24,7 @@
         (${statement.markLocation})<br />
     </#if>
     <#if statement.markID??>
-        <#if statement.markObj??>
+        <#if statement.markObj?? && statement.markURL?has_content && statement.markID?has_content>
             <a href="${statement.markURL}">${statement.markID}</a>
         <#else>
             ${statement.markID}
