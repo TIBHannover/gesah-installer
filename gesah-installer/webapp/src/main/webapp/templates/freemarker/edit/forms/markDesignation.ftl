@@ -30,8 +30,10 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 
 <section id="markDesignation" role="region">
 	<form id="markDesignation" class="customForm noIE67" action="${submitUrl}"  role="add/edit markDesignation" >
+		<#-- 
 		<label for="markDesignationLabel">${i18n().mark_designation_label}</label>
 		<input type="text" id="markDesignationLabel" name="markDesignationLabel" autocomplete="off" value="${markDesignationLabel}" />
+		 -->
 		<label for="markLocation">${i18n().mark_designation_location}</label>
 		<textarea id="markLocation" name="markLocation" class="useTinyMce" role="textarea" autocomplete="off">${markLocation}</textarea>
 		
