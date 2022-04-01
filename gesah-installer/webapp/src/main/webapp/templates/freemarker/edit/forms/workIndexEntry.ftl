@@ -15,30 +15,35 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 
 <#assign workIndexEntryLabel = lvf.getFormFieldValue(editSubmission, editConfiguration, "workIndexEntryLabel") />
 <#assign indexNumber = lvf.getFormFieldValue(editSubmission, editConfiguration, "indexNumber") />
+<#assign indexNumberUrl = lvf.getFormFieldValue(editSubmission, editConfiguration, "indexNumberUrl") />
 
 <#assign oldWorkIndex = lvf.getFormFieldValue(editSubmission, editConfiguration, "workIndex") />
-
 <#assign oldWorkIndexLabel = lvf.getFormFieldValue(editSubmission, editConfiguration, "workIndexLabel") />
 
 <#assign workIndexTitle = lvf.getFormFieldValue(editSubmission, editConfiguration, "workIndexTitle") />
 <#assign workIndexUrl = lvf.getFormFieldValue(editSubmission, editConfiguration, "workIndexUrl") />
-<#assign commentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "comment") />
+
 
 
 <h2>${titleVerb}&nbsp;mark designation for ${editConfiguration.subjectName}</h2>
 
 <section id="markDesignation" role="region">
 	<form id="markDesignation" class="customForm noIE67" action="${submitUrl}"  role="add/edit markDesignation" >
+		<#-- 
 		<label for="workIndexEntryLabel">${i18n().work_index_entry_label}</label>
 		<input type="text" id="workIndexEntryLabel" name="workIndexEntryLabel" autocomplete="off" value="${workIndexEntryLabel}" />
-		
+		 -->
+	
 		<label for="indexNumber">${i18n().work_index_entry_index_number} ${requiredHint}</label>
 		<textarea id="indexNumber" name="indexNumber" class="useTinyMce" role="textarea" autocomplete="off">${indexNumber}</textarea>
+		
+		<label for="indexNumberUrl">${i18n().work_index_entry_index_number_url}</label>
+		<input type="text" id="indexNumberUrl" name="indexNumberUrl" autocomplete="off" value="${indexNumberUrl}" />
 		
 		<p>
             <label for="workIndexLabel">${i18n().work_index_label} ${requiredHint}</label>
             <input class="acSelector" size="50" type="text" id="workIndexLabel" name="workIndexLabel" acGroupName="work_index" value="${oldWorkIndexLabel}"  />
-            <input class="display" type="hidden" id="work_index" acGroupName="work_index" name="newMarkLabelDisplay" value="${oldWorkIndex}">
+            <input class="display" type="hidden" id="work_index" acGroupName="work_index" value="${oldWorkIndex}">
         
         	<label for="workIndexTitle">${i18n().work_index_title}</label>
 			<textarea type="text" id="workIndexTitle" name="workIndexTitle" autocomplete="off" class="useTinyMce">${workIndexTitle}</textarea>

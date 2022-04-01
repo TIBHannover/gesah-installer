@@ -18,10 +18,16 @@ import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
 
 public class WorkIndexEntryGenerator extends AbstractCulturalObjectGenerator implements EditConfigurationGenerator {
 
-	private static final String WORK_INDEX = "workIndex";
+	private static final String WORK_INDEX_VAR = "workIndex";
 	private static final String WORK_INDEX_LABEL = "workIndexLabel";
 	private static final String WORK_INDEX_TITLE = "workIndexTitle";
 	private static final String WORK_INDEX_URL = "workIndexUrl";
+	
+	private static final String INDEX_NUM_URL =	"indexNumberUrl";
+	private static final String INDEX_NUMBER_URL =	"index_number_URL";
+	private static final String GESAH_INDEX_NUMBER_URL = GESAH + INDEX_NUMBER_URL;
+	private static final String GESAH_INDEX_NUMBER_URL_L = LT + GESAH + INDEX_NUMBER_URL + GT;
+
 	
 	private static final String INDEX_URL = "index_URL";
 	private static final String GESAH_INDEX_URL = GESAH + INDEX_URL;
@@ -36,7 +42,7 @@ public class WorkIndexEntryGenerator extends AbstractCulturalObjectGenerator imp
 	private static final String GESAH_WORK_INDEX_L = LT + GESAH_WORK_INDEX + GT;
 	
 	private static final String WORK_INDEX_ENTRY = "workIndexEntry";
-	private static final String WORK_INDEX_ENTRY_LABEL = "workIndexEntryLabel";
+	//private static final String WORK_INDEX_ENTRY_LABEL = "workIndexEntryLabel";
 
 	private static final String GESAH_WORK_INDEX_ENTRY = GESAH + "Work_Index_Entry";
 	private static final String GESAH_WORK_INDEX_ENTRY_L = LT + GESAH_WORK_INDEX_ENTRY + GT;
@@ -74,7 +80,8 @@ public class WorkIndexEntryGenerator extends AbstractCulturalObjectGenerator imp
 		conf.addN3Required( Arrays.asList(n3forNewWorkIndexEntry) );
 
     addIndexNumber(conf);
-	  addWorkIndexEntryLabel(conf);
+    addIndexNoUrl(conf);
+	  //addWorkIndexEntryLabel(conf);
 	  addNewWorkIndex(conf);
 	  addExistingWorkIndex(conf);
 	  addWorkIndexLabel(conf);
@@ -116,10 +123,10 @@ public class WorkIndexEntryGenerator extends AbstractCulturalObjectGenerator imp
 	
 	private String existingWorkIndexLabelQuery = ""
 			+ SELECT + VAR + WORK_INDEX_LABEL + WHERE
-			+ VAR + WORK_INDEX_ENTRY + GESAH_IS_LISTED_IN_L  + VAR + WORK_INDEX + LINE_END
-			+ VAR + WORK_INDEX + GESAH_HAS_ENTRY_L + VAR + WORK_INDEX_ENTRY + LINE_END 
-			+ VAR + WORK_INDEX + A + GESAH_WORK_INDEX_L + LINE_END 
-			+ VAR + WORK_INDEX + LT + LABEL + GT + VAR + WORK_INDEX_LABEL + LINE_END
+			+ VAR + WORK_INDEX_ENTRY + GESAH_IS_LISTED_IN_L  + VAR + WORK_INDEX_VAR + LINE_END
+			+ VAR + WORK_INDEX_VAR + GESAH_HAS_ENTRY_L + VAR + WORK_INDEX_ENTRY + LINE_END 
+			+ VAR + WORK_INDEX_VAR + A + GESAH_WORK_INDEX_L + LINE_END 
+			+ VAR + WORK_INDEX_VAR + LT + LABEL + GT + VAR + WORK_INDEX_LABEL + LINE_END
 			+ "}";
 	
 	private void addNewWorkIndex(EditConfigurationVTwo conf) throws Exception {
@@ -127,30 +134,53 @@ public class WorkIndexEntryGenerator extends AbstractCulturalObjectGenerator imp
     conf.addUrisOnForm(Arrays.asList( NEW_WORK_INDEX ));
     conf.addN3Optional(Arrays.asList(n3ForNewMarkWorkIndexWithLabel));
     conf.addField( new FieldVTwo().
-        setName(WORK_INDEX).
+        setName(WORK_INDEX_VAR).
         setOptions( new IndividualsViaVClassOptions(
         		GESAH_WORK_INDEX)));		
 	}
 	
+
 	private static final String n3ForNewMarkWorkIndexWithLabel = ""
   		+ VAR + WORK_INDEX_ENTRY + SPACE + GESAH_IS_LISTED_IN_L + SPACE + VAR + NEW_WORK_INDEX + LINE_END
   		+ VAR + NEW_WORK_INDEX + SPACE + GESAH_HAS_ENTRY_L + SPACE + VAR + WORK_INDEX_ENTRY + LINE_END
   		+ VAR + NEW_WORK_INDEX + A + GESAH_WORK_INDEX_L + LINE_END
-  		+ VAR + NEW_WORK_INDEX + LT + LABEL + GT + VAR + WORK_INDEX_TITLE + LINE_END;
+  		+ VAR + NEW_WORK_INDEX + LT + LABEL + GT + VAR + WORK_INDEX_LABEL + LINE_END;
 	
 	private void addExistingWorkIndex(EditConfigurationVTwo conf) throws Exception {
-		conf.addSparqlForExistingUris(WORK_INDEX, existingWorkIndexQuery);
-    conf.addUrisOnForm(Arrays.asList( WORK_INDEX ));
+		conf.addSparqlForExistingUris(WORK_INDEX_VAR, existingWorkIndexQuery);
+    conf.addN3Optional(Arrays.asList(n3ForSelecterWorkIndex));
+    conf.addUrisOnForm(Arrays.asList( WORK_INDEX_VAR ));
+	}
+  
+	final static String n3ForSelecterWorkIndex = ""
+  		+ VAR + WORK_INDEX_ENTRY + SPACE + GESAH_IS_LISTED_IN_L + SPACE + VAR + WORK_INDEX_VAR + LINE_END
+  		+ VAR + WORK_INDEX_VAR + SPACE + GESAH_HAS_ENTRY_L + SPACE + VAR + WORK_INDEX_ENTRY + LINE_END;
+	
+		private String existingWorkIndexQuery = ""
+    	+ SELECT + VAR + WORK_INDEX_VAR + WHERE
+    	+ VAR + WORK_INDEX_ENTRY + GESAH_IS_LISTED_IN_L  + VAR + WORK_INDEX_VAR + LINE_END
+    	+ VAR + WORK_INDEX_VAR + GESAH_HAS_ENTRY_L + VAR + WORK_INDEX_ENTRY + LINE_END 
+    	+ VAR + WORK_INDEX_VAR + A + GESAH_WORK_INDEX_L + LINE_END 
+    	+ "}";
 
+	private void addIndexNoUrl(EditConfigurationVTwo conf) {
+		conf.addLiteralsOnForm( Arrays.asList(INDEX_NUM_URL));
+    conf.addN3Optional(Arrays.asList(n3ForNewWokIndexEntryNumberUrl));
+    conf.addSparqlForExistingLiteral(INDEX_NUM_URL, sparqlForExistingIndexNumberUrl);
+    conf.addField( new FieldVTwo().
+        setName(INDEX_NUM_URL).
+        setRangeDatatypeUri(XSD.xstring.toString() ));
 	}
 	
-	private String existingWorkIndexQuery = ""
-	+ SELECT + VAR + WORK_INDEX + WHERE
-	+ VAR + WORK_INDEX_ENTRY + GESAH_IS_LISTED_IN_L  + VAR + WORK_INDEX + LINE_END
-	+ VAR + WORK_INDEX + GESAH_HAS_ENTRY_L + VAR + WORK_INDEX_ENTRY + LINE_END 
-	+ VAR + WORK_INDEX + A + GESAH_WORK_INDEX_L + LINE_END 
-	+ "}";
+	private static final String n3ForNewWokIndexEntryNumberUrl = ""
+			+ VAR + WORK_INDEX_ENTRY + GESAH_INDEX_NUMBER_URL_L + VAR + INDEX_NUM_URL + LINE_END;
+	
+	private static final String sparqlForExistingIndexNumberUrl = ""
+			+ SELECT + VAR + INDEX_NUM_URL + WHERE 
+			+ VAR + WORK_INDEX_ENTRY + GESAH_INDEX_NUMBER_URL_L + VAR + INDEX_NUM_URL + LINE_END
+			+ "}";
 
+	
 	private void addIndexNumber(EditConfigurationVTwo conf) {
 		conf.addLiteralsOnForm( Arrays.asList(INDEX_NUMBER));
     conf.addSparqlForExistingLiteral(INDEX_NUMBER, sparqlForExistingIndexNumber);
@@ -165,22 +195,22 @@ public class WorkIndexEntryGenerator extends AbstractCulturalObjectGenerator imp
 			+ VAR + WORK_INDEX_ENTRY + GESAH_INDEX_NUMBER_L + " ?tmpVar " + LINE_END
 			+ "}";
 
-	private void addWorkIndexEntryLabel(EditConfigurationVTwo conf) {
-		conf.addLiteralsOnForm( Arrays.asList(WORK_INDEX_ENTRY_LABEL));
-    conf.addN3Optional(Arrays.asList(n3ForNewWokIndexEntryLabel));
-		conf.addSparqlForExistingLiteral(WORK_INDEX_ENTRY_LABEL, sparqlForExistingWorkIndexEntryLabel);
-    conf.addField( new FieldVTwo().
-        setName(WORK_INDEX_ENTRY_LABEL).
-        setRangeDatatypeUri(XSD.xstring.toString() ));
-	}
-	
-	private static final String n3ForNewWokIndexEntryLabel = ""
-			+ VAR + WORK_INDEX_ENTRY + LT + LABEL + GT + VAR + WORK_INDEX_ENTRY_LABEL + LINE_END;
-	
-	private static final String sparqlForExistingWorkIndexEntryLabel = ""
-			+ SELECT + VAR + WORK_INDEX_ENTRY_LABEL + WHERE 
-			+ VAR + WORK_INDEX_ENTRY + LT + LABEL + GT + VAR + WORK_INDEX_ENTRY_LABEL + LINE_END
-			+ "}";
+	/*
+	 * private void addWorkIndexEntryLabel(EditConfigurationVTwo conf) {
+	 * conf.addLiteralsOnForm( Arrays.asList(WORK_INDEX_ENTRY_LABEL));
+	 * conf.addN3Optional(Arrays.asList(n3ForNewWokIndexEntryLabel));
+	 * conf.addSparqlForExistingLiteral(WORK_INDEX_ENTRY_LABEL,
+	 * sparqlForExistingWorkIndexEntryLabel); conf.addField( new FieldVTwo().
+	 * setName(WORK_INDEX_ENTRY_LABEL). setRangeDatatypeUri(XSD.xstring.toString()
+	 * )); }
+	 * 
+	 * private static final String n3ForNewWokIndexEntryLabel = "" + VAR +
+	 * WORK_INDEX_ENTRY + LT + LABEL + GT + VAR + WORK_INDEX_ENTRY_LABEL + LINE_END;
+	 * 
+	 * private static final String sparqlForExistingWorkIndexEntryLabel = "" +
+	 * SELECT + VAR + WORK_INDEX_ENTRY_LABEL + WHERE + VAR + WORK_INDEX_ENTRY + LT +
+	 * LABEL + GT + VAR + WORK_INDEX_ENTRY_LABEL + LINE_END + "}";
+	 */
 	
 	private static final String n3forNewWorkIndexEntry = ""
 			+ VAR + CULT_OBJECT + SPACE + GESAH_HAS_WORK_INDEX_ENTRY_L + SPACE + VAR + WORK_INDEX_ENTRY + LINE_END
