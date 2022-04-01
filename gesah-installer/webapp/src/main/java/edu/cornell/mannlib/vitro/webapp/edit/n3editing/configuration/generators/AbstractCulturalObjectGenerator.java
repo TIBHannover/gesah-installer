@@ -112,6 +112,14 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	public static final String TECHNIQUE_LABEL = "techniqueLabel";
 	public final static String TECHNIQUE_TYPE_CLASS = GESAH + "Technique";
 	public static final String VAR = "?";
+	public static final String LINE_END = " . \n ";
+	public static final String GT = "> ";
+	public static final String LT = " <";
+	public static final String WHERE = " WHERE { \n ";
+	public static final String SELECT = "SELECT ";
+
+	public static final String A = " a ";
+
 	
   final static String commentQuery  =
       "SELECT" + SPACE + " (STR(?existCommentColumn) as " + VAR + EXISTING_COMMENT + " ) WHERE {" + "\n" +
