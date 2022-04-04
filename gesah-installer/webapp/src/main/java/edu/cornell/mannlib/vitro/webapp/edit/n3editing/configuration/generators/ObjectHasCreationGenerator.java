@@ -101,7 +101,11 @@ public class ObjectHasCreationGenerator extends AbstractCulturalObjectGenerator 
         conf.addSparqlForExistingLiteral(ATTR_TYPE_LABEL, existingAttrTypeLabelQuery);
         conf.addSparqlForExistingLiteral(ROLE_TYPE_LABEL, existingRoleTypeLabelQuery);
         conf.addSparqlForExistingLiteral(COMMENT, commentQuery);
+        conf.addSparqlForExistingLiteral(EXISTING_COMMENT_VALUE, commentValueQuery);
+        
         conf.addSparqlForExistingLiteral(LIT_DATE_APPEL, litDateAppelQuery);
+        conf.addSparqlForExistingLiteral(EXISTINGLIT_DATE_APPEL_VALUE, litDateAppelQueryValue);
+        
         conf.addSparqlForExistingLiteral(START_FIELD_VALUE, existingStartDateQuery);
         conf.addSparqlForExistingLiteral(END_FIELD_VALUE, existingEndDateQuery);
 
@@ -151,12 +155,12 @@ public class ObjectHasCreationGenerator extends AbstractCulturalObjectGenerator 
 
         conf.addField( new FieldVTwo().
                 setName(COMMENT).
-                setRangeDatatypeUri( XSD.xstring.toString() ).
+                setRangeDatatypeUri( org.apache.jena.vocabulary.RDFS.Literal.getURI()).
                 setValidators(list(DATATYPE + XSD.xstring.toString())));
 				
         conf.addField( new FieldVTwo().
                 setName(LIT_DATE_APPEL).
-                setRangeDatatypeUri( XSD.xstring.toString() ).
+                setRangeDatatypeUri( org.apache.jena.vocabulary.RDFS.Literal.getURI() ).
                 setValidators(list(DATATYPE + XSD.xstring.toString())));		
 
         conf.addField( new FieldVTwo().

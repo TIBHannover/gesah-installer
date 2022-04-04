@@ -13,8 +13,8 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign agentLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentLabel") />
 <#assign agentLabelDisplayValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentLabelDisplay") />
 <#assign agentTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType")/>
-<#assign litDateAppelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "litDateAppel") />
-<#assign commentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "comment") />
+<#assign litDateAppelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existinglitDateAppelValue") />
+<#assign commentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingCommentValue") />
 <#assign newRoleTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newRoleType") />
 <#assign newRoleTypeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newRoleTypeLabel") />
 <#assign newAttrTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newAttrType") />

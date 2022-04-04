@@ -14,7 +14,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign flagClearLabelForExisting = "flagClearLabelForExisting" />
 
 <#assign markDesignationLabel = lvf.getFormFieldValue(editSubmission, editConfiguration, "markDesignationLabel") />
-<#assign markLocation = lvf.getFormFieldValue(editSubmission, editConfiguration, "markLocation") />
+<#assign markLocation = lvf.getFormFieldValue(editSubmission, editConfiguration, "markLocationValue") />
 
 <#assign oldCollectorsMark = lvf.getFormFieldValue(editSubmission, editConfiguration, "collectorsMark") />
 

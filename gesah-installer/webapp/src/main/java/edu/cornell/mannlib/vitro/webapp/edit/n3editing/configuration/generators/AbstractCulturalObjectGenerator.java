@@ -32,6 +32,8 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	public static final String EXISTING_ATTR_TYPE = "existingAttrType";
 	public static final String EXISTING_ATTR_TYPE_LABEL = "existingAttrTypeLabel";
 	public static final String EXISTING_COMMENT = "existingComment";
+	public static final String EXISTING_COMMENT_VALUE = "existingCommentValue";
+
 
 	
 	public static final String EXISTING_DATE_START = "existingDateStart";
@@ -57,6 +59,8 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 
 	public static final String EXISTING_TECHNIQUE_LABEL = "existingTechniqueLabel";
 	public static final String EXISTINGLIT_DATE_APPEL = "existinglitDateAppel";
+	public static final String EXISTINGLIT_DATE_APPEL_VALUE = "existinglitDateAppelValue";
+
 	
 	public static final String GESAH_ATTRIBUTION_TYPE = GESAH + "Attribution_Type";
 	public static final String GESAH_COMMENT = GESAH + "comment";
@@ -122,8 +126,13 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 
 	
   final static String commentQuery  =
-      "SELECT" + SPACE + " (STR(?existCommentColumn) as " + VAR + EXISTING_COMMENT + " ) WHERE {" + "\n" +
+      "SELECT" + SPACE + VAR + EXISTING_COMMENT + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + COMMENT_PRED + ">" + SPACE + VAR + EXISTING_COMMENT + " . }";
+  
+  final static String commentValueQuery  =
+      "SELECT" + SPACE + " (STR(?existCommentColumn) as " + VAR + EXISTING_COMMENT_VALUE + " ) WHERE {" + "\n" +
       VAR + OB_CULTURAL_OBJECT + SPACE + "<" + COMMENT_PRED + ">" + SPACE + VAR + "existCommentColumn" + " . }";
+  
   
   final static String litDateAppelAssertion  =
       VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_LITERAL_DATE_APPELATION + "> " + VAR + LIT_DATE_APPEL + " .";	
@@ -250,9 +259,12 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       VAR + EXISTING_AGENT + " a" + SPACE + VAR + AGENT_TYPE + " ." + "\n" +
       VAR + AGENT_TYPE + " rdfs:subClassOf <" + AGENT_CLASS + "> .}";		
   
-  
   final static String litDateAppelQuery  =
-      "SELECT" + SPACE + " (STR(?existLocColumn) as " + VAR + EXISTINGLIT_DATE_APPEL + " ) " + " WHERE {" + "\n" +
+      "SELECT" + SPACE + VAR + EXISTINGLIT_DATE_APPEL + " WHERE {" + "\n" +
+      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + LITERAL_DATE_APPEAL_PRED + ">" + SPACE + VAR + EXISTINGLIT_DATE_APPEL + " . }";
+  
+  final static String litDateAppelQueryValue  =
+      "SELECT" + SPACE + " (STR(?existLocColumn) as " + VAR + EXISTINGLIT_DATE_APPEL_VALUE + " ) " + " WHERE {" + "\n" +
       VAR + OB_CULTURAL_OBJECT + SPACE + "<" + LITERAL_DATE_APPEAL_PRED + ">" + SPACE + VAR + "existLocColumn" + " . }";
 
   final static String existingIntervalNodeQuery  =
