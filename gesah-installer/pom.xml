@@ -7,7 +7,7 @@
 
     <groupId>eu.tib.osl</groupId>
     <artifactId>gesah-installer</artifactId>
-    <version>1.11.0-SNAPSHOT</version>
+    <version>1.12.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Gesah Installer</name>
@@ -106,31 +106,24 @@
     <modules>
 		<module>../Vitro-languages</module>
         <module>home</module>
-        <module>solr</module>
         <module>webapp</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>eu.tib.osl</groupId>
-                <artifactId>vitro-solr</artifactId>
-                <version>${vitro-version}</version>
-                <type>war</type>
-            </dependency>
-            <dependency>
-                <groupId>eu.tib.osl</groupId>
+                <groupId>org.vivoweb</groupId>
                 <artifactId>vitro-home</artifactId>
                 <version>${vitro-version}</version>
                 <type>tar.gz</type>
             </dependency>
             <dependency>
-                <groupId>eu.tib.osl</groupId>
+                <groupId>org.vivoweb</groupId>
                 <artifactId>vitro-api</artifactId>
                 <version>${vitro-version}</version>
             </dependency>
             <dependency>
-                <groupId>eu.tib.osl</groupId>
+                <groupId>org.vivoweb</groupId>
                 <artifactId>vitro-webapp</artifactId>
                 <version>${vitro-version}</version>
                 <type>war</type>
