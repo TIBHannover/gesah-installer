@@ -57,3 +57,7 @@
 
 <http://ontology.tib.eu/gesah/life_data>
     display:listViewConfigFile "listViewConfig-dateTimeInterval.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/has_Work_Index_Entry>
+    display:listViewConfigFile "listViewConfig-workIndexEntry.xml"^^xsd:string .    
+    
