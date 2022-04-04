@@ -299,4 +299,4 @@ foaf:Agent
                              owl:allValuesFrom rdfs:Literal
                            ] .								
 
-gesah:comment rdfs:domain [ a owl:Class; owl:unionOf (gesah:Cultural_Object gesah:Collection gesah:Event gesah:Digital_Image gesah:Material gesah:Title gesah:Technique gesah:Watermark gesah:Condition_Preservation foaf:Agent <http://www.europeana.eu/schemas/edm/InformationResource> <http://www.europeana.eu/schemas/edm/Place> )] .	   
+gesah:comment rdfs:domain [ a owl:Class; owl:unionOf (gesah:Watermark gesah:Collection gesah:Feature gesah:Inscription gesah:Mark gesah:Series gesah:Watermark ecrm:E35_Title bibo:BFO_0000015 )] .	   
