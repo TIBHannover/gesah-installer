@@ -35,7 +35,7 @@
 	 		}
 			OPTIONAL { 
 				<precise-subquery>?subject ?property ?object .</precise-subquery>
-	 			?indexEntry gesah:index_number ?indexNo .
+	 			?object gesah:index_number ?indexNo .
 	 		}
 
             <collated>
