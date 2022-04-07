@@ -1,10 +1,10 @@
 @prefix : <http://vitro.mannlib.cornell.edu/ns/vitro/ApplicationSetup#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
  
-:vitrodocumentModifier_former_inventory_no
+:vitrodocumentModifier_both_inventory_no
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
-    rdfs:label "former inventor number" ;
+    rdfs:label "both inventor number" ;
     :hasTargetField "gesah" ;
     :hasSelectQuery """
     	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
@@ -15,5 +15,33 @@
 		     UNION
 		    {  ?uri gesah:current_inventory_number ?number . } 
 		}
-        LIMIT 1
         """ .
+
+:vitrodocumentModifier_current_inventory_no
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "former number" ;
+    :hasTargetField "curnum" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT ?uri (STR (?number) as ?inventory_number )
+                WHERE
+                {
+                    ?uri gesah:current_inventory_number ?number . 
+                }
+        """ .
+
+:vitrodocumentModifier_former_inventory_no
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "former number" ;
+    :hasTargetField "fornum" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT ?uri (STR (?number) as ?inventory_number )
+                WHERE
+                {
+                    ?uri gesah:former_inventory_number ?number . 
+                }
+        """ .
+
