@@ -31,6 +31,8 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
 	private static final String MARK_DESIGNATION_FTL = "markDesignation.ftl";
 	private static final String GESAH_MARK_DESIGNATION_CLASS = LT + GESAH + "Mark_Designation" + GT;
 	private static final String MARK_LOCATION = "markLocation";
+	private static final String MARK_LOCATION_VALUE = "markLocationValue";
+
 	private static final String MARK_EXISTING_LOCATION = "markExistingLocation";
 	private static final String EXISTING_MARK_URI = "existingMark";
 	private static final String COLLECTORS_MARK = "collectorsMark";
@@ -98,14 +100,28 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
 		conf.addN3Optional(Arrays.asList(n3ForNewMarkLocation));
 		conf.addLiteralsOnForm(Arrays.asList(MARK_LOCATION));
 		conf.addSparqlForExistingLiteral(MARK_LOCATION, sparqlForExistingMarkLocation);
-		conf.addField(new FieldVTwo().setName(MARK_LOCATION).setRangeDatatypeUri(XSD.xstring.toString()));
+		conf.addSparqlForExistingLiteral(MARK_LOCATION_VALUE, sparqlForExistingMarkLocationValue);
+
+		conf.addField(new FieldVTwo().
+				setName(MARK_LOCATION).
+				setRangeDatatypeUri(org.apache.jena.vocabulary.RDFS.Literal.getURI()).
+        setValidators(list(DATATYPE + XSD.xstring.toString())));
 	}
 
+	final static String sparqlForExistingMarkLocation = "" + SELECT + VAR	+ MARK_EXISTING_LOCATION + WHERE 
+			+ VAR + MARK_DESIGNATION + GESAH_MARK_LOCATION + VAR + "existLocColumn"	+ LINE_END + "}";
+
+	final static String sparqlForExistingMarkLocationValue = "" + SELECT + " (STR(?existLocColumn) as " + VAR
+			+ MARK_LOCATION_VALUE + " ) " + WHERE + VAR + MARK_DESIGNATION + GESAH_MARK_LOCATION + VAR + "existLocColumn"
+			+ LINE_END + "}";
+	
 	private void addComment(EditConfigurationVTwo conf) {
 		conf.addN3Optional(Arrays.asList(n3ForNewMarkComment));
 		conf.addLiteralsOnForm(Arrays.asList(COMMENT));
-		conf.addField(new FieldVTwo().setName(COMMENT).setRangeDatatypeUri(XSD.xstring.toString())
-				.setValidators(list(DATATYPE + XSD.xstring.toString())));
+		conf.addField( new FieldVTwo().
+        setName(COMMENT).
+        setRangeDatatypeUri( org.apache.jena.vocabulary.RDFS.Literal.getURI() ).
+        setValidators(list(DATATYPE + XSD.xstring.toString())));
 	}
 
 	private void addMarkTitle(EditConfigurationVTwo conf) {
@@ -116,7 +132,10 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
 	private void addMarkId(EditConfigurationVTwo conf) {
 		conf.addLiteralsOnForm(Arrays.asList(MARK_ID));
 		conf.addN3Optional(Arrays.asList(n3ForNewMarkId));
-		conf.addField(new FieldVTwo().setName(MARK_ID).setRangeDatatypeUri(XSD.xstring.toString()));
+		conf.addField(new FieldVTwo().
+				setName(MARK_ID).
+				setRangeDatatypeUri(org.apache.jena.vocabulary.RDFS.Literal.getURI()).
+        setValidators(list(DATATYPE + XSD.xstring.toString())));
 	}
 
 	private void addExistingMarkLabel(EditConfigurationVTwo conf) {
@@ -158,9 +177,6 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
 	final static String sparqlForExistingMarkDesignationLabel = "" + SELECT + VAR + EXISTING_MARK_DESIGNATION_LABEL
 			+ WHERE + VAR + MARK_DESIGNATION + LT + LABEL + GT + VAR + EXISTING_MARK_DESIGNATION_LABEL + LINE_END + "}";
 
-	final static String sparqlForExistingMarkLocation = "" + SELECT + " (STR(?existLocColumn) as " + VAR
-			+ MARK_EXISTING_LOCATION + " ) " + WHERE + VAR + MARK_DESIGNATION + GESAH_MARK_LOCATION + VAR + "existLocColumn"
-			+ LINE_END + "}";
 
 	final static String n3ForNewMarkDesignation = "" + VAR + CULT_OBJECT + SPACE + GESAH_HAS_MARK_DESIGNATION + SPACE
 			+ VAR + MARK_DESIGNATION + LINE_END + VAR + MARK_DESIGNATION + SPACE + GESAH_MARK_DESIGNATION_OF + SPACE + VAR

@@ -14,7 +14,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign flagClearLabelForExisting = "flagClearLabelForExisting" />
 
 <#assign workIndexEntryLabel = lvf.getFormFieldValue(editSubmission, editConfiguration, "workIndexEntryLabel") />
-<#assign indexNumber = lvf.getFormFieldValue(editSubmission, editConfiguration, "indexNumber") />
+<#assign indexNumber = lvf.getFormFieldValue(editSubmission, editConfiguration, "indexNumberValue") />
 <#assign indexNumberUrl = lvf.getFormFieldValue(editSubmission, editConfiguration, "indexNumberUrl") />
 
 <#assign oldWorkIndex = lvf.getFormFieldValue(editSubmission, editConfiguration, "workIndex") />
