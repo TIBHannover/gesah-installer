@@ -14,7 +14,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign flagClearLabelForExisting = "flagClearLabelForExisting" />
 
 <#assign markDesignationLabel = lvf.getFormFieldValue(editSubmission, editConfiguration, "markDesignationLabel") />
-<#assign markLocation = lvf.getFormFieldValue(editSubmission, editConfiguration, "markLocationValue") />
+<#assign markLocation = lvf.getFormFieldValue(editSubmission, editConfiguration, "markLocation") />
 
 <#assign oldCollectorsMark = lvf.getFormFieldValue(editSubmission, editConfiguration, "collectorsMark") />
 
@@ -35,16 +35,15 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 		<input type="text" id="markDesignationLabel" name="markDesignationLabel" autocomplete="off" value="${markDesignationLabel}" />
 		 -->
 		<label for="markLocation">${i18n().mark_designation_location}</label>
-		<textarea id="markLocation" name="markLocation" class="useTinyMce" role="textarea" autocomplete="off">${markLocation}</textarea>
-		
+		<input type="text" id="markLocation" name="markLocation" size="30" value="${markLocation}"/>
+
 		<p>
             <label for="markTitle">${i18n().mark_designation_collectors_mark} ${requiredHint}</label>
             <input class="acSelector" size="50" type="text" id="markTitle" name="markTitle" acGroupName="collectors_mark" value="${oldCollectorsMarkLabel}"  />
             <input class="display" type="hidden" id="collectors_mark" acGroupName="collectors_mark" name="newMarkLabelDisplay" value="${oldCollectorsMark}">
         
         	<label for="markID">${i18n().mark_id}</label>
-			<textarea type="text" id="markID" name="markId" autocomplete="off" class="useTinyMce">${markId}</textarea>
-			
+        	<input type="text" id="markID" name="markID" size="30" value="${markId}"/>
 			<label for="markUrl">${i18n().mark_url}</label>
 			<input type="text" id="markUrl" name="markUrl" autocomplete="off" value="${markUrl}" />
 			
