@@ -103,7 +103,6 @@ public class ObjectHasEditionGenerator extends AbstractCulturalObjectGenerator i
         conf.addSparqlForExistingLiteral(COMMENT, commentQuery);
         conf.addSparqlForExistingLiteral(EXISTING_COMMENT_VALUE, commentValueQuery);
         conf.addSparqlForExistingLiteral(LIT_DATE_APPEL, litDateAppelQuery);
-        conf.addSparqlForExistingLiteral(EXISTINGLIT_DATE_APPEL_VALUE, litDateAppelQueryValue);
 
         conf.addSparqlForExistingLiteral(START_FIELD_VALUE, existingStartDateQuery);
         conf.addSparqlForExistingLiteral(END_FIELD_VALUE, existingEndDateQuery);
@@ -159,7 +158,7 @@ public class ObjectHasEditionGenerator extends AbstractCulturalObjectGenerator i
 				
         conf.addField( new FieldVTwo().
                 setName(LIT_DATE_APPEL).
-                setRangeDatatypeUri( org.apache.jena.vocabulary.RDFS.Literal.getURI() ).
+                setRangeDatatypeUri( XSD.xstring.toString() ).
                 setValidators(list(DATATYPE + XSD.xstring.toString())));		
 
         conf.addField( new FieldVTwo().

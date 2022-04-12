@@ -13,7 +13,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign agentLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentLabel") />
 <#assign agentLabelDisplayValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentLabelDisplay") />
 <#assign agentTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType")/>
-<#assign litDateAppelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existinglitDateAppelValue") />
+<#assign litDateAppelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "litDateAppel") />
 <#assign commentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingCommentValue") />
 <#assign newRoleTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newRoleType") />
 <#assign newRoleTypeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newRoleTypeLabel") />
@@ -59,7 +59,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
             </#list>
         </select>
     </p>
-
+ 
     <p>
         <label for="relatedIndLabel">${i18n().agent_capitalized} ${i18n().name_capitalized} ${requiredHint}</label>
         <input class="acSelector" size="50"  type="text" id="relatedIndLabel" name="agentLabel" acGroupName="agent" value="${agentLabelValue}"  />
@@ -184,7 +184,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 	
     <p>
         <label for="litDateAppel">${i18n().literal_date_appelatlion}</label>
-        <textarea type="text" id="litDateAppel" name="litDateAppel" size="30">${litDateAppelValue}</textarea>
+        <input type="text" id="litDateAppel" name="litDateAppel" size="30" value="${litDateAppelValue}"/>
     </p>
 
     <p>

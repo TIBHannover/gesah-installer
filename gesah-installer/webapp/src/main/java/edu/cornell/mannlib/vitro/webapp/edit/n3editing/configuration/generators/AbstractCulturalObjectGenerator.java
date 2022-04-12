@@ -59,7 +59,6 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 
 	public static final String EXISTING_TECHNIQUE_LABEL = "existingTechniqueLabel";
 	public static final String EXISTINGLIT_DATE_APPEL = "existinglitDateAppel";
-	public static final String EXISTINGLIT_DATE_APPEL_VALUE = "existinglitDateAppelValue";
 
 	
 	public static final String GESAH_ATTRIBUTION_TYPE = GESAH + "Attribution_Type";
@@ -263,10 +262,6 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       "SELECT" + SPACE + VAR + EXISTINGLIT_DATE_APPEL + " WHERE {" + "\n" +
       VAR + OB_CULTURAL_OBJECT + SPACE + "<" + LITERAL_DATE_APPEAL_PRED + ">" + SPACE + VAR + EXISTINGLIT_DATE_APPEL + " . }";
   
-  final static String litDateAppelQueryValue  =
-      "SELECT" + SPACE + " (STR(?existLocColumn) as " + VAR + EXISTINGLIT_DATE_APPEL_VALUE + " ) " + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + LITERAL_DATE_APPEAL_PRED + ">" + SPACE + VAR + "existLocColumn" + " . }";
-
   final static String existingIntervalNodeQuery  =
       "SELECT" + SPACE + VAR + EXISTING_INTERVAL_NODE + " WHERE {" + "\n" +
       VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + EXISTING_INTERVAL_NODE + " ." + "\n" +
