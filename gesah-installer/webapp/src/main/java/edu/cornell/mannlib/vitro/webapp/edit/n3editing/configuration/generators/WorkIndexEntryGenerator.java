@@ -48,7 +48,6 @@ public class WorkIndexEntryGenerator extends AbstractCulturalObjectGenerator imp
 	private static final String GESAH_WORK_INDEX_ENTRY_L = LT + GESAH_WORK_INDEX_ENTRY + GT;
 	
 	private static final String INDEX_NUMBER = "indexNumber";
-	private static final String INDEX_NUMBER_VALUE = "indexNumberValue";
 	private static final String GESAH_INDEX_NUMBER = GESAH + "index_number";
 	private static final String GESAH_INDEX_NUMBER_L = LT + GESAH_INDEX_NUMBER + GT;
 	
@@ -81,7 +80,6 @@ public class WorkIndexEntryGenerator extends AbstractCulturalObjectGenerator imp
 		conf.addN3Required( Arrays.asList(n3forNewWorkIndexEntry) );
 
     addIndexNumber(conf);
-    addIndexNumberValue(conf);
     addIndexNoUrl(conf);
 	  //addWorkIndexEntryLabel(conf);
 	  addNewWorkIndex(conf);
@@ -108,7 +106,7 @@ public class WorkIndexEntryGenerator extends AbstractCulturalObjectGenerator imp
     conf.addN3Optional(Arrays.asList(n3ForNewWokIndexTitle));
     conf.addField( new FieldVTwo().
         setName(WORK_INDEX_TITLE).
-        setRangeDatatypeUri( XSD.xstring.toString() ).
+        setRangeDatatypeUri( org.apache.jena.vocabulary.RDFS.Literal.getURI()).
         setValidators(list(DATATYPE + XSD.xstring.toString())));
 	}
 	
@@ -182,22 +180,12 @@ public class WorkIndexEntryGenerator extends AbstractCulturalObjectGenerator imp
 			+ VAR + WORK_INDEX_ENTRY + GESAH_INDEX_NUMBER_URL_L + VAR + INDEX_NUM_URL + LINE_END
 			+ "}";
 
-	private void addIndexNumberValue(EditConfigurationVTwo conf) {
-		conf.addLiteralsOnForm( Arrays.asList(INDEX_NUMBER_VALUE));
-    conf.addSparqlForExistingLiteral(INDEX_NUMBER_VALUE, sparqlForExistingIndexNumberValue);
-	}
-	
-	private static final String sparqlForExistingIndexNumberValue = ""
-			+ SELECT + "(STR(?tmpVar) as " + VAR + INDEX_NUMBER_VALUE + " ) " + WHERE 
-			+ VAR + WORK_INDEX_ENTRY + GESAH_INDEX_NUMBER_L + " ?tmpVar " + LINE_END
-			+ "}";
-	
 	private void addIndexNumber(EditConfigurationVTwo conf) {
 		conf.addLiteralsOnForm( Arrays.asList(INDEX_NUMBER));
     conf.addSparqlForExistingLiteral(INDEX_NUMBER, sparqlForExistingIndexNumber);
 		conf.addField( new FieldVTwo().
         setName(INDEX_NUMBER).
-        setRangeDatatypeUri( org.apache.jena.vocabulary.RDFS.Literal.getURI() ).
+        setRangeDatatypeUri( XSD.xstring.toString() ).
         setValidators(list(DATATYPE + XSD.xstring.toString())));
 	}
 	private static final String sparqlForExistingIndexNumber = ""

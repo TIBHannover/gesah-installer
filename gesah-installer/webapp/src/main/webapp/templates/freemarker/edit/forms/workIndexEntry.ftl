@@ -14,7 +14,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign flagClearLabelForExisting = "flagClearLabelForExisting" />
 
 <#assign workIndexEntryLabel = lvf.getFormFieldValue(editSubmission, editConfiguration, "workIndexEntryLabel") />
-<#assign indexNumber = lvf.getFormFieldValue(editSubmission, editConfiguration, "indexNumberValue") />
+<#assign indexNumber = lvf.getFormFieldValue(editSubmission, editConfiguration, "indexNumber") />
 <#assign indexNumberUrl = lvf.getFormFieldValue(editSubmission, editConfiguration, "indexNumberUrl") />
 
 <#assign oldWorkIndex = lvf.getFormFieldValue(editSubmission, editConfiguration, "workIndex") />
@@ -35,7 +35,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 		 -->
 	
 		<label for="indexNumber">${i18n().work_index_entry_index_number} ${requiredHint}</label>
-		<textarea id="indexNumber" name="indexNumber" class="useTinyMce" role="textarea" autocomplete="off">${indexNumber}</textarea>
+		<input type="text" id="indexNumber" name="indexNumber" autocomplete="off" value="${indexNumber}" />
 		
 		<label for="indexNumberUrl">${i18n().work_index_entry_index_number_url}</label>
 		<input type="text" id="indexNumberUrl" name="indexNumberUrl" autocomplete="off" value="${indexNumberUrl}" />
