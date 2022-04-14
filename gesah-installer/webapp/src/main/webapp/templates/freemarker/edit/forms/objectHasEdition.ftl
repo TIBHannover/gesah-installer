@@ -13,7 +13,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign agentLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentLabel") />
 <#assign agentLabelDisplayValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentLabelDisplay") />
 <#assign agentTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType")/>
-<#assign litDateAppelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existinglitDateAppelValue") />
+<#assign litDateAppelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "litDateAppel") />
 <#assign commentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingCommentValue") />
 <#assign newRoleTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newRoleType") />
 <#assign newRoleTypeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newRoleTypeLabel") />
@@ -175,7 +175,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 	
     <p>
         <label for="litDateAppel">${i18n().literal_date_appelatlion}</label>
-        <textarea type="text" id="litDateAppel" name="litDateAppel" size="30">${litDateAppelValue}</textarea>
+        <input type="text" id="litDateAppel" name="litDateAppel" size="30" value="${litDateAppelValue}"/>
     </p>
 
     <p>
