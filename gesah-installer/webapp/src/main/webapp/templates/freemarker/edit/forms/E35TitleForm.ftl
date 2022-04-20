@@ -17,7 +17,7 @@
         <#assign titleTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "titleType")/>
         <p class="inline">
             <label for="titleType">${i18n().title_type_capitalized}</label>
-            <select id="typeSelector" name="titleType">
+            <select name="titleType">
                 <option value="" selected="selected">${i18n().select_one}</option>
                 <#assign titleTypeOpts = editConfiguration.pageData.titleType />
                 <#list titleTypeOpts?keys as key>
@@ -29,4 +29,18 @@
         <@formControls />
     </form>
 </section>
+
+<script type="text/javascript">
+var customFormData  = {
+    acUrl: '${urls.base}/autocomplete?tokenize=true&stem=true',
+    editMode: '${editMode}',
+    acTypes: {},
+	multipleTypeNames: {},
+    baseHref: '${urls.base}/individual?uri=',
+    blankSentinel: '${blankSentinel}',
+    flagClearLabelForExisting: '${flagClearLabelForExisting}',
+    subjectName: '${editConfiguration.subjectName}'
+};
+</script>
+
 
