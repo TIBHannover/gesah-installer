@@ -47,7 +47,7 @@
                                 <!-- Overlays for multilingual support -->
                                 <overlay>
                                     <groupId>org.vivoweb</groupId>
-                                    <artifactId>vitro-languages-webapp</artifactId>
+                                    <artifactId>vitro-languages-webapp-core</artifactId>
                                     <type>war</type>
                                 </overlay>
                             </overlays>
@@ -150,8 +150,8 @@
         <!-- Dependency for multilingual support -->
         <dependency>
             <groupId>org.vivoweb</groupId>
-            <artifactId>vitro-languages-webapp</artifactId>
-            <version>[1.10.0,2.1.0)</version>
+            <artifactId>vitro-languages-webapp-core</artifactId>
+            <version>${project.version}</version>
             <type>war</type>
         </dependency>
 

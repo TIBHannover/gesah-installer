@@ -104,7 +104,7 @@
     </build>
 
     <modules>
-		<module>../Vitro-languages</module>
+	<module>../Vitro-languages</module>
         <module>home</module>
         <module>webapp</module>
     </modules>
