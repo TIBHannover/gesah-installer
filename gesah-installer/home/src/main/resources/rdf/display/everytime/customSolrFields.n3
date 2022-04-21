@@ -4,8 +4,10 @@
 :vitrodocumentModifier_both_inventory_no
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
-    rdfs:label "both inventor number" ;
+    rdfs:label "both inventory numbers" ;
     :hasTargetField "gesah" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
     :hasSelectQuery """
     	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
         SELECT ?uri (STR (?number) as ?former_inventory_number )
