@@ -74,7 +74,6 @@ public class ObjectHasEditionGenerator extends AbstractCulturalObjectGenerator i
         addExistingPlace(conf);
         addPlace(conf);
         addComment(conf);
-        addExistingAttributeType(conf);
         addAttributeType(conf);
         addExistingRoleType(conf);
         addExistingRole(conf);

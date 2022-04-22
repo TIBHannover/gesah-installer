@@ -223,16 +223,24 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       VAR + OB_CULTURAL_OBJECT + SPACE + "<" + COMMENT_PRED + ">" + SPACE + VAR + "existCommentColumn" + " . }";
   
 
-	protected void addExistingAttributeType(EditConfigurationVTwo conf) throws Exception {
-		conf.addSparqlForExistingUris(EXISTING_ATTR_TYPE, existingAttrTypeQuery);
-		conf.addUrisOnForm(Arrays.asList(EXISTING_ATTR_TYPE));        
+	protected void addAttributeType(EditConfigurationVTwo conf) throws Exception{
+		conf.addN3Optional(Arrays.asList(n3ForNewAttrType));
+		conf.addNewResource(NEW_ATTR_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
+    conf.addLiteralsOnForm( Arrays.asList(EXISTING_ATTR_TYPE_LABEL));
+		conf.addSparqlForExistingLiteral(EXISTING_ATTR_TYPE_LABEL, existingAttrTypeLabelQuery);
+    conf.addField( new FieldVTwo().
+        setName(EXISTING_ATTR_TYPE_LABEL).
+        setRangeDatatypeUri(XSD.xstring.toString() ).
+        setValidators( list(DATATYPE + XSD.xstring.toString())));
 		conf.addN3Optional(Arrays.asList(n3ForExistingAttrType));
+		conf.addUrisOnForm(Arrays.asList(EXISTING_ATTR_TYPE));        
+    conf.addSparqlForExistingUris(EXISTING_ATTR_TYPE, existingAttrTypeQuery);
 		conf.addField( new FieldVTwo().
 		        setName(EXISTING_ATTR_TYPE).
 		        setOptions( new IndividualsViaVClassOptions(
 		                ATTRIBUTION_TYPE_CLASS)));
 	}
-
+	
 	private final static String existingAttrTypeQuery =
       "SELECT" + SPACE + VAR + EXISTING_ATTR_TYPE + " WHERE {" + "\n" +
       VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . }" + "\n";
@@ -242,19 +250,6 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
       VAR + EXISTING_ATTR_TYPE + SPACE + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
       VAR + EXISTING_ATTR_TYPE + " a" + SPACE + "<" + GESAH_ATTRIBUTION_TYPE + "> .";	
-	
-	protected void addAttributeType(EditConfigurationVTwo conf) {
-		conf.addN3Optional(Arrays.asList(n3ForNewAttrType));
-		conf.addNewResource(NEW_ATTR_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
-    
-		conf.addSparqlForExistingLiteral(ATTR_TYPE_LABEL, existingAttrTypeLabelQuery);
-    conf.addLiteralsOnForm( Arrays.asList(EXISTING_ATTR_TYPE_LABEL));
-    conf.addField( new FieldVTwo().
-        setName(EXISTING_ATTR_TYPE_LABEL).
-        setRangeDatatypeUri(XSD.xstring.toString() ).
-        setValidators( list(DATATYPE + XSD.xstring.toString())));
-
-	}
 
   private final static String existingAttrTypeLabelQuery =
       "SELECT Distinct" + SPACE + VAR + EXISTING_ATTR_TYPE_LABEL + " WHERE {" + "\n" +

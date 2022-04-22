@@ -73,7 +73,6 @@ public class ObjectHasCreationGenerator extends AbstractCulturalObjectGenerator 
         addExistingPlace(conf);
         addPlace(conf);
         addComment(conf);
-        addExistingAttributeType(conf);
         addAttributeType(conf);
         addExistingRoleType(conf);
         addExistingRole(conf);
