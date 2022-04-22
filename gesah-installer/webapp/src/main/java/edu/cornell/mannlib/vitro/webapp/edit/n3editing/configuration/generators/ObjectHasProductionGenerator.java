@@ -59,7 +59,6 @@ public class ObjectHasProductionGenerator extends AbstractCulturalObjectGenerato
 	private static final String EXISTING_MATERIAL_LABEL = "existingMaterialLabel";
 	private static final String PRODUCTION_HAS_OUTPUT = "productionHasOutput";
 	private static final String OUTPUT_OF_PRODUCTION = "output_of_production";
-	private static final String LIT_DATE_APPEL = "litDateAppel";
 	private static final String OBJECT_HAS_PRODUCTION_FTL = "objectHasProduction.ftl";
 
 	@Override
@@ -69,181 +68,25 @@ public class ObjectHasProductionGenerator extends AbstractCulturalObjectGenerato
         conf.setVarNameForSubject(CULT_OBJECT);
         conf.setVarNameForPredicate(PREDICATE);
         conf.setVarNameForObject(OB_CULTURAL_OBJECT);
-
-        conf.setN3Required( Arrays.asList(n3ForNewObProduction) );
-        conf.setN3Optional(Arrays.asList( commentAssertion,  n3ForNewAttrType, n3ForExistingAttrType, n3ForNewAgent,
-        		n3ForExistingAgent, n3ForNewRole, n3ForExistingRole, n3ForNewTechnique, n3ForExistingTechnique, n3ForNewMaterial,
-        		n3ForExistingMaterial,  n3ForNewRoleType, n3ForExistingRoleType, n3ForNewPlace, n3ForExistingPlace, 
-        		litDateAppelAssertion, n3ForStart, n3ForEnd ));
-
-        conf.addNewResource(OB_CULTURAL_OBJECT, DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource(NEW_ROLE,DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource(NEW_ROLE_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource(NEW_ATTR_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource(NEW_TECHNIQUE,DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource(NEW_MATERIAL,DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource(NEW_AGENT,DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource(NEW_PLACE,DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource(INTERVAL_NODE,DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource(START_NODE,DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource(END_NODE,DEFAULT_NS_FOR_NEW_RESOURCE);
-
-        //uris in scope: none
-        //literals in scope: none
-
-        conf.setUrisOnform( Arrays.asList( EXISTING_AGENT, AGENT_TYPE, EXISTING_MATERIAL,EXISTING_TECHNIQUE, EXISTING_ATTR_TYPE,
-        		EXISTING_ROLE_TYPE, EXISTING_ROLE, EXISTING_PLACE));
-        conf.setLiteralsOnForm( Arrays.asList(AGENT_LABEL, TECHNIQUE_LABEL, MATERIAL_LABEL, ROLE_TYPE_LABEL, AGENT_LABEL_DISPLAY, 
-        		EXISTING_ATTR_TYPE_LABEL, PLACE_LABEL, PLACE_LABEL_DISPLAY, COMMENT, LIT_DATE_APPEL));
-
-        conf.addSparqlForExistingLiteral(AGENT_LABEL, agentLabelQuery);
-        conf.addSparqlForExistingLiteral(TECHNIQUE_LABEL, existingTechniqueLabelQuery);
-        conf.addSparqlForExistingLiteral(MATERIAL_LABEL, existingMaterialLabelQuery);
-        conf.addSparqlForExistingLiteral(PLACE_LABEL, existingPlaceLabelQuery);
-        conf.addSparqlForExistingLiteral(ATTR_TYPE_LABEL, existingAttrTypeLabelQuery);
-        conf.addSparqlForExistingLiteral(ROLE_TYPE_LABEL, existingRoleTypeLabelQuery);
-        conf.addSparqlForExistingLiteral(COMMENT, commentQuery);
-        conf.addSparqlForExistingLiteral(EXISTING_COMMENT_VALUE, commentValueQuery);
-        conf.addSparqlForExistingLiteral(LIT_DATE_APPEL, litDateAppelQuery);
         
-        conf.addSparqlForExistingLiteral(START_FIELD_VALUE, existingStartDateQuery);
-        conf.addSparqlForExistingLiteral(END_FIELD_VALUE, existingEndDateQuery);
+        addLitDateAppeal(conf);		
+        addExistingPlace(conf);
+        addPlace(conf);
+        addComment(conf);
+        addExistingAttributeType(conf);
+        addAttributeType(conf);
+        addExistingRoleType(conf);
+        addExistingRole(conf);
+        addRole(conf);		
+        addAgent(conf);	
+        addExistingAgent(conf);	
+        addStartEndInterval(conf);
+        addTechnique(conf);
+        addMaterial(conf);	
 
-
-        conf.addSparqlForExistingUris(EXISTING_MATERIAL, existingMaterialQuery);
-        conf.addSparqlForExistingUris(EXISTING_TECHNIQUE, existingTechniqueQuery);
-        conf.addSparqlForExistingUris(EXISTING_AGENT, existingAgentQuery);
-        conf.addSparqlForExistingUris(EXISTING_ATTR_TYPE, existingAttrTypeQuery);
-        conf.addSparqlForExistingUris(EXISTING_ROLE_TYPE, existingRoleTypeQuery);
-        conf.addSparqlForExistingUris(NEW_ROLE, existingRoleQuery);
-        conf.addSparqlForExistingUris(EXISTING_ROLE, existingRoleQuery);
-        conf.addSparqlForExistingUris(AGENT_TYPE, agentTypeQuery);
-        conf.addSparqlForExistingUris(EXISTING_PLACE, existingPlaceQuery);
-        conf.addSparqlForExistingUris(INTERVAL_NODE,existingIntervalNodeQuery);
-        conf.addSparqlForExistingUris(START_NODE, existingStartNodeQuery);
-        conf.addSparqlForExistingUris(END_NODE, existingEndNodeQuery);
-        conf.addSparqlForExistingUris(START_FIELD_PRECISION, existingStartPrecisionQuery);
-        conf.addSparqlForExistingUris(END_FIELD_PRECISION, existingEndPrecisionQuery);
-        //Add sparql to include inverse property as well
+        conf.addN3Required( Arrays.asList(n3ForNewObProduction) );
+        conf.addNewResource(OB_CULTURAL_OBJECT, DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addSparqlForAdditionalUrisInScope(PRODUCTION_HAS_OUTPUT, productionHasOutputQuery);
-
-        conf.addField( new FieldVTwo().
-                setName(EXISTING_AGENT).
-                setOptions( new IndividualsViaVClassOptions(
-                        AGENT_CLASS)));	
-						
-        conf.addField( new FieldVTwo().
-                setName(NEW_AGENT).
-                setOptions( new IndividualsViaVClassOptions(
-                        AGENT_CLASS)));	
-				
-        conf.addField( new FieldVTwo().
-                setName(AGENT_TYPE).
-                setValidators( list(NONEMPTY)).
-                setOptions( new ChildVClassesOptions(
-                        AGENT_CLASS)));			
-
-        conf.addField( new FieldVTwo().
-                setName(EXISTING_PLACE).
-                setOptions( new IndividualsViaVClassOptions(
-                        PLACE_TYPE_CLASS)));
-
-        conf.addField( new FieldVTwo().
-                setName(NEW_PLACE).
-                setOptions( new IndividualsViaVClassOptions(
-                        PLACE_TYPE_CLASS)));				
-
-        conf.addField( new FieldVTwo().
-                setName(COMMENT).
-                setRangeDatatypeUri( org.apache.jena.vocabulary.RDFS.Literal.getURI() ).
-                setValidators(list(DATATYPE + XSD.xstring.toString())));
-				
-        conf.addField( new FieldVTwo().
-                setName(LIT_DATE_APPEL).
-                setRangeDatatypeUri( XSD.xstring.toString() ).
-                setValidators(list(DATATYPE + XSD.xstring.toString())));		
-
-        conf.addField( new FieldVTwo().
-                setName(EXISTING_ATTR_TYPE).
-                setOptions( new IndividualsViaVClassOptions(
-                        ATTRIBUTION_TYPE_CLASS)));
-
-        conf.addField( new FieldVTwo().
-                setName(AGENT_LABEL).
-                setRangeDatatypeUri(XSD.xstring.toString() ).
-                setValidators( list(DATATYPE + XSD.xstring.toString())));
-
-        conf.addField( new FieldVTwo().
-                setName(TECHNIQUE_LABEL).
-                setRangeDatatypeUri(XSD.xstring.toString() ).
-                setValidators( list(DATATYPE + XSD.xstring.toString())));
-
-        conf.addField( new FieldVTwo().
-                setName(EXISTING_ATTR_TYPE_LABEL).
-                setRangeDatatypeUri(XSD.xstring.toString() ).
-                setValidators( list(DATATYPE + XSD.xstring.toString())));
-		
-        conf.addField( new FieldVTwo().
-                setName(MATERIAL_LABEL).
-                setRangeDatatypeUri(XSD.xstring.toString() ).
-                setValidators( list(DATATYPE + XSD.xstring.toString())));
-				
-        conf.addField( new FieldVTwo().
-                setName(ROLE_TYPE_LABEL).
-                setRangeDatatypeUri(XSD.xstring.toString() ).
-                setValidators( list(DATATYPE + XSD.xstring.toString())));		
-
-        conf.addField( new FieldVTwo().
-                setName(AGENT_LABEL_DISPLAY).
-                setRangeDatatypeUri(XSD.xstring.toString() ));
-				
-        conf.addField( new FieldVTwo().
-                setName(PLACE_LABEL_DISPLAY).
-                setRangeDatatypeUri(XSD.xstring.toString() ));	
-		
-        conf.addField( new FieldVTwo().
-                setName(PLACE_LABEL).
-                setRangeDatatypeUri(XSD.xstring.toString() ));
-
-        conf.addField( new FieldVTwo().
-                setName(EXISTING_ROLE_TYPE).
-                setOptions( new IndividualsViaVClassOptions(
-                        ROLE_TYPE_CLASS)));
-						
-        conf.addField( new FieldVTwo().
-                setName(EXISTING_MATERIAL).
-                //setValidators( list("nonempty")).
-                setOptions( new IndividualsViaVClassOptions(
-                        MATERIAL_TYPE_CLASS)));	
-
-        conf.addField( new FieldVTwo().
-                setName(EXISTING_TECHNIQUE).
-                //setValidators( list("nonempty")).
-                setOptions( new IndividualsViaVClassOptions(
-                        TECHNIQUE_TYPE_CLASS)));	
- 				
-        conf.addField( new FieldVTwo().
-                setName(NEW_ROLE).
-                setOptions( new IndividualsViaVClassOptions(
-                        ROLE_CLASS)));							
-
-        FieldVTwo startField = new FieldVTwo().
-        						setName(START_FIELD);
-        conf.addField(startField.
-            setEditElement(
-                    new DateTimeWithPrecisionVTwo(startField,
-                    VitroVocabulary.Precision.YEAR.uri(),
-                    VitroVocabulary.Precision.NONE.uri())));
-
-        FieldVTwo endField = new FieldVTwo().
-								setName(END_FIELD);
-        conf.addField( endField.
-                setEditElement(
-                        new DateTimeWithPrecisionVTwo(endField,
-                        VitroVocabulary.Precision.YEAR.uri(),
-                        VitroVocabulary.Precision.NONE.uri())));
-        //Add validator
-        conf.addValidator(new DateTimeIntervalValidationVTwo(START_FIELD,END_FIELD));
         conf.addValidator(new AntiXssValidation());
     }
 
