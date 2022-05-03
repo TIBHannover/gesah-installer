@@ -42,8 +42,8 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
             <input class="acSelector" size="50" type="text" id="markTitle" name="markTitle" acGroupName="collectors_mark" value="${oldCollectorsMarkLabel}"  />
             <input class="display" type="hidden" id="collectors_mark" acGroupName="collectors_mark" name="newMarkLabelDisplay" value="${oldCollectorsMark}">
         
-        	<label for="markID">${i18n().mark_id}</label>
-        	<input type="text" id="markID" name="markID" size="30" value="${markId}"/>
+        	<label for="markId">${i18n().mark_id}</label>
+        	<input type="text" id="markId" name="markId" size="30" value="${markId}"/>
 			<label for="markUrl">${i18n().mark_url}</label>
 			<input type="text" id="markUrl" name="markUrl" autocomplete="off" value="${markUrl}" />
 			
