@@ -27,7 +27,7 @@ ecrm:E35_Title rdfs:subClassOf
                                ] ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty gesah:comment ;
-                                 owl:allValuesFrom rdfs:Literal
+                                 owl:allValuesFrom rdf:XMLLiteral
                                ] .
 							   
 							   
@@ -40,7 +40,7 @@ gesah:Attribution_Type rdfs:subClassOf
 gesah:Collection rdfs:subClassOf 
                             [ rdf:type owl:Restriction ;
                               owl:onProperty gesah:comment ;
-                              owl:allValuesFrom rdfs:Literal
+                              owl:allValuesFrom rdf:XMLLiteral
                             ]  .		
 
 
@@ -114,7 +114,7 @@ gesah:Feature
          rdfs:subClassOf 
                          [ rdf:type owl:Restriction ;
                            owl:onProperty gesah:comment ;
-                           owl:allValuesFrom rdfs:Literal
+                           owl:allValuesFrom rdf:XMLLiteral
                          ] .		
 
 
@@ -122,7 +122,7 @@ vivo:Exhibit
          rdfs:subClassOf 
                          [ rdf:type owl:Restriction ;
                            owl:onProperty gesah:comment ;
-                           owl:allValuesFrom rdfs:Literal
+                           owl:allValuesFrom rdf:XMLLiteral
                          ] .	
 
 
@@ -163,7 +163,7 @@ gesah:Inscription
              rdfs:subClassOf 
                              [ rdf:type owl:Restriction ;
                                owl:onProperty gesah:comment ;
-                               owl:allValuesFrom rdfs:Literal
+                               owl:allValuesFrom rdf:XMLLiteral
                              ] .				
 
 
@@ -179,7 +179,7 @@ gesah:Mark
       rdfs:subClassOf 
                       [ rdf:type owl:Restriction ;
                         owl:onProperty gesah:comment ;
-                        owl:allValuesFrom rdfs:Literal
+                        owl:allValuesFrom rdf:XMLLiteral
                       ]  .		
 
 
@@ -241,7 +241,7 @@ gesah:Series
         rdfs:subClassOf 
                         [ rdf:type owl:Restriction ;
                           owl:onProperty gesah:comment ;
-                          owl:allValuesFrom rdfs:Literal
+                          owl:allValuesFrom rdf:XMLLiteral
                         ] .				
 
 
@@ -273,7 +273,7 @@ gesah:Watermark
            rdfs:subClassOf 
                            [ rdf:type owl:Restriction ;
                              owl:onProperty gesah:comment ;
-                             owl:allValuesFrom rdfs:Literal
+                             owl:allValuesFrom rdf:XMLLiteral
                            ]  .
 						   
 
@@ -284,7 +284,7 @@ obo:BFO_0000015
                                 ] ,
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty gesah:comment ;
-                                  owl:allValuesFrom rdfs:Literal
+                                  owl:allValuesFrom rdf:XMLLiteral
                                 ] .		
 
 
