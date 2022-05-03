@@ -28,7 +28,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 
 	public static final String CULT_OBJECT = "cultObject";
 	
-	public static final String OB_CULTURAL_OBJECT = "cultObjectVarName";
+	public static final String ACTIVITY_OBJ = "cultObjectVarName";
 
 	
 	public static final String DATATYPE = "datatype:";
@@ -141,10 +141,10 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	
 	private final static String litDateAppelQuery  =
       "SELECT" + SPACE + VAR + EXISTINGLIT_DATE_APPEL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + LITERAL_DATE_APPEAL_PRED + ">" + SPACE + VAR + EXISTINGLIT_DATE_APPEL + " . }";
+      VAR + ACTIVITY_OBJ + SPACE + "<" + LITERAL_DATE_APPEAL_PRED + ">" + SPACE + VAR + EXISTINGLIT_DATE_APPEL + " . }";
   
   private final static String litDateAppelAssertion  =
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_LITERAL_DATE_APPELATION + "> " + VAR + LIT_DATE_APPEL + " .";	
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_LITERAL_DATE_APPELATION + "> " + VAR + LIT_DATE_APPEL + " .";	
   
   
 	protected void addExistingPlace(EditConfigurationVTwo conf) throws Exception {
@@ -159,13 +159,13 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	
 	private final static String n3ForExistingPlace  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + EXISTING_PLACE + " . " + "\n" +
-      VAR + EXISTING_PLACE + SPACE + "<" + GESAH_IS_PLACE_OF + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + EXISTING_PLACE + " . " + "\n" +
+      VAR + EXISTING_PLACE + SPACE + "<" + GESAH_IS_PLACE_OF + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + EXISTING_PLACE + " a <http://vivoweb.org/ontology/core#GeographicLocation> .";
   
   private final static String existingPlaceQuery =
       "SELECT " + SPACE + VAR + EXISTING_PLACE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + EXISTING_PLACE + "  . }";
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + EXISTING_PLACE + "  . }";
 
 
 	protected void addPlace(EditConfigurationVTwo conf) throws Exception {
@@ -189,13 +189,13 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 
   private final static String existingPlaceLabelQuery =
       "SELECT Distinct" + SPACE + VAR + EXISTING_PLACE_LABEL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + EXISTING_PLACE + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + EXISTING_PLACE + " . " + "\n" +
       VAR + EXISTING_PLACE + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_PLACE_LABEL + " .}";	
   
   private final static String n3ForNewPlace  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + NEW_PLACE + " . " + "\n" +
-      VAR + NEW_PLACE + SPACE + "<" + GESAH_IS_PLACE_OF + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + NEW_PLACE + " . " + "\n" +
+      VAR + NEW_PLACE + SPACE + "<" + GESAH_IS_PLACE_OF + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + NEW_PLACE + SPACE + "<" + LABEL + ">" + SPACE + VAR + PLACE_LABEL + " . " + "\n" +
       VAR + NEW_PLACE + " a <http://vivoweb.org/ontology/core#GeographicLocation> .";
   
@@ -212,15 +212,15 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	}
 	
   private final static String commentAssertion  =
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_COMMENT + ">" + SPACE + VAR + COMMENT + " .";
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_COMMENT + ">" + SPACE + VAR + COMMENT + " .";
   
   private final static String commentQuery  =
       "SELECT" + SPACE + VAR + EXISTING_COMMENT + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + COMMENT_PRED + ">" + SPACE + VAR + EXISTING_COMMENT + " . }";
+      VAR + ACTIVITY_OBJ + SPACE + "<" + COMMENT_PRED + ">" + SPACE + VAR + EXISTING_COMMENT + " . }";
   
   private final static String commentValueQuery  =
       "SELECT" + SPACE + " (STR(?existCommentColumn) as " + VAR + EXISTING_COMMENT_VALUE + " ) WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + COMMENT_PRED + ">" + SPACE + VAR + "existCommentColumn" + " . }";
+      VAR + ACTIVITY_OBJ + SPACE + "<" + COMMENT_PRED + ">" + SPACE + VAR + "existCommentColumn" + " . }";
   
 
 	protected void addAttributeType(EditConfigurationVTwo conf) throws Exception{
@@ -243,23 +243,23 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	
 	private final static String existingAttrTypeQuery =
       "SELECT" + SPACE + VAR + EXISTING_ATTR_TYPE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . }" + "\n";
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . }" + "\n";
 
   private final static String n3ForExistingAttrType  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
-      VAR + EXISTING_ATTR_TYPE + SPACE + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
+      VAR + EXISTING_ATTR_TYPE + SPACE + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + EXISTING_ATTR_TYPE + " a" + SPACE + "<" + GESAH_ATTRIBUTION_TYPE + "> .";	
 
   private final static String existingAttrTypeLabelQuery =
       "SELECT Distinct" + SPACE + VAR + EXISTING_ATTR_TYPE_LABEL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
       VAR + EXISTING_ATTR_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_ATTR_TYPE_LABEL + " .}";
 	
   private final static String n3ForNewAttrType  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + NEW_ATTR_TYPE + " . " + "\n" +
-      VAR + NEW_ATTR_TYPE + SPACE + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + NEW_ATTR_TYPE + " . " + "\n" +
+      VAR + NEW_ATTR_TYPE + SPACE + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + NEW_ATTR_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + ATTR_TYPE_LABEL + " . " + "\n" +
       VAR + NEW_ATTR_TYPE + " a " + "<" + GESAH_ATTRIBUTION_TYPE + "> .";
 	
@@ -275,13 +275,13 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	
   private static String existingRoleTypeQuery =
       "SELECT" + SPACE + VAR + EXISTING_ROLE_TYPE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
+      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + EXISTING_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . }";
   
   private final static String n3ForExistingRoleType  =
-			VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
-			VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+			VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
+			VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
 			VAR + NEW_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . " ;	
 	
   
@@ -294,11 +294,11 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	
   private final static String n3ForExistingRole  =
 			"@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
-			VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n";
+			VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n";
   
   private static String existingRoleQuery =
 			"SELECT" + SPACE + VAR + EXISTING_ROLE + " WHERE {" + "\n" +
-			VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + "  . }";
+			VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + "  . }";
 
 	protected void addRole(EditConfigurationVTwo conf) throws Exception {
 		conf.addSparqlForExistingUris(NEW_ROLE, existingRoleQuery);
@@ -320,22 +320,22 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	
   private static String existingRoleTypeLabelQuery =
       "SELECT Distinct" + SPACE + VAR + EXISTING_ROLE_TYPE_LABEL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
+      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + EXISTING_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . " + "\n" +
       VAR + EXISTING_ROLE_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_ROLE_TYPE_LABEL + " . }";		
 	
   private final static String n3ForNewRoleType  =
 			"@prefix rdfs:" + SPACE + "<" + RDFS + ">" + "  . " + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
-      VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
+      VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + NEW_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + NEW_ROLE_TYPE + " . " + "\n" +
       VAR + NEW_ROLE_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + NEW_ROLE_TYPE_LABEL + " . " + "\n" +
       VAR + NEW_ROLE_TYPE + " a " + "<" + GESAH_ROLE_TYPE + "> . " ;
   
   private final static String n3ForNewRole  =
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
-      VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
+      VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
 	    VAR + NEW_ROLE + " a " + "<" + OBO + "BFO_0000023> . " ;
   
   
@@ -369,8 +369,8 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
   private static String agentTypeQuery  =
       "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
       "SELECT" + SPACE + VAR + AGENT_TYPE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . " + "\n" +
-      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . " + "\n" +
+      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + EXISTING_AGENT + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + EXISTING_ROLE + " ." + "\n" +
       VAR + EXISTING_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_AGENT + " ." + "\n" +
       VAR + EXISTING_AGENT + " a" + SPACE + VAR + AGENT_TYPE + " ." + "\n" +
@@ -380,8 +380,8 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
   private static String agentLabelQuery  =
       "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
       "SELECT Distinct" + SPACE + VAR + EXISTING_AGENT_LABEL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . " + "\n" +
-      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . " + "\n" +
+      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + EXISTING_AGENT + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_AGENT_LABEL + " ." + "\n" +
       VAR + EXISTING_AGENT + " a" + SPACE + VAR + AGENT_TYPE + " . \n " +
       VAR + AGENT_TYPE + " rdfs:subClassOf" + SPACE + "<" + AGENT_CLASS + ">" + " . }" ;
@@ -389,12 +389,12 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
   //Should work only if participant wasn't selected
   private final static String n3ForNewAgent  =
   		"@prefix rdfs:" + SPACE + "<" + RDFS + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + NEW_AGENT + " . " + "\n" +
-      VAR + NEW_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-  		VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + NEW_AGENT + " . " + "\n" +
+      VAR + NEW_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+  		VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
   		VAR + NEW_AGENT + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
   		VAR + NEW_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + NEW_AGENT + " . " + "\n" +
-  		VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+  		VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + NEW_AGENT + " a " + VAR + AGENT_TYPE + " . " + "\n" +
   		VAR + AGENT_TYPE + " rdfs:subClassOf <" + AGENT_CLASS + "> ." + "\n" +
       VAR + NEW_AGENT + " rdfs:label " + VAR + AGENT_LABEL + " . ";
@@ -412,8 +412,8 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	private static String existingAgentQuery  =
       "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
       "SELECT" + SPACE + VAR + EXISTING_AGENT + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . " + "\n" +
-      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . " + "\n" +
+      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + EXISTING_AGENT + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + EXISTING_ROLE + " ." + "\n" +
       VAR + EXISTING_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_AGENT + " ." + "\n" +
       VAR + EXISTING_AGENT + " a" + SPACE + VAR + AGENT_TYPE + " . \n " +
@@ -421,11 +421,11 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	
   private static String n3ForExistingAgent  =
   		"@prefix rdfs:" + SPACE + "<" + RDFS +">" + SPACE + " . \n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . \n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . \n" +
-      VAR + EXISTING_AGENT +SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . \n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . \n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . \n" +
+      VAR + EXISTING_AGENT +SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . \n" +
       VAR + EXISTING_AGENT +SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + NEW_ROLE + " . \n" +
-      VAR + NEW_ROLE +SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . \n" +
+      VAR + NEW_ROLE +SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . \n" +
       VAR + NEW_ROLE +SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_AGENT + " . " ;
   
   
@@ -461,7 +461,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	
   private final static String existingStartPrecisionQuery  =
       "SELECT" + SPACE + VAR + EXISTING_START_PRECISION + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_START + ">" + SPACE + VAR + START_NODE + " ." + "\n" +
       VAR + START_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " . " + "\n" +
@@ -469,14 +469,14 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 
   private final static String existingEndNodeQuery  =
       "SELECT" + SPACE + VAR + EXISTING_END_NODE + " WHERE { " + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_END + ">" + SPACE + VAR + EXISTING_END_NODE + " . " + "\n" +
       VAR + EXISTING_END_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " .}";
 
   private final static String existingEndDateQuery  =
       "SELECT" + SPACE + VAR + EXISTING_END_DATE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_END + ">" + SPACE + VAR + END_NODE + " ." + "\n" +
       VAR + END_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
@@ -484,7 +484,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	
   private final static String existingEndPrecisionQuery  =
       "SELECT" + SPACE + VAR + EXISTING_END_PRECISION + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_END + ">" + SPACE + VAR + END_NODE + " ." + "\n" +
       VAR + END_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
@@ -492,18 +492,18 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	
   private final static String existingIntervalNodeQuery  =
       "SELECT" + SPACE + VAR + EXISTING_INTERVAL_NODE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + EXISTING_INTERVAL_NODE + " ." + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + EXISTING_INTERVAL_NODE + " ." + "\n" +
       VAR + EXISTING_INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " . }";
 
   private final static String existingStartNodeQuery  =
       "SELECT" + SPACE + VAR + EXISTING_START_NODE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_START + ">" + SPACE + VAR + EXISTING_START_NODE + " . " + "\n" +
       VAR + EXISTING_START_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " .}";
 	
   private final static String n3ForStart =
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_START + ">" + SPACE + VAR + START_NODE + " ." + "\n" +
       VAR + START_NODE + SPACE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
@@ -511,7 +511,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       VAR + START_NODE + SPACE + SPACE + "<" + DATE_TIME_PRECISION + ">" + SPACE + VAR + START_FIELD_PRECISION + " .";
 
   private final static String n3ForEnd =
-      VAR + OB_CULTURAL_OBJECT + SPACE + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " . " + "\n" +
       VAR + INTERVAL_NODE + SPACE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_END + ">" + SPACE + VAR + END_NODE + " ." + "\n" +
       VAR + END_NODE + SPACE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
@@ -520,7 +520,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 
   final static String existingStartDateQuery  =
       "SELECT" + SPACE + VAR + EXISTING_DATE_START + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_START + ">" + SPACE + VAR + START_NODE + " ." + "\n" +
       VAR + START_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
@@ -547,24 +547,24 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 
   private final static String n3ForNewTechnique  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + NEW_TECHNIQUE + " . " + "\n" +
-      VAR + NEW_TECHNIQUE + SPACE + "<" + GESAH_USED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + NEW_TECHNIQUE + " . " + "\n" +
+      VAR + NEW_TECHNIQUE + SPACE + "<" + GESAH_USED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + NEW_TECHNIQUE + SPACE + "<" + LABEL + ">" + SPACE + VAR + TECHNIQUE_LABEL + " . " + "\n" +
       VAR + NEW_TECHNIQUE + " a" + SPACE + "<" + GESAH_TECHNIQUE + "> .";
 	
   private final static String n3ForExistingTechnique  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + EXISTING_TECHNIQUE + " . " + "\n" +
-      VAR + EXISTING_TECHNIQUE + SPACE + "<" + GESAH_USED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + EXISTING_TECHNIQUE + " . " + "\n" +
+      VAR + EXISTING_TECHNIQUE + SPACE + "<" + GESAH_USED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + EXISTING_TECHNIQUE + " a" + SPACE + "<" + GESAH_TECHNIQUE + "> .";	
 	
   private final static String existingTechniqueQuery =
       "SELECT" + SPACE + VAR + EXISTING_TECHNIQUE + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + EXISTING_TECHNIQUE + " . }";
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + EXISTING_TECHNIQUE + " . }";
 
 	private final static String existingTechniqueLabelQuery =
       "SELECT Distinct" + SPACE + VAR + EXISTING_TECHNIQUE_LABEL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + EXISTING_TECHNIQUE + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + EXISTING_TECHNIQUE + " . " + "\n" +
       VAR + EXISTING_TECHNIQUE + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_TECHNIQUE_LABEL + " .}";
   
 	protected void addMaterial(EditConfigurationVTwo conf) throws Exception {
@@ -588,25 +588,25 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	
 	final static String existingMaterialQuery =
       "SELECT" + SPACE + VAR + EXISTING_MATERIAL + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_MATERIAL + ">" + SPACE + VAR + EXISTING_MATERIAL + "  . }";
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_MATERIAL + ">" + SPACE + VAR + EXISTING_MATERIAL + "  . }";
 	
   
   private final static String n3ForNewMaterial  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_MATERIAL + ">" + SPACE + VAR + NEW_MATERIAL + " . " + "\n" +
-      VAR + NEW_MATERIAL + SPACE + "<" + GESAH_INCORPORATED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_MATERIAL + ">" + SPACE + VAR + NEW_MATERIAL + " . " + "\n" +
+      VAR + NEW_MATERIAL + SPACE + "<" + GESAH_INCORPORATED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + NEW_MATERIAL + SPACE + "<" + LABEL + ">" + SPACE + VAR + MATERIAL_LABEL + " . " + "\n" +
       VAR + NEW_MATERIAL + " a" + SPACE + "<" + GESAH_MATERIAL + "> .";
 	
   private final static String n3ForExistingMaterial  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_MATERIAL + ">" + SPACE + VAR + EXISTING_MATERIAL + " . " + "\n" +
-      VAR + EXISTING_MATERIAL + SPACE + "<" + GESAH_INCORPORATED_IN + ">" + SPACE + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_MATERIAL + ">" + SPACE + VAR + EXISTING_MATERIAL + " . " + "\n" +
+      VAR + EXISTING_MATERIAL + SPACE + "<" + GESAH_INCORPORATED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + EXISTING_MATERIAL + " a" + SPACE + "<" + GESAH_MATERIAL + "> .";
 
   private final static String existingMaterialLabelQuery =
       "SELECT Distinct" + SPACE + VAR + EXISTING_MATERIAL + "Label" + " WHERE {" + "\n" +
-      VAR + OB_CULTURAL_OBJECT + SPACE + "<" + GESAH_HAS_MATERIAL + ">" + SPACE + VAR + EXISTING_MATERIAL + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_MATERIAL + ">" + SPACE + VAR + EXISTING_MATERIAL + " . " + "\n" +
       VAR + EXISTING_MATERIAL + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_MATERIAL + "Label" + " . }";	
 
 }

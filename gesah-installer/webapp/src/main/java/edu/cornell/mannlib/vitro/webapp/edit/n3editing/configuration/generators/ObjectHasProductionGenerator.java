@@ -67,7 +67,7 @@ public class ObjectHasProductionGenerator extends AbstractCulturalObjectGenerato
 
         conf.setVarNameForSubject(CULT_OBJECT);
         conf.setVarNameForPredicate(PREDICATE);
-        conf.setVarNameForObject(OB_CULTURAL_OBJECT);
+        conf.setVarNameForObject(ACTIVITY_OBJ);
         
         addLitDateAppeal(conf);		
         addExistingPlace(conf);
@@ -84,7 +84,7 @@ public class ObjectHasProductionGenerator extends AbstractCulturalObjectGenerato
         addMaterial(conf);	
 
         conf.addN3Required( Arrays.asList(n3ForNewObProduction) );
-        conf.addNewResource(OB_CULTURAL_OBJECT, DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource(ACTIVITY_OBJ, DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addSparqlForAdditionalUrisInScope(PRODUCTION_HAS_OUTPUT, productionHasOutputQuery);
         conf.addValidator(new AntiXssValidation());
     }
@@ -92,11 +92,11 @@ public class ObjectHasProductionGenerator extends AbstractCulturalObjectGenerato
     /* N3 assertions for production of a cultural object */
 
     final static String n3ForNewObProduction =
-        "?cultObject" + " " + "<" + GESAH + "output_of_production> " + " " + VAR + OB_CULTURAL_OBJECT + " .\n" +
-        VAR + OB_CULTURAL_OBJECT + "  a" + " " + "<" + GESAH + "Production> ; \n" +
+        "?cultObject" + " " + "<" + GESAH + "output_of_production> " + " " + VAR + ACTIVITY_OBJ + " .\n" +
+        VAR + ACTIVITY_OBJ + "  a" + " " + "<" + GESAH + "Production> ; \n" +
         "	<" + GESAH_REALIZES + ">" + " " + VAR + NEW_ROLE + " . \n" +
-        VAR + NEW_ROLE +" " + "<" + GESAH + "realized_in" + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . \n" +
-        VAR + OB_CULTURAL_OBJECT +" " + "<" + GESAH + "has_production_output> ?cultObject .";
+        VAR + NEW_ROLE +" " + "<" + GESAH + "realized_in" + ">" + " " + VAR + ACTIVITY_OBJ + " . \n" +
+        VAR + ACTIVITY_OBJ +" " + "<" + GESAH + "has_production_output> ?cultObject .";
 
     //Query for inverse property
     final static String productionHasOutputQuery  =

@@ -68,7 +68,7 @@ public class ObjectHasEditionGenerator extends AbstractCulturalObjectGenerator i
 
         conf.setVarNameForSubject(CULT_OBJECT);
         conf.setVarNameForPredicate(PREDICATE);
-        conf.setVarNameForObject(OB_CULTURAL_OBJECT);
+        conf.setVarNameForObject(ACTIVITY_OBJ);
         
         addLitDateAppeal(conf);		
         addExistingPlace(conf);
@@ -85,7 +85,7 @@ public class ObjectHasEditionGenerator extends AbstractCulturalObjectGenerator i
         addMaterial(conf);	
 
         conf.addN3Required( Arrays.asList(n3ForNewObEdition) );
-        conf.addNewResource(OB_CULTURAL_OBJECT, DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addNewResource(ACTIVITY_OBJ, DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addSparqlForAdditionalUrisInScope(EDITION_HAS_OUTPUT, editionHasOutputQuery);
         conf.addValidator(new AntiXssValidation());
     }
@@ -93,11 +93,11 @@ public class ObjectHasEditionGenerator extends AbstractCulturalObjectGenerator i
 	/* N3 assertions for production of a cultural object */
 
     final static String n3ForNewObEdition =
-    		VAR + CULT_OBJECT + " " + "<" + GESAH_OBJECT_OF_PUBLICATION + "> " + " " + VAR + OB_CULTURAL_OBJECT + " ." + "\n" +
-        VAR + OB_CULTURAL_OBJECT + "  a" + " " + "<" + GESAH_EDITION + "> ." + "\n" +
-        VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_REALIZES + ">" + " " + VAR + NEW_ROLE + " . " + "\n" +
-        VAR + NEW_ROLE + " " + "<" + GESAH_REALIZED_IN + ">" + " " + VAR + OB_CULTURAL_OBJECT + " . " + "\n" +
-        VAR + OB_CULTURAL_OBJECT + " " + "<" + GESAH_HAS_EDITION_OBJECT + "> " + VAR + CULT_OBJECT + " .";
+    		VAR + CULT_OBJECT + " " + "<" + GESAH_OBJECT_OF_PUBLICATION + "> " + " " + VAR + ACTIVITY_OBJ + " ." + "\n" +
+        VAR + ACTIVITY_OBJ + "  a" + " " + "<" + GESAH_EDITION + "> ." + "\n" +
+        VAR + ACTIVITY_OBJ + " " + "<" + GESAH_REALIZES + ">" + " " + VAR + NEW_ROLE + " . " + "\n" +
+        VAR + NEW_ROLE + " " + "<" + GESAH_REALIZED_IN + ">" + " " + VAR + ACTIVITY_OBJ + " . " + "\n" +
+        VAR + ACTIVITY_OBJ + " " + "<" + GESAH_HAS_EDITION_OBJECT + "> " + VAR + CULT_OBJECT + " .";
 	
     //Query for inverse property
     final static String editionHasOutputQuery  =
