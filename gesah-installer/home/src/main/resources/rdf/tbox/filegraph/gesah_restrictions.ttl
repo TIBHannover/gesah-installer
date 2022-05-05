@@ -75,7 +75,7 @@ gesah:Cultural_Object
                                  ] ,
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty gesah:description ;
-                                   owl:allValuesFrom rdfs:Literal
+                                   owl:allValuesFrom rdf:XMLLiteral
                                  ] .					
 
 gesah:Depicted_Object 
