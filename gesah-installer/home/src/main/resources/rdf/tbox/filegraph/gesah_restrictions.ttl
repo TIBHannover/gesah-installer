@@ -34,7 +34,7 @@ ecrm:E35_Title rdfs:subClassOf
 gesah:Attribution_Type rdfs:subClassOf
                                   [ rdf:type owl:Restriction ;
                                     owl:onProperty gesah:AAT_ID ;
-                                    owl:allValuesFrom rdfs:Literal
+                                    owl:allValuesFrom xsd:string
                                   ] .							   
 							   
 gesah:Collection rdfs:subClassOf 
@@ -82,7 +82,7 @@ gesah:Depicted_Object
                  rdfs:subClassOf 
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty gesah:AAT_ID ;
-                                   owl:allValuesFrom rdfs:Literal
+                                   owl:allValuesFrom xsd:string
                                  ]  .	
 
 
@@ -106,7 +106,7 @@ gesah:Depiction_Type
                 rdfs:subClassOf 
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty gesah:AAT_ID ;
-                                  owl:allValuesFrom rdfs:Literal
+                                  owl:allValuesFrom xsd:string
                                 ]  .		
 
 
@@ -130,7 +130,7 @@ gesah:Genre
        rdfs:subClassOf 
                        [ rdf:type owl:Restriction ;
                          owl:onProperty gesah:AAT_ID ;
-                         owl:allValuesFrom rdfs:Literal
+                         owl:allValuesFrom xsd:string
                        ]  .		
 
 
@@ -138,7 +138,7 @@ gesah:Geographic_Assingment
                        rdfs:subClassOf 
                                        [ rdf:type owl:Restriction ;
                                          owl:onProperty gesah:AAT_ID ;
-                                         owl:allValuesFrom rdfs:Literal
+                                         owl:allValuesFrom xsd:string
                                        ]  .		
 
 
@@ -171,7 +171,7 @@ gesah:Inscription_Type
                   rdfs:subClassOf 
                                   [ rdf:type owl:Restriction ;
                                     owl:onProperty gesah:AAT_ID ;
-                                    owl:allValuesFrom rdfs:Literal
+                                    owl:allValuesFrom xsd:string
                                   ]  .		
 
 
@@ -187,7 +187,7 @@ gesah:Material
           rdfs:subClassOf 
                           [ rdf:type owl:Restriction ;
                             owl:onProperty gesah:AAT_ID ;
-                            owl:allValuesFrom rdfs:Literal
+                            owl:allValuesFrom xsd:string
                           ]  .	
 
 
@@ -195,7 +195,7 @@ gesah:Measurement_Specification
                            rdfs:subClassOf 
                                            [ rdf:type owl:Restriction ;
                                              owl:onProperty gesah:AAT_ID ;
-                                             owl:allValuesFrom rdfs:Literal
+                                             owl:allValuesFrom xsd:string
                                            ]  .			
 
 gesah:Edition 
@@ -233,7 +233,7 @@ gesah:Role_Type
            rdfs:subClassOf 
                            [ rdf:type owl:Restriction ;
                              owl:onProperty gesah:AAT_ID ;
-                             owl:allValuesFrom rdfs:Literal
+                             owl:allValuesFrom xsd:string
                            ] .		
 
 
@@ -249,7 +249,7 @@ gesah:Stylistic_Assignment
                       rdfs:subClassOf 
                                       [ rdf:type owl:Restriction ;
                                         owl:onProperty gesah:AAT_ID ;
-                                        owl:allValuesFrom rdfs:Literal
+                                        owl:allValuesFrom xsd:string
                                       ]  .		
 
 
@@ -257,7 +257,7 @@ gesah:Technique
            rdfs:subClassOf 
                            [ rdf:type owl:Restriction ;
                              owl:onProperty gesah:AAT_ID ;
-                             owl:allValuesFrom rdfs:Literal
+                             owl:allValuesFrom xsd:string
                            ]  .					
 
 
@@ -265,7 +265,7 @@ gesah:Title_Type
             rdfs:subClassOf 
                             [ rdf:type owl:Restriction ;
                               owl:onProperty gesah:AAT_ID ;
-                              owl:allValuesFrom rdfs:Literal
+                              owl:allValuesFrom xsd:string
                             ]  .			
 
 
