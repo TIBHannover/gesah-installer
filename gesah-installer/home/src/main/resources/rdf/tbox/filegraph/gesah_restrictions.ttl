@@ -299,5 +299,5 @@ foaf:Agent
                              owl:allValuesFrom rdfs:Literal
                            ] .								
 
-gesah:comment rdfs:domain [ a owl:Class; owl:unionOf (gesah:Watermark gesah:Collection gesah:Feature gesah:Inscription gesah:Mark gesah:Series gesah:Watermark ecrm:E35_Title bibo:BFO_0000015 )] .	   
+gesah:comment rdfs:domain [ a owl:Class; owl:unionOf (gesah:Watermark gesah:Collection gesah:Feature gesah:Inscription gesah:Mark gesah:Series gesah:Watermark ecrm:E35_Title obo:BFO_0000015 )] .	   
 gesah:uses_technique rdfs:domain [ a owl:Class; owl:unionOf (gesah:Creation gesah:Edition gesah:Production )] .	   
