@@ -19,11 +19,11 @@
 ecrm:E35_Title rdfs:subClassOf 
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty gesah:CONA_ID ;
-                                 owl:allValuesFrom rdfs:Literal
+                                 owl:allValuesFrom xsd:string
                                ] ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty gesah:GND_ID ;
-                                 owl:allValuesFrom rdfs:Literal
+                                 owl:allValuesFrom xsd:string
                                ] ,
                                [ rdf:type owl:Restriction ;
                                  owl:onProperty gesah:comment ;
@@ -63,15 +63,15 @@ gesah:Cultural_Object
                  rdfs:subClassOf 
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty gesah:CONA_ID ;
-                                   owl:allValuesFrom rdfs:Literal
+                                   owl:allValuesFrom xsd:string
                                  ] ,
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty gesah:GND_ID ;
-                                   owl:allValuesFrom rdfs:Literal
+                                   owl:allValuesFrom xsd:string
                                  ] ,
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty gesah:Wikidata_ID ;
-                                   owl:allValuesFrom rdfs:Literal
+                                   owl:allValuesFrom xsd:string
                                  ] ,
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty gesah:description ;
@@ -90,7 +90,7 @@ gesah:Depicted_Person
                  rdfs:subClassOf 
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty gesah:ULAN_ID ;
-                                   owl:allValuesFrom rdfs:Literal
+                                   owl:allValuesFrom xsd:string
                                  ]  .								 
 
 
@@ -98,7 +98,7 @@ gesah:Depicted_Place
                 rdfs:subClassOf 
                                 [ rdf:type owl:Restriction ;
                                   owl:onProperty gesah:TGN_ID ;
-                                  owl:allValuesFrom rdfs:Literal
+                                  owl:allValuesFrom xsd:string
                                 ]  .	
 
 
@@ -147,15 +147,15 @@ gesah:Iconography
                              skos:Concept ,
                              [ rdf:type owl:Restriction ;
                                owl:onProperty gesah:GND_ID ;
-                               owl:allValuesFrom rdfs:Literal
+                               owl:allValuesFrom xsd:string
                              ] ,
                              [ rdf:type owl:Restriction ;
                                owl:onProperty gesah:Iconclass_ID ;
-                               owl:allValuesFrom rdfs:Literal
+                               owl:allValuesFrom xsd:string
                              ] ,
                              [ rdf:type owl:Restriction ;
                                owl:onProperty gesah:Wikidata_ID ;
-                               owl:allValuesFrom rdfs:Literal
+                               owl:allValuesFrom xsd:string
                              ]  .		
 
 
@@ -292,11 +292,11 @@ foaf:Agent
            rdfs:subClassOf 
                            [ rdf:type owl:Restriction ;
                              owl:onProperty gesah:GND_ID ;
-                             owl:allValuesFrom rdfs:Literal
+                             owl:allValuesFrom xsd:string
                            ] ,
                            [ rdf:type owl:Restriction ;
                              owl:onProperty gesah:Wikidata_ID ;
-                             owl:allValuesFrom rdfs:Literal
+                             owl:allValuesFrom xsd:string
                            ] .								
 
 gesah:comment rdfs:domain [ a owl:Class; owl:unionOf (gesah:Watermark gesah:Collection gesah:Feature gesah:Inscription gesah:Mark gesah:Series gesah:Watermark ecrm:E35_Title obo:BFO_0000015 )] .	   
