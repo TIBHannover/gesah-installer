@@ -59,5 +59,29 @@
     display:listViewConfigFile "listViewConfig-dateTimeInterval.xml"^^xsd:string .
 
 <http://ontology.tib.eu/gesah/has_Work_Index_Entry>
-    display:listViewConfigFile "listViewConfig-workIndexEntry.xml"^^xsd:string .    
+    display:listViewConfigFile "listViewConfig-workIndexEntry.xml"^^xsd:string .   
+    
+<http://ontology.tib.eu/gesah/GND_ID>
+    display:listViewConfigFile "listViewConfig-gnd.xml"^^xsd:string .  
+    
+<http://ontology.tib.eu/gesah/TGN_ID>
+    display:listViewConfigFile "listViewConfig-tgn.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/ULAN_ID>
+    display:listViewConfigFile "listViewConfig-ulan.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/AAT_ID>
+    display:listViewConfigFile "listViewConfig-aat.xml"^^xsd:string .  
+    
+<http://ontology.tib.eu/gesah/CONA_ID>
+    display:listViewConfigFile "listViewConfig-cona.xml"^^xsd:string . 
+    
+<http://ontology.tib.eu/gesah/Iconclass_ID>
+    display:listViewConfigFile "listViewConfig-iconclass.xml"^^xsd:string . 
+    
+<http://ontology.tib.eu/gesah/Wikidata_ID>
+    display:listViewConfigFile "listViewConfig-wikidata.xml"^^xsd:string .
+    
+<http://ontology.tib.eu/gesah/ISIL_ID>
+    display:listViewConfigFile "listViewConfig-isil.xml"^^xsd:string .
     

@@ -1,5 +1,5 @@
 <#include "customFormInit.ftl">
-<#include "../../lib/lib-gesah-form.ftl">
+<#include "../../lib/lib-gesah-form.ftl">	
 
 <#assign subjectName=""/>
 <#assign roleActivityUri="mysteryRoleActivityURI"/>
@@ -9,24 +9,22 @@
 Set this flag on the input acUriReceiver where you would like this behavior to occur. -->
 <#assign flagClearLabelForExisting = "flagClearLabelForExisting" />
 
-<h2>${titleVerb}&nbsp;${i18n().creation_for} ${editConfiguration.subjectName}</h2>
+<h2>${titleVerb}&nbsp;${i18n().object_of_provenance} ${editConfiguration.subjectName}</h2>
 
-<#include "objectHasCreationErrors.ftl" />
-
-<section id="objectHasCreation" role="region">
-    <form id="objectHasCreation" class="customForm noIE67" action="${submitUrl}"  role="add/edit creation">
-        <@print_actor />
-        <@print_role_type />
-        <@print_attribution_type />
-        <@print_material />
-        <@print_technique />
+<section id="objectOfProvenance" role="region">
+	<form id="objectOfProvenance" class="customForm noIE67" action="${submitUrl}"  role="add/edit provenance">
+		<@print_provenance_type />
+		<@print_actor />
+		<@print_role_type />
 		<@print_place />
 		<@print_lit_date_appeal />
 		<@print_comment />
 		<@print_dates />
-        <@formControls />
-    </form>
+    	<@formControls />
+	</form>
+
 </section>
+
 <script type="text/javascript">
 var customFormData  = {
     acUrl: '${urls.base}/autocomplete?tokenize=true&stem=true',
@@ -43,4 +41,6 @@ var i18nStrings = {
     orCreateNewOne: '${i18n().or_create_new_one}',
     selectedString: '${i18n().selected}'
 };
+
 </script>
+

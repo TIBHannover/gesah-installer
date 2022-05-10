@@ -110,7 +110,7 @@ public class MarkDesignationGenerator extends AbstractCulturalObjectGenerator im
 			+ WHERE + VAR + MARK_DESIGNATION + GESAH_MARK_LOCATION + VAR + MARK_LOCATION + LINE_END 
 			+ "}";
 	
-	private void addComment(EditConfigurationVTwo conf) {
+	protected void addComment(EditConfigurationVTwo conf) {
 		conf.addN3Optional(Arrays.asList(n3ForNewMarkComment));
 		conf.addLiteralsOnForm(Arrays.asList(COMMENT));
 		conf.addField( new FieldVTwo().

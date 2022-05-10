@@ -84,57 +84,100 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
         conf.setVarNameForObject(OB_INSCRIPTION);
 
         conf.setN3Required(Arrays.asList(n3ForNewObInscription) );
-        conf.setN3Optional(Arrays.asList( transcriptionAssertion,  n3ForNewInscType, n3ForExistingInscType, n3ForNewAgent, n3ForExistingAgent, n3ForNewRole, n3ForNewInscriptionOutput,
-                n3ForNewRoleType, n3ForExistingRoleType, transcriptionAssertion,  commentAssertion ));
-
+        conf.addN3Optional(Arrays.asList(n3ForNewInscType));
+        conf.addN3Optional(Arrays.asList(n3ForExistingInscType));
+        conf.addN3Optional(Arrays.asList(n3ForExistingAgent));
+        conf.addN3Optional(Arrays.asList(n3ForNewInscriptionOutput));
+        conf.addN3Optional(Arrays.asList(n3ForNewRole));
+        conf.addN3Optional(Arrays.asList(n3ForNewRoleType));
+        conf.addN3Optional(Arrays.asList(n3ForExistingRoleType));
+        conf.addN3Optional(Arrays.asList(commentAssertion));
+        
         conf.addNewResource(OB_INSCRIPTION, DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addNewResource(NEW_ROLE,DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addNewResource(NEW_ROLE_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addNewResource(NEW_INSCRIPTION_OUTPUT,DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addNewResource(NEW_INSC_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
+        
+        conf.addN3Optional(Arrays.asList(n3ForNewAgent));
         conf.addNewResource(NEW_AGENT,DEFAULT_NS_FOR_NEW_RESOURCE);
+        conf.addField( new FieldVTwo().
+            setName(NEW_AGENT).
+            setOptions( new IndividualsViaVClassOptions(
+                    AGENT_CLASS)));
+        
+        
+        conf.addUrisOnForm( Arrays.asList(EXISTING_AGENT));
+        conf.addSparqlForExistingUris(EXISTING_AGENT, existingAgentQuery);
+        conf.addField( new FieldVTwo().
+            setName(EXISTING_AGENT).
+            setOptions( new IndividualsViaVClassOptions(
+                    AGENT_CLASS)));	  
+        
+        conf.addLiteralsOnForm( Arrays.asList("agentLabel"));
+        conf.addSparqlForExistingLiteral("agentLabel", agentLabelQuery);
+        conf.addField( new FieldVTwo().
+            setName("agentLabel").
+            setRangeDatatypeUri(XSD.xstring.toString() ).
+            setValidators( list("datatype:" + XSD.xstring.toString())));	
+        
+        conf.addLiteralsOnForm( Arrays.asList("agentLabelDisplay"));
+        conf.addField( new FieldVTwo().
+            setName("agentLabelDisplay").
+            setRangeDatatypeUri(XSD.xstring.toString() ));
+        
+        
+        conf.addUrisOnForm( Arrays.asList("agentType"));
+        conf.addSparqlForExistingUris("agentType", agentTypeQuery);
+        conf.addField( new FieldVTwo().
+            setName("agentType").
+            setValidators( list("nonempty")).
+            setOptions( new ChildVClassesOptions(
+                    AGENT_CLASS)));		
+
+
+
        // uris in scope: none
        // literals in scope: none
 
-        conf.setUrisOnform( Arrays.asList( "inscriptionOutput", "inscriptionOutputType", EXISTING_AGENT, "agentType", "existingInscType", "existingRoleType" ));
-        conf.setLiteralsOnForm( Arrays.asList("agentLabel", "roleTypeLabel", "agentLabelDisplay", "existingInscTypeLabel", "transcription", "comment"));
+        conf.addUrisOnForm( Arrays.asList("inscriptionOutput"));
+        conf.addUrisOnForm( Arrays.asList("inscriptionOutputType"));
+        conf.addUrisOnForm( Arrays.asList("existingInscType"));
+        conf.addUrisOnForm( Arrays.asList("existingRoleType"));
+        conf.addLiteralsOnForm( Arrays.asList("roleTypeLabel"));
+        conf.addLiteralsOnForm( Arrays.asList("existingInscTypeLabel"));
+        
+        
+        conf.addN3Optional(Arrays.asList(transcriptionAssertion));
+        conf.addLiteralsOnForm( Arrays.asList("transcription"));
+        conf.addSparqlForExistingLiteral("transcription", transcriptionQuery);
+        conf.addField( new FieldVTwo().
+            setName("transcription").
+            setRangeDatatypeUri( org.apache.jena.vocabulary.RDFS.Literal.getURI() ).
+            setValidators(list("datatype:" + XSD.xstring.toString())));
 
-        conf.addSparqlForExistingLiteral("agentLabel", agentLabelQuery);
+        
+        conf.addLiteralsOnForm( Arrays.asList("comment"));
+
         conf.addSparqlForExistingLiteral("inscTypeLabel", existingInscTypeLabelQuery);
         conf.addSparqlForExistingLiteral("roleTypeLabel", existingRoleTypeLabelQuery);
-        conf.addSparqlForExistingLiteral("transcription", transcriptionQuery);
         conf.addSparqlForExistingLiteral("comment", commentQuery);
-        conf.addSparqlForExistingUris(EXISTING_AGENT, existingAgentQuery);
         conf.addSparqlForExistingUris("existingInscType", existingInscTypeQuery);
         conf.addSparqlForExistingUris("existingRoleType", existingRoleTypeQuery);
         conf.addSparqlForExistingUris(NEW_ROLE, existingRoleQuery);
-        conf.addSparqlForExistingUris("agentType", agentTypeQuery);
         conf.addSparqlForExistingUris("inscriptionOutputType", inscriptionOutputTypeQuery);
 		//conf.addSparqlForExistingUris("inscriptionOutput", inscriptionOutputQuery);
         
         //Add sparql to include inverse property as well
         conf.addSparqlForAdditionalUrisInScope("hasInscriptionObject", hasInscriptionObjectQuery);
 			
-        conf.addField( new FieldVTwo().
-                setName(EXISTING_AGENT).
-                setOptions( new IndividualsViaVClassOptions(
-                        AGENT_CLASS)));	
-						
-        conf.addField( new FieldVTwo().
-                setName(NEW_AGENT).
-                setOptions( new IndividualsViaVClassOptions(
-                        AGENT_CLASS)));	
-				
-        conf.addField( new FieldVTwo().
-                setName("agentType").
-                setValidators( list("nonempty")).
-                setOptions( new ChildVClassesOptions(
-                        AGENT_CLASS)));		
 
-        conf.addField( new FieldVTwo().
-                setName("agentLabel").
-                setRangeDatatypeUri(XSD.xstring.toString() ).
-                setValidators( list("datatype:" + XSD.xstring.toString())));				
+						
+	
+				
+
+
+			
 
         conf.addField( new FieldVTwo().
                 setName("inscriptionOutputType").
@@ -142,10 +185,7 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
                 setOptions( new ChildVClassesOptions(
                         INSCRIPTION_OUTPUT_CLASS)));					
 
-        conf.addField( new FieldVTwo().
-                setName("transcription").
-                setRangeDatatypeUri( XSD.xstring.toString() ).
-                setValidators(list("datatype:" + XSD.xstring.toString())));
+
 				
         conf.addField( new FieldVTwo().
                 setName("comment").
@@ -168,9 +208,7 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
                 setRangeDatatypeUri(XSD.xstring.toString() ).
                 setValidators( list("datatype:" + XSD.xstring.toString())));		
 
-        conf.addField( new FieldVTwo().
-                setName("agentLabelDisplay").
-                setRangeDatatypeUri(XSD.xstring.toString() ));
+
 				
         conf.addField( new FieldVTwo().
                 setName("existingRoleType").
@@ -341,8 +379,8 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
         "?inscriptionOutputType rdfs:subClassOf <http://ontology.tib.eu/gesah/Inscription> . }";		
 	
     final static String transcriptionQuery  =
-        "SELECT ?existingTranscription WHERE {\n"+
-        "?newInscriptionOutput <"+ TRANSCRIPTION_PRED +"> ?existingTranscription . }";
+        "SELECT (STR(?existingTranscriptionLit) as ?existingTranscription) WHERE {\n"+
+        "?newInscriptionOutput <"+ TRANSCRIPTION_PRED +"> ?existingTranscriptionLit . }";
 
     final static String commentQuery  =
         "SELECT ?existingComment WHERE {\n"+

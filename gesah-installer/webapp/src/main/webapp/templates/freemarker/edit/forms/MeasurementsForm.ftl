@@ -38,7 +38,7 @@
         <#assign measurementsSpecificationValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "measurementsSpecification")/>
         <p class="inline">
             <label for="measurementsSpecification">${i18n().measurement_specification_capitalized}</label>
-            <select id="typeSelector" name="measurementsSpecification">
+            <select name="measurementsSpecification">
                 <option value="" selected="selected">${i18n().select_one}</option>
                 <#assign measurementsSpecificationOpts = editConfiguration.pageData.measurementsSpecification />
                 <#list measurementsSpecificationOpts?keys as key>
@@ -50,4 +50,17 @@
         <@formControls />
     </form>
 </section>
+
+<script type="text/javascript">
+	var customFormData  = {
+	    acUrl: '${urls.base}/autocomplete?tokenize=true&stem=true',
+	    editMode: '${editMode}',
+	    acTypes: {},
+		multipleTypeNames: {},
+	    baseHref: '${urls.base}/individual?uri=',
+	    blankSentinel: '${blankSentinel}',
+	    flagClearLabelForExisting: '${flagClearLabelForExisting}',
+	    subjectName: '${editConfiguration.subjectName}'
+	};
+</script>
 
