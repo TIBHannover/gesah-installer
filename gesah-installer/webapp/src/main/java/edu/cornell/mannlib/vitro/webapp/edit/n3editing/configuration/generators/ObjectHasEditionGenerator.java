@@ -76,10 +76,10 @@ public class ObjectHasEditionGenerator extends AbstractCulturalObjectGenerator i
         addComment(conf);
         addAttributeType(conf);
         addExistingRoleType(conf);
-        addExistingRole(conf);
-        addRole(conf);		
-        addAgent(conf);	
-        addExistingAgent(conf);	
+        addExistingActivityRole(conf);
+        addNewActorRole(conf);		
+        addNewActor(conf);	
+        addExistingActor(conf);	
         addStartEndInterval(conf);
         addTechnique(conf);
         addMaterial(conf);	
@@ -95,8 +95,8 @@ public class ObjectHasEditionGenerator extends AbstractCulturalObjectGenerator i
     final static String n3ForNewObEdition =
     		VAR + CULT_OBJECT + " " + "<" + GESAH_OBJECT_OF_PUBLICATION + "> " + " " + VAR + ACTIVITY_OBJ + " ." + "\n" +
         VAR + ACTIVITY_OBJ + "  a" + " " + "<" + GESAH_EDITION + "> ." + "\n" +
-        VAR + ACTIVITY_OBJ + " " + "<" + GESAH_REALIZES + ">" + " " + VAR + NEW_ROLE + " . " + "\n" +
-        VAR + NEW_ROLE + " " + "<" + GESAH_REALIZED_IN + ">" + " " + VAR + ACTIVITY_OBJ + " . " + "\n" +
+        VAR + ACTIVITY_OBJ + " " + "<" + GESAH_REALIZES + ">" + " " + VAR + NEW_ACTOR_ROLE + " . " + "\n" +
+        VAR + NEW_ACTOR_ROLE + " " + "<" + GESAH_REALIZED_IN + ">" + " " + VAR + ACTIVITY_OBJ + " . " + "\n" +
         VAR + ACTIVITY_OBJ + " " + "<" + GESAH_HAS_EDITION_OBJECT + "> " + VAR + CULT_OBJECT + " .";
 	
     //Query for inverse property
