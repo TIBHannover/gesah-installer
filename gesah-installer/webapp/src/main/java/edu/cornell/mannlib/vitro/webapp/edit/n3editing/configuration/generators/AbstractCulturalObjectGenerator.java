@@ -15,11 +15,11 @@ import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.IndividualsVi
 public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigurationGenerator {
 	public static final String SPACE = " ";
 	public static final String AGENT = "Agent";
-	public final static String AGENT_CLASS = FOAF + AGENT;
-	private static final String AGENT_LABEL = "agentLabel";
+	public final static String ACTOR_CLASS = FOAF + AGENT;
+	private static final String ACTOR_LABEL = "agentLabel";
 
-	private static final String AGENT_LABEL_DISPLAY = "agentLabelDisplay";
-	private static final String AGENT_TYPE = "agentType";
+	private static final String ACTOR_LABEL_DISPLAY = "agentLabelDisplay";
+	private static final String ACTOR_TYPE = "agentType";
 	private static final String ATTR_TYPE_LABEL = "attrTypeLabel";
 	public final static String ATTRIBUTION_TYPE_CLASS = GESAH + "Attribution_Type";
 
@@ -38,7 +38,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	private static final String END_FIELD_VALUE = "endField-value";
 	
 	private static final String END_NODE = "endNode";
-	private static final String EXISTING_AGENT = "existingAgent";
+	private static final String EXISTING_ACTOR = "existingAgent";
 	public static final String EXISTING_AGENT_LABEL = "existingAgentLabel";
 	private static final String EXISTING_ATTR_TYPE = "existingAttrType";
 	private static final String EXISTING_ATTR_TYPE_LABEL = "existingAttrTypeLabel";
@@ -55,7 +55,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	private static final String EXISTING_PLACE = "existingPlace";
 
 	public static final String EXISTING_PLACE_LABEL = "existingPlaceLabel";
-	private static final String EXISTING_ROLE = "existingRole";
+	private static final String EXISTING_ACTOR_ROLE = "existingRole";
 	private static final String EXISTING_ROLE_TYPE = "existingRoleType";
 	public static final String EXISTING_ROLE_TYPE_LABEL = "existingRoleTypeLabel";
 	public static final String EXISTING_START_NODE = "existingStartNode";
@@ -96,12 +96,12 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	public final static String LITERAL_DATE_APPEAL_PRED = GESAH + "literal_date_appellation";
 	private static final String MATERIAL_LABEL = "materialLabel";
 	public final static String MATERIAL_TYPE_CLASS = GESAH + "Material";
-	private static final String NEW_AGENT = "newAgent";
+	private static final String NEW_ACTOR = "newAgent";
 	private static final String NEW_ATTR_TYPE = "newAttrType";
 	private static final String NEW_MATERIAL = "newMaterial";
 	private static final String NEW_PLACE = "newPlace";
-	public static final String NEW_ROLE = "newRole";
-	private static final String NEW_ROLE_TYPE = "newRoleType";
+	public static final String NEW_ACTOR_ROLE = "newRole";
+	private static final String NEW_ACTIVITY_ROLE_TYPE = "newRoleType";
 	private static final String NEW_ROLE_TYPE_LABEL = "newRoleTypeLabel";
 	private static final String NEW_TECHNIQUE = "newTechnique";
 	
@@ -112,7 +112,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	public static final String PREDICATE = "predicate";
 	public final static String ROLE_CLASS = OBO + "BFO_0000023";
 	public final static String ROLE_TYPE_CLASS = GESAH + "Role_Type";
-	private static final String ROLE_TYPE_LABEL = "roleTypeLabel";
+	private static final String ACTIVITY_ROLE_TYPE_LABEL = "roleTypeLabel";
 	private static final String START_FIELD = "startField";
 	private static final String START_FIELD_PRECISION = "startField-precision";
 	private static final String START_FIELD_VALUE = "startField-value";
@@ -266,167 +266,167 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	protected void addExistingRoleType(EditConfigurationVTwo conf) throws Exception {
 		conf.addN3Optional(Arrays.asList(n3ForExistingRoleType));
 		conf.addUrisOnForm( Arrays.asList( EXISTING_ROLE_TYPE ));
-		conf.addSparqlForExistingUris(EXISTING_ROLE_TYPE, existingRoleTypeQuery);
+		conf.addSparqlForExistingUris(EXISTING_ROLE_TYPE, existingActorRoleTypeQuery);
 		conf.addField( new FieldVTwo().
 		        setName(EXISTING_ROLE_TYPE).
 		        setOptions( new IndividualsViaVClassOptions(
 		                ROLE_TYPE_CLASS)));
 	}
 	
-  private static String existingRoleTypeQuery =
+  private static String existingActorRoleTypeQuery =
       "SELECT" + SPACE + VAR + EXISTING_ROLE_TYPE + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . }";
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ACTOR_ROLE + " . " + "\n" +
+      VAR + EXISTING_ACTOR_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+      VAR + EXISTING_ACTOR_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . }";
   
   private final static String n3ForExistingRoleType  =
-			VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
-			VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-			VAR + NEW_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . " ;	
+			VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ACTOR_ROLE + " . " + "\n" +
+			VAR + NEW_ACTOR_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+			VAR + NEW_ACTOR_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . " ;	
 	
   
-	protected void addExistingRole(EditConfigurationVTwo conf) {
+	protected void addExistingActivityRole(EditConfigurationVTwo conf) {
 		conf.addN3Optional(Arrays.asList(n3ForExistingRole));
-		conf.addUrisOnForm( Arrays.asList( EXISTING_ROLE ));
-		conf.addSparqlForExistingUris(EXISTING_ROLE, existingRoleQuery);
+		conf.addUrisOnForm( Arrays.asList( EXISTING_ACTOR_ROLE ));
+		conf.addSparqlForExistingUris(EXISTING_ACTOR_ROLE, existingRoleQuery);
 		
 	}
 	
   private final static String n3ForExistingRole  =
 			"@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
-			VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n";
+			VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ACTOR_ROLE + " . " + "\n";
   
   private static String existingRoleQuery =
-			"SELECT" + SPACE + VAR + EXISTING_ROLE + " WHERE {" + "\n" +
-			VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + "  . }";
+			"SELECT" + SPACE + VAR + EXISTING_ACTOR_ROLE + " WHERE {" + "\n" +
+			VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ACTOR_ROLE + "  . }";
 
-	protected void addRole(EditConfigurationVTwo conf) throws Exception {
-		conf.addSparqlForExistingUris(NEW_ROLE, existingRoleQuery);
-		conf.addNewResource(NEW_ROLE,DEFAULT_NS_FOR_NEW_RESOURCE);
-    conf.addNewResource(NEW_ROLE_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
-    conf.addN3Optional(Arrays.asList(n3ForNewRoleType));
-		conf.addN3Optional(Arrays.asList(n3ForNewRole));   
+	protected void addNewActorRole(EditConfigurationVTwo conf) throws Exception {
+		conf.addSparqlForExistingUris(NEW_ACTOR_ROLE, existingRoleQuery);
+		conf.addNewResource(NEW_ACTOR_ROLE,DEFAULT_NS_FOR_NEW_RESOURCE);
+    conf.addNewResource(NEW_ACTIVITY_ROLE_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
+    conf.addN3Optional(Arrays.asList(n3ForNewActivityRoleType));
+		conf.addN3Optional(Arrays.asList(n3ForNewActivityRole));   
 		conf.addField( new FieldVTwo().
-		        setName(NEW_ROLE).
+		        setName(NEW_ACTOR_ROLE).
 		        setOptions( new IndividualsViaVClassOptions(
 		                ROLE_CLASS)));
-    conf.addLiteralsOnForm( Arrays.asList(ROLE_TYPE_LABEL));
-    conf.addSparqlForExistingLiteral(ROLE_TYPE_LABEL, existingRoleTypeLabelQuery);
+    conf.addLiteralsOnForm( Arrays.asList(ACTIVITY_ROLE_TYPE_LABEL));
+    conf.addSparqlForExistingLiteral(ACTIVITY_ROLE_TYPE_LABEL, existingActivityRoleTypeLabelQuery);
     conf.addField( new FieldVTwo().
-            setName(ROLE_TYPE_LABEL).
+            setName(ACTIVITY_ROLE_TYPE_LABEL).
             setRangeDatatypeUri(XSD.xstring.toString() ).
             setValidators( list(DATATYPE + XSD.xstring.toString())));		
 	}
 	
-  private static String existingRoleTypeLabelQuery =
+  private static String existingActivityRoleTypeLabelQuery =
       "SELECT Distinct" + SPACE + VAR + EXISTING_ROLE_TYPE_LABEL + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ACTOR_ROLE + " . " + "\n" +
+      VAR + EXISTING_ACTOR_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+      VAR + EXISTING_ACTOR_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . " + "\n" +
       VAR + EXISTING_ROLE_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_ROLE_TYPE_LABEL + " . }";		
 	
-  private final static String n3ForNewRoleType  =
+  private final static String n3ForNewActivityRoleType  =
 			"@prefix rdfs:" + SPACE + "<" + RDFS + ">" + "  . " + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
-      VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-      VAR + NEW_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + NEW_ROLE_TYPE + " . " + "\n" +
-      VAR + NEW_ROLE_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + NEW_ROLE_TYPE_LABEL + " . " + "\n" +
-      VAR + NEW_ROLE_TYPE + " a " + "<" + GESAH_ROLE_TYPE + "> . " ;
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ACTOR_ROLE + " . " + "\n" +
+      VAR + NEW_ACTOR_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+      VAR + NEW_ACTOR_ROLE + SPACE + "<" + GESAH_HAS_ROLE_TYPE + ">" + SPACE + VAR + NEW_ACTIVITY_ROLE_TYPE + " . " + "\n" +
+      VAR + NEW_ACTIVITY_ROLE_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + NEW_ROLE_TYPE_LABEL + " . " + "\n" +
+      VAR + NEW_ACTIVITY_ROLE_TYPE + " a " + "<" + GESAH_ROLE_TYPE + "> . " ;
   
-  private final static String n3ForNewRole  =
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
-      VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-	    VAR + NEW_ROLE + " a " + "<" + OBO + "BFO_0000023> . " ;
+  private final static String n3ForNewActivityRole  =
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ACTOR_ROLE + " . " + "\n" +
+      VAR + NEW_ACTOR_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+	    VAR + NEW_ACTOR_ROLE + " a " + "<" + OBO + "BFO_0000023> . " ;
   
   
-	protected void addAgent(EditConfigurationVTwo conf) throws Exception {
-		conf.addN3Optional(Arrays.asList(n3ForNewAgent));
-		conf.addNewResource(NEW_AGENT,DEFAULT_NS_FOR_NEW_RESOURCE);
+	protected void addNewActor(EditConfigurationVTwo conf) throws Exception {
+		conf.addN3Optional(Arrays.asList(n3ForNewActor));
+		conf.addNewResource(NEW_ACTOR,DEFAULT_NS_FOR_NEW_RESOURCE);
 		conf.addField( new FieldVTwo().
-		        setName(NEW_AGENT).
+		        setName(NEW_ACTOR).
 		        setOptions( new IndividualsViaVClassOptions(
-		                AGENT_CLASS)));
+		                ACTOR_CLASS)));
 		
-    conf.addUrisOnForm( Arrays.asList( AGENT_TYPE ));
-    conf.addLiteralsOnForm( Arrays.asList(AGENT_LABEL ));
-    conf.addLiteralsOnForm( Arrays.asList(AGENT_LABEL_DISPLAY));
-    conf.addSparqlForExistingLiteral(AGENT_LABEL, agentLabelQuery);
-    conf.addSparqlForExistingUris(AGENT_TYPE, agentTypeQuery);
+    conf.addUrisOnForm( Arrays.asList( ACTOR_TYPE ));
+    conf.addLiteralsOnForm( Arrays.asList(ACTOR_LABEL ));
+    conf.addLiteralsOnForm( Arrays.asList(ACTOR_LABEL_DISPLAY));
+    conf.addSparqlForExistingLiteral(ACTOR_LABEL, actorLabelQuery);
+    conf.addSparqlForExistingUris(ACTOR_TYPE, actorTypeQuery);
     conf.addField( new FieldVTwo().
-        setName(AGENT_TYPE).
+        setName(ACTOR_TYPE).
         setValidators( list(NONEMPTY)).
         setOptions( new ChildVClassesOptions(
-                AGENT_CLASS)));			
+                ACTOR_CLASS)));			
     conf.addField( new FieldVTwo().
-        setName(AGENT_LABEL).
+        setName(ACTOR_LABEL).
         setRangeDatatypeUri(XSD.xstring.toString() ).
         setValidators( list(DATATYPE + XSD.xstring.toString())));
     conf.addField( new FieldVTwo().
-        setName(AGENT_LABEL_DISPLAY).
+        setName(ACTOR_LABEL_DISPLAY).
         setRangeDatatypeUri(XSD.xstring.toString() ));
 	}
 	
-  private static String agentTypeQuery  =
+  private static String actorTypeQuery  =
       "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
-      "SELECT" + SPACE + VAR + AGENT_TYPE + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . " + "\n" +
-      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + EXISTING_ROLE + " ." + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_AGENT + " ." + "\n" +
-      VAR + EXISTING_AGENT + " a" + SPACE + VAR + AGENT_TYPE + " ." + "\n" +
-      VAR + AGENT_TYPE + " rdfs:subClassOf <" + AGENT_CLASS + "> .}";		
+      "SELECT" + SPACE + VAR + ACTOR_TYPE + " WHERE {" + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_ACTOR + " . " + "\n" +
+      VAR + EXISTING_ACTOR + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+      VAR + EXISTING_ACTOR + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + EXISTING_ACTOR_ROLE + " ." + "\n" +
+      VAR + EXISTING_ACTOR_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " ." + "\n" +
+      VAR + EXISTING_ACTOR + " a" + SPACE + VAR + ACTOR_TYPE + " ." + "\n" +
+      VAR + ACTOR_TYPE + " rdfs:subClassOf <" + ACTOR_CLASS + "> .}";		
   
 	
-  private static String agentLabelQuery  =
+  private static String actorLabelQuery  =
       "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
       "SELECT Distinct" + SPACE + VAR + EXISTING_AGENT_LABEL + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . " + "\n" +
-      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-      VAR + EXISTING_AGENT + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_AGENT_LABEL + " ." + "\n" +
-      VAR + EXISTING_AGENT + " a" + SPACE + VAR + AGENT_TYPE + " . \n " +
-      VAR + AGENT_TYPE + " rdfs:subClassOf" + SPACE + "<" + AGENT_CLASS + ">" + " . }" ;
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_ACTOR + " . " + "\n" +
+      VAR + EXISTING_ACTOR + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+      VAR + EXISTING_ACTOR + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_AGENT_LABEL + " ." + "\n" +
+      VAR + EXISTING_ACTOR + " a" + SPACE + VAR + ACTOR_TYPE + " . \n " +
+      VAR + ACTOR_TYPE + " rdfs:subClassOf" + SPACE + "<" + ACTOR_CLASS + ">" + " . }" ;
   
   //Should work only if participant wasn't selected
-  private final static String n3ForNewAgent  =
+  private final static String n3ForNewActor  =
   		"@prefix rdfs:" + SPACE + "<" + RDFS + ">" + " ." + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + NEW_AGENT + " . " + "\n" +
-      VAR + NEW_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-  		VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
-  		VAR + NEW_AGENT + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
-  		VAR + NEW_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + NEW_AGENT + " . " + "\n" +
-  		VAR + NEW_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-      VAR + NEW_AGENT + " a " + VAR + AGENT_TYPE + " . " + "\n" +
-  		VAR + AGENT_TYPE + " rdfs:subClassOf <" + AGENT_CLASS + "> ." + "\n" +
-      VAR + NEW_AGENT + " rdfs:label " + VAR + AGENT_LABEL + " . ";
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + NEW_ACTOR + " . " + "\n" +
+      VAR + NEW_ACTOR + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+  		VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ACTOR_ROLE + " . " + "\n" +
+  		VAR + NEW_ACTOR + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + NEW_ACTOR_ROLE + " . " + "\n" +
+  		VAR + NEW_ACTOR_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + NEW_ACTOR + " . " + "\n" +
+  		VAR + NEW_ACTOR_ROLE + SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+      VAR + NEW_ACTOR + " a " + VAR + ACTOR_TYPE + " . " + "\n" +
+  		VAR + ACTOR_TYPE + " rdfs:subClassOf <" + ACTOR_CLASS + "> ." + "\n" +
+      VAR + NEW_ACTOR + " rdfs:label " + VAR + ACTOR_LABEL + " . ";
   
-	protected void addExistingAgent(EditConfigurationVTwo conf) throws Exception {
-		conf.addN3Optional(Arrays.asList(n3ForExistingAgent));
-		conf.addUrisOnForm(Arrays.asList(EXISTING_AGENT));
-		conf.addSparqlForExistingUris(EXISTING_AGENT, existingAgentQuery);
+	protected void addExistingActor(EditConfigurationVTwo conf) throws Exception {
+		conf.addN3Optional(Arrays.asList(n3ForExistingActor));
+		conf.addUrisOnForm(Arrays.asList(EXISTING_ACTOR));
+		conf.addSparqlForExistingUris(EXISTING_ACTOR, existingActorQuery);
 		conf.addField( new FieldVTwo().
-		        setName(EXISTING_AGENT).
+		        setName(EXISTING_ACTOR).
 		        setOptions( new IndividualsViaVClassOptions(
-		                AGENT_CLASS)));
+		                ACTOR_CLASS)));
 	}
 	
-	private static String existingAgentQuery  =
+	private static String existingActorQuery  =
       "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
-      "SELECT" + SPACE + VAR + EXISTING_AGENT + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . " + "\n" +
-      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-      VAR + EXISTING_AGENT + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + EXISTING_ROLE + " ." + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_AGENT + " ." + "\n" +
-      VAR + EXISTING_AGENT + " a" + SPACE + VAR + AGENT_TYPE + " . \n " +
-      VAR + AGENT_TYPE + " rdfs:subClassOf <" + AGENT_CLASS + "> . }" ;
+      "SELECT" + SPACE + VAR + EXISTING_ACTOR + " WHERE {" + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_ACTOR + " . " + "\n" +
+      VAR + EXISTING_ACTOR + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+      VAR + EXISTING_ACTOR + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + EXISTING_ACTOR_ROLE + " ." + "\n" +
+      VAR + EXISTING_ACTOR_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " ." + "\n" +
+      VAR + EXISTING_ACTOR + " a" + SPACE + VAR + ACTOR_TYPE + " . \n " +
+      VAR + ACTOR_TYPE + " rdfs:subClassOf <" + ACTOR_CLASS + "> . }" ;
 	
-  private static String n3ForExistingAgent  =
+  private static String n3ForExistingActor  =
   		"@prefix rdfs:" + SPACE + "<" + RDFS +">" + SPACE + " . \n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_AGENT + " . \n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . \n" +
-      VAR + EXISTING_AGENT +SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . \n" +
-      VAR + EXISTING_AGENT +SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + NEW_ROLE + " . \n" +
-      VAR + NEW_ROLE +SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . \n" +
-      VAR + NEW_ROLE +SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_AGENT + " . " ;
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_ACTOR + " . \n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ACTOR_ROLE + " . \n" +
+      VAR + EXISTING_ACTOR +SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . \n" +
+      VAR + EXISTING_ACTOR +SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + NEW_ACTOR_ROLE + " . \n" +
+      VAR + NEW_ACTOR_ROLE +SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . \n" +
+      VAR + NEW_ACTOR_ROLE +SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " . " ;
   
   
 	protected void addStartEndInterval(EditConfigurationVTwo conf) {
