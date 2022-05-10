@@ -2,35 +2,27 @@
 package edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators;
 
 
+import static edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary.MOST_SPECIFIC_TYPE;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.jena.vocabulary.XSD;
-
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
-import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
-import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.DateTimeIntervalValidationVTwo;
-import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.DateTimeWithPrecisionVTwo;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTwo;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesOptions;
-import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesWithParent;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.FieldVTwo;
-import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.IndividualsViaVClassOptions;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.AntiXssValidation;
 import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils.EditMode;
 import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
-import static edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary.MOST_SPECIFIC_TYPE;
 
 public class ObjectOfProvenance extends AbstractCulturalObjectGenerator implements EditConfigurationGenerator {
 	private static final String GESAH_HAS_PROVENANCE_OBJECT = GESAH + "has_provenance_object";
-	private static final String GESAH_OBJECT_OF_PROVENANCE = GESAH + "object_of_provenance";
+	private static final String OBJECT_OF_PROVENANCE = "object_of_provenance";
+	private static final String GESAH_OBJECT_OF_PROVENANCE = GESAH + OBJECT_OF_PROVENANCE;
 	private static final String GESAH_PROVENANCE = GESAH + "Provenance";
-	private static final String OUTPUT_OF_CREATION = "output_of_creation";
-	private static final String PROVENCANCE_OUTPUT_OBJECT = "provenanceOutputObject";
 	private static final String OBJECT_OF_PROVENANCE_FTL = "objectOfProvenance.ftl";
 	private static final String PROVENANCE_TYPE = "provenanceType";
 	private static final String PROVENANCE_CURRENT_TYPE = "provenanceCurrentType";
@@ -99,7 +91,7 @@ public class ObjectOfProvenance extends AbstractCulturalObjectGenerator implemen
     @Override
 	protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {
 		List<String> predicates = new ArrayList<String>();
-		predicates.add(GESAH + OUTPUT_OF_CREATION);
+		predicates.add(GESAH + OBJECT_OF_PROVENANCE);
 		return EditModeUtils.getEditMode(vreq, predicates);
 	}
 }
