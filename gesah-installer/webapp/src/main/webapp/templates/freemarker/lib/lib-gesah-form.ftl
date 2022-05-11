@@ -99,6 +99,44 @@
     </p>
 </#macro>
 
+<#macro print_treatment_specifics>
+	<#assign treatmentSpecificsCurrent = lvf.getFormFieldValue(editSubmission, editConfiguration, "treatmentSpecifics") />
+    <#assign treatmentSpecifics = editConfiguration.pageData.treatmentSpecifics />
+
+	<p class="inline">
+        <label for="treatmentSpecifics">${i18n().treatment_specifics} ${requiredHint}</label>
+        <select name="treatmentSpecifics">
+            <option value="" selected="selected">${i18n().select_one}</option>
+            <#list treatmentSpecifics?keys as key>
+            	<#if treatmentSpecificsCurrent = key>
+					<option value="${key}" selected>${treatmentSpecifics[key]}</option>
+                <#else>
+					<option value="${key}">${treatmentSpecifics[key]}</option>
+                </#if>
+            </#list>
+        </select>
+    </p>
+</#macro>
+
+<#macro print_preservation_type>
+	<#assign preservationCurrentType = lvf.getFormFieldValue(editSubmission, editConfiguration, "preservationCurrentType") />
+    <#assign preservationTypes = editConfiguration.pageData.preservationType />
+
+	<p class="inline">
+        <label for="preservationType">${i18n().preservation_type} ${requiredHint}</label>
+        <select name="preservationType">
+            <option value="" selected="selected">${i18n().select_one}</option>
+            <#list preservationTypes?keys as key>
+            	<#if preservationCurrentType = key>
+					<option value="${key}" selected>${preservationTypes[key]}</option>
+                <#else>
+					<option value="${key}">${preservationTypes[key]}</option>
+                </#if>
+            </#list>
+        </select>
+    </p>
+</#macro>
+
 <#macro print_actor>
 		<#assign agentTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType")/>
 		<#assign agentLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentLabel") />
