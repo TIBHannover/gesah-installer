@@ -59,7 +59,7 @@
                              -->
                              <div class="form-group">
                                  <div class="input-group">
-                                     <input type="text" name="querytext" class="form-control" value="" placeholder="${i18n().search_form}" autocapitalize="off" />
+                                     <input type="text" name="querytext" class="form-control" value="" placeholder="${i18n().search_field_placeholder}" autocapitalize="off" />
                                      <span class="input-group-btn">
                                          <button class="btn btn-default" type="submit">
                                              <span class="icon-search">${i18n().search_button}</span>
