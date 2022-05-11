@@ -8,7 +8,7 @@
 
         <form id="search-form" action="${urls.search}" name="search" role="search" accept-charset="UTF-8" method="GET"> 
             <div id="search-field">
-                <input type="text" name="querytext" class="search-vivo" placeholder="Search for an Expert..."  value="${querytext!}" autocapitalize="off" />
+                <input type="text" name="querytext" class="search-vivo" placeholder="${i18n().search_field_placeholder}"  value="${querytext!}" autocapitalize="off" />
                 <input type="submit" value="${i18n().search_button}" class="search">
             </div>
         </form>
