@@ -80,6 +80,17 @@
     </div>
 </#macro>
 
+
+
+<#macro print_publication num>
+		<#assign existingPublication = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingPublication" + num) />
+        <p class="print_publication">
+            <label for="publication${num}">${i18n().related_publication} ${num}</label>
+            <textarea  size="60"  type="text" id="publication${num}" name="publication${num}" >${existingPublication}</textarea>
+            <textarea  style="display:none;" size="60"  type="text" id="removePublication${num}" name="removePublication${num}">${existingPublication}</textarea>
+        </p>
+</#macro>
+
 <#macro print_provenance_type>
 	<#assign provenanceCurrentType = lvf.getFormFieldValue(editSubmission, editConfiguration, "provenanceCurrentType") />
     <#assign provenanceTypes = editConfiguration.pageData.provenanceType />
@@ -157,13 +168,11 @@
                 </#list>
             </select>
         </p>
-
         <p>
             <label for="relatedIndLabel">${i18n().agent_capitalized} ${i18n().name_capitalized} ${requiredHint}</label>
             <input class="acSelector" size="50"  type="text" id="relatedIndLabel" name="agentLabel" acGroupName="agent" value="${agentLabelValue}"  />
             <input class="display" type="hidden" id="agentDisplay" acGroupName="agent" name="agentLabelDisplay" value="${agentLabelDisplayValue}">
         </p>
-
         <div class="acSelection" acGroupName="agent">
             <p class="inline">
                 <label>${i18n().selected_agent}:</label>
@@ -173,7 +182,6 @@
             </p>
             <input class="acUriReceiver" type="hidden" id="agentUri" name="existingAgent" value="${existingAgentValue}" ${flagClearLabelForExisting}="true" />
         </div>
-	
 </#macro>
 
 <#macro print_place>
