@@ -21,8 +21,8 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <#assign newInscTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newAttrType") />
 <#assign newInscTypeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "newAttrTypeLabel") />
 <#assign existingAgentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingAgent") />
-<#assign existingInscTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingAttrType") />
-<#assign existingInscTypeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingAttrTypeLabel") />
+<#assign existingInscType = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingInscType") />
+<#assign inscTypeLabel = lvf.getFormFieldValue(editSubmission, editConfiguration, "inscTypeLabel") />
 <#assign existingRoleTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingRoleType") />
 <#assign existingRoleTypeLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingRoleTypeLabel") />
 
@@ -45,16 +45,14 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
             </select>
             <#-- input type="hidden" id="roleTypeLabel" name="roleTypeLabel" value=""/-->
         </div>
-		
-		
 
         <div class="entry">
             <label for="inscType">${i18n().inscription_type}${requiredHint} </label>
             <#assign existingInscTypeOpts = editConfiguration.pageData.existingInscType />
             <select name="existingInscType" style="margin-top:-2px" >
-                <option value="" <#if existingInscTypeValue == "">selected</#if>>${i18n().select_one}</option>
+                <option value="" <#if existingInscType == "">selected</#if>>${i18n().select_one}</option>
                 <#list existingInscTypeOpts?keys as key>
-                    <option value="${key}"  <#if existingInscTypeValue == key>selected</#if>><#if existingInscTypeOpts[key] == "Other">${i18n().or_other}<#else>${existingInscTypeOpts[key]}</#if></option>
+                    <option value="${key}"  <#if existingInscType == key>selected</#if>><#if existingInscTypeOpts[key] == "Other">${i18n().or_other}<#else>${existingInscTypeOpts[key]}</#if></option>
                 </#list>
             </select>
 			<input type="hidden" id="existingInscTypeLabel" name="existingInscTypeLabel" value=""/>

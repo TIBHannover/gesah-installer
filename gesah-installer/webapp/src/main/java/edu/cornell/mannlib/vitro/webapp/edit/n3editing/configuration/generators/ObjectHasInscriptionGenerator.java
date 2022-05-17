@@ -171,22 +171,12 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
         //Add sparql to include inverse property as well
         conf.addSparqlForAdditionalUrisInScope("hasInscriptionObject", hasInscriptionObjectQuery);
 			
-
-						
-	
-				
-
-
-			
-
         conf.addField( new FieldVTwo().
                 setName("inscriptionOutputType").
                 setValidators( list("nonempty")).
                 setOptions( new ChildVClassesOptions(
                         INSCRIPTION_OUTPUT_CLASS)));					
 
-
-				
         conf.addField( new FieldVTwo().
                 setName("comment").
                 setRangeDatatypeUri( XSD.xstring.toString() ).
