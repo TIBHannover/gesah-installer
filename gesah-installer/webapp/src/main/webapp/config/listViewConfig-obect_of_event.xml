@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- $This file is distributed under the terms of the license in LICENSE$ -->
+
+<!-- See guidelines at https://wiki.duraspace.org/x/eYXVAw -->
+
+<list-view-config>
+    <query-select>
+        PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+        PREFIX foaf:  &lt;http://xmlns.com/foaf/0.1/&gt;
+		PREFIX vivo: &lt;http://vivoweb.org/ontology/core#&gt;
+		PREFIX event: &lt;http://purl.org/NET/c4dm/event.owl#&gt;
+        PREFIX vitro: &lt;http://vitro.mannlib.cornell.edu/ns/vitro/0.7#&gt;
+		PREFIX gesah: &lt;http://ontology.tib.eu/gesah/&gt;
+		PREFIX obo: &lt;http://purl.obolibrary.org/obo/&gt;
+
+        SELECT  <collated> ?subclass </collated>
+         ?object 
+         ?label 
+         ?typeLabel 
+         ?place 
+         ?placeLabel 
+         ?organizerUri 
+         ?organizer 
+         (STR(?publicationLiteral) as ?publication)  
+         ?dateTimeStart 
+         ?dateTimeEnd
+		WHERE {
+		      ?subject ?property ?object .
+		      ?object a event:Event .
+		     OPTIONAL { 
+				        <precise-subquery>
+							?subject ?property ?object .
+				      		?object a event:Event .
+						</precise-subquery>
+		                    ?object vitro:mostSpecificType ?type .
+		                    ?type rdfs:label ?typeLabel . 
+		              }
+		     OPTIONAL { 
+				        <precise-subquery>
+							?subject ?property ?object .
+				      		?object a event:Event .
+						</precise-subquery>		     
+		                    ?object rdfs:label ?label . 
+		              }
+		     OPTIONAL {
+				        <precise-subquery>
+							?subject ?property ?object .
+				      		?object a event:Event .
+						</precise-subquery>		      
+		                    ?object gesah:has_place ?place . 
+		                    ?place rdfs:label ?placeLabel .
+		              }
+		     OPTIONAL { 
+				        <precise-subquery>
+							?subject ?property ?object .
+				      		?object a event:Event .
+						</precise-subquery>
+		                    ?object gesah:has_organizer ?organizerUri . 
+		                    ?organizerUri rdfs:label ?organizer .
+		              }
+		     OPTIONAL { 
+				        <precise-subquery>
+							?subject ?property ?object .
+				      		?object a event:Event .
+						</precise-subquery>
+		                    ?object gesah:related_publication ?publicationLiteral . 
+		              }
+		     OPTIONAL { 
+				        <precise-subquery>
+							?subject ?property ?object .
+				      		?object a event:Event .
+						</precise-subquery>
+		                    ?object vivo:dateTimeInterval ?dateTimeInterval .
+		                    ?dateTimeInterval vivo:start ?dateTimeStartValue .
+		                    ?dateTimeStartValue vivo:dateTime ?dateTimeStart .
+		              }
+		     OPTIONAL { 
+				        <precise-subquery>
+							?subject ?property ?object .
+				      		?object a event:Event .
+						</precise-subquery>
+		                    ?object vivo:dateTimeInterval ?dateTimeInterval .
+		                    ?dateTimeInterval vivo:end ?dateTimeEndValue .
+		                    ?dateTimeEndValue vivo:dateTime ?dateTimeEnd .
+		              }
+            <collated>
+            OPTIONAL {
+                <precise-subquery>?subject ?property ?object .</precise-subquery>
+                ?object a ?subclass .
+            }
+            FILTER ( REPLACE(STR(?subclass),"^(.*)(#)(.*)$", "$1$2") != "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#" )
+            </collated>
+		} ORDER BY <collated> ?subclass </collated> ASC( ?label )
+    </query-select>
+   
+     <template>propStatement-obect_of_event.ftl</template>
+</list-view-config>
