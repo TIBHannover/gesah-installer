@@ -157,7 +157,7 @@ public class ObjectOfEvent extends AbstractCulturalObjectGenerator implements Ed
       VAR + EXISTING_ORGANIZER +SPACE + "<" + GESAH_ORGANIZER_OF + ">" + SPACE + VAR + ACTIVITY_OBJ + " . \n" ;
 
 	private void addPublications(EditConfigurationVTwo conf) {
-		for (int i = 1; i < 11; i++) {
+		for (int i = 1; i < 4; i++) {
 			addPublication(conf, i);
 		}
 	}

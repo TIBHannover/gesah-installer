@@ -20,7 +20,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 			<@print_place />
 			<@print_comment />
 			<@print_dates />
-			<#list 1..10 as num>
+			<#list 1..3 as num>
 			  <@print_publication num />
 			</#list>
 		</#if>
