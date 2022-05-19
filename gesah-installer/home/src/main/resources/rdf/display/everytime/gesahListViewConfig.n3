@@ -85,3 +85,6 @@
 <http://ontology.tib.eu/gesah/ISIL_ID>
     display:listViewConfigFile "listViewConfig-isil.xml"^^xsd:string .
     
+<http://ontology.tib.eu/gesah/object_of_event>
+    display:listViewConfigFile "listViewConfig-obect_of_event.xml"^^xsd:string .
+    
