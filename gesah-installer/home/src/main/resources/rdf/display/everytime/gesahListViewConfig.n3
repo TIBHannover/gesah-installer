@@ -87,4 +87,6 @@
     
 <http://ontology.tib.eu/gesah/object_of_event>
     display:listViewConfigFile "listViewConfig-obect_of_event.xml"^^xsd:string .
-    
+
+<http://ontology.tib.eu/gesah/depicted_in>
+    display:listViewConfigFile "listViewConfig-depicted_in.xml"^^xsd:string .
