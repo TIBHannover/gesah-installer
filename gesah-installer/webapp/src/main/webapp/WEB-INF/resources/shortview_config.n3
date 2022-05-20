@@ -113,7 +113,7 @@ mydomain:elementImageSearchShortViewDataGetter
      SELECT DISTINCT ?barcode ?fileNum
         WHERE {
             {
-                ?individualUri gesah:has_digital_representation ?digRep .
+                ?individualUri gesah:has_main_image ?digRep .
                 ?digRep gesah:barcode ?barcode .
                 ?digRep gesah:image_file_number ?fileNum .
             }
