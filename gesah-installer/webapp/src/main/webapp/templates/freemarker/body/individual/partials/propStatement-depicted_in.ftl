@@ -11,10 +11,26 @@
 <#assign iiifSlash="^" /> 
 <#assign height = "150" />
 
+<a href="${profileUrl(statement.uri("object"))}" title="${statement.cultObjectLabel}">${statement.cultObjectLabel} <@mostSpecificType statement /></a>
 <@showDepictedIn statement />
 <#-- Use a macro to keep variable assignments local; otherwise the values carry over to the next statement -->
 
+<#macro mostSpecificType statement>
+  <#if statement.typeLabel?has_content >
+    (${statement.typeLabel})
+  </#if>
+</#macro>
+
+<#macro printCurInventoryNumber curNumber>
+    <#if curNumber?has_content>
+      <p>${i18n().gesah_current_inventory_number} ${curNumber}</p>
+    </#if>
+</#macro>
+
 <#macro showDepictedIn statement>
+	<#if statement.curNumber?has_content>
+		<@printCurInventoryNumber statement.curNumber />
+	</#if>
     <div class="imageThumbnails">
 	    <#if statement.fileNum?has_content && statement.barcode?has_content>
 	      <@createImageThumbnail statement.barcode statement.fileNum profileUrl(statement.uri("object")) />

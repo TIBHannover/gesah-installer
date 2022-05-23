@@ -12,13 +12,25 @@
         PREFIX vitro: &lt;http://vitro.mannlib.cornell.edu/ns/vitro/0.7#&gt;
 		PREFIX gesah: &lt;http://ontology.tib.eu/gesah/&gt;
 		PREFIX obo: &lt;http://purl.obolibrary.org/obo/&gt;
-		SELECT DISTINCT ?object	?barcode ?fileNum
+		SELECT DISTINCT ?object	?barcode ?fileNum ?cultObjectLabel ?typeLabel ?curNumber
 		WHERE {
 				?subject ?property ?object .
 				?object a gesah:Cultural_Object .
+				?object rdfs:label ?cultObjectLabel .
 		        ?object gesah:has_main_image ?digRep .
 		        ?digRep gesah:barcode ?barcode .
 		        ?digRep gesah:image_file_number ?fileNum .
+		        OPTIONAL{
+					?subject ?property ?object .
+					?object a gesah:Cultural_Object .
+		        	?object vitro:mostSpecificType ?type .
+		        	?type rdfs:label ?typeLabel .
+		        }
+		        OPTIONAL {
+		        	?subject ?property ?object .
+					?object a gesah:Cultural_Object .
+					?object gesah:current_inventory_number ?curNumber .
+		        }
 			<collated>
 	        OPTIONAL {
 	            <precise-subquery>?subject ?property ?object .</precise-subquery>
@@ -26,7 +38,7 @@
 	        }
 	        FILTER ( REPLACE(STR(?subclass),"^(.*)(#)(.*)$", "$1$2") != "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#" )
 	        </collated>
-		} ORDER BY  <collated> ?subclass </collated> ASC( ?label )
+		} ORDER BY  <collated> ?subclass </collated> ASC( ?cultObjectLabel )
 	    </query-select>
    
      <template>propStatement-depicted_in.ftl</template>
