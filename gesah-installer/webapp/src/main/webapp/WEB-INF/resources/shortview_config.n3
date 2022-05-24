@@ -10,6 +10,7 @@ gesah:Digital_Image display:hasCustomView mydomain:elementShortView .
 gesah:Manuscript display:hasCustomView mydomain:elementShortView .
 gesah:Musical_Notation display:hasCustomView mydomain:elementShortView .
 gesah:Seal display:hasCustomView mydomain:elementShortView .
+gesah:Printed_Materials display:hasCustomView mydomain:elementShortView .
 
 mydomain:elementShortView
   a display:customViewForIndividual ; 

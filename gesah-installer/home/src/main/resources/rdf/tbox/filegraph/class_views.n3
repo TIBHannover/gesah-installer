@@ -1,3 +1,5 @@
 <http://ontology.tib.eu/gesah/Seal> <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#customDisplayViewAnnot> "individual-cultural-object.ftl" .
 <http://ontology.tib.eu/gesah/Manuscript> <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#customDisplayViewAnnot> "individual-cultural-object.ftl" .
 <http://ontology.tib.eu/gesah/Musical_Notation> <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#customDisplayViewAnnot> "individual-cultural-object.ftl" .
+<http://ontology.tib.eu/gesah/Printed_Materials> <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#customDisplayViewAnnot> "individual-cultural-object.ftl" .
+

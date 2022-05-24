@@ -19,6 +19,7 @@
 <http://ontology.tib.eu/gesah/Seal> display:hasDataGetter display:checkForIIIFDG .
 <http://ontology.tib.eu/gesah/Manuscript> display:hasDataGetter display:checkForIIIFDG .
 <http://ontology.tib.eu/gesah/Musical_Notation> display:hasDataGetter display:checkForIIIFDG .
+<http://ontology.tib.eu/gesah/Printed_Materials> display:hasDataGetter display:checkForIIIFDG .
 
  
 ## define the datagetter ##
