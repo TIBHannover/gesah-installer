@@ -7,6 +7,9 @@ gesah:Print display:hasCustomView mydomain:elementShortView .
 gesah:Photomechanical_Print display:hasCustomView mydomain:elementShortView .
 gesah:Painting display:hasCustomView mydomain:elementShortView .
 gesah:Digital_Image display:hasCustomView mydomain:elementShortView .
+gesah:Manuscript display:hasCustomView mydomain:elementShortView .
+gesah:Musical_Notation display:hasCustomView mydomain:elementShortView .
+gesah:Seal display:hasCustomView mydomain:elementShortView .
 
 mydomain:elementShortView
   a display:customViewForIndividual ; 
