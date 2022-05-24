@@ -16,6 +16,9 @@
 <http://ontology.tib.eu/gesah/Photomechanical_Print> display:hasDataGetter display:checkForIIIFDG .
 <http://ontology.tib.eu/gesah/Painting> display:hasDataGetter display:checkForIIIFDG .
 <http://ontology.tib.eu/gesah/Digital_Image> display:hasDataGetter display:checkForIIIFDG .
+<http://ontology.tib.eu/gesah/Seal> display:hasDataGetter display:checkForIIIFDG .
+<http://ontology.tib.eu/gesah/Manuscript> display:hasDataGetter display:checkForIIIFDG .
+<http://ontology.tib.eu/gesah/Musical_Notation> display:hasDataGetter display:checkForIIIFDG .
 
  
 ## define the datagetter ##
