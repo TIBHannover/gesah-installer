@@ -105,3 +105,6 @@
 
 <http://ontology.tib.eu/gesah/mark_used_in>
     display:listViewConfigFile "listViewConfig-mark_used_in.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/has_role>
+    display:listViewConfigFile "listViewConfig-has_role.xml"^^xsd:string .
