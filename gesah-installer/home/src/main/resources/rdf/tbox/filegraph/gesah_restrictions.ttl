@@ -300,7 +300,7 @@ foaf:Agent
                            ] .								
 
 
-gesah:gesah:Object_Category_Narrower_Term 
+gesah:Object_Category_Narrower_Term 
 	   rdfs:subClassOf
 	   		   [ rdf:type owl:Restriction ;
                              owl:onProperty gesah:GND_ID ;

@@ -89,7 +89,22 @@
     display:listViewConfigFile "listViewConfig-obect_of_event.xml"^^xsd:string .
 
 <http://ontology.tib.eu/gesah/depicted_in>
-    display:listViewConfigFile "listViewConfig-depicted_in.xml"^^xsd:string .
-    
+    display:listViewConfigFile "listViewConfig-information_with_image.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/series_for>
+    display:listViewConfigFile "listViewConfig-information_with_image.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/collection_for>
+    display:listViewConfigFile "listViewConfig-information_with_image.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/is_object_category_generic_term_of>
+    display:listViewConfigFile "listViewConfig-information_with_image.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/is_object_category_narrower_term_of>
+    display:listViewConfigFile "listViewConfig-information_with_image.xml"^^xsd:string .
+
 <http://ontology.tib.eu/gesah/mark_used_in>
     display:listViewConfigFile "listViewConfig-mark_used_in.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/has_role>
+    display:listViewConfigFile "listViewConfig-has_role.xml"^^xsd:string .
