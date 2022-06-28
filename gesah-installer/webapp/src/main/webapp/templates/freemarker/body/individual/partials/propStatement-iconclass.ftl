@@ -9,5 +9,5 @@
 <@showIconClassLink statement />
 
 <#macro showIconClassLink statement>
-    <a href="http://www.iconclass.org/rkd/${statement.value?trim}" target="_blank">${statement.value?trim}</a>
+    <a href="https://iconclass.org/${statement.value?trim}" target="_blank">${statement.value?trim}</a>
 </#macro>
