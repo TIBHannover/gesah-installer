@@ -1,0 +1,19 @@
+@prefix display: <http://vitro.mannlib.cornell.edu/ontologies/display/1.1#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<freemarker:graphicalView.ftl> display:hasDataGetter display:graphicalViewDataGetter .
+
+display:graphicalViewDataGetter
+    a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
+    display:saveToVar "categories" ;
+    display:query """
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT ?uri ?label (COUNT(distinct ?instance) as ?count)
+	WHERE {
+	    ?uri <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://ontology.tib.eu/gesah/Cultural_Object> .
+	    ?uri rdfs:label ?label .
+	    ?instance rdf:type ?uri . 
+	} GROUP BY ?uri ?label
+     """ .
