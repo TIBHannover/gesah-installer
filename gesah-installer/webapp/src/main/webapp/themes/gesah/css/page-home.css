@@ -250,3 +250,18 @@ div.faculty-home {
 .faculty-home a {
     font-size: 1.2em;
 }
+
+#searchFacets {
+	display: flex;
+	padding-right: 60px;
+	padding-left: 60px;
+}
+
+.searchFacet {
+	display: inline-block;
+}
+.searchFacet > img {
+	width: 150px;
+	height: 150px;
+	display: inline-block;
+}

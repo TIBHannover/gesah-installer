@@ -47,3 +47,89 @@
                 }
         """ .
 
+:vitrodocumentModifier_material_label
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "material" ;
+    :hasTargetField "material_ss" ;
+    :hasSelectQuery """
+PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+SELECT  ?uri ?material 
+WHERE
+{
+  ?uri gesah:output_of_production ?production .
+  ?production gesah:has_material ?material .
+}
+        """ .
+
+
+:vitrodocumentModifier_production_participant
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "production participants" ;
+    :hasTargetField "production_participant_ss" ;
+    :hasSelectQuery """
+PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+SELECT  ?uri ?participant
+WHERE
+{
+  ?uri gesah:output_of_production ?production .
+  ?production gesah:has_participant ?participant .
+}
+        """ .
+
+:vitrodocumentModifier_production_place
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "production participants" ;
+    :hasTargetField "production_place_ss" ;
+    :hasSelectQuery """
+PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+SELECT  ?uri ?place
+WHERE
+{
+  ?uri gesah:output_of_production ?production .
+  ?production gesah:has_place ?place .
+}
+        """ .
+
+:vitrodocumentModifier_production_date_start
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "production date start" ;
+    :hasTargetField "production_date_start_dts" ;
+    :hasSelectQuery """
+PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+SELECT ?uri ( CONCAT(STR(?startTime),"Z") as ?time )
+WHERE
+{
+  ?uri gesah:output_of_production ?production .
+  ?production <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
+  ?interval <http://vivoweb.org/ontology/core#end> ?start .
+  ?start <http://vivoweb.org/ontology/core#dateTime> ?startTime .
+}
+""" .
+
+:vitrodocumentModifier_production_date_end
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "production date end" ;
+    :hasTargetField "production_date_end_dts" ;
+    :hasSelectQuery """
+PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+SELECT ?uri ( CONCAT(STR(?endTime),"Z") as ?time )                                        
+WHERE
+{
+  ?uri gesah:output_of_production ?production .
+  ?production <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
+  ?interval <http://vivoweb.org/ontology/core#end> ?end .
+  ?end <http://vivoweb.org/ontology/core#dateTime> ?endTime .
+}
+""" .
+
+

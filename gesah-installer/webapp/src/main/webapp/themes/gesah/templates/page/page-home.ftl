@@ -71,7 +71,8 @@
                      </form>
                  </div>
              </div>
-			<#include "graphicalView.ftl">             	
+
+						<#include "graphicalView.ftl">             	
              <div class="col-md-12">
                  <div class="container">
                      <div class="jumbotron">
