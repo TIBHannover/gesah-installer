@@ -1,8 +1,24 @@
 .imageThumbnail{
 	display: inline-block;
 	width: max-content;
+	margin-right: 10px;
+	border-right: #dfe6e5 solid 1px;
+	padding-right: 10px;
 }
-.search-element-information{
-	display: inline-block;
+
+.listElementInformation{
+	flex-basis:100%;
 	vertical-align: top;
+}
+
+.listElementIndividualLink{
+	font-weight:bold;
+	font-size:1.02em;
+}
+
+.listElementContainer {
+	margin: 0px 10px 10px 10px;
+	border-bottom: #dfe6e5 solid 1px;
+	padding-bottom: 10px;
+	display:flex;	
 }

@@ -271,6 +271,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
             body.put("hitCount", hitCount);
             body.put("startIndex", startIndex);
+            body.put(PARAM_HITS_PER_PAGE, hitsPerPage);
 
             body.put("pagingLinks",
                     getPagingLinks(startIndex, hitsPerPage, hitCount,
@@ -510,7 +511,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
 	private void addFacets(VitroRequest vreq, SearchQuery query) {
 		String[] facets = vreq.getParameterValues(FACETS);
-        if (facets.length > 0) {
+        if (facets != null && facets.length > 0) {
         	query.addFacetFields(facets);	
         }
 	}

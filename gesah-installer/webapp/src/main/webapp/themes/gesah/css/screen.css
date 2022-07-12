@@ -39,4 +39,4 @@ VIVO tenderfoot theme: screen styles
 @import url("https://fonts.googleapis.com/css?family=Noto+Sans");
 @import url("tib-fonts.css");
 @import url("../../../local/css/local.css");
-@import url("search-results.css");
+@import url("search-results.css?nocache=1");
