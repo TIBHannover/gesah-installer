@@ -22,3 +22,13 @@
 	padding-bottom: 10px;
 	display:flex;	
 }
+
+.listElementContainer + a {
+  float: right;
+  margin-top: -55px;
+}
+
+.listElementContainer + a + a {
+  float: right;
+  margin-top: -35px;
+}
