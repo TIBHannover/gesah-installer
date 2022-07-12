@@ -45,6 +45,7 @@ import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchEngine;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchFacetField;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchFacetField.Count;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchQuery;
+import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchQuery.Order;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchResponse;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchResultDocument;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchResultDocumentList;
@@ -60,7 +61,8 @@ import edu.ucsf.vitro.opensocial.OpenSocialManager;
 @WebServlet(name = "ExtendedSearchController", urlPatterns = {"/extendedsearch","/extendedsearch.jsp","/extendedfedsearch","/extendedsearchcontroller"} )
 public class ExtendedSearchController extends FreemarkerHttpServlet {
 
-    private static final long serialVersionUID = 1L;
+    private static final String FACETS = "facets";
+	private static final long serialVersionUID = 1L;
     private static final Log log = LogFactory.getLog(ExtendedSearchController.class);
 
     protected static final int DEFAULT_HITS_PER_PAGE = 25;
@@ -73,6 +75,10 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     private static final String PARAM_CLASSGROUP = "classgroup";
     private static final String PARAM_RDFTYPE = "type";
     private static final String PARAM_QUERY_TEXT = "querytext";
+    private static final String PARAM_QUERY_SORT_BY = "sortBy";
+    private static final String PARAM_QUERY_SORT_ORDER = "sortOrder";
+
+
 
     protected static final Map<Format,Map<Result,String>> templateTable;
 
@@ -159,7 +165,6 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
             String queryText = vreq.getParameter(PARAM_QUERY_TEXT);
             log.debug("Query text is \""+ queryText + "\"");
-
 
             String badQueryMsg = badQueryText( queryText, vreq );
             if( badQueryMsg != null ){
@@ -468,7 +473,11 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
         query.setStart( startIndex )
              .setRows(hitsPerPage);
+        
+        addSortRules(vreq, query);
 
+        addFacets(vreq, query);
+        
         // ClassGroup filtering param
         String classgroupParam = vreq.getParameter(PARAM_CLASSGROUP);
 
@@ -484,7 +493,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             //with ClassGroup filtering we want type facets
             query.addFacetFields(VitroSearchTermNames.RDFTYPE).setFacetLimit(-1);
 
-        }else if (  ! StringUtils.isBlank(typeParam) ) {
+        }else if ( ! StringUtils.isBlank(typeParam) ) {
             // rdf:type filtering
             log.debug("Firing type query ");
             log.debug("request.getParameter(type) is "+ typeParam);
@@ -499,10 +508,37 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
         return query;
     }
 
-    public static class VClassGroupSearchLink extends LinkTemplateModel {
-        long count = 0;
+	private void addFacets(VitroRequest vreq, SearchQuery query) {
+		String[] facets = vreq.getParameterValues(FACETS);
+        if (facets.length > 0) {
+        	query.addFacetFields(facets);	
+        }
+	}
+
+	private void addSortRules(VitroRequest vreq, SearchQuery query) {
+		String sortField = getSortField(vreq);
+        if (!StringUtils.isBlank(sortField)) {
+        	query.addSortField(sortField, getSortOrder(vreq));	
+        }
+	}
+
+	private String getSortField(VitroRequest vreq) {
+		return vreq.getParameter(PARAM_QUERY_SORT_BY);
+	}
+
+	private Order getSortOrder(VitroRequest vreq) {
+		String sortOrder = vreq.getParameter(PARAM_QUERY_SORT_ORDER);
+		if ("ASC".equals(sortOrder)) {
+			return Order.ASC;
+		}
+		return Order.DESC;
+	}
+
+	public static class VClassGroupSearchLink extends LinkTemplateModel {
+		private static final String EXTENDEDSEARCH = "/extendedsearch";
+		long count = 0;
         VClassGroupSearchLink(String querytext, VClassGroup classgroup, long count) {
-            super(classgroup.getPublicName(), "/search", PARAM_QUERY_TEXT, querytext, PARAM_CLASSGROUP, classgroup.getURI());
+            super(classgroup.getPublicName(), EXTENDEDSEARCH, PARAM_QUERY_TEXT, querytext, PARAM_CLASSGROUP, classgroup.getURI());
             this.count = count;
         }
 
@@ -512,7 +548,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     public static class VClassSearchLink extends LinkTemplateModel {
         long count = 0;
         VClassSearchLink(String querytext, VClass type, long count) {
-            super(type.getName(), "/search", PARAM_QUERY_TEXT, querytext, PARAM_RDFTYPE, type.getURI());
+            super(type.getName(), "/extendedsearch", PARAM_QUERY_TEXT, querytext, PARAM_RDFTYPE, type.getURI());
             this.count = count;
         }
 
@@ -686,14 +722,14 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
         HashMap<Result,String> resultsToTemplates = new HashMap<Result,String>();
 
         // set up HTML format
-        resultsToTemplates.put(Result.PAGED, "search-pagedResults.ftl");
-        resultsToTemplates.put(Result.ERROR, "search-error.ftl");
+        resultsToTemplates.put(Result.PAGED, "extended-search-pagedResults.ftl");
+        resultsToTemplates.put(Result.ERROR, "extended-search-error.ftl");
         // resultsToTemplates.put(Result.BAD_QUERY, "search-badQuery.ftl");
         table.put(Format.HTML, Collections.unmodifiableMap(resultsToTemplates));
 
         // set up XML format
         resultsToTemplates = new HashMap<Result,String>();
-        resultsToTemplates.put(Result.PAGED, "search-xmlResults.ftl");
+        resultsToTemplates.put(Result.PAGED, "extended-search-xmlResults.ftl");
         resultsToTemplates.put(Result.ERROR, "search-xmlError.ftl");
 
         // resultsToTemplates.put(Result.BAD_QUERY, "search-xmlBadQuery.ftl");
@@ -702,7 +738,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
         // set up CSV format
         resultsToTemplates = new HashMap<Result,String>();
-        resultsToTemplates.put(Result.PAGED, "search-csvResults.ftl");
+        resultsToTemplates.put(Result.PAGED, "extended-search-csvResults.ftl");
         resultsToTemplates.put(Result.ERROR, "search-csvError.ftl");
 
         // resultsToTemplates.put(Result.BAD_QUERY, "search-xmlBadQuery.ftl");
