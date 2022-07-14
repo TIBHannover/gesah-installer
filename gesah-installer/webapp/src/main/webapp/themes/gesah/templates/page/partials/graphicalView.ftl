@@ -28,5 +28,5 @@
 </#macro>
 
 <#function iiifImage barcode fileName>
-	<#return iiifUrl + "/iiif/2/" + barcode + iiifSlash + "content" + iiifSlash + "streams" + iiifSlash + fileName + "/full/," + height + "/0/default.jpg" />
+	<#return iiifUrl + "/iiif/2/" + barcode + iiifSlash + "content" + iiifSlash + "streams" + iiifSlash + fileName + "/pct:15,15,70,70/," + height + "/0/default.jpg" />
 </#function>
