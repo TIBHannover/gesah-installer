@@ -253,15 +253,22 @@ div.faculty-home {
 
 #searchFacets {
 	display: flex;
-	padding-right: 60px;
-	padding-left: 60px;
+	flex-basis: 100%;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding-right: 160px;
+	padding-left: 160px;
 }
 
-.searchFacet {
-	display: inline-block;
+.category_facet_label {
+	position: absolute;
+	top: 18px;
+	left: 30px;
+	color: white;
+	font-size: 1.2em;
 }
-.searchFacet > img {
-	width: 150px;
-	height: 150px;
-	display: inline-block;
+
+.category_facet{
+	position: relative;
 }

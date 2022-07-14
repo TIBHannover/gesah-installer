@@ -1,3 +1,7 @@
+<#assign iiifUrl="https://osl.tib.eu/gesah-iiif" />
+<#assign iiifSlash="^" /> 
+<#assign height = "230" />
+
 <#if categories?has_content>
 <div class="col-md-12">
 	<div class="container">
@@ -14,10 +18,15 @@
 
 <#macro printCategory category>
 	<#if category?has_content>
-		<a href="${category.uri}">
-			<div class="searchFacet">
-			  <img alt="${category.label}">
-			</div>
+	  <div class="category_facet">
+		<a href="${urls.base}/extendedsearch?filters=${category.fieldName}:${category.id}">
+		  <img alt="${category.label}" src="${iiifImage(category.barcode category.fileName)}" />
+		  <div class="category_facet_label">${category.label}</div>
 		</a>
+      </div>
 	</#if>
 </#macro>
+
+<#function iiifImage barcode fileName>
+	<#return iiifUrl + "/iiif/2/" + barcode + iiifSlash + "content" + iiifSlash + "streams" + iiifSlash + fileName + "/full/," + height + "/0/default.jpg" />
+</#function>

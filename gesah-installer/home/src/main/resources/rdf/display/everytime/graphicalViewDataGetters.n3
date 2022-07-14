@@ -8,12 +8,21 @@ display:graphicalViewDataGetter
     a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
     display:saveToVar "categories" ;
     display:query """
+    PREFIX search: <https://osl.tib.eu/vitro-searchOntology#>
+    PREFIX gesah:    <http://ontology.tib.eu/gesah/>
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    SELECT ?uri ?label (COUNT(distinct ?instance) as ?count)
+    SELECT ?label ?id ?barcode ?fileName ?fieldName
 	WHERE {
-	    ?uri <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://ontology.tib.eu/gesah/Cultural_Object> .
-	    ?uri rdfs:label ?label .
-	    ?instance rdf:type ?uri . 
-	} GROUP BY ?uri ?label
+	    ?filter rdf:type search:Filter .
+        ?filter search:id "main_filter" .
+        ?filter search:filterField ?field .
+  		?field search:indexField ?fieldName .
+        ?filter search:hasKnownValue ?value . 
+        ?value rdfs:label ?label .
+        ?value search:id ?id .
+        ?value search:hasImage ?image .
+ 		?image gesah:barcode ?barcode .
+        ?image gesah:image_file_number ?fileName .
+	} 
      """ .

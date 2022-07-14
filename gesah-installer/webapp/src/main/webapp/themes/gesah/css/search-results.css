@@ -32,3 +32,11 @@
   float: right;
   margin-top: -35px;
 }
+
+.searchTOC ul {
+display: none;
+}
+
+.searchTOC:hover > ul {
+display: block;
+}
