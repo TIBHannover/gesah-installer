@@ -132,4 +132,35 @@ WHERE
 }
 """ .
 
+:vitrodocumentModifier_main_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "main page filter" ;
+    :hasTargetField "cult_object_type_ss" ;
+    :hasSelectQuery """
+    PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    SELECT ?uri ?filterValue
+	WHERE {
+        {
+          ?uri rdf:type gesah:Print .
+          BIND("print" as ?filterValue )
+        } UNION {
+          ?uri rdf:type gesah:Drawing .
+          BIND("drawing" as ?filterValue )
+        } UNION {
+          <https://vivo.tib.eu/gesah/individual/n2242> gesah:is_object_category_generic_term_of ?uri 
+          BIND("architecture" as ?filterValue )
+        } UNION {
+          <https://vivo.tib.eu/gesah/individual/n31174> gesah:is_object_category_narrower_term_of ?uri 
+          BIND("scenography" as ?filterValue )
+        } UNION {
+          <https://vivo.tib.eu/gesah/individual/n1692> gesah:is_object_category_generic_term_of ?uri 
+          BIND("ornament" as ?filterValue )
+        } UNION {
+          <https://vivo.tib.eu/gesah/individual/n14180> gesah:is_object_category_narrower_term_of ?uri 
+          BIND("garden" as ?filterValue )
+        } 
+ 	} 
+""" .
 

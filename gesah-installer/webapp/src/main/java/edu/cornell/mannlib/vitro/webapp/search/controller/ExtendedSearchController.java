@@ -81,6 +81,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
 
     protected static final Map<Format,Map<Result,String>> templateTable;
+	private static final String FILTERS = "filters";
 
     protected enum Format {
         HTML, XML, CSV;
@@ -167,7 +168,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             log.debug("Query text is \""+ queryText + "\"");
 
             String badQueryMsg = badQueryText( queryText, vreq );
-            if( badQueryMsg != null ){
+            if( ! badQueryMsg.isEmpty() ){
                 return doFailedSearch(badQueryMsg, queryText, format, vreq);
             }
 
@@ -229,7 +230,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             String classGroupParam = vreq.getParameter(PARAM_CLASSGROUP);
             log.debug("ClassGroupParam is \""+ classGroupParam + "\"");
             boolean classGroupFilterRequested = false;
-            if (!StringUtils.isEmpty(classGroupParam)) {
+            if (!StringUtils.isBlank(classGroupParam)) {
                 VClassGroup grp = grpDao.getGroupByURI(classGroupParam);
                 classGroupFilterRequested = true;
                 if (grp != null && grp.getPublicName() != null)
@@ -238,7 +239,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
             String typeParam = vreq.getParameter(PARAM_RDFTYPE);
             boolean typeFilterRequested = false;
-            if (!StringUtils.isEmpty(typeParam)) {
+            if (!StringUtils.isBlank(typeParam)) {
                 VClass type = vclassDao.getVClassByURI(typeParam);
                 typeFilterRequested = true;
                 if (type != null && type.getName() != null)
@@ -254,11 +255,17 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
                     // Search request is for a ClassGroup, so add rdf:type search refinement links
                     // but try to filter out classes that are subclasses
                     body.put("classLinks", getVClassLinks(vclassDao, docs, response, queryText));
+                    body.put("classGroupLinks", getClassGroupsLinks(vreq, grpDao, docs, response, queryText));
+
                     pagingLinkParams.put(PARAM_CLASSGROUP, classGroupParam);
 
                 } else {
                     //search request is for a class so there are no more refinements
                     pagingLinkParams.put(PARAM_RDFTYPE, typeParam);
+                    pagingLinkParams.put(PARAM_CLASSGROUP, classGroupParam);
+                    body.put("classLinks", getVClassLinks(vclassDao, docs, response, queryText));
+                    body.put("classGroupLinks", getClassGroupsLinks(vreq, grpDao, docs, response, queryText));
+
                 }
             }
 
@@ -341,13 +348,13 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     }
 
     private String badQueryText(String qtxt, VitroRequest vreq) {
-        if( qtxt == null || "".equals( qtxt.trim() ) )
+        if( StringUtils.isBlank(qtxt) ) {
         	return I18n.text(vreq, "enter_search_term");
-
-        if( qtxt.equals("*:*") )
+        }
+        if( qtxt.equals("*:*") ) {
         	return I18n.text(vreq, "invalid_search_term") ;
-
-        return null;
+        }
+        return "";
     }
 
     /**
@@ -479,6 +486,8 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
         addFacets(vreq, query);
         
+        addFilters(vreq, query);
+        
         // ClassGroup filtering param
         String classgroupParam = vreq.getParameter(PARAM_CLASSGROUP);
 
@@ -513,6 +522,20 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 		String[] facets = vreq.getParameterValues(FACETS);
         if (facets != null && facets.length > 0) {
         	query.addFacetFields(facets);	
+        }
+	}
+	
+	private void addFilters(VitroRequest vreq, SearchQuery query) {
+		String[] filters = vreq.getParameterValues(FILTERS);
+        if (filters != null && filters.length > 0) {
+        	for (String filter : filters) {
+        		String[] pair = filter.split(":", 2);
+        		if (pair.length == 2) {
+        			String name = pair[0].replace("\"", "");
+        			String value = pair[1].replace("\"", "");
+        			query.addFilterQuery(name + ":\"" + value + "\"");	
+        		}
+        	}
         }
 	}
 
