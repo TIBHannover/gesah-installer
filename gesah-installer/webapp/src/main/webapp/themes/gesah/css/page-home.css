@@ -256,7 +256,6 @@ div.faculty-home {
 	flex-basis: 100%;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: space-between;
 	padding-right: 160px;
 	padding-left: 160px;
 }
@@ -271,4 +270,10 @@ div.faculty-home {
 
 .category_facet{
 	position: relative;
+	flex-grow: 1;
+	overflow: hidden;
+}
+
+.category_facet > a > img {
+	width: 100%;
 }

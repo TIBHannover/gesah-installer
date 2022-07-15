@@ -16,7 +16,7 @@
 
 <#macro printCategory category>
 	<#if category?has_content>
-	  <div class="category_facet">
+	  <div class="category_facet" style="height:${height}px;">
 		<a href="${urls.base}/extendedsearch?querytext=ALLTEXT:*&filters=${category.fieldName}:${category.id}">
 		  <img alt="${category.label}" src="${iiifImage(category.barcode category.fileName)}" />
 		  <div class="category_facet_label">${category.label}</div>
