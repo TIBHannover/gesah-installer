@@ -24,5 +24,6 @@ display:graphicalViewDataGetter
         ?value search:hasImage ?image .
  		?image gesah:barcode ?barcode .
         ?image gesah:image_file_number ?fileName .
-	} 
+        OPTIONAL { ?value search:order ?order}
+	} ORDER BY ?order
      """ .
