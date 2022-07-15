@@ -119,7 +119,11 @@ rdf:langString rdf:type rdfs:Datatype .
 ###  https://osl.tib.eu/vitro-searchOntology#id
 :id rdf:type owl:DatatypeProperty ,
              owl:FunctionalProperty ;
-    rdfs:domain [ a owl:Class; owl:unionOf  ( :FilterValue :Filter ) ];
+    rdfs:domain [ rdf:type owl:Class ;
+                  owl:unionOf ( :Filter
+                                :FilterValue
+                              )
+                ] ;
     rdfs:range xsd:string ;
     vitro:hiddenFromDisplayBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
     vitro:hiddenFromPublishBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
@@ -138,6 +142,13 @@ rdf:langString rdf:type rdfs:Datatype .
             rdfs:label "Index field"^^rdf:langString .
 
 
+###  https://osl.tib.eu/vitro-searchOntology#order
+:order rdf:type owl:DatatypeProperty ,
+                owl:FunctionalProperty ;
+       rdfs:domain :FilterValue ;
+       rdfs:range xsd:integer .
+
+
 #################################################################
 #    Classes
 #################################################################
@@ -146,18 +157,17 @@ rdf:langString rdf:type rdfs:Datatype .
 <http://ontology.tib.eu/gesah/Digital_Image> rdf:type owl:Class .
 
 
-###  https://osl.tib.eu/vitro-searchOntology#FilterValue
-:FilterValue rdf:type owl:Class .
-
-
 ###  https://osl.tib.eu/vitro-searchOntology#Filter
 :Filter rdf:type owl:Class ;
         rdfs:subClassOf :Statement ;
         vitro:hiddenFromDisplayBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
         vitro:hiddenFromPublishBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
-
         vitro:prohibitedFromUpdateBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
         rdfs:label "Filter"^^rdf:langString .
+
+
+###  https://osl.tib.eu/vitro-searchOntology#FilterValue
+:FilterValue rdf:type owl:Class .
 
 
 ###  https://osl.tib.eu/vitro-searchOntology#SearchField
@@ -165,7 +175,6 @@ rdf:langString rdf:type rdfs:Datatype .
              rdfs:subClassOf :Statement ;
              vitro:hiddenFromDisplayBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
              vitro:hiddenFromPublishBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
-
              vitro:prohibitedFromUpdateBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
              rdfs:label "Field"^^rdf:langString .
 
