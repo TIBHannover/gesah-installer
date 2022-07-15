@@ -218,6 +218,12 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             ParamMap pagingLinkParams = new ParamMap();
             pagingLinkParams.put(PARAM_QUERY_TEXT, queryText);
             pagingLinkParams.put(PARAM_HITS_PER_PAGE, String.valueOf(hitsPerPage));
+            String[] filters = vreq.getParameterValues(FILTERS);
+            if (filters != null) {
+            	for (String filter : filters) {
+            		pagingLinkParams.put(FILTERS, filter);	
+            	}
+            }
 
             if( wasXmlRequested ){
                 pagingLinkParams.put(PARAM_XML_REQUEST,"1");
