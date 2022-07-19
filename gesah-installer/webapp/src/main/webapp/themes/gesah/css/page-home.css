@@ -256,8 +256,15 @@ div.faculty-home {
 	flex-basis: 100%;
 	flex-direction: row;
 	flex-wrap: wrap;
-	padding-right: 160px;
-	padding-left: 160px;
+	padding-right: 60px;
+	padding-left: 60px;
+}
+
+#exploreTheCollection {
+	padding-left: 80px;
+	font-size: 2.0em;
+	margin-top: 30px;
+	margin-bottom: 20px;
 }
 
 .category_facet_label {
@@ -266,6 +273,7 @@ div.faculty-home {
 	left: 30px;
 	color: white;
 	font-size: 1.2em;
+	text-shadow: 1px 1px 4px black;
 }
 
 .category_facet{
@@ -277,3 +285,4 @@ div.faculty-home {
 .category_facet > a > img {
 	width: 100%;
 }
+
