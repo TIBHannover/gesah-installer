@@ -22,6 +22,21 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.QuerySolutionMap;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ResourceFactory;
+import org.apache.jena.shared.Lock;
+import org.apache.jena.sparql.function.library.context;
+
 import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
 import edu.cornell.mannlib.vitro.webapp.beans.ApplicationBean;
 import edu.cornell.mannlib.vitro.webapp.beans.Individual;
@@ -41,6 +56,7 @@ import edu.cornell.mannlib.vitro.webapp.dao.VClassGroupsForRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
 import edu.cornell.mannlib.vitro.webapp.dao.jena.VClassGroupCache;
 import edu.cornell.mannlib.vitro.webapp.i18n.I18n;
+import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchEngine;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchFacetField;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchFacetField.Count;
@@ -77,11 +93,38 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     private static final String PARAM_QUERY_TEXT = "querytext";
     private static final String PARAM_QUERY_SORT_BY = "sortBy";
     private static final String PARAM_QUERY_SORT_ORDER = "sortOrder";
+    
+    private static final String FILTER_QUERY = 
+    		  "     PREFIX search: <https://osl.tib.eu/vitro-searchOntology#>\n"
+    		  + "     PREFIX gesah:    <http://ontology.tib.eu/gesah/>\n"
+    		  + "     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+    		  + "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+    		  + "SELECT ?filter_id ?filter_label ?value_label ?value_id  ?field_name  ?filter_order ?value_order (STR(?isUriReq) as ?isUri )\n"
+    		  + " 	WHERE {\n"
+    		  + " 	    ?filter rdf:type search:Filter .\n"
+    		  + "        ?filter rdfs:label ?filter_label .\n"
+    		  + "        ?filter search:id ?filter_id .\n"
+    		  + "        ?filter search:filterField ?field .\n"
+    		  + "   		?field search:indexField ?field_name .\n"
+    		  + "         ?filter search:hasKnownValue ?value . \n"
+    		  + "         ?value rdfs:label ?value_label .\n"
+    		  + "         ?value search:id ?value_id .\n"
+    		  + "  		 OPTIONAL {?filter search:isUriValues ?isUriReq }\n"
+    		  + "         OPTIONAL { ?filter search:order ?filter_order }\n"
+    		  + "         OPTIONAL { ?value search:order ?value_order}\n"
+    		  + " 	} ORDER BY ?filter_id ?filter_order";
 
-
+	private static final String LABEL_QUERY = 
+			"     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+			+ "    SELECT ?label\n"
+			+ " 	WHERE {\n"
+			+ "		?uri rdfs:label ?label .\n"
+			+ " 	} LIMIT 1";
+	
 
     protected static final Map<Format,Map<Result,String>> templateTable;
 	private static final String FILTERS = "filters";
+
 
     protected enum Format {
         HTML, XML, CSV;
@@ -166,7 +209,9 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
             String queryText = vreq.getParameter(PARAM_QUERY_TEXT);
             log.debug("Query text is \""+ queryText + "\"");
-
+            
+            Map<String, SearchFilter> filterConfig = getFilterConfiguration(vreq);
+            
             String badQueryMsg = badQueryText( queryText, vreq );
             if( ! badQueryMsg.isEmpty() ){
                 return doFailedSearch(badQueryMsg, queryText, format, vreq);
@@ -246,6 +291,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             String typeParam = vreq.getParameter(PARAM_RDFTYPE);
             boolean typeFilterRequested = false;
             if (!StringUtils.isBlank(typeParam)) {
+
                 VClass type = vclassDao.getVClassByURI(typeParam);
                 typeFilterRequested = true;
                 if (type != null && type.getName() != null)
@@ -300,28 +346,6 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
                         vreq.getServletPath(), pagingLinkParams));
             }
 
-	        // VIVO OpenSocial Extension by UCSF
-	        try {
-		        OpenSocialManager openSocialManager = new OpenSocialManager(vreq, "search");
-		        // put list of people found onto pubsub channel
-	            // only turn this on for a people only search
-	            if ("http://vivoweb.org/ontology#vitroClassGrouppeople".equals(vreq.getParameter(PARAM_CLASSGROUP))) {
-			        List<String> ids = OpenSocialManager.getOpenSocialId(individuals);
-			        openSocialManager.setPubsubData(OpenSocialManager.JSON_PERSONID_CHANNEL,
-			        		OpenSocialManager.buildJSONPersonIds(ids, "" + ids.size() + " people found"));
-	            }
-				// TODO put this in a better place to guarantee that it gets called at the proper time!
-				openSocialManager.removePubsubGadgetsWithoutData();
-		        body.put("openSocial", openSocialManager);
-		        if (openSocialManager.isVisible()) {
-		        	body.put("bodyOnload", "my.init();");
-		        }
-	        } catch (IOException e) {
-	            log.error("IOException in doTemplate()", e);
-	        } catch (SQLException e) {
-	            log.error("SQLException in doTemplate()", e);
-	        }
-
 	        String template = templateTable.get(format).get(Result.PAGED);
 
             return new TemplateResponseValues(template, body);
@@ -329,9 +353,113 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             return doSearchError(e,format);
         }
     }
+    
+    private Map<String, SearchFilter> getFilterConfiguration(VitroRequest vreq) {
+		Map<String, String> requestFilters = getRequestFilters(vreq);
+    	Model ontModel = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
+		Query facetQuery = QueryFactory.create(FILTER_QUERY);
+		QueryExecution qexec = QueryExecutionFactory.create(facetQuery, ontModel);
+		ResultSet results = qexec.execSelect();
+		Map<String,SearchFilter> filters = new HashMap<>();
+		while (results.hasNext()) {
+			QuerySolution solution = results.nextSolution();
+			if (solution.get("filter_id") == null ||
+				solution.get("field_name") == null || 
+				solution.get("value_id") == null ) {
+				continue;
+			}
+			String filterId = solution.get("filter_id").toString();
+			String valueId = solution.get("value_id").toString();
+			String fieldName = solution.get("field_name").toString();
+
+			SearchFilter filter = null;
+			if (filters.containsKey(fieldName)) {
+				filter = filters.get(fieldName);
+			} else {
+				filter = new SearchFilter(filterId);
+				filters.put(fieldName, filter);
+				filter.setName(solution.get("filter_label"));
+				filter.setOrder(solution.get("filter_order"));
+				if (solution.get("isUri") != null && 
+					"true".equals(solution.get("isUri").toString())) {
+					filter.setLocalizationRequired(true);
+				}
+				filter.setField(fieldName);
+			}
+			if (!filter.contains(valueId)) {
+				FilterValue value = new FilterValue(valueId);
+				value.setName(solution.get("value_label"));
+				value.setOrder(solution.get("value_order"));
+				filter.addValue(value);
+				if (requestFilters.containsKey(fieldName)) {
+					String requestedValue = requestFilters.get(fieldName);
+					if (valueId.equals(requestedValue)) {
+						value.setSelected(true);
+					}
+				}
+			}
+		}
+        querySolrFilterInfo(filters, vreq);
+		return filters;
+    }
 
 
-    private int getHitsPerPage(VitroRequest vreq) {
+    private void querySolrFilterInfo(Map<String, SearchFilter> filters, VitroRequest vreq) {
+    	SearchQuery query = ApplicationUtils.instance().getSearchEngine().createQuery("*:*");
+    	query.setRows(0);
+    	for (String fieldId : filters.keySet()) {
+        	query.addFacetFields(fieldId);
+    	}
+        SearchEngine search = ApplicationUtils.instance().getSearchEngine();
+        SearchResponse response = null;
+        try {
+            response = search.query(query);
+            List<SearchFacetField> facetFields = response.getFacetFields();
+            for (SearchFacetField field : facetFields) {
+            	SearchFilter filter = filters.get(field.getName());
+            	if (filter == null) {
+            		continue;
+            	}
+            	List<Count> values = field.getValues();
+            	for (Count value : values) {
+            		String name = value.getName();
+            		FilterValue filterValue = filter.getValue(name);
+            		if (filterValue == null) {
+            			filterValue = new FilterValue(name);
+            			filter.addValue(filterValue);
+            		}
+            		filterValue.setCount(value.getCount());
+            		if(filter.isLocalizationRequired()) {
+            			String label = getUriLabel(value.getName(), vreq);
+            			if (!StringUtils.isBlank(label)) {
+            				filterValue.setName(label);
+            			}
+            		}
+            	}
+            }
+        } catch (Exception e) {
+        	log.error(e,e);
+        }
+	}
+
+	private String getUriLabel(String name, VitroRequest vreq) {
+		String result = "";
+		Model ontModel = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
+		QuerySolutionMap initialBindings = new QuerySolutionMap();
+		initialBindings.add("uri", ResourceFactory.createResource(name));
+		Query facetQuery = QueryFactory.create(LABEL_QUERY);
+		QueryExecution qexec = QueryExecutionFactory.create(facetQuery, ontModel, initialBindings);
+		ResultSet results = qexec.execSelect();
+		if(results.hasNext()) {
+			QuerySolution solution = results.nextSolution();
+			RDFNode rdfNode = solution.get("label");
+			Literal literal = rdfNode.asLiteral();
+			result = literal.getLexicalForm();
+		}
+		return result;
+	}
+
+	private int getHitsPerPage(VitroRequest vreq) {
         int hitsPerPage = DEFAULT_HITS_PER_PAGE;
         try{
             hitsPerPage = Integer.parseInt(vreq.getParameter(PARAM_HITS_PER_PAGE));
@@ -357,9 +485,9 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
         if( StringUtils.isBlank(qtxt) ) {
         	return I18n.text(vreq, "enter_search_term");
         }
-        if( qtxt.equals("*:*") ) {
-        	return I18n.text(vreq, "invalid_search_term") ;
-        }
+		/*
+		 * if( qtxt.equals("*:*") ) { return I18n.text(vreq, "invalid_search_term") ; }
+		 */
         return "";
     }
 
@@ -492,7 +620,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
         addFacets(vreq, query);
         
-        addFilters(vreq, query);
+        addFiltersToQuery(vreq, query);
         
         // ClassGroup filtering param
         String classgroupParam = vreq.getParameter(PARAM_CLASSGROUP);
@@ -531,7 +659,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
         }
 	}
 	
-	private void addFilters(VitroRequest vreq, SearchQuery query) {
+	private void addFiltersToQuery(VitroRequest vreq, SearchQuery query) {
 		String[] filters = vreq.getParameterValues(FILTERS);
         if (filters != null && filters.length > 0) {
         	for (String filter : filters) {
@@ -543,6 +671,21 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
         		}
         	}
         }
+	}
+	private Map<String,String> getRequestFilters(VitroRequest vreq) {
+		Map<String,String> requestFilters = new HashMap<>();
+		String[] filters = vreq.getParameterValues(FILTERS);
+        if (filters != null && filters.length > 0) {
+        	for (String filter : filters) {
+        		String[] pair = filter.split(":", 2);
+        		if (pair.length == 2) {
+        			String name = pair[0].replace("\"", "");
+        			String value = pair[1].replace("\"", "");
+        			requestFilters.put(name, value);
+        		}
+        	}
+        }
+        return requestFilters;
 	}
 
 	private void addSortRules(VitroRequest vreq, SearchQuery query) {
