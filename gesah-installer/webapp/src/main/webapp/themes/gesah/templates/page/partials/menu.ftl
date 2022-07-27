@@ -37,6 +37,9 @@
                     <#list menu.items as item>
                         <li class="nav-item" role="listitem" <#if item.active> class="active" </#if>><a href="${item.url}" title="${item.linkText} ${i18n().menu_item}" class="nav-link">${item.linkText}</a></li>
                     </#list>
+		    <#if user.loggedIn>	
+			<li class="nav-item" role="listitem"><a href="/gesah/imagesToLink" title="Images to link menu item" class="nav-link">Images to link</a></li>
+		    </#if>
                     </ul>
                 </div>
             </nav>
