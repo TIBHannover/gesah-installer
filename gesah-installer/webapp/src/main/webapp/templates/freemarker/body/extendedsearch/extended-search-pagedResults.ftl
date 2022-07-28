@@ -1,8 +1,10 @@
 <#-- $This file is distributed under the terms of the license in LICENSE$ -->
 
 <#-- Template for displaying paged search results -->
-<#-- <@dump var ="filters" />  -->
+<#-- <@dump var ="filters" />  
 <@printFilters filters />
+-->
+
 
 <h2 class="searchResultsHeader">
 <#escape x as x?html>
