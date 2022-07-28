@@ -1,11 +1,17 @@
 package edu.cornell.mannlib.vitro.webapp.search.controller;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.jena.rdf.model.RDFNode;
+
 
 
 public class SearchFilter {
@@ -54,8 +60,18 @@ public class SearchFilter {
 	public FilterValue getValue(String name) {
 		return values.get(name);
 	}
+	
+	public Map<String, FilterValue> getValues() {
+		return values;
+	}
 
-
+	public void sortValues() {
+		List<Entry<String, FilterValue>> list = new LinkedList<>(values.entrySet());
+		list.sort((o1, o2) -> o1.getValue().getOrder().compareTo(o2.getValue().getOrder()));
+		values = list.stream()
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> b, LinkedHashMap::new));
+	}
+	
 	public void setField(String fieldName) {
 		field = fieldName;
 	}
@@ -73,5 +89,9 @@ public class SearchFilter {
 
 	public void setLocalizationRequired(boolean localizationRequired) {
 		this.localizationRequired = localizationRequired;
+	}
+
+	public String getId() {
+		return id;
 	}
 }

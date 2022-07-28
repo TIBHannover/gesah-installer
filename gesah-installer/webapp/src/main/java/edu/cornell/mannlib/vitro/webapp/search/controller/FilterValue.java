@@ -34,7 +34,7 @@ public class FilterValue {
 		}		
 	}
 	
-	public int getOrder() {
+	public Integer getOrder() {
 		return order;
 	}
 
@@ -59,5 +59,8 @@ public class FilterValue {
 	public void setSelected(boolean value) {
 		this.selected = value;
 	}
-
+	
+	public boolean getSelected() {
+		return selected;
+	}
 }

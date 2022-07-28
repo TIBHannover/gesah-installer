@@ -1,6 +1,8 @@
 <#-- $This file is distributed under the terms of the license in LICENSE$ -->
 
 <#-- Template for displaying paged search results -->
+<#-- <@dump var ="filters" />  -->
+<@printFilters filters />
 
 <h2 class="searchResultsHeader">
 <#escape x as x?html>
@@ -81,30 +83,37 @@
     </#if>
     <br />
 
-    <#-- VIVO OpenSocial Extension by UCSF -->
-    <#if openSocial??>
-        <#if openSocial.visible>
-        <h3>OpenSocial</h3>
-            <script type="text/javascript" language="javascript">
-                // find the 'Search' gadget(s).
-                var searchGadgets = my.findGadgetsAttachingTo("gadgets-search");
-                var keyword = '${querytext}';
-                // add params to these gadgets
-                if (keyword) {
-                    for (var i = 0; i < searchGadgets.length; i++) {
-                        var searchGadget = searchGadgets[i];
-                        searchGadget.additionalParams = searchGadget.additionalParams || {};
-                        searchGadget.additionalParams["keyword"] = keyword;
-                    }
-                }
-                else {  // remove these gadgets
-                    my.removeGadgets(searchGadgets);
-                }
-            </script>
+<#macro printFilters filters>
+	<div id="search-filter-container">
+		<#list filters?values as f>
+			<@printFilter f />  
+		</#list>
+	</div>
 
-            <div id="gadgets-search" class="gadgets-gadget-parent" style="display:inline-block"></div>
-        </#if>
-    </#if>
+</#macro>
+
+<#macro printFilter filter>
+	<div class="search-filter">
+		<label for="${filter.id}">${filter.name}</label>
+		<select id="${filter.id}" name="${filter.name}" size="10">
+		<#list filter.values?values as v>
+			<@printValue v />  
+		</#list>
+		</select>
+	</div>
+</#macro>
+
+<#macro printValue filterValue>
+	<li class="search-filter-value">
+		<#if filterValue.selected>
+			<option value="${filterValue.id}" selected="selected">${filterValue.name} <#--${filterValue.count} --> </option>
+		<#else>
+	 		<option value="${filterValue.id}">${filterValue.name} ${filterValue.count}</option>
+	 	</#if>
+ 		
+	</li>
+	
+</#macro>
 
 </div> <!-- end contentsBrowseGroup -->
 

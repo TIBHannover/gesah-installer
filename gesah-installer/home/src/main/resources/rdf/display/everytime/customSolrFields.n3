@@ -164,3 +164,15 @@ WHERE
  	} 
 """ .
 
+:vitrodocumentModifier_depicted_persons_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "depicted persons filter" ;
+    :hasTargetField "depicted_persons_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT ?uri ?person
+		 	WHERE {
+		 	   ?uri gesah:depicts ?person .
+		 	} 
+""" .

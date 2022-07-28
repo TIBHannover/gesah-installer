@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,6 +38,8 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.shared.Lock;
 import org.apache.jena.sparql.function.library.context;
+
+import com.sun.mail.imap.protocol.BODY;
 
 import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
 import edu.cornell.mannlib.vitro.webapp.beans.ApplicationBean;
@@ -68,7 +72,6 @@ import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchResultDocumen
 import edu.cornell.mannlib.vitro.webapp.search.VitroSearchTermNames;
 import edu.cornell.mannlib.vitro.webapp.web.templatemodels.LinkTemplateModel;
 import edu.cornell.mannlib.vitro.webapp.web.templatemodels.searchresult.IndividualSearchResult;
-import edu.ucsf.vitro.opensocial.OpenSocialManager;
 
 /**
  * Paged search controller that uses the search engine
@@ -95,7 +98,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     private static final String PARAM_QUERY_SORT_ORDER = "sortOrder";
     
     private static final String FILTER_QUERY = 
-    		  "     PREFIX search: <https://osl.tib.eu/vitro-searchOntology#>\n"
+    		  " PREFIX search: <https://osl.tib.eu/vitro-searchOntology#>\n"
     		  + "     PREFIX gesah:    <http://ontology.tib.eu/gesah/>\n"
     		  + "     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
     		  + "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
@@ -106,13 +109,14 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     		  + "        ?filter search:id ?filter_id .\n"
     		  + "        ?filter search:filterField ?field .\n"
     		  + "   		?field search:indexField ?field_name .\n"
-    		  + "         ?filter search:hasKnownValue ?value . \n"
-    		  + "         ?value rdfs:label ?value_label .\n"
-    		  + "         ?value search:id ?value_id .\n"
+    		  + "         OPTIONAL {?filter search:hasKnownValue ?value . \n"
+    		  + "         	?value rdfs:label ?value_label .\n"
+    		  + "         	?value search:id ?value_id .\n"
+    		  + "  		 }\n"
     		  + "  		 OPTIONAL {?filter search:isUriValues ?isUriReq }\n"
     		  + "         OPTIONAL { ?filter search:order ?filter_order }\n"
     		  + "         OPTIONAL { ?value search:order ?value_order}\n"
-    		  + " 	} ORDER BY ?filter_id ?filter_order";
+    		  + " 	} ORDER BY ?filter_id ?filter_order ?value_order";
 
 	private static final String LABEL_QUERY = 
 			"     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
@@ -207,17 +211,17 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             int startIndex = getStartIndex(vreq);
             int hitsPerPage = getHitsPerPage( vreq );
 
-            String queryText = vreq.getParameter(PARAM_QUERY_TEXT);
+            String queryText = getQueryText(vreq);
             log.debug("Query text is \""+ queryText + "\"");
             
             Map<String, SearchFilter> filterConfig = getFilterConfiguration(vreq);
             
-            String badQueryMsg = badQueryText( queryText, vreq );
-            if( ! badQueryMsg.isEmpty() ){
-                return doFailedSearch(badQueryMsg, queryText, format, vreq);
-            }
+            //String badQueryMsg = badQueryText( queryText, vreq );
+            //if( ! badQueryMsg.isEmpty() ){
+            //    return doFailedSearch(badQueryMsg, queryText, format, vreq);
+            //}
 
-            SearchQuery query = getQuery(queryText, hitsPerPage, startIndex, vreq);
+            SearchQuery query = getQuery(queryText, hitsPerPage, startIndex, vreq, filterConfig);
             SearchEngine search = ApplicationUtils.instance().getSearchEngine();
             SearchResponse response = null;
 
@@ -300,6 +304,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
             /* Add ClassGroup and type refinement links to body */
             if( wasHtmlRequested ){
+            	body.put("filters", filterConfig);
                 if ( !classGroupFilterRequested && !typeFilterRequested ) {
                     // Search request includes no ClassGroup and no type, so add ClassGroup search refinement links.
                     body.put("classGroupLinks", getClassGroupsLinks(vreq, grpDao, docs, response, queryText));
@@ -353,54 +358,73 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             return doSearchError(e,format);
         }
     }
+
+	private String getQueryText(VitroRequest vreq) {
+		String query = vreq.getParameter(PARAM_QUERY_TEXT);
+		if (StringUtils.isBlank(query)) {
+			return "";
+		}
+		return query;
+	}
     
     private Map<String, SearchFilter> getFilterConfiguration(VitroRequest vreq) {
 		Map<String, String> requestFilters = getRequestFilters(vreq);
-    	Model ontModel = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
-		Query facetQuery = QueryFactory.create(FILTER_QUERY);
-		QueryExecution qexec = QueryExecutionFactory.create(facetQuery, ontModel);
-		ResultSet results = qexec.execSelect();
-		Map<String,SearchFilter> filters = new HashMap<>();
-		while (results.hasNext()) {
-			QuerySolution solution = results.nextSolution();
-			if (solution.get("filter_id") == null ||
-				solution.get("field_name") == null || 
-				solution.get("value_id") == null ) {
-				continue;
-			}
-			String filterId = solution.get("filter_id").toString();
-			String valueId = solution.get("value_id").toString();
-			String fieldName = solution.get("field_name").toString();
-
-			SearchFilter filter = null;
-			if (filters.containsKey(fieldName)) {
-				filter = filters.get(fieldName);
-			} else {
-				filter = new SearchFilter(filterId);
-				filters.put(fieldName, filter);
-				filter.setName(solution.get("filter_label"));
-				filter.setOrder(solution.get("filter_order"));
-				if (solution.get("isUri") != null && 
-					"true".equals(solution.get("isUri").toString())) {
-					filter.setLocalizationRequired(true);
+		Map<String,SearchFilter> filtersByField  = new HashMap<>();
+    	Model model = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
+    	model.enterCriticalSection(Lock.READ);
+		try {
+			Query facetQuery = QueryFactory.create(FILTER_QUERY);
+			QueryExecution qexec = QueryExecutionFactory.create(facetQuery, model);
+			ResultSet results = qexec.execSelect();
+			while (results.hasNext()) {
+				QuerySolution solution = results.nextSolution();
+				if (solution.get("filter_id") == null ||
+					solution.get("field_name") == null ) {
+					continue;
 				}
-				filter.setField(fieldName);
-			}
-			if (!filter.contains(valueId)) {
-				FilterValue value = new FilterValue(valueId);
-				value.setName(solution.get("value_label"));
-				value.setOrder(solution.get("value_order"));
-				filter.addValue(value);
-				if (requestFilters.containsKey(fieldName)) {
-					String requestedValue = requestFilters.get(fieldName);
-					if (valueId.equals(requestedValue)) {
-						value.setSelected(true);
+				String filterId = solution.get("filter_id").toString();
+				String fieldName = solution.get("field_name").toString();
+	
+				SearchFilter filter = null;
+				if (filtersByField.containsKey(fieldName)) {
+					filter = filtersByField.get(fieldName);
+				} else {
+					filter = new SearchFilter(filterId);
+					filtersByField.put(fieldName, filter);
+					filter.setName(solution.get("filter_label"));
+					filter.setOrder(solution.get("filter_order"));
+					if (solution.get("isUri") != null && 
+						"true".equals(solution.get("isUri").toString())) {
+						filter.setLocalizationRequired(true);
+					}
+					filter.setField(fieldName);
+				}
+				if (solution.get("value_id") == null ) {
+					continue;
+				}
+				String valueId = solution.get("value_id").toString();
+				if (!filter.contains(valueId)) {
+					FilterValue value = new FilterValue(valueId);
+					value.setName(solution.get("value_label"));
+					value.setOrder(solution.get("value_order"));
+					filter.addValue(value);
+					if (requestFilters.containsKey(fieldName)) {
+						String requestedValue = requestFilters.get(fieldName);
+						if (valueId.equals(requestedValue)) {
+							value.setSelected(true);
+						}
 					}
 				}
 			}
+		} finally {
+			model.leaveCriticalSection();
 		}
-        querySolrFilterInfo(filters, vreq);
-		return filters;
+        querySolrFilterInfo(filtersByField, vreq);
+        Map<String,SearchFilter> filtersById = filtersByField
+        		.values()
+        		.stream()
+        		.collect(Collectors.toMap(SearchFilter::getId, Function.identity()));
+		return filtersById;
     }
 
 
@@ -428,7 +452,8 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             			filterValue = new FilterValue(name);
             			filter.addValue(filterValue);
             		}
-            		filterValue.setCount(value.getCount());
+            		//COUNT should be from the real results of the query
+            		//filterValue.setCount(value.getCount());
             		if(filter.isLocalizationRequired()) {
             			String label = getUriLabel(value.getName(), vreq);
             			if (!StringUtils.isBlank(label)) {
@@ -436,6 +461,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             			}
             		}
             	}
+            	filter.sortValues();
             }
         } catch (Exception e) {
         	log.error(e,e);
@@ -444,17 +470,22 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
 	private String getUriLabel(String name, VitroRequest vreq) {
 		String result = "";
-		Model ontModel = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
-		QuerySolutionMap initialBindings = new QuerySolutionMap();
-		initialBindings.add("uri", ResourceFactory.createResource(name));
-		Query facetQuery = QueryFactory.create(LABEL_QUERY);
-		QueryExecution qexec = QueryExecutionFactory.create(facetQuery, ontModel, initialBindings);
-		ResultSet results = qexec.execSelect();
-		if(results.hasNext()) {
-			QuerySolution solution = results.nextSolution();
-			RDFNode rdfNode = solution.get("label");
-			Literal literal = rdfNode.asLiteral();
-			result = literal.getLexicalForm();
+		Model model = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
+		model.enterCriticalSection(Lock.READ);
+		try {
+			QuerySolutionMap initialBindings = new QuerySolutionMap();
+			initialBindings.add("uri", ResourceFactory.createResource(name));
+			Query facetQuery = QueryFactory.create(LABEL_QUERY);
+			QueryExecution qexec = QueryExecutionFactory.create(facetQuery, model, initialBindings);
+			ResultSet results = qexec.execSelect();
+			if(results.hasNext()) {
+				QuerySolution solution = results.nextSolution();
+				RDFNode rdfNode = solution.get("label");
+				Literal literal = rdfNode.asLiteral();
+				result = literal.getLexicalForm();
+			}
+		} finally {
+			model.leaveCriticalSection();
 		}
 		return result;
 	}
@@ -479,16 +510,6 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
         }
         log.debug("startIndex is " + startIndex);
         return startIndex;
-    }
-
-    private String badQueryText(String qtxt, VitroRequest vreq) {
-        if( StringUtils.isBlank(qtxt) ) {
-        	return I18n.text(vreq, "enter_search_term");
-        }
-		/*
-		 * if( qtxt.equals("*:*") ) { return I18n.text(vreq, "invalid_search_term") ; }
-		 */
-        return "";
     }
 
     /**
@@ -608,9 +629,12 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
         return text.toString();
     }
 
-    private SearchQuery getQuery(String queryText, int hitsPerPage, int startIndex, VitroRequest vreq) {
+    private SearchQuery getQuery(String queryText, int hitsPerPage, int startIndex, VitroRequest vreq, Map<String, SearchFilter> filterById) {
         // Lowercase the search term to support wildcard searches: The search engine applies no text
         // processing to a wildcard search term.
+    	if (StringUtils.isBlank(queryText)) {
+    		queryText  = "*:*";
+    	}
         SearchQuery query = ApplicationUtils.instance().getSearchEngine().createQuery(queryText);
 
         query.setStart( startIndex )
@@ -620,7 +644,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
         addFacets(vreq, query);
         
-        addFiltersToQuery(vreq, query);
+        addFiltersToQuery(vreq, query, filterById);
         
         // ClassGroup filtering param
         String classgroupParam = vreq.getParameter(PARAM_CLASSGROUP);
@@ -659,7 +683,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
         }
 	}
 	
-	private void addFiltersToQuery(VitroRequest vreq, SearchQuery query) {
+	private void addFiltersToQuery(VitroRequest vreq, SearchQuery query, Map<String, SearchFilter> filterById) {
 		String[] filters = vreq.getParameterValues(FILTERS);
         if (filters != null && filters.length > 0) {
         	for (String filter : filters) {
@@ -667,7 +691,11 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
         		if (pair.length == 2) {
         			String name = pair[0].replace("\"", "");
         			String value = pair[1].replace("\"", "");
-        			query.addFilterQuery(name + ":\"" + value + "\"");	
+        			SearchFilter searchFilter = filterById.get(name);
+        			if (searchFilter != null && searchFilter.getField() != null) {
+        				query.addFilterQuery(searchFilter.getField() + ":\"" + value + "\"");	
+        			}
+        				
         		}
         	}
         }

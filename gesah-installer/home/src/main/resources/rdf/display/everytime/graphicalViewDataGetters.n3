@@ -12,10 +12,11 @@ display:graphicalViewDataGetter
     PREFIX gesah:    <http://ontology.tib.eu/gesah/>
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    SELECT ?label ?id ?barcode ?fileName ?fieldName ?crop_top ?crop_bottom ?crop_left ?crop_right
+    SELECT ?filter_id ?label ?id ?barcode ?fileName ?fieldName ?crop_top ?crop_bottom ?crop_left ?crop_right
 	WHERE {
 	    ?filter rdf:type search:Filter .
         ?filter search:id "main_filter" .
+        ?filter search:id ?filter_id .
         ?filter search:filterField ?field .
   		?field search:indexField ?fieldName .
         ?filter search:hasKnownValue ?value . 
