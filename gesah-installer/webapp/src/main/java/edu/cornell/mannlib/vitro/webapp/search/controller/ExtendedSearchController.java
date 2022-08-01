@@ -363,6 +363,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
 	private void addFacetCountersFromUserRequest(SearchResponse response, Map<String, SearchFilter> filtersByField, VitroRequest vreq) {
 		List<SearchFacetField> resultfacetFields = response.getFacetFields();
+		Map<String, String> requestFiltersById = getRequestFilters(vreq);
          for (SearchFacetField resultField : resultfacetFields) {
          	SearchFilter searchFilter = filtersByField.get(resultField.getName());
          	if (searchFilter == null) {
@@ -376,6 +377,18 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
          			filterValue = new FilterValue(name);
          			searchFilter.addValue(filterValue);
          		}
+         		if (requestFiltersById.containsKey(searchFilter.getId())) {
+					String requestedValue = requestFiltersById.get(searchFilter.getId());
+					if (name.equals(requestedValue)) {
+						filterValue.setSelected(true);
+					}
+				}
+         		if(searchFilter.isLocalizationRequired() && StringUtils.isBlank(filterValue.getName())) {
+        			String label = getUriLabel(value.getName(), vreq);
+        			if (!StringUtils.isBlank(label)) {
+        				filterValue.setName(label);
+        			}
+        		}
          		//COUNT should be from the real results of the query
          		filterValue.setCount(value.getCount());
          	}
@@ -452,6 +465,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     private void querySolrFilterInfo(Map<String, SearchFilter> filtersByField, VitroRequest vreq, Map<String, String> requestFiltersById) {
     	SearchQuery query = ApplicationUtils.instance().getSearchEngine().createQuery("*:*");
     	query.setRows(0);
+    	query.setFacetLimit(200);
     	addFacetFieldsToQuery(filtersByField, query);
         SearchEngine search = ApplicationUtils.instance().getSearchEngine();
         SearchResponse response = null;
