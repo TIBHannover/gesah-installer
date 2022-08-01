@@ -211,3 +211,29 @@ WHERE
 		 	   
 		 	} 
 """ .
+
+:vitrodocumentModifier_technique_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "technique filter" ;
+    :hasTargetField "technique_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		SELECT DISTINCT ?uri ?technique 
+		 	WHERE {
+		 	   {
+    			?uri gesah:output_of_edition ?obj .
+    			?obj gesah:uses_technique ?technique .
+  				} UNION
+  				{
+  		 	   ?uri gesah:output_of_production ?obj .
+    		   ?obj gesah:uses_technique ?technique .
+  				} UNION
+  				{
+  			   ?uri gesah:output_of_creation ?obj .
+       		   ?obj gesah:uses_technique ?technique .
+  				}
+		 	} 
+""" .
+
