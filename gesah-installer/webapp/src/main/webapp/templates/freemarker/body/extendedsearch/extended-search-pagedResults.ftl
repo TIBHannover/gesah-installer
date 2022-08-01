@@ -112,9 +112,13 @@
 
 <#macro printFilterValues filter>
 	<div id="${filter.id}" class="tab-pane fade">
+		<input type="radio" id="${filter.id}__0" name="filters_${filter.id}" value=""
 		<#if !filter.selected>
-			<input type="radio" id="${filter.id}__0" name="filters_${filter.id}" value="" checked="checked" style="display:none;"/>
+			 checked="checked"
 		</#if>
+		 style="display:none;"/>
+		 <label for="${filter.id}__0">None</label>
+		 
 		<#assign valueNumber = 1>
 		<#list filter.values?values as v>
 			<@printValue filter v valueNumber /> 

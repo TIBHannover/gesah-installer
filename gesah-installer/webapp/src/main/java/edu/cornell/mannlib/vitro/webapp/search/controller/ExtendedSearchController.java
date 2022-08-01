@@ -381,6 +381,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 					String requestedValue = requestFiltersById.get(searchFilter.getId());
 					if (name.equals(requestedValue)) {
 						filterValue.setSelected(true);
+						searchFilter.setSelected(true);
 					}
 				}
          		if(searchFilter.isLocalizationRequired() && StringUtils.isBlank(filterValue.getName())) {
@@ -490,11 +491,9 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 						String requestedValue = requestFiltersById.get(searchFilter.getId());
 						if (name.equals(requestedValue)) {
 							filterValue.setSelected(true);
+							searchFilter.setSelected(true);
 						}
 					}
-            		//COUNT should be from the real results of the query
-            		//filterValue.setCount(value.getCount());
-            		//filter.setSelected(true);
             		if(searchFilter.isLocalizationRequired()) {
             			String label = getUriLabel(value.getName(), vreq);
             			if (!StringUtils.isBlank(label)) {
