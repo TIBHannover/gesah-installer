@@ -171,8 +171,43 @@ WHERE
     :hasTargetField "depicted_persons_ss" ;
     :hasSelectQuery """
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 		SELECT ?uri ?person
 		 	WHERE {
 		 	   ?uri gesah:depicts ?person .
+		 	   ?person rdf:type gesah:Depicted_Person .
+		 	   
+		 	} 
+""" .
+
+:vitrodocumentModifier_depicted_places_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "depicted persons filter" ;
+    :hasTargetField "depicted_places_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		SELECT ?uri ?place
+		 	WHERE {
+		 	   ?uri gesah:depicts ?place .
+		 	   ?place rdf:type gesah:Depicted_Place .
+		 	   
+		 	} 
+""" .
+
+:vitrodocumentModifier_keywords_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "depicted persons filter" ;
+    :hasTargetField "keywords_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		SELECT ?uri ?keyword
+		 	WHERE {
+		 	   ?uri gesah:depicts ?keyword .
+		 	   ?keyword rdf:type gesah:Keyword .
+		 	   
 		 	} 
 """ .

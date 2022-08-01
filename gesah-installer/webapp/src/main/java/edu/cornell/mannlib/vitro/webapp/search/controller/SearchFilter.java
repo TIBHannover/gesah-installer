@@ -23,6 +23,7 @@ public class SearchFilter {
 	private int order;
 	private String field= "";
 	private boolean localizationRequired = false;
+	private boolean selected = false;
 	private Map<String,FilterValue> values = new HashMap<>();
 
 	public SearchFilter(String id){
@@ -93,5 +94,13 @@ public class SearchFilter {
 
 	public String getId() {
 		return id;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean isSelected) {
+		this.selected = isSelected;
 	}
 }

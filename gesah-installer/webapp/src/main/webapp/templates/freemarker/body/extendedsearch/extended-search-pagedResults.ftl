@@ -2,9 +2,9 @@
 
 <#-- Template for displaying paged search results -->
 <#-- <@dump var ="filters" />  
-<@printFilters filters />
--->
 
+-->
+<@printFilters filters />
 
 <h2 class="searchResultsHeader">
 <#escape x as x?html>
@@ -32,7 +32,7 @@
 <div class="contentsBrowseGroup">
 
     <#-- Refinement links -->
-    <#if classGroupLinks?has_content>
+    <#-- <#if classGroupLinks?has_content>
         <div class="searchTOC">
             <h4>${i18n().display_only}</h4>
             <ul>
@@ -57,7 +57,7 @@
             </ul>
         </div>
     </#if>
-
+ -->
     <#-- Search results -->
     <ul class="searchhits">
         <#list individuals as individual>
@@ -86,35 +86,55 @@
     <br />
 
 <#macro printFilters filters>
-	<div id="search-filter-container">
-		<#list filters?values as f>
-			<@printFilter f />  
-		</#list>
-	</div>
+	<form autocomplete="off" method="get" action="${urls.base}/extendedsearch">
+		<div id="search-filter-container">
+			<ul class="nav nav-tabs">
+				<#list filters?values as f>
+					<@printFilterMenu f />  
+				</#list>
+			</ul>
+		</div>
+		<div class="tab-content">
+			<#list filters?values as f>
+				<@printFilterValues f />  
+			</#list>
+		</div>
+	<input type="submit" class="Submit" value="Search" />
 
+	</form>
 </#macro>
 
-<#macro printFilter filter>
-	<div class="search-filter">
-		<label for="${filter.id}">${filter.name}</label>
-		<select id="${filter.id}" name="${filter.name}" size="10">
-		<#list filter.values?values as v>
-			<@printValue v />  
-		</#list>
-		</select>
-	</div>
-</#macro>
-
-<#macro printValue filterValue>
-	<li class="search-filter-value">
-		<#if filterValue.selected>
-			<option value="${filterValue.id}" selected="selected">${filterValue.name} <#--${filterValue.count} --> </option>
-		<#else>
-	 		<option value="${filterValue.id}">${filterValue.name} ${filterValue.count}</option>
-	 	</#if>
- 		
+<#macro printFilterMenu filter>
+	<li>
+		<a data-toggle="tab" href="#${filter.id}">${filter.name}</a>
 	</li>
-	
+</#macro>
+
+<#macro printFilterValues filter>
+	<div id="${filter.id}" class="tab-pane fade">
+		<#if !filter.selected>
+			<input type="radio" id="${filter.id}__0" name="filters_${filter.id}" value="" checked="checked" style="display:none;"/>
+		</#if>
+		<#assign valueNumber = 1>
+		<#list filter.values?values as v>
+			<@printValue filter v valueNumber /> 
+			<#assign valueNumber = valueNumber + 1>
+		</#list>
+	</div>
+</#macro>
+
+<#macro printValue filter filterValue valueNumber>
+	<#assign valueID="${filter.id}__${valueNumber}">
+	<input type="radio" id="${valueID}" value="${filter.id}:${filterValue.id}" name="filters_${filter.id}" style="display:none;"
+	<#if filterValue.selected> checked="checked"</#if> >
+	<label for="${valueID}"><@printValueLabel filterValue.name filterValue.count /></label>
+</#macro>
+
+<#macro printValueLabel label count >
+	${label}
+	<#if count!=0>
+		 (${count})
+	</#if>
 </#macro>
 
 </div> <!-- end contentsBrowseGroup -->
