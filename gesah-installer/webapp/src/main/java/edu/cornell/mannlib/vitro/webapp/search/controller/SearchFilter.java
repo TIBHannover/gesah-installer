@@ -22,14 +22,17 @@ public class SearchFilter {
 	private String name = "";
 	private int order;
 	private String field= "";
+	private String inputText= "";
 	private boolean localizationRequired = false;
+	private boolean multivalued = false;
 	private boolean selected = false;
+	private boolean input = false;
 	private Map<String,FilterValue> values = new HashMap<>();
 
 	public SearchFilter(String id){
 		this.id = id;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -102,5 +105,33 @@ public class SearchFilter {
 
 	public void setSelected(boolean isSelected) {
 		this.selected = isSelected;
+	}
+
+
+	public boolean isMultivalued() {
+		return multivalued;
+	}
+
+
+	public void setMultivalued(boolean multivalued) {
+		this.multivalued = multivalued;
+	}
+
+
+	public boolean isInput() {
+		return input;
+	}
+
+
+	public void setInput(boolean input) {
+		this.input = input;
+	}
+
+	public String getInputText() {
+		return inputText;
+	}
+
+	public void setInputText(String inputText) {
+		this.inputText = inputText;
 	}
 }

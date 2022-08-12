@@ -4,11 +4,12 @@
 <#-- <@dump var ="filters" />  
 
 -->
+
 <@printFilters filters />
 
 <h2 class="searchResultsHeader">
 <#escape x as x?html>
-    ${i18n().search_results_for} '${querytext}'
+    ${hitCount} ${i18n().results_found} 
     <#if classGroupName?has_content>${i18n().limited_to_type} '${classGroupName}'</#if>
     <#if typeName?has_content>${i18n().limited_to_type} '${typeName}'</#if>
 </#escape>
@@ -22,6 +23,17 @@
 	}
 
 	var urlsBase = '${urls.base}';
+	
+	$("input:radio").on("click",function (e) {
+	    var input=$(this);
+	    if (input.is(".selected-input")) { 
+	        input.prop("checked",false);
+	        input.removeClass("selected-input");
+	        return;
+	    }
+	    $("input:radio[name='"+input.prop("name")+"'].selected-input").removeClass("selected-input");
+	    input.addClass("selected-input");
+	});
 </script>
 
 	<img id="downloadIcon" src="images/download-icon.png" alt="${i18n().download_results}" title="${i18n().download_results}" />
@@ -31,33 +43,6 @@
 <span id="searchHelp"><a href="${urls.base}/searchHelp" title="${i18n().search_help}">${i18n().not_expected_results}</a></span>
 <div class="contentsBrowseGroup">
 
-    <#-- Refinement links -->
-    <#-- <#if classGroupLinks?has_content>
-        <div class="searchTOC">
-            <h4>${i18n().display_only}</h4>
-            <ul>
-            <#list classGroupLinks as link>
-                <li><a href="${link.url}" title="${i18n().class_group_link}">${link.text}</a><span>(${link.count})</span></li>
-            </#list>
-            </ul>
-        </div>
-    </#if>
-
-    <#if classLinks?has_content>
-        <div class="searchTOC">
-            <#if classGroupName?has_content>
-                <h4>${i18n().limit} ${classGroupName} ${i18n().to}</h4>
-            <#else>
-                <h4>${i18n().limit_to}</h4>
-            </#if>
-            <ul>
-            <#list classLinks as link>
-                <li><a href="${link.url}" title="${i18n().class_link}">${link.text}</a><span>(${link.count})</span></li>
-            </#list>
-            </ul>
-        </div>
-    </#if>
- -->
     <#-- Search results -->
     <ul class="searchhits">
         <#list individuals as individual>
@@ -86,6 +71,8 @@
     <br />
 
 <#macro printFilters filters>
+	<#assign selectedFilter = "">
+
 	<form autocomplete="off" method="get" action="${urls.base}/extendedsearch">
 		<div id="search-filter-container">
 			<ul class="nav nav-tabs">
@@ -99,10 +86,26 @@
 				<@printFilterValues f />  
 			</#list>
 		</div>
-	<input type="submit" class="Submit" value="Search" />
-
+	<div id="selected-filters">
+		<input type="submit" class="Submit" value="Search" />
+		<@printSelectedFilterValueLabels filters />
+	</div>  
 	</form>
 </#macro>
+
+<#macro printSelectedFilterValueLabels filters>
+	<#list filters?values as filter>
+		<#assign valueNumber = 1>
+		<#list filter.values?values as v>
+			<#if v.selected>
+				${getInput(filter, v, getValueID(filter.id, valueNumber), valueNumber)}
+				${getLabel(valueNumber, v, filter)}
+			</#if>
+			<#assign valueNumber = valueNumber + 1>
+		</#list>
+	</#list>
+</#macro>
+
 
 <#macro printFilterMenu filter>
 	<li>
@@ -112,34 +115,68 @@
 
 <#macro printFilterValues filter>
 	<div id="${filter.id}" class="tab-pane fade">
-		<input type="radio" id="${filter.id}__0" name="filters_${filter.id}" value=""
-		<#if !filter.selected>
-			 checked="checked"
+		<#if filter.input>
+			<div class="user-filter-search-input">
+				<@createUserInput filter />
+			</div>
 		</#if>
-		 style="display:none;"/>
-		 <label for="${filter.id}__0">None</label>
-		 
 		<#assign valueNumber = 1>
 		<#list filter.values?values as v>
-			<@printValue filter v valueNumber /> 
+			<#if !v.selected>
+				${getInput(filter, v, getValueID(filter.id, valueNumber), valueNumber)}
+				${getLabel(valueNumber, v, filter)}
+			</#if>
 			<#assign valueNumber = valueNumber + 1>
 		</#list>
 	</div>
 </#macro>
 
-<#macro printValue filter filterValue valueNumber>
-	<#assign valueID="${filter.id}__${valueNumber}">
-	<input type="radio" id="${valueID}" value="${filter.id}:${filterValue.id}" name="filters_${filter.id}" style="display:none;"
-	<#if filterValue.selected> checked="checked"</#if> >
-	<label for="${valueID}"><@printValueLabel filterValue.name filterValue.count /></label>
+<#function getLabel valueID value filter >
+	<#assign label = value.name >
+	<#if !filter.localizationRequired>
+		<#assign label = value.id >
+	</#if>
+	<#return "<label for=\"" + getValueID(filter.id, valueNumber) + "\">" + getValueLabel(label, value.count) + "</label>" />
+</#function>
+
+<#macro createUserInput filter>
+	<input class="search-vivo" type="text" name="filter_input_${filter.id}" value="${filter.inputText}" autocapitalize="none" />
 </#macro>
 
-<#macro printValueLabel label count >
+<#function getInput filter filterValue valueID valueNumber>
+	<#assign checked = "" >
+	<#assign class = "" >
+	<#if filterValue.selected>
+		<#assign checked = " checked=\"checked\" " >
+		<#assign class = "selected-input" >
+	</#if>
+	<#assign type = "checkbox" >
+	<#if !filter.multivalued>
+		<#assign type = "radio" >
+	</#if>
+	<#assign filterName = filter.id >
+	<#if filter.multivalued>
+		<#assign filterName = filterName + "_" + valueNumber >
+	</#if>
+
+	<#return "<input type=\"" + type + "\" id=\"" + valueID + "\"  value=\"" + filter.id + ":" + filterValue.id 
+		+ "\" name=\"filters_" + filterName + "\" style=\"display:none;\" " + checked + "\" class=\"" + class + "\" >" />
+</#function>
+
+<#function getValueID id number>
+	<#return id + "__" + number /> 
+</#function>
+
+
+
+<#function getValueLabel label count >
+	<#assign result = label >
 	${label}
 	<#if count!=0>
-		 (${count})
+		<#assign result = result + " (" + count + ")" >
 	</#if>
-</#macro>
+	<#return result />
+</#function>
 
 </div> <!-- end contentsBrowseGroup -->
 
