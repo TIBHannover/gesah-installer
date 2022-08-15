@@ -223,14 +223,9 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             String queryText = getQueryText(vreq);
             log.debug("Query text is \""+ queryText + "\"");
             
-            Map<String, SearchFilter> filtersByField = getFilterConfiguration(vreq);
+            Map<String, SearchFilter> filterConfigurationsByField = getFilterConfigurations(vreq);
             
-            //String badQueryMsg = badQueryText( queryText, vreq );
-            //if( ! badQueryMsg.isEmpty() ){
-            //    return doFailedSearch(badQueryMsg, queryText, format, vreq);
-            //}
-
-            SearchQuery query = getQuery(queryText, hitsPerPage, startIndex, vreq, filtersByField);
+            SearchQuery query = getQuery(queryText, hitsPerPage, startIndex, vreq, filterConfigurationsByField);
             SearchEngine search = ApplicationUtils.instance().getSearchEngine();
             SearchResponse response = null;
 
@@ -246,7 +241,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
                 log.error("Search response was null");
                 return doFailedSearch(I18n.text(vreq, "error_in_search_request"), queryText, format, vreq);
             }
-            addFacetCountersFromUserRequest(response, filtersByField, vreq);
+            addFacetCountersFromRequest(response, filterConfigurationsByField, vreq);
 
             SearchResultDocumentList docs = response.getResults();
             if (docs == null) {
@@ -314,7 +309,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
             /* Add ClassGroup and type refinement links to body */
             if( wasHtmlRequested ){
-            	body.put("filters", filtersByField);
+            	body.put("filters", filterConfigurationsByField);
                 if ( !classGroupFilterRequested && !typeFilterRequested ) {
                     // Search request includes no ClassGroup and no type, so add ClassGroup search refinement links.
                     body.put("classGroupLinks", getClassGroupsLinks(vreq, grpDao, docs, response, queryText));
@@ -369,7 +364,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
         }
     }
 
-	private void addFacetCountersFromUserRequest(SearchResponse response, Map<String, SearchFilter> filtersByField, VitroRequest vreq) {
+	private void addFacetCountersFromRequest(SearchResponse response, Map<String, SearchFilter> filtersByField, VitroRequest vreq) {
 		List<SearchFacetField> resultfacetFields = response.getFacetFields();
 		Map<String, List<String>> requestFiltersById = getRequestFilters(vreq);
          for (SearchFacetField resultField : resultfacetFields) {
@@ -389,7 +384,9 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 					List<String> requestedValues = requestFiltersById.get(searchFilter.getId());
 					if (requestedValues.contains(valueName)) {
 						filterValue.setSelected(true);
-						searchFilter.setSelected(true);
+					}
+					if (!isEmptyValues(requestedValues)) {
+						searchFilter.setSelected(true);	
 					}
 				}
          		if(searchFilter.isLocalizationRequired() && StringUtils.isBlank(filterValue.getName())) {
@@ -404,6 +401,18 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
          }
 	}
 
+	private boolean isEmptyValues(List<String> requestedValues) {
+		if (requestedValues.isEmpty()) {
+			return true;
+		}
+		for (String value : requestedValues) {
+			if (!StringUtils.isBlank(value)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	private String getQueryText(VitroRequest vreq) {
 		String query = vreq.getParameter(PARAM_QUERY_TEXT);
 		if (StringUtils.isBlank(query)) {
@@ -412,8 +421,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 		return query;
 	}
     
-    private Map<String, SearchFilter> getFilterConfiguration(VitroRequest vreq) {
-		Map<String, List<String>> requestFilters = getRequestFilters(vreq);
+    private Map<String, SearchFilter> getFilterConfigurations(VitroRequest vreq) {
 		Map<String,SearchFilter> filtersByField  = new HashMap<>();
     	Model model = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
     	model.enterCriticalSection(Lock.READ);
@@ -453,13 +461,17 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 					}
 					RDFNode inputRegex = solution.get("regex");
 					if (inputRegex != null) {
-						filter.setInputRegex(inputRegex.asLiteral().getBoolean());	
+						filter.setInputRegex(inputRegex.asLiteral().getBoolean());
 					}
 					RDFNode facet = solution.get("facet");
 					if (facet != null) {
 						filter.setFacetsRequired(facet.asLiteral().getBoolean());	
 					}
-					filter.setInputText(getFilterInputText(vreq, resultFilterId));
+					String filterInputText = getFilterInputText(vreq, resultFilterId);
+					if (!StringUtils.isBlank(filterInputText)) {
+						filter.setInputText(filterInputText);
+						filter.setSelected(true);
+					}
 				}
 				if (solution.get("value_id") == null ) {
 					continue;
@@ -475,9 +487,30 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 		} finally {
 			model.leaveCriticalSection();
 		}
+		Map<String, List<String>> requestFilters = getRequestFilters(vreq);
+		setSelectedFilters(filtersByField, requestFilters);
         querySolrFilterInfo(filtersByField, vreq,requestFilters);
 		return filtersByField;
     }
+    
+	private void setSelectedFilters(Map<String, SearchFilter> filtersByField,
+			Map<String, List<String>> requestFilters) {
+		for (SearchFilter filter : filtersByField.values()) {
+			if (requestFilters.containsKey(filter.getId())) {
+				List<String> requestValues = requestFilters.get(filter.getId());
+				if (!isEmptyValues(requestValues)) {
+					filter.setSelected(true);
+					for (String requestValue : requestValues) {
+						if (filter.getValues().containsKey(requestValue)){
+							FilterValue value = filter.getValue(requestValue);
+							value.setSelected(true);	
+						}
+					}
+				}
+			}
+		}
+	}
+
 
 	private Map<String, SearchFilter> getFiltersById(Map<String, SearchFilter> filtersByField) {
 		Map<String,SearchFilter> filtersById = filtersByField
@@ -486,7 +519,6 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
         		.collect(Collectors.toMap(SearchFilter::getId, Function.identity()));
 		return filtersById;
 	}
-
 
     private void querySolrFilterInfo(Map<String, SearchFilter> filtersByField, VitroRequest vreq, Map<String, List<String>> requestFilters) {
     	SearchQuery query = ApplicationUtils.instance().getSearchEngine().createQuery("*:*");
@@ -513,10 +545,11 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             		}
 					
 					if (requestFilters.containsKey(searchFilter.getId())) {
-						List<String> requestedValue = requestFilters.get(searchFilter.getId());
-						if (requestedValue.contains(name)) {
+						List<String> requestedValues = requestFilters.get(searchFilter.getId());
+						if (requestedValues.contains(name)) {
 							filterValue.setSelected(true);
-							searchFilter.setSelected(true);
+							searchFilter.setSelected(true);	
+
 						}
 					}
             		if(searchFilter.isLocalizationRequired()) {

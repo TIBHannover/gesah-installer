@@ -5,7 +5,7 @@
 
 -->
 
-<@printFilters filters />
+<@searchForm filters />
 
 <h2 class="searchResultsHeader">
 <#escape x as x?html>
@@ -70,20 +70,27 @@
     </#if>
     <br />
 
-<#macro printFilters filters>
-	<#assign selectedFilter = "">
+<#macro searchForm filters>
 
 	<form autocomplete="off" method="get" action="${urls.base}/extendedsearch">
 		<div id="search-filter-container">
 			<ul class="nav nav-tabs">
+				<#assign assignedActive = false>
 				<#list filters?values as f>
-					<@printFilterMenu f />  
+					<@searchFormTab f assignedActive />  
+					<#if !assignedActive && f.selected>
+						<#assign assignedActive = true>
+					</#if>
 				</#list>
 			</ul>
 		</div>
 		<div class="tab-content">
+			<#assign assignedActive = false>
 			<#list filters?values as f>
-				<@printFilterValues f />  
+				<@printFilterValues f assignedActive />  
+				<#if !assignedActive && f.selected>
+					<#assign assignedActive = true>
+				</#if>
 			</#list>
 		</div>
 	<div id="selected-filters">
@@ -107,14 +114,22 @@
 </#macro>
 
 
-<#macro printFilterMenu filter>
-	<li>
-		<a data-toggle="tab" href="#${filter.id}">${filter.name}</a>
-	</li>
+<#macro searchFormTab filter assignedActive>
+	<#if !assignedActive && filter.selected>
+	 	<li class="active">
+	<#else>
+		<li>
+	</#if>
+			<a data-toggle="tab" href="#${filter.id}">${filter.name}</a>
+		</li>
 </#macro>
 
-<#macro printFilterValues filter>
+<#macro printFilterValues filter assignedActive>
+	<#if !assignedActive && filter.selected>
+	<div id="${filter.id}" class="tab-pane fade in active">
+	<#else>
 	<div id="${filter.id}" class="tab-pane fade">
+	</#if>
 		<#if filter.input>
 			<div class="user-filter-search-input">
 				<@createUserInput filter />
