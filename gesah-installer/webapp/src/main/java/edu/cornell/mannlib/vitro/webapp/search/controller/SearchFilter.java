@@ -31,6 +31,8 @@ public class SearchFilter {
 
 	private boolean inputRegex = false;
 
+	private boolean facetsRequired;
+
 	public SearchFilter(String id){
 		this.id = id;
 	}
@@ -141,6 +143,14 @@ public class SearchFilter {
 	
 	public boolean isInputRegex() {
 		return inputRegex;
+	}
+
+	public void setFacetsRequired(boolean facetsRequired) {
+		this.facetsRequired = facetsRequired;
+	}
+
+	public boolean isFacetsRequired() {
+		return facetsRequired;
 	}
 	
 }

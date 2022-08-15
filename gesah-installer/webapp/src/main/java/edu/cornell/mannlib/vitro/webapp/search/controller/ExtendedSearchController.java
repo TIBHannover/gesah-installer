@@ -105,7 +105,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     		  + "     PREFIX gesah:    <http://ontology.tib.eu/gesah/>\n"
     		  + "     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
     		  + "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-    		  + "SELECT ?filter_id ?filter_label ?value_label ?value_id  ?field_name  ?filter_order ?value_order (STR(?isUriReq) as ?isUri ) ?multivalued ?input ?regex \n"
+    		  + "SELECT ?filter_id ?filter_label ?value_label ?value_id  ?field_name  ?filter_order ?value_order (STR(?isUriReq) as ?isUri ) ?multivalued ?input ?regex ?facet \n"
     		  + " 	WHERE {\n"
     		  + " 	    ?filter rdf:type search:Filter .\n"
     		  + "        ?filter rdfs:label ?filter_label .\n"
@@ -120,6 +120,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     		  + "  		 OPTIONAL {?filter search:isUriValues ?isUriReq }\n"
     		  + "  		 OPTIONAL {?filter search:userInput ?input }\n"
     		  + "  		 OPTIONAL {?filter search:userInputRegex ?regex }\n"
+    		  + "  		 OPTIONAL {?filter search:facetResults ?facet }\n"
     		  + "        OPTIONAL {?filter search:order ?filter_order }\n"
     		  + "        OPTIONAL {?value search:order ?value_order}\n"
     		  + " 	} ORDER BY ?filter_id ?filter_order ?value_order";
@@ -454,6 +455,10 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 					if (inputRegex != null) {
 						filter.setInputRegex(inputRegex.asLiteral().getBoolean());	
 					}
+					RDFNode facet = solution.get("facet");
+					if (facet != null) {
+						filter.setFacetsRequired(facet.asLiteral().getBoolean());	
+					}
 					filter.setInputText(getFilterInputText(vreq, resultFilterId));
 				}
 				if (solution.get("value_id") == null ) {
@@ -487,7 +492,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     	SearchQuery query = ApplicationUtils.instance().getSearchEngine().createQuery("*:*");
     	query.setRows(0);
     	query.setFacetLimit(200);
-    	addFacetFieldsToQuery(filtersByField, query);
+    	addFacetFieldsToQuery(filtersByField, query, true);
         SearchEngine search = ApplicationUtils.instance().getSearchEngine();
         SearchResponse response = null;
         try {
@@ -704,7 +709,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
         addDefaultVitroFacets(vreq, query);
         
-        addFacetFieldsToQuery(filtersByField, query);
+        addFacetFieldsToQuery(filtersByField, query, false);
 
         Map<String, SearchFilter> filtersById = getFiltersById(filtersByField);
         
@@ -740,9 +745,17 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
         return query;
     }
 
-	private void addFacetFieldsToQuery(Map<String, SearchFilter> filters, SearchQuery query) {
+	private void addFacetFieldsToQuery(Map<String, SearchFilter> filters, SearchQuery query, boolean facetInfo) {
 		for (String fieldId : filters.keySet()) {
-        	query.addFacetFields(fieldId);
+			if (facetInfo) {
+				SearchFilter filter = filters.get(fieldId);
+				if (filter.isFacetsRequired()) {
+					query.addFacetFields(fieldId);	
+				}	
+			} else {
+				query.addFacetFields(fieldId);	
+
+			}
     	}
 	}
     
