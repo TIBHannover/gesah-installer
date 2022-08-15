@@ -101,7 +101,7 @@
 			</#list>
 		</div>
 	<div id="selected-filters">
-		<input type="submit" class="Submit" value="Search" />
+		<input type="submit" class="Submit" value="${i18n().search_button}" />
 		<@printSelectedFilterValueLabels filters />
 	</div>  
 	</form>
