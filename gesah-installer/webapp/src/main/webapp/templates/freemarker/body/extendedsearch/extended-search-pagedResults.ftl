@@ -5,7 +5,7 @@
 
 -->
 
-<@searchForm filters />
+<@searchForm filters emptySearch />
 
 <h2 class="searchResultsHeader">
 <#escape x as x?html>
@@ -77,15 +77,15 @@
     </#if>
     <br />
 
-<#macro searchForm filters>
+<#macro searchForm filters isEmptySearch>
 
 	<form autocomplete="off" method="get" action="${urls.base}/extendedsearch">
 		<div id="search-filter-container">
 			<ul class="nav nav-tabs">
 				<#assign assignedActive = false>
 				<#list filters?values as f>
-					<@searchFormTab f assignedActive />  
-					<#if !assignedActive && f.selected>
+					<@searchFormTab f assignedActive isEmptySearch/>  
+					<#if !assignedActive && (f.selected || isEmptySearch )>
 						<#assign assignedActive = true>
 					</#if>
 				</#list>
@@ -94,8 +94,8 @@
 		<div class="tab-content">
 			<#assign assignedActive = false>
 			<#list filters?values as f>
-				<@printFilterValues f assignedActive />  
-				<#if !assignedActive && f.selected>
+				<@printFilterValues f assignedActive isEmptySearch/>  
+				<#if !assignedActive && ( f.selected || isEmptySearch )>
 					<#assign assignedActive = true>
 				</#if>
 			</#list>
@@ -122,8 +122,8 @@
 </#macro>
 
 
-<#macro searchFormTab filter assignedActive>
-	<#if !assignedActive && filter.selected>
+<#macro searchFormTab filter assignedActive isEmptySearch>
+	<#if !assignedActive && ( filter.selected || isEmptySearch )>
 	 	<li class="active">
 	<#else>
 		<li>
@@ -132,8 +132,8 @@
 		</li>
 </#macro>
 
-<#macro printFilterValues filter assignedActive>
-	<#if !assignedActive && filter.selected>
+<#macro printFilterValues filter assignedActive isEmptySearch>
+	<#if !assignedActive && ( filter.selected || isEmptySearch )>
 	<div id="${filter.id}" class="tab-pane fade in active">
 	<#else>
 	<div id="${filter.id}" class="tab-pane fade">

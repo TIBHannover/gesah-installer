@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -310,6 +311,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             /* Add ClassGroup and type refinement links to body */
             if( wasHtmlRequested ){
             	body.put("filters", filterConfigurationsByField);
+            	body.put("emptySearch", isEmptySearch(filterConfigurationsByField));
                 if ( !classGroupFilterRequested && !typeFilterRequested ) {
                     // Search request includes no ClassGroup and no type, so add ClassGroup search refinement links.
                     body.put("classGroupLinks", getClassGroupsLinks(vreq, grpDao, docs, response, queryText));
@@ -363,6 +365,15 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             return doSearchError(e,format);
         }
     }
+
+	private Object isEmptySearch(Map<String, SearchFilter> filterConfigurationsByField) {
+		for (SearchFilter filter : filterConfigurationsByField.values()) {
+			if (filter.isSelected()) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	private void addFacetCountersFromRequest(SearchResponse response, Map<String, SearchFilter> filtersByField, VitroRequest vreq) {
 		List<SearchFacetField> resultfacetFields = response.getFacetFields();
@@ -422,7 +433,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 	}
     
     private Map<String, SearchFilter> getFilterConfigurations(VitroRequest vreq) {
-		Map<String,SearchFilter> filtersByField  = new HashMap<>();
+		Map<String,SearchFilter> filtersByField  = new LinkedHashMap<>();
     	Model model = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
     	model.enterCriticalSection(Lock.READ);
 		try {
