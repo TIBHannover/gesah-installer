@@ -34,6 +34,13 @@
 	    $("input:radio[name='"+input.prop("name")+"'].selected-input").removeClass("selected-input");
 	    input.addClass("selected-input");
 	});
+	
+	function clearInput(elementId) {
+  		let inputEl = document.getElementById(elementId);
+  		inputEl.value = "";
+  		let srcButton = document.getElementById("button_" + elementId);
+  		srcButton.classList.add("unckecked-selected-search-input-label");
+	}
 </script>
 
 	<img id="downloadIcon" src="images/download-icon.png" alt="${i18n().download_results}" title="${i18n().download_results}" />
@@ -110,6 +117,7 @@
 			</#if>
 			<#assign valueNumber = valueNumber + 1>
 		</#list>
+		<@userSelectedInput filter />
 	</#list>
 </#macro>
 
@@ -154,8 +162,15 @@
 	<#return "<label for=\"" + getValueID(filter.id, valueNumber) + "\">" + getValueLabel(label, value.count) + "</label>" />
 </#function>
 
+
+<#macro userSelectedInput filter>
+	<#if filter.inputText?has_content>
+		<button type="button" id="button_filter_input_${filter.id}" onclick="clearInput('filter_input_${filter.id}')" class="checked-search-input-label">${filter.name} : ${filter.inputText}</button>
+	</#if>
+</#macro>
+
 <#macro createUserInput filter>
-	<input class="search-vivo" type="text" name="filter_input_${filter.id}" value="${filter.inputText}" autocapitalize="none" />
+	<input id="filter_input_${filter.id}" class="search-vivo" type="text" name="filter_input_${filter.id}" value="${filter.inputText}" autocapitalize="none" />
 </#macro>
 
 <#function getInput filter filterValue valueID valueNumber>
