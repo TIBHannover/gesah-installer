@@ -492,7 +492,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     	SearchQuery query = ApplicationUtils.instance().getSearchEngine().createQuery("*:*");
     	query.setRows(0);
     	query.setFacetLimit(200);
-    	addFacetFieldsToQuery(filtersByField, query, true);
+    	addFacetFieldsToQuery(filtersByField, query);
         SearchEngine search = ApplicationUtils.instance().getSearchEngine();
         SearchResponse response = null;
         try {
@@ -709,7 +709,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
         addDefaultVitroFacets(vreq, query);
         
-        addFacetFieldsToQuery(filtersByField, query, false);
+        addFacetFieldsToQuery(filtersByField, query);
 
         Map<String, SearchFilter> filtersById = getFiltersById(filtersByField);
         
@@ -745,16 +745,11 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
         return query;
     }
 
-	private void addFacetFieldsToQuery(Map<String, SearchFilter> filters, SearchQuery query, boolean facetInfo) {
+	private void addFacetFieldsToQuery(Map<String, SearchFilter> filters, SearchQuery query) {
 		for (String fieldId : filters.keySet()) {
-			if (facetInfo) {
-				SearchFilter filter = filters.get(fieldId);
-				if (filter.isFacetsRequired()) {
-					query.addFacetFields(fieldId);	
-				}	
-			} else {
+			SearchFilter filter = filters.get(fieldId);
+			if (filter.isFacetsRequired()) {
 				query.addFacetFields(fieldId);	
-
 			}
     	}
 	}
