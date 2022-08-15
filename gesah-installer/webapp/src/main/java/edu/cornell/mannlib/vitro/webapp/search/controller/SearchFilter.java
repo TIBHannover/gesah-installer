@@ -29,6 +29,8 @@ public class SearchFilter {
 	private boolean input = false;
 	private Map<String,FilterValue> values = new HashMap<>();
 
+	private boolean inputRegex = false;
+
 	public SearchFilter(String id){
 		this.id = id;
 	}
@@ -117,11 +119,9 @@ public class SearchFilter {
 		this.multivalued = multivalued;
 	}
 
-
 	public boolean isInput() {
 		return input;
 	}
-
 
 	public void setInput(boolean input) {
 		this.input = input;
@@ -134,4 +134,13 @@ public class SearchFilter {
 	public void setInputText(String inputText) {
 		this.inputText = inputText;
 	}
+
+	public void setInputRegex(boolean regex) {
+		this.inputRegex  = regex;
+	}
+	
+	public boolean isInputRegex() {
+		return inputRegex;
+	}
+	
 }

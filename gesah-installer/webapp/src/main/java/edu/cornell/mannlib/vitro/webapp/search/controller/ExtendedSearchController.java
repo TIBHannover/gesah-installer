@@ -105,7 +105,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     		  + "     PREFIX gesah:    <http://ontology.tib.eu/gesah/>\n"
     		  + "     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
     		  + "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-    		  + "SELECT ?filter_id ?filter_label ?value_label ?value_id  ?field_name  ?filter_order ?value_order (STR(?isUriReq) as ?isUri ) ?multivalued ?input \n"
+    		  + "SELECT ?filter_id ?filter_label ?value_label ?value_id  ?field_name  ?filter_order ?value_order (STR(?isUriReq) as ?isUri ) ?multivalued ?input ?regex \n"
     		  + " 	WHERE {\n"
     		  + " 	    ?filter rdf:type search:Filter .\n"
     		  + "        ?filter rdfs:label ?filter_label .\n"
@@ -119,8 +119,9 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     		  + "  		 OPTIONAL {?field search:multivalued ?multivalued}\n"
     		  + "  		 OPTIONAL {?filter search:isUriValues ?isUriReq }\n"
     		  + "  		 OPTIONAL {?filter search:userInput ?input }\n"
-    		  + "         OPTIONAL { ?filter search:order ?filter_order }\n"
-    		  + "         OPTIONAL { ?value search:order ?value_order}\n"
+    		  + "  		 OPTIONAL {?filter search:userInputRegex ?regex }\n"
+    		  + "        OPTIONAL {?filter search:order ?filter_order }\n"
+    		  + "        OPTIONAL {?value search:order ?value_order}\n"
     		  + " 	} ORDER BY ?filter_id ?filter_order ?value_order";
 
 	private static final String LABEL_QUERY = 
@@ -449,6 +450,10 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 					if (input != null) {
 						filter.setInput(input.asLiteral().getBoolean());	
 					}
+					RDFNode inputRegex = solution.get("regex");
+					if (inputRegex != null) {
+						filter.setInputRegex(inputRegex.asLiteral().getBoolean());	
+					}
 					filter.setInputText(getFilterInputText(vreq, resultFilterId));
 				}
 				if (solution.get("value_id") == null ) {
@@ -775,8 +780,13 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 		for (String filterId : filterById.keySet()) {
 			SearchFilter searchFilter = filterById.get(filterId);
 			String searchText = searchFilter.getInputText();
-			if (!StringUtils.isBlank(searchText)){
-				query.addFilterQuery(searchFilter.getField() + ":\"" + searchText + "\"");	
+			if (searchFilter.isInput() && !StringUtils.isBlank(searchText)){
+				if (searchFilter.isInputRegex()) {
+					searchText = searchText.replaceAll("([ )(:])", "\\\\$1") + "*";
+					query.addFilterQuery(searchFilter.getField() + ":" + searchText );
+				} else {
+					query.addFilterQuery(searchFilter.getField() + ":\"" + searchText + "\"" );	
+				}
 			}
 		}
 	}
