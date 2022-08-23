@@ -273,12 +273,19 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             ParamMap pagingLinkParams = new ParamMap();
             pagingLinkParams.put(PARAM_QUERY_TEXT, queryText);
             pagingLinkParams.put(PARAM_HITS_PER_PAGE, String.valueOf(hitsPerPage));
-            String[] filters = vreq.getParameterValues(FILTERS);
-            if (filters != null) {
-            	for (String filter : filters) {
-            		pagingLinkParams.put(FILTERS, filter);	
-            	}
-            }
+            
+    		Enumeration<String> paramNames = vreq.getParameterNames();
+    		while ( paramNames.hasMoreElements()) {
+    			String paramFilterName = paramNames.nextElement();
+    			if (!StringUtils.isBlank(paramFilterName) &&
+    				( paramFilterName.startsWith(FILTERS) ||
+    				  paramFilterName.startsWith(FILTER_INPUT_PREFIX) ) ) {
+    				String[] values = vreq.getParameterValues(paramFilterName);
+    				if (values.length > 0) {
+    					pagingLinkParams.put(paramFilterName, values[0]);	
+    				}
+    			}
+    		}
 
             if( wasXmlRequested ){
                 pagingLinkParams.put(PARAM_XML_REQUEST,"1");
