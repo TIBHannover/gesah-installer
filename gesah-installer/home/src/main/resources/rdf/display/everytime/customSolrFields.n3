@@ -10,7 +10,7 @@
     :hasTargetField "ALLTEXTUNSTEMMED" ;
     :hasSelectQuery """
     	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-        SELECT ?uri (STR (?number) as ?former_inventory_number )
+        SELECT (STR (?number) as ?former_inventory_number )
 		WHERE
 		{
 		    {  ?uri gesah:former_inventory_number ?number . } 
@@ -26,7 +26,7 @@
     :hasTargetField "curnum" ;
     :hasSelectQuery """
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-        SELECT ?uri (STR (?number) as ?inventory_number )
+        SELECT (STR (?number) as ?inventory_number )
                 WHERE
                 {
                     ?uri gesah:current_inventory_number ?number . 
@@ -40,7 +40,7 @@
     :hasTargetField "fornum" ;
     :hasSelectQuery """
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-        SELECT ?uri (STR (?number) as ?inventory_number )
+        SELECT (STR (?number) as ?inventory_number )
                 WHERE
                 {
                     ?uri gesah:former_inventory_number ?number . 
@@ -55,7 +55,7 @@
     :hasSelectQuery """
 PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-SELECT  ?uri ?material 
+SELECT ?material 
 WHERE
 {
   ?uri gesah:output_of_production ?production .
@@ -72,7 +72,7 @@ WHERE
     :hasSelectQuery """
 PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-SELECT  ?uri ?participant
+SELECT ?participant
 WHERE
 {
   ?uri gesah:output_of_production ?production .
@@ -88,7 +88,7 @@ WHERE
     :hasSelectQuery """
 PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-SELECT  ?uri ?place
+SELECT  ?place
 WHERE
 {
   ?uri gesah:output_of_production ?production .
@@ -104,7 +104,7 @@ WHERE
     :hasSelectQuery """
 PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-SELECT ?uri ( CONCAT(STR(?startTime),"Z") as ?time )
+SELECT ( CONCAT(STR(?startTime),"Z") as ?time )
 WHERE
 {
   ?uri gesah:output_of_production ?production .
@@ -140,7 +140,7 @@ WHERE
     :hasSelectQuery """
     PREFIX gesah:    <http://ontology.tib.eu/gesah/>
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    SELECT ?uri ?filterValue
+    SELECT ?filterValue
 	WHERE {
         {
           ?uri rdf:type gesah:Print .
@@ -172,7 +172,7 @@ WHERE
     :hasSelectQuery """
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-		SELECT ?uri ?person
+		SELECT DISTINCT ?person
 		 	WHERE {
 		 	   ?uri gesah:depicts ?person .
 		 	   ?person rdf:type gesah:Depicted_Person .
@@ -188,7 +188,7 @@ WHERE
     :hasSelectQuery """
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-		SELECT ?uri ?place
+		SELECT DISTINCT ?place
 		 	WHERE {
 		 	   ?uri gesah:depicts ?place .
 		 	   ?place rdf:type gesah:Depicted_Place .
@@ -204,7 +204,7 @@ WHERE
     :hasSelectQuery """
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-		SELECT ?uri ?keyword
+		SELECT DISTINCT ?keyword
 		 	WHERE {
 		 	   ?uri gesah:depicts ?keyword .
 		 	   ?keyword rdf:type gesah:Keyword .
@@ -220,7 +220,7 @@ WHERE
     :hasSelectQuery """
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-		SELECT DISTINCT ?uri ?technique 
+		SELECT DISTINCT ?technique 
 		 	WHERE {
 		 	   {
     			?uri gesah:output_of_edition ?obj .
@@ -237,3 +237,41 @@ WHERE
 		 	} 
 """ .
 
+:vitrodocumentModifier_narrower_term
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "object category narrower term" ;
+    :hasTargetField "narrower_term_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT DISTINCT ?term
+		 	WHERE {
+		 	   ?uri gesah:has_object_category_narrower_term ?term .
+		 	} 
+""" .
+
+:vitrodocumentModifier_generic_term
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "object categroy generic term" ;
+    :hasTargetField "generic_term_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT DISTINCT ?term
+		 	WHERE {
+		 	   ?uri gesah:has_object_category_generic_term ?term .
+		 	} 
+""" .
+
+:vitrodocumentModifier_georgaphic_assignment
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "geographic assignment" ;
+    :hasTargetField "geogrpaphic_assignment_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah: <http://ontology.tib.eu/gesah/>
+		SELECT DISTINCT ?assignment
+		 	WHERE {
+		 	   ?uri gesah:has_geographic_assignment ?assignment .
+		 	} 
+""" .
