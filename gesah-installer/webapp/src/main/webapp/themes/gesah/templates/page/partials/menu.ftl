@@ -39,6 +39,7 @@
                     </#list>
 		    <#if user.loggedIn>	
 			<li class="nav-item" role="listitem"><a href="/gesah/imagesToLink" title="Images to link menu item" class="nav-link">Images to link</a></li>
+			<li class="nav-item" role="listitem"><a href="/gesah/search-settings" title="Search settings" class="nav-link">Search settings</a></li>
 		    </#if>
                     </ul>
                 </div>
