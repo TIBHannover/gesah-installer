@@ -534,7 +534,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     private void querySolrFilterInfo(Map<String, SearchFilter> filtersByField, VitroRequest vreq, Map<String, List<String>> requestFilters) {
     	SearchQuery query = ApplicationUtils.instance().getSearchEngine().createQuery("*:*");
     	query.setRows(0);
-    	query.setFacetLimit(200);
+    	query.setFacetLimit(-1);
     	addFacetFieldsToQuery(filtersByField, query);
         SearchEngine search = ApplicationUtils.instance().getSearchEngine();
         SearchResponse response = null;
