@@ -275,3 +275,18 @@ WHERE
 		 	   ?uri gesah:has_geographic_assignment ?assignment .
 		 	} 
 """ .
+
+:vitrodocumentModifier_object_type
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "cultural object type" ;
+    :hasTargetField "object_type_ss" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX gesah: <http://ontology.tib.eu/gesah/>
+		SELECT ?type
+		 	WHERE {
+  				?uri rdf:type gesah:Cultural_Object .
+		 	    ?uri <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?type .
+		 	} 
+""" .
