@@ -290,3 +290,70 @@ WHERE
 		 	    ?uri <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?type .
 		 	} 
 """ .
+
+:vitrodocumentModifier_participants
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "participants" ;
+    :hasTargetField "participants_ss" ;
+    :hasSelectQuery """
+		PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+		PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT ?participant
+		WHERE
+		{
+  			{
+		  		?uri gesah:output_of_production ?production .
+		  		?production gesah:has_participant ?participant .
+  			} 
+  				UNION
+  			{
+		  		?uri gesah:output_of_creation ?creation .
+		  		?creation gesah:has_participant ?participant .
+  			}
+    			UNION
+  			{
+		  		?uri gesah:object_of_edition ?edition .
+		  		?edition gesah:has_participant ?participant .
+  			}
+      			UNION
+  			{
+		  		?uri gesah:object_of_inscription ?inscription .
+		  		?inscription gesah:has_participant ?participant .
+  			}
+		}
+""" .
+
+:vitrodocumentModifier_places
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "places" ;
+    :hasTargetField "places_ss" ;
+    :hasSelectQuery """
+		PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+		PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT ?participant
+		WHERE
+		{
+  			{
+		  		?uri gesah:output_of_production ?production .
+		  		?production gesah:has_place ?place .
+  			} 
+  				UNION
+  			{
+		  		?uri gesah:output_of_creation ?creation .
+		  		?creation gesah:has_place ?place .
+  			}
+    			UNION
+  			{
+		  		?uri gesah:object_of_edition ?edition .
+		  		?edition gesah:has_place ?place .
+  			}
+      			UNION
+  			{
+		  		?uri gesah:object_of_inscription ?inscription .
+		  		?inscription gesah:has_place ?place .
+  			}
+		}
+""" .
+
