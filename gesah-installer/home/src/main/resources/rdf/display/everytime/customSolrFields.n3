@@ -136,7 +136,7 @@ WHERE
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
     rdfs:label "main page filter" ;
-    :hasTargetField "cult_object_type_ss" ;
+    :hasTargetField "overview_ss" ;
     :hasSelectQuery """
     PREFIX gesah:    <http://ontology.tib.eu/gesah/>
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
