@@ -586,7 +586,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
 	private String getUriLabel(String uri, VitroRequest vreq) {
 		String result = "";
-		Model model = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
+		Model model = ModelAccess.on(vreq).getOntModelSelector().getFullModel();
 		model.enterCriticalSection(Lock.READ);
 		try {
 			QuerySolutionMap initialBindings = new QuerySolutionMap();
