@@ -324,15 +324,15 @@ WHERE
 		}
 """ .
 
-:vitrodocumentModifier_places
+:vitrodocumentModifier_place
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
-    rdfs:label "places" ;
-    :hasTargetField "places_ss" ;
+    rdfs:label "place" ;
+    :hasTargetField "place_ss" ;
     :hasSelectQuery """
 		PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
 		PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-		SELECT ?participant
+		SELECT ?place
 		WHERE
 		{
   			{
@@ -354,6 +354,21 @@ WHERE
 		  		?uri gesah:object_of_inscription ?inscription .
 		  		?inscription gesah:has_place ?place .
   			}
+		}
+""" .
+
+:vitrodocumentModifier_collectors_mark
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "collector's mark" ;
+    :hasTargetField "collectors_mark_ss" ;
+    :hasSelectQuery """
+		PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+		PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT DISTINCT ?mark
+		WHERE	{
+  			?uri gesah:has_mark_designation ?mark_designation .
+ 			?mark_designation gesah:uses_mark ?mark .
 		}
 """ .
 
