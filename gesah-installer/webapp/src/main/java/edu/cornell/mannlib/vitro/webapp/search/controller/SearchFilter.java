@@ -1,5 +1,6 @@
 package edu.cornell.mannlib.vitro.webapp.search.controller;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -27,7 +28,7 @@ public class SearchFilter {
 	private boolean multivalued = false;
 	private boolean selected = false;
 	private boolean input = false;
-	private Map<String,FilterValue> values = new HashMap<>();
+	private Map<String,FilterValue> values = new LinkedHashMap<>();
 
 	private boolean inputRegex = false;
 
@@ -75,9 +76,24 @@ public class SearchFilter {
 
 	public void sortValues() {
 		List<Entry<String, FilterValue>> list = new LinkedList<>(values.entrySet());
-		list.sort((o1, o2) -> o1.getValue().getOrder().compareTo(o2.getValue().getOrder()));
+		list.sort(new FilterValueComparator());
 		values = list.stream()
 				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> b, LinkedHashMap::new));
+	}
+	
+	public class FilterValueComparator implements Comparator<Map.Entry<String, FilterValue>>{
+	    public int compare(Entry<String, FilterValue> obj1, Entry<String, FilterValue> obj2) {
+	        FilterValue filter1 = obj1.getValue();
+	        FilterValue filter2 = obj2.getValue();
+	        int result = filter1.getOrder().compareTo(filter2.getOrder());
+	        if (result == 0) {
+	            // order are equal, sort by name
+	            return filter1.getName().toLowerCase().compareTo(filter2.getName().toLowerCase());
+	        }
+	        else {
+	            return result;
+	        }
+	    }
 	}
 	
 	public void setField(String fieldName) {

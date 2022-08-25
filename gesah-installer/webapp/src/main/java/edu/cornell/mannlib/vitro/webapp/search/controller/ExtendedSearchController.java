@@ -16,6 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -317,6 +318,9 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
             /* Add ClassGroup and type refinement links to body */
             if( wasHtmlRequested ){
+            	for (Entry<String, SearchFilter> entry : filterConfigurationsByField.entrySet()) {
+            		entry.getValue().sortValues();
+            	}
             	body.put("filters", filterConfigurationsByField);
             	body.put("emptySearch", isEmptySearch(filterConfigurationsByField));
                 if ( !classGroupFilterRequested && !typeFilterRequested ) {
@@ -577,7 +581,6 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             			}
             		}
             	}
-            	searchFilter.sortValues();
             }
         } catch (Exception e) {
         	log.error(e,e);
