@@ -134,9 +134,9 @@
 
 <#macro printFilterValues filter assignedActive isEmptySearch>
 	<#if !assignedActive && ( filter.selected || isEmptySearch )>
-	<div id="${filter.id}" class="tab-pane fade in active">
+	<div id="${filter.id}" class="tab-pane fade in active filter-area">
 	<#else>
-	<div id="${filter.id}" class="tab-pane fade">
+	<div id="${filter.id}" class="tab-pane fade filter-area">
 	</#if>
 		<#if filter.input>
 			<div class="user-filter-search-input">

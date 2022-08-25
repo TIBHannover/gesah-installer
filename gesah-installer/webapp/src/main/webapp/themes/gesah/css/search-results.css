@@ -92,3 +92,10 @@ input[type=checkbox]:not(:checked) + label {
   background-color: #E3E3E3 !important;
   color: unset !important;
 }
+
+.filter-area {
+	border-bottom: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	padding: 0.3em;
+}
