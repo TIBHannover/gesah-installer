@@ -103,29 +103,41 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     private static final String PARAM_QUERY_SORT_ORDER = "sortOrder";
     
     private static final String FILTER_QUERY = 
-    		  " PREFIX search: <https://osl.tib.eu/vitro-searchOntology#>\n"
-    		  + "     PREFIX gesah:    <http://ontology.tib.eu/gesah/>\n"
-    		  + "     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
-    		  + "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-    		  + "SELECT ?filter_id ?filter_label ?value_label ?value_id  ?field_name  ?filter_order ?value_order (STR(?isUriReq) as ?isUri ) ?multivalued ?input ?regex ?facet \n"
-    		  + " 	WHERE {\n"
-    		  + " 	    ?filter rdf:type search:Filter .\n"
-    		  + "        ?filter rdfs:label ?filter_label .\n"
-    		  + "        ?filter search:id ?filter_id .\n"
-    		  + "        ?filter search:filterField ?field .\n"
-    		  + "   		?field search:indexField ?field_name .\n"
-    		  + "         OPTIONAL {?filter search:hasKnownValue ?value . \n"
-    		  + "         	?value rdfs:label ?value_label .\n"
-    		  + "         	?value search:id ?value_id .\n"
-    		  + "  		 }\n"
-    		  + "  		 OPTIONAL {?field search:multivalued ?multivalued}\n"
-    		  + "  		 OPTIONAL {?filter search:isUriValues ?isUriReq }\n"
-    		  + "  		 OPTIONAL {?filter search:userInput ?input }\n"
-    		  + "  		 OPTIONAL {?filter search:userInputRegex ?regex }\n"
-    		  + "  		 OPTIONAL {?filter search:facetResults ?facet }\n"
-    		  + "        OPTIONAL {?filter search:order ?filter_order }\n"
-    		  + "        OPTIONAL {?value search:order ?value_order}\n"
-    		  + " 	} ORDER BY ?filter_id ?filter_order ?value_order";
+    		     "     PREFIX search: <https://osl.tib.eu/vitro-searchOntology#>\n"
+    		   + "     PREFIX gesah:    <http://ontology.tib.eu/gesah/>\n"
+    		   + "     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+    		   + "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+    		   + "SELECT ?filter_id ?filter_label ?value_label ?value_id  ?field_name ?end_field_name ?filter_order ?value_order (STR(?isUriReq) as ?isUri ) ?multivalued ?input ?regex ?facet (STR(?stepVal) as ?step )\n"
+    		   + " 	WHERE {\n"
+    		   + "  		{\n"
+    		   + " 	    ?filter rdf:type search:Filter .\n"
+    		   + "        ?filter rdfs:label ?filter_label .\n"
+    		   + "        ?filter search:id ?filter_id .\n"
+    		   + "        ?filter search:filterField ?field .\n"
+    		   + "   		?field search:indexField ?field_name .\n"
+    		   + "         OPTIONAL {?filter search:hasKnownValue ?value . \n"
+    		   + "         	?value rdfs:label ?value_label .\n"
+    		   + "         	?value search:id ?value_id .\n"
+    		   + "  		 }\n"
+    		   + "  		 OPTIONAL {?field search:multivalued ?multivalued}\n"
+    		   + "  		 OPTIONAL {?filter search:isUriValues ?isUriReq }\n"
+    		   + "  		 OPTIONAL {?filter search:userInput ?input }\n"
+    		   + "  		 OPTIONAL {?filter search:userInputRegex ?regex }\n"
+    		   + "  		 OPTIONAL {?filter search:facetResults ?facet }\n"
+    		   + "        OPTIONAL {?filter search:order ?filter_order }\n"
+    		   + "        OPTIONAL {?value search:order ?value_order}\n"
+    		   + "  } UNION {\n"
+    		   + "  		?filter rdf:type search:RangeFilter .\n"
+    		   + "        ?filter rdfs:label ?filter_label .\n"
+    		   + "        ?filter search:id ?filter_id .\n"
+    		   + "        ?filter search:startField ?startField .\n"
+    		   + "        ?filter search:endField ?endField .\n"
+    		   + "   		?startField search:indexField ?field_name .\n"
+    		   + "   		?endField search:indexField ?end_field_name .\n"
+    		   + "        OPTIONAL {?filter search:order ?filter_order }\n"
+    		   + "        OPTIONAL {?filter search:step ?stepVal }\n"
+    		   + "  }\n"
+    		   + " 	} ORDER BY ?filter_id ?filter_order ?value_order";
 
 	private static final String LABEL_QUERY = 
 			"     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
@@ -459,7 +471,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 				}
 				String resultFilterId = solution.get("filter_id").toString();
 				String resultFieldName = solution.get("field_name").toString();
-	
+
 				SearchFilter filter = null;
 				if (filtersByField.containsKey(resultFieldName)) {
 					filter = filtersByField.get(resultFieldName);
@@ -471,6 +483,15 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 					if (solution.get("isUri") != null && 
 						"true".equals(solution.get("isUri").toString())) {
 						filter.setLocalizationRequired(true);
+					}
+					RDFNode rangeEndFieldName = solution.get("end_field_name");
+					if (rangeEndFieldName != null) {
+						String endName = rangeEndFieldName.toString();
+						filter.setEndField(endName);
+					}
+					RDFNode step = solution.get("step");
+					if (step != null) {
+						filter.setStep(Long.parseLong(step.asLiteral().toString()));
 					}
 					filter.setField(resultFieldName);
 					RDFNode multivalued = solution.get("multivalued");

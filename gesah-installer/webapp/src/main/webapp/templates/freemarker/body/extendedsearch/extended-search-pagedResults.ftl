@@ -41,6 +41,60 @@
   		let srcButton = document.getElementById("button_" + elementId);
   		srcButton.classList.add("unckecked-selected-search-input-label");
 	}
+	
+	function createSliders(){
+		sliders = document.getElementsByClassName('range-slider-container');
+		for (let sliderElement of sliders) {
+			createSlider(sliderElement);
+		}
+	};
+		
+	function createSlider(sliderContainer){
+		rangeSlider = sliderContainer.querySelector('.range-slider');
+		stepValue = sliderContainer.getAttribute('step');
+		function timestamp(str) {
+		    return new Date(str).getTime();
+		}
+		
+		noUiSlider.create(rangeSlider, {
+		// Create two timestamps to define a range.
+		    range: {
+		        min: timestamp('2010'),
+		        max: timestamp('2016')
+		    },
+		
+		// Steps of one week
+		    step: Number(stepValue),
+		
+		// Two more timestamps indicate the handle starting positions.
+		    start: [timestamp('2011'), timestamp('2015')],
+		
+		// No decimals
+		    format: wNumb({
+		        decimals: 0
+		    })
+		});
+		
+		var dateValues = [
+		     sliderContainer.querySelector('.range-slider-start'),
+		     sliderContainer.querySelector('.range-slider-end')
+		];
+		
+		var formatter = new Intl.DateTimeFormat('en-GB', {
+		    dateStyle: 'full'
+		});
+		
+		rangeSlider.noUiSlider.on('update', function (values, handle) {
+		    dateValues[handle].innerHTML = formatter.format(new Date(+values[handle]));
+		});
+
+	}
+	
+	window.onload = (event) => {
+  		createSliders();
+	};
+
+
 </script>
 
 	<img id="downloadIcon" src="images/download-icon.png" alt="${i18n().download_results}" title="${i18n().download_results}" />
@@ -134,23 +188,36 @@
 
 <#macro printFilterValues filter assignedActive isEmptySearch>
 	<#if !assignedActive && ( filter.selected || isEmptySearch )>
-	<div id="${filter.id}" class="tab-pane fade in active filter-area">
+		<div id="${filter.id}" class="tab-pane fade in active filter-area">
 	<#else>
-	<div id="${filter.id}" class="tab-pane fade filter-area">
+		<div id="${filter.id}" class="tab-pane fade filter-area">
 	</#if>
-		<#if filter.input>
-			<div class="user-filter-search-input">
-				<@createUserInput filter />
-			</div>
-		</#if>
-		<#assign valueNumber = 1>
-		<#list filter.values?values as v>
-			<#if !v.selected>
-				${getInput(filter, v, getValueID(filter.id, valueNumber), valueNumber)}
-				${getLabel(valueNumber, v, filter)}
+			<#if filter.input>
+					<div class="user-filter-search-input">
+						<@createUserInput filter />
+					</div>
 			</#if>
-			<#assign valueNumber = valueNumber + 1>
-		</#list>
+			<#if filter.endField?has_content>
+				<@rangeFilter filter/>
+			</#if>
+			<#assign valueNumber = 1>
+			<#list filter.values?values as v>
+				<#if !v.selected>
+					${getInput(filter, v, getValueID(filter.id, valueNumber), valueNumber)}
+					${getLabel(valueNumber, v, filter)}
+				</#if>
+				<#assign valueNumber = valueNumber + 1>
+			</#list>
+		</div>
+</#macro>
+
+<#macro rangeFilter filter>
+	<div class="range-filter" id="${filter.id}" class="tab-pane fade filter-area">
+		<div class="range-slider-container" step="${filter.step?long?c}">
+			<div class="range-slider"></div>
+			<div class="range-slider-start"></div>
+			<div class="range-slider-end"></div>
+		</div>
 	</div>
 </#macro>
 

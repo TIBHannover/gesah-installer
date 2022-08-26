@@ -46,7 +46,7 @@
             link: '${i18n().menu_data_protection_url}'
         };
     </script>
-    ${scripts.add('<script async type="text/javascript" src="${urls.base}/themes/tib/js/cookieConsent.js"></script>')}
+    ${scripts.add('<script async type="text/javascript" src="${urls.base}/themes/gesah/js/cookieConsent.js"></script>')}
 </footer>
 
 <#include "scripts.ftl">

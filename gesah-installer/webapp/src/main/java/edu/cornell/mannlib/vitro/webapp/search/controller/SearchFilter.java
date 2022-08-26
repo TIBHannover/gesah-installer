@@ -22,7 +22,10 @@ public class SearchFilter {
 	private String id;
 	private String name = "";
 	private int order;
+	private long step = 100;
+
 	private String field= "";
+	private String endField= "";
 	private String inputText= "";
 	private boolean localizationRequired = false;
 	private boolean multivalued = false;
@@ -60,6 +63,14 @@ public class SearchFilter {
 
 	public String getField() {
 		return field;
+	}
+	
+	public String getEndField() {
+		return endField;
+	}
+	
+	public void setEndField(String endField) {
+		this.endField = endField;
 	}
 	
 	public void addValue(FilterValue value) {
@@ -167,6 +178,14 @@ public class SearchFilter {
 
 	public boolean isFacetsRequired() {
 		return facetsRequired;
+	}
+
+	public long getStep() {
+		return step;
+	}
+
+	public void setStep(long step) {
+		this.step = step;
 	}
 	
 }
