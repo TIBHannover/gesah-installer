@@ -39,7 +39,7 @@
   		let inputEl = document.getElementById(elementId);
   		inputEl.value = "";
   		let srcButton = document.getElementById("button_" + elementId);
-  		srcButton.classList.add("unckecked-selected-search-input-label");
+  		srcButton.classList.add("unchecked-selected-search-input-label");
 	}
 	
 	function createSliders(){
@@ -59,15 +59,16 @@
 		noUiSlider.create(rangeSlider, {
 		// Create two timestamps to define a range.
 		    range: {
-		        min: timestamp('2010'),
-		        max: timestamp('2016')
+		        min: timestamp(sliderContainer.getAttribute('min')),
+		        max: timestamp(sliderContainer.getAttribute('max'))
 		    },
 		
 		// Steps of one week
 		    step: Number(stepValue),
 		
 		// Two more timestamps indicate the handle starting positions.
-		    start: [timestamp('2011'), timestamp('2015')],
+		    start: [timestamp(sliderContainer.querySelector('.range-slider-start').textContent), 
+		  			timestamp(sliderContainer.querySelector('.range-slider-end').textContent)],
 		
 		// No decimals
 		    format: wNumb({
@@ -83,16 +84,35 @@
 		var formatter = new Intl.DateTimeFormat('en-GB', {
 		    dateStyle: 'full'
 		});
+				
+		var input = sliderContainer.querySelector('.range-slider-input');
+		var first = true;
 		
 		rangeSlider.noUiSlider.on('update', function (values, handle) {
 		    dateValues[handle].innerHTML = formatter.format(new Date(+values[handle]));
+		    var active = input.getAttribute('active');
+		    if (active === null){
+		    	input.setAttribute('active', "false");
+		    } else if (active !== "true"){
+		        input.setAttribute('active', "true");
+		    } else {
+		    	input.value = (new Date(+values[0])).toISOString() + " " + (new Date(+values[1])).toISOString();
+		    }
 		});
-
 	}
 	
 	window.onload = (event) => {
   		createSliders();
 	};
+	
+	$('#extended-search-form').submit(function () {
+    $(this)
+        .find('input')
+        .filter(function () {
+            return !this.value;
+        })
+        .prop('name', '');
+	});
 
 
 </script>
@@ -133,7 +153,7 @@
 
 <#macro searchForm filters isEmptySearch>
 
-	<form autocomplete="off" method="get" action="${urls.base}/extendedsearch">
+	<form id="extended-search-form" autocomplete="off" method="get" action="${urls.base}/extendedsearch">
 		<div id="search-filter-container">
 			<ul class="nav nav-tabs">
 				<#assign assignedActive = false>
@@ -192,31 +212,50 @@
 	<#else>
 		<div id="${filter.id}" class="tab-pane fade filter-area">
 	</#if>
-			<#if filter.input>
+			<#if filter.type == "RangeFilter">
+				<@rangeFilter filter/>
+			<#else>
+				<#if filter.input>
 					<div class="user-filter-search-input">
 						<@createUserInput filter />
 					</div>
-			</#if>
-			<#if filter.endField?has_content>
-				<@rangeFilter filter/>
-			</#if>
-			<#assign valueNumber = 1>
-			<#list filter.values?values as v>
-				<#if !v.selected>
-					${getInput(filter, v, getValueID(filter.id, valueNumber), valueNumber)}
-					${getLabel(valueNumber, v, filter)}
 				</#if>
-				<#assign valueNumber = valueNumber + 1>
-			</#list>
+	
+				<#assign valueNumber = 1>
+				<#list filter.values?values as v>
+					<#if !v.selected>
+						${getInput(filter, v, getValueID(filter.id, valueNumber), valueNumber)}
+						${getLabel(valueNumber, v, filter)}
+					</#if>
+					<#assign valueNumber = valueNumber + 1>
+				</#list>
+			</#if>
 		</div>
 </#macro>
 
 <#macro rangeFilter filter>
+	<#assign min = filter.min >
+	<#assign max = filter.max >
+	<#assign from = filter.from >
+	<#assign to = filter.to >
+	<#if from?has_content && to?has_content >
+		<#assign range = from + " " + to >
+	</#if>
+
 	<div class="range-filter" id="${filter.id}" class="tab-pane fade filter-area">
-		<div class="range-slider-container" step="${filter.step?long?c}">
+		<div class="range-slider-container" min="${filter.min}" max="${filter.max}" step="${filter.step?long?c}">
 			<div class="range-slider"></div>
-			<div class="range-slider-start"></div>
-			<div class="range-slider-end"></div>
+			<#if from?has_content>
+				<div class="range-slider-start">${from}</div>
+			<#else>
+				<div class="range-slider-start">${min}</div>
+			</#if>
+			<#if to?has_content>
+				<div class="range-slider-end">${to}</div>
+			<#else>
+				<div class="range-slider-end">${max}</div>
+			</#if>
+			<input id="filter_range_${filter.id}" style="display:none;" class="range-slider-input" name="filter_range_${filter.id}" value="${range!""}"/>
 		</div>
 	</div>
 </#macro>
@@ -233,6 +272,12 @@
 <#macro userSelectedInput filter>
 	<#if filter.inputText?has_content>
 		<button type="button" id="button_filter_input_${filter.id}" onclick="clearInput('filter_input_${filter.id}')" class="checked-search-input-label">${filter.name} : ${filter.inputText}</button>
+	</#if>
+	<#assign from = filter.prettyFrom >
+	<#assign to = filter.prettyTo >
+	<#if from?has_content && to?has_content >
+		<#assign range = i18n().from + " " + from + " " + i18n().to + " " + to >
+		<button type="button" id="button_filter_range_${filter.id}" onclick="clearInput('filter_range_${filter.id}')" class="checked-search-input-label">${filter.name} : ${range}</button>
 	</#if>
 </#macro>
 
@@ -263,8 +308,6 @@
 <#function getValueID id number>
 	<#return id + "__" + number /> 
 </#function>
-
-
 
 <#function getValueLabel label count >
 	<#assign result = label >

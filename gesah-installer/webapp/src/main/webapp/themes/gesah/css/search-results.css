@@ -88,7 +88,7 @@ input[type=checkbox]:not(:checked) + label {
   border: 0px;
 }
 
-.unckecked-selected-search-input-label {
+.unchecked-selected-search-input-label {
   background-color: #E3E3E3 !important;
   color: unset !important;
 }
