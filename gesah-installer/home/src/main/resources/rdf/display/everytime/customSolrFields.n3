@@ -232,6 +232,94 @@ WHERE
  	} 
 """ .
 
+:vitrodocumentModifier_watermark
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "watermark" ;
+    :hasTargetField "watermark_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT DISTINCT ?watermark
+		 	WHERE {
+		 	   ?uri gesah:has_watermark ?watermark .
+		 	} 
+""" .
+
+:vitrodocumentModifier_stylistic_classification
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "stylistic_classification" ;
+    :hasTargetField "stylistic_classification_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT DISTINCT ?style
+		 	WHERE {
+		 	   ?uri gesah:has_stylistic_assignment ?style .
+		 	} 
+ 
+""" .
+
+:vitrodocumentModifier_depiction_type
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "depiction type filter" ;
+    :hasTargetField "depiction_type_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		SELECT DISTINCT ?type
+		 	WHERE {
+		 	   ?uri gesah:depicts ?object .
+		 	   ?object <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?type .
+		 	} 
+""" .
+
+:vitrodocumentModifier_depicted_event_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "depicted event filter" ;
+    :hasTargetField "depicted_event_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		SELECT DISTINCT ?event
+		 	WHERE {
+		 	   ?uri gesah:depicts ?event .
+		 	   ?event rdf:type gesah:Depicted_Event .
+		 	} 
+""" .
+
+:vitrodocumentModifier_depicted_object_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "depicted object filter" ;
+    :hasTargetField "depicted_object_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		SELECT DISTINCT ?object
+		 	WHERE {
+		 	   ?uri gesah:depicts ?object .
+		 	   ?object rdf:type gesah:Depicted_Object .
+		 	} 
+""" .
+
+:vitrodocumentModifier_depicted_persons_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "depicted persons filter" ;
+    :hasTargetField "depicted_persons_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		SELECT DISTINCT ?person
+		 	WHERE {
+		 	   ?uri gesah:depicts ?person .
+		 	   ?person rdf:type gesah:Depicted_Person .
+		 	   
+		 	} 
+""" .
+
 :vitrodocumentModifier_depicted_persons_filter
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
