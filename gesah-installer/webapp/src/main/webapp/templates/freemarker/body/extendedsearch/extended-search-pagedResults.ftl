@@ -4,7 +4,6 @@
 <#-- <@dump var ="filters" />  
 
 -->
-
 <@searchForm filters emptySearch />
 
 <h2 class="searchResultsHeader">
@@ -51,26 +50,17 @@
 		
 	function createSlider(sliderContainer){
 		rangeSlider = sliderContainer.querySelector('.range-slider');
-		stepValue = sliderContainer.getAttribute('step');
-		function timestamp(str) {
-		    return new Date(str).getTime();
-		}
 		
 		noUiSlider.create(rangeSlider, {
-		// Create two timestamps to define a range.
 		    range: {
-		        min: timestamp(sliderContainer.getAttribute('min')),
-		        max: timestamp(sliderContainer.getAttribute('max'))
+		        min: Number(sliderContainer.getAttribute('min')),
+		        max: Number(sliderContainer.getAttribute('max'))
 		    },
 		
-		// Steps of one week
-		    step: Number(stepValue),
+		    step: 1,
+		    start: [Number(sliderContainer.querySelector('.range-slider-start').textContent), 
+		  			Number(sliderContainer.querySelector('.range-slider-end').textContent)],
 		
-		// Two more timestamps indicate the handle starting positions.
-		    start: [timestamp(sliderContainer.querySelector('.range-slider-start').textContent), 
-		  			timestamp(sliderContainer.querySelector('.range-slider-end').textContent)],
-		
-		// No decimals
 		    format: wNumb({
 		        decimals: 0
 		    })
@@ -81,22 +71,20 @@
 		     sliderContainer.querySelector('.range-slider-end')
 		];
 		
-		var formatter = new Intl.DateTimeFormat('${locale}', {
-		    dateStyle: 'full'
-		});
-				
 		var input = sliderContainer.querySelector('.range-slider-input');
 		var first = true;
 		
 		rangeSlider.noUiSlider.on('update', function (values, handle) {
-		    dateValues[handle].innerHTML = formatter.format(new Date(+values[handle]));
+		    dateValues[handle].innerHTML = values[handle];
 		    var active = input.getAttribute('active');
 		    if (active === null){
 		    	input.setAttribute('active', "false");
 		    } else if (active !== "true"){
 		        input.setAttribute('active', "true");
 		    } else {
-		    	input.value = (new Date(+values[0])).toISOString() + " " + (new Date(+values[1])).toISOString();
+		    	var startDate = new Date(+values[0],1,1);
+		    	var endDate = new Date(+values[1],1,1);
+		    	input.value = startDate.toISOString() + " " + endDate.toISOString();
 		    }
 		});
 	}
@@ -117,7 +105,7 @@
 
 </script>
 
-	<img id="downloadIcon" src="images/download-icon.png" alt="${i18n().download_results}" title="${i18n().download_results}" />
+<img id="downloadIcon" src="images/download-icon.png" alt="${i18n().download_results}" title="${i18n().download_results}" />
 <#-- <span id="downloadResults" style="float:left"></span>  -->
 </h2>
 
@@ -236,14 +224,14 @@
 <#macro rangeFilter filter>
 	<#assign min = filter.min >
 	<#assign max = filter.max >
-	<#assign from = filter.from >
-	<#assign to = filter.to >
+	<#assign from = filter.fromYear >
+	<#assign to = filter.toYear >
 	<#if from?has_content && to?has_content >
 		<#assign range = from + " " + to >
 	</#if>
 
 	<div class="range-filter" id="${filter.id}" class="tab-pane fade filter-area">
-		<div class="range-slider-container" min="${filter.min}" max="${filter.max}" step="${filter.step?long?c}">
+		<div class="range-slider-container" min="${filter.min}" max="${filter.max}">
 			<div class="range-slider"></div>
 			<#if from?has_content>
 				<div class="range-slider-start">${from}</div>
@@ -273,8 +261,8 @@
 	<#if filter.inputText?has_content>
 		<button type="button" id="button_filter_input_${filter.id}" onclick="clearInput('filter_input_${filter.id}')" class="checked-search-input-label">${filter.name} : ${filter.inputText}</button>
 	</#if>
-	<#assign from = filter.prettyFrom >
-	<#assign to = filter.prettyTo >
+	<#assign from = filter.fromYear >
+	<#assign to = filter.toYear >
 	<#if from?has_content && to?has_content >
 		<#assign range = i18n().from + " " + from + " " + i18n().to + " " + to >
 		<button type="button" id="button_filter_range_${filter.id}" onclick="clearInput('filter_range_${filter.id}')" class="checked-search-input-label">${filter.name} : ${range}</button>

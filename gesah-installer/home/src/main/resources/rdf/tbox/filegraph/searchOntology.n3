@@ -163,14 +163,6 @@ rdf:langString rdf:type rdfs:Datatype .
         vitro:descriptionAnnot        ""@en-US ;
         vitro:publicDescriptionAnnot  ""@en-US .
 
-:step  a                   owl:DatatypeProperty , owl:FunctionalProperty ;
-        rdfs:domain                   :RangeFilter ;
-        rdfs:label                    "step"@en-US ;
-        rdfs:range                    xsd:int ;
-        obo:IAO_0000112               ""@en-US ;
-        vitro:descriptionAnnot        ""@en-US ;
-        vitro:publicDescriptionAnnot  ""@en-US .
-
 ###  https://osl.tib.eu/vitro-searchOntology#from
 :from rdf:type owl:DatatypeProperty ,
                      owl:FunctionalProperty ;

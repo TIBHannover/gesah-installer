@@ -46,8 +46,8 @@ public class SearchFiltering {
 			+ "     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 			+ "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
 			+ "SELECT ?filter_id ?filter_type ?filter_label ?value_label ?value_id  ?field_name ?filter_order ?value_order "
-			+ " (STR(?isUriReq) as ?isUri ) ?multivalued ?input ?regex ?facet (STR(?stepVal) as ?step ) ?min ?max\n"
-			+ " 	WHERE {\n" + "  		{\n" + " 	    ?filter rdf:type search:Filter .\n"
+			+ " (STR(?isUriReq) as ?isUri ) ?multivalued ?input ?regex ?facet ?min ?max \n"
+			+ " 	WHERE {\n" + " 	    ?filter rdf:type search:Filter .\n"
 			+ "        ?filter rdfs:label ?filter_label .\n" + "        ?filter search:id ?filter_id .\n"
 			+ "        ?filter <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?filter_type .\n"
 			+ "        ?filter search:filterField ?field .\n" + "   		?field search:indexField ?field_name .\n"
@@ -61,7 +61,6 @@ public class SearchFiltering {
 			+ "  		 OPTIONAL {?filter search:facetResults ?facet }\n"
 			+ "  		 OPTIONAL {?filter search:from ?min }\n" + "  		 OPTIONAL {?filter search:to ?max }\n"
 			+ "        OPTIONAL {?filter search:order ?filter_order }\n"
-			+ "        OPTIONAL {?filter search:step ?stepVal }\n" + "  } \n"
 			+ " 	} ORDER BY ?filter_id ?filter_order ?value_order";
 
 	static final String LABEL_QUERY = "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
@@ -236,16 +235,12 @@ public class SearchFiltering {
 		if (solution.get("isUri") != null && "true".equals(solution.get("isUri").toString())) {
 			filter.setLocalizationRequired(true);
 		}
-		RDFNode step = solution.get("step");
-		if (step != null) {
-			filter.setStep(Long.parseLong(step.asLiteral().toString()));
-		}
 		RDFNode min = solution.get("min");
-		if (step != null) {
+		if (min != null) {
 			filter.setMin(min.asLiteral().toString());
 		}
 		RDFNode max = solution.get("max");
-		if (step != null) {
+		if (max != null) {
 			filter.setMax(max.asLiteral().toString());
 		}
 		filter.setField(resultFieldName);
@@ -286,7 +281,7 @@ public class SearchFiltering {
 			Map<String, List<String>> requestFilters) {
 		SearchQuery query = ApplicationUtils.instance().getSearchEngine().createQuery("*:*");
 		query.setRows(0);
-		query.setFacetLimit(-1);
+		query.setFacetLimit(1000);
 		SearchFiltering.addFacetFieldsToQuery(filtersByField, query);
 		SearchEngine search = ApplicationUtils.instance().getSearchEngine();
 		SearchResponse response = null;

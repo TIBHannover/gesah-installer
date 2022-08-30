@@ -1,17 +1,14 @@
 package edu.cornell.mannlib.vitro.webapp.search.controller;
 
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -32,14 +29,12 @@ public class SearchFilter {
 	private String name = "";
 	private String from = "";
 	private String to = "";
-	private String prettyFrom = "";
-	private String prettyTo = "";
+	private String fromYear = "";
+	private String toYear = "";
 	
 	private String min = "0";
 	private String max = "2000";
 	private int order;
-	private long step = 100;
-
 	private String field= "";
 	private String endField= "";
 	private String inputText= "";
@@ -211,14 +206,6 @@ public class SearchFilter {
 		return facetsRequired;
 	}
 
-	public long getStep() {
-		return step;
-	}
-
-	public void setStep(long step) {
-		this.step = step;
-	}
-
 	public void setType(RDFNode rdfNode) {
 		String typeOntClass = rdfNode.toString();
 		if (typeOntClass.contains(RANGE_FILTER)) {
@@ -236,7 +223,6 @@ public class SearchFilter {
 
 	public void setFrom(String fromValue) {
 		this.from = fromValue;
-		setPrettyFrom(fromValue);
 	}
 
 	public String getTo() {
@@ -245,7 +231,6 @@ public class SearchFilter {
 
 	public void setTo(String toValue) {
 		this.to = toValue;
-		setPrettyTo(toValue);
 	}
 
 	public void setRangeValues(String filterRangeText) {
@@ -255,7 +240,9 @@ public class SearchFilter {
 			return;
 		}
 		setFrom(range[0]);
+		setFromYear(range[0]);
 		setTo(to = range[1]);
+		setToYear(range[1]);
 		rangeText  = "[" + from.trim() + " TO " + to.trim() + "]";
 		selected = true;
 	}
@@ -276,27 +263,34 @@ public class SearchFilter {
 		this.max = max;
 	}
 	
-	public String getPrettyFrom() {
-		return prettyFrom;
-	}
-
-	public void setPrettyFrom(String prettyFrom) {
-		this.prettyFrom = prettyTime(prettyFrom);
-	}
-
-	public String getPrettyTo() {
-		return prettyTo;
-	}
-
-	public void setPrettyTo(String timeString) {
-		this.prettyTo  = prettyTime(timeString);
-	}
-
 	private String prettyTime(String timeString) {
 		Instant time = Instant.parse ( timeString );
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneId.systemDefault()) ;
 		String formatted = formatter.format(time);
 		return formatted;
+	}
+	
+	private String getYear(String timeString) {
+		Instant time = Instant.parse ( timeString );
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy").withZone(ZoneId.systemDefault()) ;
+		String formatted = formatter.format(time);
+		return formatted;
+	}
+	
+	public String getFromYear() {
+		return fromYear;
+	}
+
+	public void setFromYear(String fromYear) {
+		this.fromYear = getYear(fromYear);
+	}
+
+	public String getToYear() {
+		return toYear;
+	}
+
+	public void setToYear(String toYear) {
+		this.toYear = getYear(toYear);
 	}
 	
 }
