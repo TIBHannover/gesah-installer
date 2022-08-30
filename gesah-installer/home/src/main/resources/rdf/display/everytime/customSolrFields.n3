@@ -266,11 +266,9 @@ WHERE
     :hasTargetField "depiction_type_ss" ;
     :hasSelectQuery """
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 		SELECT DISTINCT ?type
 		 	WHERE {
-		 	   ?uri gesah:depicts ?object .
-		 	   ?object <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?type .
+		 	   ?uri gesah:has_depiction_type ?type .
 		 	} 
 """ .
 
@@ -301,22 +299,6 @@ WHERE
 		 	WHERE {
 		 	   ?uri gesah:depicts ?object .
 		 	   ?object rdf:type gesah:Depicted_Object .
-		 	} 
-""" .
-
-:vitrodocumentModifier_depicted_persons_filter
-    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
-        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
-    rdfs:label "depicted persons filter" ;
-    :hasTargetField "depicted_persons_ss" ;
-    :hasSelectQuery """
-        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-		SELECT DISTINCT ?person
-		 	WHERE {
-		 	   ?uri gesah:depicts ?person .
-		 	   ?person rdf:type gesah:Depicted_Person .
-		 	   
 		 	} 
 """ .
 
