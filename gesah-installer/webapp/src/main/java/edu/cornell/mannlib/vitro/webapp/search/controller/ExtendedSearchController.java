@@ -281,6 +281,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
                     .getIndividualTemplateModels(individuals, vreq));
 
             body.put("querytext", queryText);
+            body.put("locale", vreq.getLocale().toLanguageTag());
             body.put("title", new StringBuilder().append(appBean.getApplicationName()).append(" - ").
                     append(I18n.text(vreq, "search_results_for")).append(" '").append(queryText).append("'").toString());
 

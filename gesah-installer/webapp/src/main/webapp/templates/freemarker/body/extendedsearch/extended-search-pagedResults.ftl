@@ -81,7 +81,7 @@
 		     sliderContainer.querySelector('.range-slider-end')
 		];
 		
-		var formatter = new Intl.DateTimeFormat('en-GB', {
+		var formatter = new Intl.DateTimeFormat('${locale}', {
 		    dateStyle: 'full'
 		});
 				
