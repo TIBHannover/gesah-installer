@@ -81,7 +81,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
     private static final String PARAM_HITS_PER_PAGE = "hitsPerPage";
     private static final String PARAM_CLASSGROUP = "classgroup";
     private static final String PARAM_RDFTYPE = "type";
-    private static final String PARAM_QUERY_TEXT = "querytext";
+    public static final String PARAM_QUERY_TEXT = "querytext";
     private static final String PARAM_QUERY_SORT_BY = "sortBy";
     private static final String PARAM_QUERY_SORT_ORDER = "sortOrder";
     
@@ -360,7 +360,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
          }
 	}
 
-	private String getQueryText(VitroRequest vreq) {
+	public static String getQueryText(VitroRequest vreq) {
 		String query = vreq.getParameter(PARAM_QUERY_TEXT);
 		if (StringUtils.isBlank(query)) {
 			return "";

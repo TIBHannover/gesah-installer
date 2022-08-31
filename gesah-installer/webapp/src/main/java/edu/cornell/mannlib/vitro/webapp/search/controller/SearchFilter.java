@@ -173,8 +173,8 @@ public class SearchFilter {
 		if (StringUtils.isBlank(inputText)) {
 			return;
 		}
-		this.inputText = inputText;
 		selected = true;
+		this.inputText = inputText;
 	}
 
 	public void setInputRegex(boolean regex) {
