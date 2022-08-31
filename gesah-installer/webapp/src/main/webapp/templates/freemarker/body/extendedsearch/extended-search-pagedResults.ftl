@@ -200,7 +200,9 @@
 	<#else>
 		<div id="${filter.id}" class="tab-pane fade filter-area">
 	</#if>
-			<#if filter.type == "RangeFilter">
+			<#if filter.id == "querytext">
+				<@queryText />
+			<#elseif filter.type == "RangeFilter">
 				<@rangeFilter filter/>
 			<#else>
 				<#if filter.input>
@@ -219,6 +221,12 @@
 				</#list>
 			</#if>
 		</div>
+</#macro>
+
+<#macro queryText>
+	<div id="search-field">
+        <input type="text" name="querytext" value="${querytext!}" autocapitalize="none">
+    </div>
 </#macro>
 
 <#macro rangeFilter filter>

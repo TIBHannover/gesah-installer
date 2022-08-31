@@ -13,7 +13,7 @@
                     </li>
                     </ul>
                     </div>
-                <#else>
+                <#elseif currentServlet != "extendedsearch">
                     <div class="navbar-header pull-right">
                         <ul class="nav pull-left">
                             <li>

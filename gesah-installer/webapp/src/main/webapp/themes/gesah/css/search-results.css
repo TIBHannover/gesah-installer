@@ -103,3 +103,8 @@ input[type=checkbox]:not(:checked) + label {
 .range-filter {
 	padding: 15px;
 }
+
+
+#search-filter-container > ul > li > a {
+  padding: 7px 7px;
+}
