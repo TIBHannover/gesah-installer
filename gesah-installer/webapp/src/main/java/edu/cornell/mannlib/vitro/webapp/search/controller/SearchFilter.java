@@ -50,6 +50,15 @@ public class SearchFilter {
 
 	private String type = FILTER;
 	private String rangeText = "";
+	private String rangeInput = "";
+
+	public String getRangeInput() {
+		return rangeInput;
+	}
+
+	public void setRangeInput(String range) {
+		this.rangeInput = range;
+	}
 
 	public String getRangeText() {
 		return rangeText;
@@ -213,14 +222,15 @@ public class SearchFilter {
 
 	public void setRangeValues(String filterRangeText) {
 		if (StringUtils.isBlank(filterRangeText)) { return; }
-		String[] range = filterRangeText.trim().split(" ");
-		if (range.length != 2) {
+		this.rangeInput = filterRangeText;
+		String[] dates = filterRangeText.trim().split(" ");
+		if (dates.length != 2) {
 			return;
 		}
-		setFrom(range[0]);
-		setFromYear(range[0]);
-		setTo(to = range[1]);
-		setToYear(range[1]);
+		setFrom(dates[0]);
+		setFromYear(dates[0]);
+		setTo(to = dates[1]);
+		setToYear(dates[1]);
 		rangeText  = "[" + from.trim() + " TO " + to.trim() + "]";
 		selected = true;
 	}

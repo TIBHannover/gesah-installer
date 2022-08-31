@@ -64,6 +64,25 @@ public class SearchFiltering {
 			+ "  		 OPTIONAL {?filter search:from ?min }\n" + "  		 OPTIONAL {?filter search:to ?max }\n"
 			+ "        OPTIONAL {?filter search:order ?filter_order }\n"
 			+ " 	} ORDER BY ?filter_id ?filter_order ?value_order";
+	
+	private static final String FILTER_GROUPS_QUERY = ""
+			+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+			+ "     PREFIX search: <https://osl.tib.eu/vitro-searchOntology#>\n"
+			+ "     PREFIX gesah:    <http://ontology.tib.eu/gesah/>\n"
+			+ "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+			+ "SELECT ?group_id (STR(?group_l) AS ?group_label) ?filter_id ?order ?filter_order\n"
+			+ " 	WHERE {\n"
+			+ "        ?filter_group rdf:type search:FilterGroup .\n"
+			+ "  		?filter_group search:contains ?filter .\n"
+			+ "        ?filter_group rdfs:label ?group_l .\n"
+			+ "        ?filter_group search:id ?group_id .\n"
+			+ "        ?filter_group search:order ?order .\n"
+			+ "        ?filter search:id ?filter_id .\n"
+			+ "       OPTIONAL{ ?filter search:order ?f_order .\n"
+			+ "        	bind(?f_order as ?filter_order_found).\n"
+			+ "  		}\n"
+			+ "        BIND(coalesce(?filter_order_found, 0) as ?filter_order)\n"
+			+ " 	}  ORDER BY ?order ?group_label ?filter_order";
 
 	static final String LABEL_QUERY = "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
 			+ "    SELECT ?label\n" + " 	WHERE {\n" + "		?uri rdfs:label ?label .\n" + " 	} LIMIT 1";
@@ -188,7 +207,7 @@ public class SearchFiltering {
 		Model model = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
 		model.enterCriticalSection(Lock.READ);
 		try {
-			Query facetQuery = QueryFactory.create(SearchFiltering.FILTER_QUERY);
+			Query facetQuery = QueryFactory.create(FILTER_QUERY);
 			QueryExecution qexec = QueryExecutionFactory.create(facetQuery, model);
 			ResultSet results = qexec.execSelect();
 			while (results.hasNext()) {
@@ -224,6 +243,40 @@ public class SearchFiltering {
 		setSelectedFilters(filtersByField, requestFilters);
 		SearchFiltering.querySolrFilterInfo(filtersByField, vreq, requestFilters);
 		return sortFilters(filtersByField);
+	}
+	
+	public static List<SearchFilterGroup> readFilterGroupsConfigurations(VitroRequest vreq) {
+		Map<String, SearchFilterGroup> groups = new LinkedHashMap<>();
+		Model model = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
+		model.enterCriticalSection(Lock.READ);
+		try {
+			Query facetQuery = QueryFactory.create(FILTER_GROUPS_QUERY);
+			QueryExecution qexec = QueryExecutionFactory.create(facetQuery, model);
+			ResultSet results = qexec.execSelect();
+			while (results.hasNext()) {
+				QuerySolution solution = results.nextSolution();
+				if (solution.get("filter_id") == null || 
+					solution.get("group_label") == null	|| 
+					solution.get("group_id") == null) {
+					continue;
+				}
+				String filterId = solution.get("filter_id").toString();
+				String groupId = solution.get("group_id").toString();
+				String groupLabel = solution.get("group_label").toString();
+
+				SearchFilterGroup group = null;
+				if (groups.containsKey(groupId)) {
+					group = groups.get(groupId);
+				} else {
+					group = new SearchFilterGroup(groupId, groupLabel);
+					groups.put(groupId, group);
+				}
+				group.addFilterId(filterId);
+			}
+		} finally {
+			model.leaveCriticalSection();
+		}
+		return new LinkedList<SearchFilterGroup>(groups.values());
 	}
 	
 	public static Map<String, SearchFilter>sortFilters(Map<String, SearchFilter> filters) {

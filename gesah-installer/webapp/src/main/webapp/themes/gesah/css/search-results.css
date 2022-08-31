@@ -108,3 +108,23 @@ input[type=checkbox]:not(:checked) + label {
 #search-filter-container > ul > li > a {
   padding: 7px 7px;
 }
+
+.fade {
+  display: none;
+}
+
+.fade.in {
+  display: block;
+}
+
+.range-slider{
+	margin: 10px;
+}
+
+.range-slider-end{
+	display: inline-block;
+}
+
+.range-slider-start{
+	display: inline-block;
+}

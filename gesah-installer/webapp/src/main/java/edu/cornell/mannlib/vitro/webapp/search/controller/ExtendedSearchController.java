@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -254,8 +256,9 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
             	for (Entry<String, SearchFilter> entry : filterConfigurationsByField.entrySet()) {
             		entry.getValue().sortValues();
             	}
-            	body.put("filters", filterConfigurationsByField);
-            	body.put("emptySearch", isEmptySearch(filterConfigurationsByField));
+            	body.put("filters", SearchFiltering.getFiltersById(filterConfigurationsByField));
+            	body.put("filterGroups", SearchFiltering.readFilterGroupsConfigurations(vreq));
+            	body.put("emptySearch", isEmptySearchFilters(filterConfigurationsByField));
                 if ( !classGroupFilterRequested && !typeFilterRequested ) {
                     // Search request includes no ClassGroup and no type, so add ClassGroup search refinement links.
                     body.put("classGroupLinks", getClassGroupsLinks(vreq, grpDao, docs, response, queryText));
@@ -311,7 +314,7 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
         }
     }
 
-	private Object isEmptySearch(Map<String, SearchFilter> filterConfigurationsByField) {
+	private Object isEmptySearchFilters(Map<String, SearchFilter> filterConfigurationsByField) {
 		for (SearchFilter filter : filterConfigurationsByField.values()) {
 			if (filter.isSelected()) {
 				return false;

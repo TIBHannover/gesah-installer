@@ -4,7 +4,7 @@
 <#-- <@dump var ="filters" />  
 
 -->
-<@searchForm filters emptySearch />
+<@searchForm  />
 
 <h2 class="searchResultsHeader">
 <#escape x as x?html>
@@ -121,7 +121,6 @@
         </#list>
     </ul>
 
-
     <#-- Paging controls -->
     <#if (pagingLinks?size > 0)>
         <div class="searchpages">
@@ -139,34 +138,58 @@
     </#if>
     <br />
 
-<#macro searchForm filters isEmptySearch>
-
+<#macro searchForm>
 	<form id="extended-search-form" autocomplete="off" method="get" action="${urls.base}/extendedsearch">
-		<div id="search-filter-container">
+		<div id="filter-groups">
 			<ul class="nav nav-tabs">
+				<#assign active = true>
+				<#list filterGroups as group>
+					<@searchFormGroupTab group active/>
+					<#assign active = false>  
+				</#list>
+			</ul>
+			<#assign active = true>
+			<#list filterGroups as group>
+		  		<@groupFilters group active/>
+		  		<#assign active = false>
+			</#list>
+		</div>
+		<div id="selected-filters">
+			<input type="submit" class="Submit" value="${i18n().search_button}" />
+			<@printSelectedFilterValueLabels filters />
+		</div>  
+	</form>
+</#macro>
+
+<#macro groupFilters group active>
+	<#if active >
+		<div id="${group.id}" class="tab-pane fade in active filter-area">
+	<#else>
+		<div id="${group.id}" class="tab-pane fade filter-area">
+	</#if>
+			<div id="search-filter-group-container-${group.id}">
+				<ul class="nav nav-tabs">
+					<#assign assignedActive = false>
+					<#list group.filters as filterId>
+						<#assign f = filters[filterId]>
+						<@searchFormFilterTab f assignedActive emptySearch/>  
+						<#if !assignedActive && (f.selected || emptySearch )>
+							<#assign assignedActive = true>
+						</#if>
+					</#list>
+				</ul>
+			</div>
+			<div id="search-filter-group-tab-content-${group.id}" class="tab-content">
 				<#assign assignedActive = false>
-				<#list filters?values as f>
-					<@searchFormTab f assignedActive isEmptySearch/>  
-					<#if !assignedActive && (f.selected || isEmptySearch )>
+				<#list group.filters as filterId>
+					<#assign f = filters[filterId]>
+					<@printFilterValues f assignedActive emptySearch/>  
+					<#if !assignedActive && ( f.selected || emptySearch )>
 						<#assign assignedActive = true>
 					</#if>
 				</#list>
-			</ul>
+			</div>
 		</div>
-		<div class="tab-content">
-			<#assign assignedActive = false>
-			<#list filters?values as f>
-				<@printFilterValues f assignedActive isEmptySearch/>  
-				<#if !assignedActive && ( f.selected || isEmptySearch )>
-					<#assign assignedActive = true>
-				</#if>
-			</#list>
-		</div>
-	<div id="selected-filters">
-		<input type="submit" class="Submit" value="${i18n().search_button}" />
-		<@printSelectedFilterValueLabels filters />
-	</div>  
-	</form>
 </#macro>
 
 <#macro printSelectedFilterValueLabels filters>
@@ -184,7 +207,17 @@
 </#macro>
 
 
-<#macro searchFormTab filter assignedActive isEmptySearch>
+<#macro searchFormGroupTab group active >
+	<#if active>
+	 	<li class="active">
+	<#else>
+		<li>
+	</#if>
+			<a data-toggle="tab" href="#${group.id}">${group.label}</a>
+		</li>
+</#macro>
+
+<#macro searchFormFilterTab filter assignedActive isEmptySearch>
 	<#if !assignedActive && ( filter.selected || isEmptySearch )>
 	 	<li class="active">
 	<#else>
@@ -225,7 +258,7 @@
 
 <#macro queryText>
 	<div id="search-field">
-        <input type="text" name="querytext" value="${querytext!}" autocapitalize="none">
+        <input type="text" name="querytext" placeholder="${i18n().search_field_placeholder}" value="${querytext!}" autocapitalize="none">
     </div>
 </#macro>
 
@@ -234,24 +267,23 @@
 	<#assign max = filter.max >
 	<#assign from = filter.fromYear >
 	<#assign to = filter.toYear >
-	<#if from?has_content && to?has_content >
-		<#assign range = from + " " + to >
-	</#if>
 
 	<div class="range-filter" id="${filter.id}" class="tab-pane fade filter-area">
 		<div class="range-slider-container" min="${filter.min}" max="${filter.max}">
 			<div class="range-slider"></div>
+			${i18n().from}
 			<#if from?has_content>
 				<div class="range-slider-start">${from}</div>
 			<#else>
 				<div class="range-slider-start">${min}</div>
 			</#if>
+			${i18n().to}
 			<#if to?has_content>
 				<div class="range-slider-end">${to}</div>
 			<#else>
 				<div class="range-slider-end">${max}</div>
 			</#if>
-			<input id="filter_range_${filter.id}" style="display:none;" class="range-slider-input" name="filter_range_${filter.id}" value="${range!""}"/>
+			<input id="filter_range_${filter.id}" style="display:none;" class="range-slider-input" name="filter_range_${filter.id}" value="${filter.rangeInput}"/>
 		</div>
 	</div>
 </#macro>
@@ -278,7 +310,7 @@
 </#macro>
 
 <#macro createUserInput filter>
-	<input id="filter_input_${filter.id}" class="search-vivo" type="text" name="filter_input_${filter.id}" value="${filter.inputText}" autocapitalize="none" />
+	<input id="filter_input_${filter.id}"  placeholder="${i18n().search_field_placeholder}" class="search-vivo" type="text" name="filter_input_${filter.id}" value="${filter.inputText}" autocapitalize="none" />
 </#macro>
 
 <#function getInput filter filterValue valueID valueNumber>
