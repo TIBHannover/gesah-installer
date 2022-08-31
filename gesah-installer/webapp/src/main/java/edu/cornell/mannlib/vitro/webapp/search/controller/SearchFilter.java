@@ -34,7 +34,7 @@ public class SearchFilter {
 	
 	private String min = "0";
 	private String max = "2000";
-	private int order;
+	private int order = 0;
 	private String field= "";
 	private String endField= "";
 	private String inputText= "";
@@ -65,7 +65,7 @@ public class SearchFilter {
 
 	public void setName(RDFNode rdfNode) {
 		if (rdfNode != null) {
-			name = rdfNode.asLiteral().getLexicalForm();
+			name = rdfNode.asLiteral().getLexicalForm().trim();
 		}
 	}
 
@@ -75,7 +75,7 @@ public class SearchFilter {
 		}
 	}
 
-	public int getOrder() {
+	public Integer getOrder() {
 		return order;
 	}
 
@@ -101,28 +101,6 @@ public class SearchFilter {
 	
 	public Map<String, FilterValue> getValues() {
 		return values;
-	}
-
-	public void sortValues() {
-		List<Entry<String, FilterValue>> list = new LinkedList<>(values.entrySet());
-		list.sort(new FilterValueComparator());
-		values = list.stream()
-				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> b, LinkedHashMap::new));
-	}
-	
-	public class FilterValueComparator implements Comparator<Map.Entry<String, FilterValue>>{
-	    public int compare(Entry<String, FilterValue> obj1, Entry<String, FilterValue> obj2) {
-	        FilterValue filter1 = obj1.getValue();
-	        FilterValue filter2 = obj2.getValue();
-	        int result = filter1.getOrder().compareTo(filter2.getOrder());
-	        if (result == 0) {
-	            // order are equal, sort by name
-	            return filter1.getName().toLowerCase().compareTo(filter2.getName().toLowerCase());
-	        }
-	        else {
-	            return result;
-	        }
-	    }
 	}
 	
 	public void setField(String fieldName) {
@@ -291,6 +269,29 @@ public class SearchFilter {
 
 	public void setToYear(String toYear) {
 		this.toYear = getYear(toYear);
+	}
+	
+
+	public void sortValues() {
+		List<Entry<String, FilterValue>> list = new LinkedList<>(values.entrySet());
+		list.sort(new FilterValueComparator());
+		values = list.stream()
+				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> b, LinkedHashMap::new));
+	}
+	
+	private class FilterValueComparator implements Comparator<Map.Entry<String, FilterValue>>{
+	    public int compare(Entry<String, FilterValue> obj1, Entry<String, FilterValue> obj2) {
+	        FilterValue filter1 = obj1.getValue();
+	        FilterValue filter2 = obj2.getValue();
+	        int result = filter1.getOrder().compareTo(filter2.getOrder());
+	        if (result == 0) {
+	            // order are equal, sort by name
+	            return filter1.getName().toLowerCase().compareTo(filter2.getName().toLowerCase());
+	        }
+	        else {
+	            return result;
+	        }
+	    }
 	}
 	
 }

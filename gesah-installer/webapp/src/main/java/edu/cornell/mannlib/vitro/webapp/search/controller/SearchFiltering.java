@@ -1,12 +1,14 @@
 package edu.cornell.mannlib.vitro.webapp.search.controller;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -221,9 +223,30 @@ public class SearchFiltering {
 		Map<String, List<String>> requestFilters = getRequestFilters(vreq);
 		setSelectedFilters(filtersByField, requestFilters);
 		SearchFiltering.querySolrFilterInfo(filtersByField, vreq, requestFilters);
-		return filtersByField;
+		return sortFilters(filtersByField);
+	}
+	
+	public static Map<String, SearchFilter>sortFilters(Map<String, SearchFilter> filters) {
+		List<Entry<String, SearchFilter>> list = new LinkedList<>(filters.entrySet());
+		list.sort(new FilterComparator());
+		return list.stream().collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> b, LinkedHashMap::new));
 	}
 
+	public static class FilterComparator implements Comparator<Map.Entry<String, SearchFilter>>{
+	    public int compare(Entry<String, SearchFilter> obj1, Entry<String, SearchFilter> obj2) {
+	    	SearchFilter filter1 = obj1.getValue();
+	    	SearchFilter filter2 = obj2.getValue();
+	        int result = filter1.getOrder().compareTo(filter2.getOrder());
+	        if (result == 0) {
+	            // order are equal, sort by name
+	            return filter1.getName().toLowerCase().compareTo(filter2.getName().toLowerCase());
+	        }
+	        else {
+	            return result;
+	        }
+	    }
+	}
+	
 	private static SearchFilter createSearchFilter(VitroRequest vreq, Map<String, SearchFilter> filtersByField,
 			QuerySolution solution, String resultFilterId, String resultFieldName) {
 		SearchFilter filter;
