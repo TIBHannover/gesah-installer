@@ -138,6 +138,15 @@ rdf:langString rdf:type rdfs:Datatype .
         vitro:descriptionAnnot        ""@en-US ;
         vitro:publicDescriptionAnnot  ""@en-US .
 
+:public
+        a                             owl:DatatypeProperty , owl:FunctionalProperty ;
+        rdfs:domain                   [ a owl:Class; owl:unionOf  ( :Filter :FilterGroup ) ] ;
+        rdfs:label                    "public"@en-US ;
+        rdfs:range                    xsd:boolean ;
+        obo:IAO_0000112               ""@en-US ;
+        vitro:descriptionAnnot        ""@en-US ;
+        vitro:publicDescriptionAnnot  ""@en-US .
+
 :userInputRegex
         a                             owl:DatatypeProperty , owl:FunctionalProperty ;
         rdfs:domain                   :Filter ;

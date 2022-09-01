@@ -144,14 +144,18 @@
 			<ul class="nav nav-tabs">
 				<#assign active = true>
 				<#list filterGroups as group>
-					<@searchFormGroupTab group active/>
-					<#assign active = false>  
+					<#if user.loggedIn || group.public>
+						<@searchFormGroupTab group active/>
+						<#assign active = false>
+					</#if>  
 				</#list>
 			</ul>
 			<#assign active = true>
 			<#list filterGroups as group>
-		  		<@groupFilters group active/>
-		  		<#assign active = false>
+				<#if user.loggedIn || group.public>
+			  		<@groupFilters group active/>
+			  		<#assign active = false>
+				</#if>
 			</#list>
 		</div>
 		<div id="selected-filters">
@@ -172,9 +176,11 @@
 					<#assign assignedActive = false>
 					<#list group.filters as filterId>
 						<#assign f = filters[filterId]>
-						<@searchFormFilterTab f assignedActive emptySearch/>  
-						<#if !assignedActive && (f.selected || emptySearch )>
-							<#assign assignedActive = true>
+						<#if user.loggedIn || f.public>
+							<@searchFormFilterTab f assignedActive emptySearch/>  
+							<#if !assignedActive && (f.selected || emptySearch )>
+								<#assign assignedActive = true>
+							</#if>
 						</#if>
 					</#list>
 				</ul>
@@ -183,9 +189,11 @@
 				<#assign assignedActive = false>
 				<#list group.filters as filterId>
 					<#assign f = filters[filterId]>
-					<@printFilterValues f assignedActive emptySearch/>  
-					<#if !assignedActive && ( f.selected || emptySearch )>
-						<#assign assignedActive = true>
+					<#if user.loggedIn || f.public>
+						<@printFilterValues f assignedActive emptySearch/>  
+						<#if !assignedActive && ( f.selected || emptySearch )>
+							<#assign assignedActive = true>
+						</#if>
 					</#if>
 				</#list>
 			</div>

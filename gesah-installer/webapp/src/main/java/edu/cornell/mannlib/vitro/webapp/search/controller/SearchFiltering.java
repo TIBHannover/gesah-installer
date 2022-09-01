@@ -48,7 +48,7 @@ public class SearchFiltering {
 			+ "     PREFIX gesah:    <http://ontology.tib.eu/gesah/>\n"
 			+ "     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 			+ "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-			+ "SELECT ?filter_id ?filter_type ?filter_label ?value_label ?value_id  ?field_name ?filter_order ?value_order  (STR(?isUriReq) as ?isUri ) ?multivalued ?input ?regex ?facet ?min ?max \n"
+			+ "SELECT ?filter_id ?filter_type ?filter_label ?value_label ?value_id  ?field_name ?public ?filter_order ?value_order  (STR(?isUriReq) as ?isUri ) ?multivalued ?input ?regex ?facet ?min ?max \n"
 			+ " 	WHERE {\n"
 			+ " 	    ?filter rdf:type search:Filter .\n"
 			+ "        ?filter rdfs:label ?filter_label .\n"
@@ -70,6 +70,7 @@ public class SearchFiltering {
 			+ "  		 OPTIONAL {?filter search:userInputRegex ?regex }\n"
 			+ "  		 OPTIONAL {?filter search:facetResults ?facet }\n"
 			+ "  		 OPTIONAL {?filter search:from ?min }\n"
+			+ "  		 OPTIONAL {?filter search:public ?public }\n"
 			+ "  		 OPTIONAL {?filter search:to ?max }\n"
 			+ "        OPTIONAL {\n"
 			+ "    		?filter search:order ?f_order \n"
@@ -85,17 +86,18 @@ public class SearchFiltering {
 			+ "     PREFIX search: <https://osl.tib.eu/vitro-searchOntology#>\n"
 			+ "     PREFIX gesah:    <http://ontology.tib.eu/gesah/>\n"
 			+ "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-			+ "SELECT ?group_id (STR(?group_l) AS ?group_label) ?filter_id ?order ?filter_order\n"
+			+ "SELECT ?group_id (STR(?group_l) AS ?group_label) ?filter_id ?order ?filter_order ?public\n"
 			+ " 	WHERE {\n"
 			+ "        ?filter_group rdf:type search:FilterGroup .\n"
-			+ "  		?filter_group search:contains ?filter .\n"
+			+ "  	   ?filter_group search:contains ?filter .\n"
 			+ "        ?filter_group rdfs:label ?group_l .\n"
 			+ "        ?filter_group search:id ?group_id .\n"
 			+ "        ?filter_group search:order ?order .\n"
 			+ "        ?filter search:id ?filter_id .\n"
-			+ "       OPTIONAL{ ?filter search:order ?f_order .\n"
-			+ "        	bind(?f_order as ?filter_order_found).\n"
-			+ "  		}\n"
+			+ "  	   OPTIONAL {?filter search:public ?public }\n"
+			+ "        OPTIONAL{ ?filter search:order ?f_order .\n"
+			+ "          bind(?f_order as ?filter_order_found).\n"
+			+ "  	   }\n"
 			+ "        BIND(coalesce(?filter_order_found, 0) as ?filter_order)\n"
 			+ " 	}  ORDER BY ?order ?group_label ?filter_order";
 
@@ -288,6 +290,12 @@ public class SearchFiltering {
 					group = groups.get(groupId);
 				} else {
 					group = new SearchFilterGroup(groupId, groupLabel);
+					
+					RDFNode publicNode = solution.get("public");
+					if (publicNode != null) {
+						group.setPublic(publicNode.asLiteral().getBoolean());
+					}
+					
 					groups.put(groupId, group);
 				}
 				group.addFilterId(filterId);
@@ -351,6 +359,12 @@ public class SearchFiltering {
 		if (inputRegex != null) {
 			filter.setInputRegex(inputRegex.asLiteral().getBoolean());
 		}
+		
+		RDFNode publicNode = solution.get("public");
+		if (publicNode != null) {
+			filter.setPublic(publicNode.asLiteral().getBoolean());
+		}
+		
 		RDFNode facet = solution.get("facet");
 		if (facet != null) {
 			filter.setFacetsRequired(facet.asLiteral().getBoolean());

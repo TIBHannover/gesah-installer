@@ -31,6 +31,7 @@ public class SearchFilter {
 	private String to = "";
 	private String fromYear = "";
 	private String toYear = "";
+	private boolean isPublic = false;
 	
 	private String min = "0";
 	private String max = "2000";
@@ -289,6 +290,14 @@ public class SearchFilter {
 				.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> b, LinkedHashMap::new));
 	}
 	
+	public boolean isPublic() {
+		return isPublic;
+	}
+
+	public void setPublic(boolean isPublic) {
+		this.isPublic = isPublic;
+	}
+
 	private class FilterValueComparator implements Comparator<Map.Entry<String, FilterValue>>{
 	    public int compare(Entry<String, FilterValue> obj1, Entry<String, FilterValue> obj2) {
 	        FilterValue filter1 = obj1.getValue();
