@@ -38,6 +38,11 @@
                         <li class="nav-item" role="listitem" <#if item.active> class="active" </#if>><a href="${item.url}" title="${item.linkText} ${i18n().menu_item}" class="nav-link">${item.linkText}</a></li>
                     </#list>
 		    <#if user.loggedIn>	
+			<li class="nav-item" role="listitem"><a href="/gesah/personen" title="Personen menu item" class="nav-link">Personen</a></li>
+			<li class="nav-item" role="listitem"><a href="/gesah/orte" title="Orte menu item" class="nav-link">Orte</a></li>
+			<li class="nav-item" role="listitem"><a href="/gesah/thema" title="Thema menu item" class="nav-link">Thema</a></li>
+			<li class="nav-item" role="listitem"><a href="/gesah/digitalisate" title="Digitalisate menu item" class="nav-link">Digitalisate</a></li>
+			<li class="nav-item" role="listitem"><a href="/gesah/werke" title="Werke menu item" class="nav-link">Werke</a></li>
 			<li class="nav-item" role="listitem"><a href="/gesah/imagesToLink" title="Images to link menu item" class="nav-link">Images to link</a></li>
 			<li class="nav-item" role="listitem"><a href="/gesah/search-settings" title="Search settings" class="nav-link">Search settings</a></li>
 		    </#if>
