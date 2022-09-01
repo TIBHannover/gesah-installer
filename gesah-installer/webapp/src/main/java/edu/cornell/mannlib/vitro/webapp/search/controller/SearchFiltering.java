@@ -94,7 +94,7 @@ public class SearchFiltering {
 			+ "        ?filter_group search:id ?group_id .\n"
 			+ "        ?filter_group search:order ?order .\n"
 			+ "        ?filter search:id ?filter_id .\n"
-			+ "  	   OPTIONAL {?filter search:public ?public }\n"
+			+ "  	   OPTIONAL {?filter_group search:public ?public }\n"
 			+ "        OPTIONAL{ ?filter search:order ?f_order .\n"
 			+ "          bind(?f_order as ?filter_order_found).\n"
 			+ "  	   }\n"
@@ -102,7 +102,9 @@ public class SearchFiltering {
 			+ " 	}  ORDER BY ?order ?group_label ?filter_order";
 
 	static final String LABEL_QUERY = "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-			+ "    SELECT ?label\n" + " 	WHERE {\n" + "		?uri rdfs:label ?label .\n" + " 	} LIMIT 1";
+			+ "    SELECT ?label\n" + " 	WHERE {"
+					+ "\n" + "		?uri rdfs:label ?label .\n"
+					+ "} LIMIT 1";
 
 	static void addFiltersToQuery(VitroRequest vreq, SearchQuery query, Map<String, SearchFilter> filterById) {
 		Enumeration<String> paramNames = vreq.getParameterNames();
@@ -459,6 +461,8 @@ public class SearchFiltering {
 				RDFNode rdfNode = solution.get("label");
 				Literal literal = rdfNode.asLiteral();
 				result = literal.getLexicalForm();
+			} else {
+				result = uri;
 			}
 		} finally {
 			model.leaveCriticalSection();
