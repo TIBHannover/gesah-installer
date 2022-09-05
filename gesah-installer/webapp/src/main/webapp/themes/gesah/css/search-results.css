@@ -128,3 +128,17 @@ input[type=checkbox]:not(:checked) + label {
 .range-slider-start{
 	display: inline-block;
 }
+
+#extended-search-form input {
+	margin-top: 1px;
+	height: 2.5em;
+}
+
+.extended-search-input-group{
+	padding-left:  0px;
+	padding-right: 0px;
+}
+
+#selected-filters{
+	margin-bottom: 15px;
+}

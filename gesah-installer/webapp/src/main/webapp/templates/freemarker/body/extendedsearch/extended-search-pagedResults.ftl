@@ -140,6 +140,19 @@
 
 <#macro searchForm>
 	<form id="extended-search-form" autocomplete="off" method="get" action="${urls.base}/extendedsearch">
+		<div class="form-group">
+		     <div class="input-group extended-search-input-group">
+		         <input type="text" name="querytext" class="form-control" value="${querytext!}" placeholder="${i18n().search_field_placeholder}" autocapitalize="off" />
+		         <span class="input-group-btn">
+		             <button class="btn btn-default" type="submit">
+		                 <span class="icon-search">${i18n().search_button}</span>
+		             </button>
+		         </span>
+		     </div>
+		 </div>
+		<div id="selected-filters">
+			<@printSelectedFilterValueLabels filters />
+		</div>  
 		<div id="filter-groups">
 			<ul class="nav nav-tabs">
 				<#assign active = true>
@@ -158,10 +171,6 @@
 				</#if>
 			</#list>
 		</div>
-		<div id="selected-filters">
-			<input type="submit" class="Submit" value="${i18n().search_button}" />
-			<@printSelectedFilterValueLabels filters />
-		</div>  
 	</form>
 </#macro>
 
@@ -241,9 +250,7 @@
 	<#else>
 		<div id="${filter.id}" class="tab-pane fade filter-area">
 	</#if>
-			<#if filter.id == "querytext">
-				<@queryText filter/>
-			<#elseif filter.type == "RangeFilter">
+			<#if filter.type == "RangeFilter">
 				<@rangeFilter filter/>
 			<#else>
 				<#if filter.input>
@@ -262,12 +269,6 @@
 				</#list>
 			</#if>
 		</div>
-</#macro>
-
-<#macro queryText filter>
-	<div id="search-field">
-        <input type="text" name="querytext" id="filter_input_${filter.id}" placeholder="${i18n().search_field_placeholder}" value="${querytext!}" autocapitalize="none">
-    </div>
 </#macro>
 
 <#macro rangeFilter filter>
