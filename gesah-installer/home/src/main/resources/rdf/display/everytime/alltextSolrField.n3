@@ -144,7 +144,6 @@
     		?designation rdfs:label ?label .
 		}
         	""" .
-
         	
 :vitrodocumentModifier_cultural_object_geographic_assignment
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
@@ -161,6 +160,23 @@
   			?uri rdf:type gesah:Cultural_Object .
 			?uri gesah:has_geographic_assignment ?geo .
     		?geo rdfs:label ?label .
+		}
+        	""" .
+
+:vitrodocumentModifier_cultural_object_description
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT ( STR(?description) as ?text ) 		
+		WHERE {
+  			?uri rdf:type gesah:Cultural_Object .
+			?uri gesah:description ?description .
 		}
         	""" .
 
