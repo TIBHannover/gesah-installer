@@ -180,6 +180,28 @@
 		}
         	""" .
 
+:vitrodocumentModifier_cultural_object_part_of_series
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+	 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+     PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+     SELECT DISTINCT ?label ( STR(?comment) as ?comment_str ) 
+  	 WHERE {
+  			?uri rdf:type gesah:Cultural_Object .
+			?uri gesah:is_part_of_series ?series .
+  			?series rdfs:label ?label
+  			OPTIONAL {
+    			?series gesah:comment ?comment . 
+  			}
+  
+  	  }
+        	""" .
+
 :vitrodocumentModifier_cultural_object_work_index_entry
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
