@@ -67,6 +67,7 @@
                                      </span>
                                  </div>
                              </div>
+                             <input type="checkbox" id="filters_type_cultural_object" value="type:http://ontology.tib.eu/gesah/Cultural_Object" name="filters_type_cultural_object" style="display:none;" checked="checked" "="" class="selected-input">
                          </fieldset>
                      </form>
                  </div>

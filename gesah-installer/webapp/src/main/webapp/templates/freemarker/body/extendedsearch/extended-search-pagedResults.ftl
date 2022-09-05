@@ -142,7 +142,7 @@
 	<form id="extended-search-form" autocomplete="off" method="get" action="${urls.base}/extendedsearch">
 		<div class="form-group">
 		     <div class="input-group extended-search-input-group">
-		         <input type="text" name="querytext" class="form-control" value="${querytext!}" placeholder="${i18n().search_field_placeholder}" autocapitalize="off" />
+		         <input id="filter_input_querytext" type="text" name="querytext" class="form-control" value="${querytext!}" placeholder="${i18n().search_field_placeholder}" autocapitalize="off" />
 		         <span class="input-group-btn">
 		             <button class="btn btn-default" type="submit">
 		                 <span class="icon-search">${i18n().search_button}</span>
@@ -215,7 +215,9 @@
 		<#list filter.values?values as v>
 			<#if v.selected>
 				${getInput(filter, v, getValueID(filter.id, valueNumber), valueNumber)}
-				${getLabel(valueNumber, v, filter)}
+				<#if user.loggedIn || filter.public>
+					${getLabel(valueNumber, v, filter)}
+				</#if>
 			</#if>
 			<#assign valueNumber = valueNumber + 1>
 		</#list>
@@ -235,6 +237,10 @@
 </#macro>
 
 <#macro searchFormFilterTab filter assignedActive isEmptySearch>
+	<#if filter.id == "querytext">
+		<#-- skip query text filter -->
+		<#return>
+	</#if>
 	<#if !assignedActive && ( filter.selected || isEmptySearch )>
 	 	<li class="active">
 	<#else>
@@ -250,7 +256,9 @@
 	<#else>
 		<div id="${filter.id}" class="tab-pane fade filter-area">
 	</#if>
-			<#if filter.type == "RangeFilter">
+			<#if filter.id == "querytext">
+			<#-- skip query text filter -->
+			<#elseif filter.type == "RangeFilter">
 				<@rangeFilter filter/>
 			<#else>
 				<#if filter.input>
@@ -355,7 +363,8 @@
 	<#return result />
 </#function>
 
-</div> <!-- end contentsBrowseGroup -->
+</div> 
+<!-- end contentsBrowseGroup -->
 
 ${stylesheets.add('<link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />',
   				  '<link rel="stylesheet" href="${urls.base}/css/search.css" />',
