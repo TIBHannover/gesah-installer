@@ -44,7 +44,7 @@
                         <div class="jumbotron">
                             <h1>${i18n().intro_title}</h1>
                         </div>
-                       <form id="search-homepage" action="${urls.search}" name="search-home" role="search" method="GET" class="form-horizontal">
+                       <form id="search-homepage" action="${urls.base}/extendedsearch" name="search-home" role="search" method="GET" class="form-horizontal">
                             <fieldset>
                             <#--   <div class="form-group pull-left" style="margin-right: 5px;">
                                  <select class="form-control" id="classgroup" name="classgroup">
@@ -67,10 +67,13 @@
                                      </span>
                                  </div>
                              </div>
+                             <input type="checkbox" id="filters_type_cultural_object" value="type:http://ontology.tib.eu/gesah/Cultural_Object" name="filters_type_cultural_object" style="display:none;" checked="checked" "="" class="selected-input">
                          </fieldset>
                      </form>
                  </div>
              </div>
+
+			<#include "graphicalView.ftl">
              <div class="col-md-12">
                  <div class="container">
                      <div class="jumbotron">

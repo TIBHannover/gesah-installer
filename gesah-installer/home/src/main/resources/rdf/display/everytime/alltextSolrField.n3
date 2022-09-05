@@ -1,0 +1,279 @@
+@prefix : <http://vitro.mannlib.cornell.edu/ns/vitro/ApplicationSetup#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+ 
+:vitrodocumentModifier_cultural_object_generic_term
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT	?label 		
+		WHERE {
+  			?uri rdf:type gesah:Cultural_Object .
+			?uri gesah:has_object_category_generic_term ?generic_term .
+       		?generic_term rdfs:label ?label .
+		}
+        	""" .
+        	
+:vitrodocumentModifier_cultural_object_narrow_term
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT	?label 		
+		WHERE {
+  			?uri rdf:type gesah:Cultural_Object .
+			?uri gesah:has_object_category_narrower_term ?narrower_term .
+      		?narrower_term rdfs:label ?label .
+		}
+        	""" .
+        	
+        	        	
+:vitrodocumentModifier_cultural_object_depicted
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT	?label 		
+		WHERE {
+  			?uri rdf:type gesah:Cultural_Object .
+			?uri gesah:depicts ?depicted .
+    		?depicted rdfs:label ?label .
+		}
+        	""" .
+:vitrodocumentModifier_cultural_object_depiction_type
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT	?label 		
+		WHERE {
+  			?uri rdf:type gesah:Cultural_Object .
+			?uri gesah:has_depiction_type ?depiction_type .
+    		?depiction_type rdfs:label ?label .
+		}
+        	""" .
+        	
+:vitrodocumentModifier_cultural_object_stylistic_assignment
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT ?label 		
+		WHERE {
+  			?uri rdf:type gesah:Cultural_Object .
+			?uri gesah:has_stylistic_assignment ?stylistic_assignment .
+    		?stylistic_assignment rdfs:label ?label .
+		}
+        	""" .
+
+:vitrodocumentModifier_cultural_object_watermark
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT ?label 		
+		WHERE {
+  			?uri rdf:type gesah:Cultural_Object .
+			?uri gesah:has_watermark ?watermark .
+    		?watermark rdfs:label ?label .
+		}
+        	""" .
+
+:vitrodocumentModifier_cultural_object_keyword
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT ?label 		
+		WHERE {
+  			?uri rdf:type gesah:Cultural_Object .
+			?uri gesah:has_keyword ?keyword .
+    		?keyword rdfs:label ?label .
+		}
+        	""" .
+        	
+:vitrodocumentModifier_cultural_object_mark_designation
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT ?label 		
+		WHERE {
+  			?uri rdf:type gesah:Cultural_Object .
+			?uri gesah:has_mark_designation ?designation .
+    		?designation rdfs:label ?label .
+		}
+        	""" .
+        	
+:vitrodocumentModifier_cultural_object_geographic_assignment
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT ?label 		
+		WHERE {
+  			?uri rdf:type gesah:Cultural_Object .
+			?uri gesah:has_geographic_assignment ?geo .
+    		?geo rdfs:label ?label .
+		}
+        	""" .
+
+:vitrodocumentModifier_cultural_object_description
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT ( STR(?description) as ?text ) 		
+		WHERE {
+  			?uri rdf:type gesah:Cultural_Object .
+			?uri gesah:description ?description .
+		}
+        	""" .
+
+:vitrodocumentModifier_cultural_object_part_of_series
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+	 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+     PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+     SELECT DISTINCT ?label ( STR(?comment) as ?comment_str ) 
+  	 WHERE {
+  			?uri rdf:type gesah:Cultural_Object .
+			?uri gesah:is_part_of_series ?series .
+  			?series rdfs:label ?label
+  			OPTIONAL {
+    			?series gesah:comment ?comment . 
+  			}
+  
+  	  }
+        	""" .
+
+:vitrodocumentModifier_cultural_object_work_index_entry
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT ?label ( STR(?number) as ?number_str ) ( STR(?title) as ?title_str ) ?work_index_label
+		WHERE {
+  			?uri rdf:type gesah:Cultural_Object .
+			?uri gesah:has_Work_Index_Entry ?work_index_entry .
+			?work_index_entry rdfs:label ?label .
+			OPTIONAL {
+				?work_index_entry gesah:index_number ?number .
+			}
+			OPTIONAL {
+				?work_index_entry gesah:is_listed_in ?work_index .
+				OPTIONAL {
+					?work_index rdfs:label ?work_index_label .
+				}
+				OPTIONAL {
+					?work_index gesah:long_title ?title .
+				}  
+			}
+		}
+        	""" .  	
+        	
+:vitrodocumentModifier_cultural_object_edition_production_creation_provenance
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT ?label ( STR(?comment) as ?comment_str ) 
+		WHERE {
+		  ?uri rdf:type gesah:Cultural_Object .
+		  ?uri gesah:object_of_edition|gesah:output_of_creation|gesah:output_of_production|gesah:object_of_provenance ?edition .
+		  { 
+		  	?edition gesah:has_place ?place .
+		  	?place rdfs:label ?label .
+		  }
+		  UNION {
+		  	?edition gesah:has_participant ?participant .
+		  	?participant rdfs:label ?label .
+		  }
+		  UNION {
+		  	?edition gesah:has_material ?material .
+		  	?material rdfs:label ?label .
+		  }
+		  UNION {
+		  	?edition gesah:comment ?comment .
+		  }
+		  UNION {
+		  	?edition gesah:realizes ?role .
+		  	 { 
+		  		?role gesah:has_role_type ?role_type .
+		  		?role_type rdfs:label ?label .
+		  	}
+		  	UNION { 
+		  		?role gesah:is_role_of ?agent .
+		  		?agent rdfs:label ?label .
+		  	} 
+		  }	
+		}
+        	""" .  	
+        	
+        	
+        	

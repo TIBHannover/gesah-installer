@@ -10,7 +10,7 @@
     :hasTargetField "ALLTEXTUNSTEMMED" ;
     :hasSelectQuery """
     	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-        SELECT ?uri (STR (?number) as ?former_inventory_number )
+        SELECT (STR (?number) as ?former_inventory_number )
 		WHERE
 		{
 		    {  ?uri gesah:former_inventory_number ?number . } 
@@ -26,7 +26,7 @@
     :hasTargetField "curnum" ;
     :hasSelectQuery """
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-        SELECT ?uri (STR (?number) as ?inventory_number )
+        SELECT (STR (?number) as ?inventory_number )
                 WHERE
                 {
                     ?uri gesah:current_inventory_number ?number . 
@@ -40,10 +40,473 @@
     :hasTargetField "fornum" ;
     :hasSelectQuery """
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-        SELECT ?uri (STR (?number) as ?inventory_number )
+        SELECT (STR (?number) as ?inventory_number )
                 WHERE
                 {
                     ?uri gesah:former_inventory_number ?number . 
                 }
         """ .
+
+:vitrodocumentModifier_material_label
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "material" ;
+    :hasTargetField "material_ss" ;
+    :hasSelectQuery """
+PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+SELECT ?material 
+WHERE
+{
+  ?uri gesah:output_of_production ?production .
+  ?production gesah:has_material ?material .
+}
+        """ .
+
+
+:vitrodocumentModifier_production_participant
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "production participants" ;
+    :hasTargetField "production_participant_ss" ;
+    :hasSelectQuery """
+PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+SELECT ?participant
+WHERE
+{
+  ?uri gesah:output_of_production ?production .
+  ?production gesah:has_participant ?participant .
+}
+        """ .
+
+:vitrodocumentModifier_production_place
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "production participants" ;
+    :hasTargetField "production_place_ss" ;
+    :hasSelectQuery """
+PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+SELECT  ?place
+WHERE
+{
+  ?uri gesah:output_of_production ?production .
+  ?production gesah:has_place ?place .
+}
+        """ .
+
+:vitrodocumentModifier_production_date
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "production date" ;
+    :hasTargetField "production_date_drsim" ;
+    :hasSelectQuery """
+	PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+	SELECT ?result
+	WHERE
+	{
+	  ?uri gesah:output_of_production ?production .
+	  ?production <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
+	  ?interval <http://vivoweb.org/ontology/core#end> ?start .
+	  ?start <http://vivoweb.org/ontology/core#dateTime> ?startTime .
+	  ?interval <http://vivoweb.org/ontology/core#end> ?end .
+	  ?end <http://vivoweb.org/ontology/core#dateTime> ?endTime .
+	  BIND( CONCAT("[", STR(?startTime),"Z TO ", STR(?endTime),"Z]") as ?result )
+	}
+""" .
+
+:vitrodocumentModifier_creation_date
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "creation date" ;
+    :hasTargetField "creation_date_drsim" ;
+    :hasSelectQuery """
+	PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+	SELECT ?result
+	WHERE
+	{
+	  ?uri gesah:output_of_creation ?creation .
+	  ?creation <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
+	  ?interval <http://vivoweb.org/ontology/core#end> ?start .
+	  ?start <http://vivoweb.org/ontology/core#dateTime> ?startTime .
+	  ?interval <http://vivoweb.org/ontology/core#end> ?end .
+	  ?end <http://vivoweb.org/ontology/core#dateTime> ?endTime .
+	  BIND( CONCAT("[", STR(?startTime),"Z TO ", STR(?endTime),"Z]") as ?result )
+	}
+""" .
+
+:vitrodocumentModifier_edition_date
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "edition date" ;
+    :hasTargetField "edition_date_drsim" ;
+    :hasSelectQuery """
+	PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+	SELECT ?result
+	WHERE
+	{
+	  ?uri gesah:object_of_edition ?edition .
+	  ?edition <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
+	  ?interval <http://vivoweb.org/ontology/core#end> ?start .
+	  ?start <http://vivoweb.org/ontology/core#dateTime> ?startTime .
+	  ?interval <http://vivoweb.org/ontology/core#end> ?end .
+	  ?end <http://vivoweb.org/ontology/core#dateTime> ?endTime .
+	  BIND( CONCAT("[", STR(?startTime),"Z TO ", STR(?endTime),"Z]") as ?result )
+	}
+""" .
+
+:vitrodocumentModifier_dates
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "dates" ;
+    :hasTargetField "dates_drsim" ;
+    :hasSelectQuery """
+	PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+	SELECT ?result
+	WHERE
+	{
+		{
+		  ?uri gesah:object_of_edition ?edition .
+		  ?edition <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
+		  ?interval <http://vivoweb.org/ontology/core#end> ?start .
+		  ?start <http://vivoweb.org/ontology/core#dateTime> ?startTime .
+		  ?interval <http://vivoweb.org/ontology/core#end> ?end .
+		  ?end <http://vivoweb.org/ontology/core#dateTime> ?endTime .
+		  BIND( CONCAT("[", STR(?startTime),"Z TO ", STR(?endTime),"Z]") as ?result )
+		} UNION 
+		{
+		  ?uri gesah:output_of_creation ?creation .
+		  ?creation <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
+		  ?interval <http://vivoweb.org/ontology/core#end> ?start .
+		  ?start <http://vivoweb.org/ontology/core#dateTime> ?startTime .
+		  ?interval <http://vivoweb.org/ontology/core#end> ?end .
+		  ?end <http://vivoweb.org/ontology/core#dateTime> ?endTime .
+		  BIND( CONCAT("[", STR(?startTime),"Z TO ", STR(?endTime),"Z]") as ?result )
+		} UNION
+		{
+		  ?uri gesah:output_of_production ?production .
+		  ?production <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
+		  ?interval <http://vivoweb.org/ontology/core#end> ?start .
+		  ?start <http://vivoweb.org/ontology/core#dateTime> ?startTime .
+		  ?interval <http://vivoweb.org/ontology/core#end> ?end .
+		  ?end <http://vivoweb.org/ontology/core#dateTime> ?endTime .
+		  BIND( CONCAT("[", STR(?startTime),"Z TO ", STR(?endTime),"Z]") as ?result )
+		}
+	}
+""" .
+
+:vitrodocumentModifier_main_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "main page filter" ;
+    :hasTargetField "overview_ss" ;
+    :hasSelectQuery """
+    PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    SELECT ?filterValue
+	WHERE {
+        {
+          ?uri rdf:type gesah:Print .
+          BIND("print" as ?filterValue )
+        } UNION {
+          ?uri rdf:type gesah:Drawing .
+          BIND("drawing" as ?filterValue )
+        } UNION {
+          <https://vivo.tib.eu/gesah/individual/n2242> gesah:is_object_category_generic_term_of ?uri 
+          BIND("architecture" as ?filterValue )
+        } UNION {
+          <https://vivo.tib.eu/gesah/individual/n31174> gesah:is_object_category_narrower_term_of ?uri 
+          BIND("scenography" as ?filterValue )
+        } UNION {
+          <https://vivo.tib.eu/gesah/individual/n1692> gesah:is_object_category_generic_term_of ?uri 
+          BIND("ornament" as ?filterValue )
+        } UNION {
+          <https://vivo.tib.eu/gesah/individual/n14180> gesah:is_object_category_narrower_term_of ?uri 
+          BIND("garden" as ?filterValue )
+        } 
+ 	} 
+""" .
+
+:vitrodocumentModifier_watermark
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "watermark" ;
+    :hasTargetField "watermark_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT DISTINCT ?watermark
+		 	WHERE {
+		 	   ?uri gesah:has_watermark ?watermark .
+		 	} 
+""" .
+
+:vitrodocumentModifier_stylistic_classification
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "stylistic_classification" ;
+    :hasTargetField "stylistic_classification_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT DISTINCT ?style
+		 	WHERE {
+		 	   ?uri gesah:has_stylistic_assignment ?style .
+		 	} 
+ 
+""" .
+
+:vitrodocumentModifier_depiction_type
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "depiction type filter" ;
+    :hasTargetField "depiction_type_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT DISTINCT ?type
+		 	WHERE {
+		 	   ?uri gesah:has_depiction_type ?type .
+		 	} 
+""" .
+
+:vitrodocumentModifier_depicted_event_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "depicted event filter" ;
+    :hasTargetField "depicted_event_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		SELECT DISTINCT ?event
+		 	WHERE {
+		 	   ?uri gesah:depicts ?event .
+		 	   ?event rdf:type gesah:Depicted_Event .
+		 	} 
+""" .
+
+:vitrodocumentModifier_depicted_object_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "depicted object filter" ;
+    :hasTargetField "depicted_object_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		SELECT DISTINCT ?object
+		 	WHERE {
+		 	   ?uri gesah:depicts ?object .
+		 	   ?object rdf:type gesah:Depicted_Object .
+		 	} 
+""" .
+
+:vitrodocumentModifier_depicted_persons_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "depicted persons filter" ;
+    :hasTargetField "depicted_persons_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		SELECT DISTINCT ?person
+		 	WHERE {
+		 	   ?uri gesah:depicts ?person .
+		 	   ?person rdf:type gesah:Depicted_Person .
+		 	   
+		 	} 
+""" .
+
+:vitrodocumentModifier_depicted_places_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "depicted persons filter" ;
+    :hasTargetField "depicted_places_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		SELECT DISTINCT ?place
+		 	WHERE {
+		 	   ?uri gesah:depicts ?place .
+		 	   ?place rdf:type gesah:Depicted_Place .
+		 	   
+		 	} 
+""" .
+
+:vitrodocumentModifier_keywords_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "depicted persons filter" ;
+    :hasTargetField "keywords_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		SELECT DISTINCT ?keyword
+		 	WHERE {
+		 	   ?uri gesah:depicts ?keyword .
+		 	   ?keyword rdf:type gesah:Keyword .
+		 	   
+		 	} 
+""" .
+
+:vitrodocumentModifier_technique_filter
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "technique filter" ;
+    :hasTargetField "technique_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+		SELECT DISTINCT ?technique 
+		 	WHERE {
+		 	   {
+    			?uri gesah:output_of_edition ?obj .
+    			?obj gesah:uses_technique ?technique .
+  				} UNION
+  				{
+  		 	   ?uri gesah:output_of_production ?obj .
+    		   ?obj gesah:uses_technique ?technique .
+  				} UNION
+  				{
+  			   ?uri gesah:output_of_creation ?obj .
+       		   ?obj gesah:uses_technique ?technique .
+  				}
+		 	} 
+""" .
+
+:vitrodocumentModifier_narrower_term
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "object category narrower term" ;
+    :hasTargetField "narrower_term_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT DISTINCT ?term
+		 	WHERE {
+		 	   ?uri gesah:has_object_category_narrower_term ?term .
+		 	} 
+""" .
+
+:vitrodocumentModifier_generic_term
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "object categroy generic term" ;
+    :hasTargetField "generic_term_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT DISTINCT ?term
+		 	WHERE {
+		 	   ?uri gesah:has_object_category_generic_term ?term .
+		 	} 
+""" .
+
+:vitrodocumentModifier_georgaphic_assignment
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "geographic assignment" ;
+    :hasTargetField "geographic_assignment_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah: <http://ontology.tib.eu/gesah/>
+		SELECT DISTINCT ?assignment
+		 	WHERE {
+		 	   ?uri gesah:has_geographic_assignment ?assignment .
+		 	} 
+""" .
+
+:vitrodocumentModifier_object_type
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "cultural object type" ;
+    :hasTargetField "object_type_ss" ;
+    :hasSelectQuery """
+		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX gesah: <http://ontology.tib.eu/gesah/>
+		SELECT ?type
+		 	WHERE {
+  				?uri rdf:type gesah:Cultural_Object .
+		 	    ?uri <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?type .
+		 	} 
+""" .
+
+:vitrodocumentModifier_participants
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "participants" ;
+    :hasTargetField "participants_ss" ;
+    :hasSelectQuery """
+		PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+		PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT ?participant
+		WHERE
+		{
+  			{
+		  		?uri gesah:output_of_production ?production .
+		  		?production gesah:has_participant ?participant .
+  			} 
+  				UNION
+  			{
+		  		?uri gesah:output_of_creation ?creation .
+		  		?creation gesah:has_participant ?participant .
+  			}
+    			UNION
+  			{
+		  		?uri gesah:object_of_edition ?edition .
+		  		?edition gesah:has_participant ?participant .
+  			}
+      			UNION
+  			{
+		  		?uri gesah:object_of_inscription ?inscription .
+		  		?inscription gesah:has_participant ?participant .
+  			}
+		}
+""" .
+
+:vitrodocumentModifier_place
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "place" ;
+    :hasTargetField "place_ss" ;
+    :hasSelectQuery """
+		PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+		PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT ?place
+		WHERE
+		{
+  			{
+		  		?uri gesah:output_of_production ?production .
+		  		?production gesah:has_place ?place .
+  			} 
+  				UNION
+  			{
+		  		?uri gesah:output_of_creation ?creation .
+		  		?creation gesah:has_place ?place .
+  			}
+    			UNION
+  			{
+		  		?uri gesah:object_of_edition ?edition .
+		  		?edition gesah:has_place ?place .
+  			}
+      			UNION
+  			{
+		  		?uri gesah:object_of_inscription ?inscription .
+		  		?inscription gesah:has_place ?place .
+  			}
+		}
+""" .
+
+:vitrodocumentModifier_collectors_mark
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "collector's mark" ;
+    :hasTargetField "collectors_mark_ss" ;
+    :hasSelectQuery """
+		PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+		PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+		SELECT DISTINCT ?mark
+		WHERE	{
+  			?uri gesah:has_mark_designation ?mark_designation .
+ 			?mark_designation gesah:uses_mark ?mark .
+		}
+""" .
 

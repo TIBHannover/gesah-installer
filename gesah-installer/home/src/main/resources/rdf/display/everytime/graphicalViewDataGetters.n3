@@ -1,0 +1,34 @@
+@prefix display: <http://vitro.mannlib.cornell.edu/ontologies/display/1.1#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<freemarker:graphicalView.ftl> display:hasDataGetter display:graphicalViewDataGetter .
+
+display:graphicalViewDataGetter
+    a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
+    display:saveToVar "categories" ;
+    display:query """
+    PREFIX search: <https://osl.tib.eu/vitro-searchOntology#>
+    PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT ?filter_id ?label ?id ?barcode ?fileName ?fieldName ?crop_top ?crop_bottom ?crop_left ?crop_right
+	WHERE {
+	    ?filter rdf:type search:Filter .
+        ?filter search:id "main_filter" .
+        ?filter search:id ?filter_id .
+        ?filter search:filterField ?field .
+  		?field search:indexField ?fieldName .
+        ?filter search:hasKnownValue ?value . 
+        ?value rdfs:label ?label .
+        ?value search:id ?id .
+        ?value search:hasImage ?image .
+ 		?image gesah:barcode ?barcode .
+        ?image gesah:image_file_number ?fileName .
+        OPTIONAL { ?value search:order ?order}
+        OPTIONAL { ?value search:cropLeft ?crop_left}
+        OPTIONAL { ?value search:cropRight ?crop_right}
+        OPTIONAL { ?value search:cropTop ?crop_top}
+        OPTIONAL { ?value search:cropBottom ?crop_bottom}
+	} ORDER BY ?order
+     """ .

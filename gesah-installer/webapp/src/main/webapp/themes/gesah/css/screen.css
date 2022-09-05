@@ -26,7 +26,7 @@ VIVO tenderfoot theme: screen styles
 @import url("navbar-breakpoint.css");
 @import url("page-admin.css");
 @import url("page-browse.css");
-@import url("page-home.css");
+@import url("page-home.css?nocache=1");
 @import url("page-imageupload.css");
 @import url("page-index.css");
 @import url("page-individual.css");
@@ -39,4 +39,6 @@ VIVO tenderfoot theme: screen styles
 @import url("https://fonts.googleapis.com/css?family=Noto+Sans");
 @import url("tib-fonts.css");
 @import url("../../../local/css/local.css");
-@import url("search-results.css");
+@import url("search-results.css?nocache=1");
+@import url("nouislider.css?nocache=1");
+

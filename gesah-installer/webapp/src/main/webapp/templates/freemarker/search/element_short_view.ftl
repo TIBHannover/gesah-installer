@@ -1,31 +1,28 @@
 
-<#assign iiifUrl="https://osl.tib.eu/gesah-iiif" />
-<#assign iiifSlash="^" /> 
+<#include "lib-gesah-view.ftl">
 
-<a href="${individual.profileUrl}" title="individual profile">${individual.name} <@mostSpecificType individual/></a>
-
-<@printCurInventoryNumber />
-				
-<div class="imageThumbnails">
+<#assign aLabel = labelWithLink(individual.profileUrl, individual.name, typeFromIndividual(individual)) />
+		
+<div class="listElementContainer">
   <#list imageInfo as image>
     <#if image.fileNum?has_content && image.barcode?has_content>
-      <@createImageThumbnail image.barcode image.fileNum individual.profileUrl />
+      <@createImageThumbnail image.barcode image.fileNum individual.profileUrl individual.name />
     </#if>
   </#list> 
-  <@printParticipations />
+  <div class="listElementInformation">
+    ${aLabel}
+    <#if elementInfo?has_content && elementInfo[0].curNumber?has_content>
+		<@printCurInventoryNumber elementInfo[0].curNumber />
+	</#if>
+	<@printParticipations />
+  </div>
+
 </div>
 
 <#macro closeParticipationRoleList participation type name >
  <#if name?has_content && type?has_content && ( participation.name != name || participation.type != type )>
    <@roleCloseList />
  </#if>
-</#macro>
-
-
-<#macro mostSpecificType individual>
-  <#if individual.mostSpecificTypes?has_content && individual.mostSpecificTypes[0]?has_content>
-    (${individual.mostSpecificTypes[0]})
-  </#if>
 </#macro>
 
 <#macro printRole role>
@@ -87,14 +84,7 @@
   </p>
 </#macro>
 
-<#macro printCurInventoryNumber >
-    <#if elementInfo?has_content && elementInfo[0].curNumber?has_content>
-      <p>${i18n().gesah_current_inventory_number} ${elementInfo[0].curNumber}</p>
-    </#if>
-</#macro>
-
 <#macro printParticipations>
-	  <div class="search-element-information">
 	     <#if creators?has_content>
 	       <@openCreators />
 	 	   <@printTypeInfo creators />
@@ -110,7 +100,6 @@
 	 	   <@printTypeInfo editors />
 	 	   <@closeType />
 	     </#if>
-	  </div>
 </#macro>
 
 <#macro printTypeInfo people>
@@ -155,11 +144,3 @@
 	    </#if>
 </#macro>
 
-<#macro createImageThumbnail barcode fileName profileUrl>
-  <#assign height = "150" />
-  <div class="imageThumbnail">
-     <a href="${profileUrl}" title="individual profile">
-       <img src="${iiifUrl}/iiif/2/${barcode}${iiifSlash}content${iiifSlash}streams${iiifSlash}${fileName}/full/,${height}/0/default.jpg" />
-     </a>
-  </div>
-</#macro>

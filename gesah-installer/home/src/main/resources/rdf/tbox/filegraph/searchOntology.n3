@@ -1,0 +1,275 @@
+@prefix : <https://osl.tib.eu/vitro-searchOntology#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix ns: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix pr: <https://iph.ras.ru/relationships#> .
+@prefix ro: <http://purl.obolibrary.org/obo/ro.owl#> .
+@prefix c4o: <http://purl.org/spar/c4o/> .
+@prefix geo: <http://aims.fao.org/aos/geopolitical.owl#> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix swo: <http://www.ebi.ac.uk/efo/swo/> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix cito: <http://purl.org/spar/cito/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix vivo: <http://vivoweb.org/ontology/core#> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix ocrer: <http://purl.org/net/OCRe/research.owl#> .
+@prefix skos2: <http://www.w3.org/2008/05/skos#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> .
+@prefix ocresd: <http://purl.org/net/OCRe/study_design.owl#> .
+@prefix ocresp: <http://purl.org/net/OCRe/study_protocol.owl#> .
+@prefix scires: <http://vivoweb.org/ontology/scientific-research#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ocresst: <http://purl.org/net/OCRe/statistics.owl#> .
+@prefix vitro-public: <http://vitro.mannlib.cornell.edu/ns/vitro/public#> .
+@base <https://osl.tib.eu/vitro-searchOntology> .
+
+<https://osl.tib.eu/vitro-searchOntology> rdf:type owl:Ontology ;
+                                           vitro:ontologyPrefixAnnot "search" ;
+                                           rdfs:label "Semantic search"^^rdf:langString .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://vitro.mannlib.cornell.edu/ns/vitro/0.7#hiddenFromDisplayBelowRoleLevelAnnot
+vitro:hiddenFromDisplayBelowRoleLevelAnnot rdf:type owl:AnnotationProperty .
+
+
+###  http://vitro.mannlib.cornell.edu/ns/vitro/0.7#hiddenFromPublishBelowRoleLevelAnnot
+vitro:hiddenFromPublishBelowRoleLevelAnnot rdf:type owl:AnnotationProperty .
+
+
+###  http://vitro.mannlib.cornell.edu/ns/vitro/0.7#inClassGroup
+vitro:inClassGroup rdf:type owl:AnnotationProperty .
+
+
+###  http://vitro.mannlib.cornell.edu/ns/vitro/0.7#ontologyPrefixAnnot
+vitro:ontologyPrefixAnnot rdf:type owl:AnnotationProperty .
+
+
+###  http://vitro.mannlib.cornell.edu/ns/vitro/0.7#prohibitedFromUpdateBelowRoleLevelAnnot
+vitro:prohibitedFromUpdateBelowRoleLevelAnnot rdf:type owl:AnnotationProperty .
+
+
+###  http://vitro.mannlib.cornell.edu/ns/vitro/0.7#selectFromExistingAnnot
+vitro:selectFromExistingAnnot rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/1999/02/22-rdf-syntax-ns#langString
+rdf:langString rdf:type rdfs:Datatype .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://osl.tib.eu/vitro-searchOntology#filterField
+:filterField rdf:type owl:ObjectProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain :Filter ;
+             rdfs:range :SearchField ;
+             vitro:selectFromExistingAnnot "true"^^xsd:boolean ;
+             rdfs:label "Filter field"^^rdf:langString .
+
+###  https://osl.tib.eu/vitro-searchOntology#hasImage
+:hasImage rdf:type owl:ObjectProperty ,
+                   owl:FunctionalProperty ;
+          rdfs:domain :FilterValue ;
+          rdfs:range <http://ontology.tib.eu/gesah/Digital_Image> .
+
+
+###  https://osl.tib.eu/vitro-searchOntology#hasKnownValue
+:hasKnownValue rdf:type owl:ObjectProperty ;
+               rdfs:domain :Filter ;
+               rdfs:range :FilterValue .
+
+###  https://osl.tib.eu/vitro-searchOntology#contains
+:contains rdf:type owl:ObjectProperty ;
+               rdfs:domain :FilterGroup ;
+               rdfs:range :Filter .
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  https://osl.tib.eu/vitro-searchOntology#description
+:description rdf:type owl:DatatypeProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain :Statement ;
+             rdfs:range xsd:string ;
+             rdfs:label "description"^^rdf:langString .
+
+:order  a      owl:DatatypeProperty , owl:FunctionalProperty ;
+        rdfs:domain  [ a owl:Class; owl:unionOf  ( :FilterValue :Filter :FilterGroup ) ];
+        rdfs:range   xsd:integer .
+
+###  https://osl.tib.eu/vitro-searchOntology#id
+:id rdf:type owl:DatatypeProperty ,
+             owl:FunctionalProperty ;
+    rdfs:domain [ a owl:Class; owl:unionOf  ( :FilterValue :Filter :FilterGroup ) ];
+    rdfs:range xsd:string ;
+    rdfs:label "Identifier"^^rdf:langString .
+
+###  https://osl.tib.eu/vitro-searchOntology#indexField
+:indexField rdf:type owl:DatatypeProperty ,
+                     owl:FunctionalProperty ;
+            rdfs:domain :SearchField ;
+            rdfs:range xsd:string ;
+            rdfs:label "Index field"^^rdf:langString .
+
+:facetResults  a                owl:DatatypeProperty , owl:FunctionalProperty ;
+        rdfs:domain                   :Filter ;
+        rdfs:label                    "Show facet results"@en-US ;
+        rdfs:range                    xsd:boolean ;
+        obo:IAO_0000112               ""@en-US ;
+        vitro:descriptionAnnot        ""@en-US ;
+        vitro:publicDescriptionAnnot  ""@en-US .
+
+:public
+        a                             owl:DatatypeProperty , owl:FunctionalProperty ;
+        rdfs:domain                   [ a owl:Class; owl:unionOf  ( :Filter :FilterGroup ) ] ;
+        rdfs:label                    "public"@en-US ;
+        rdfs:range                    xsd:boolean ;
+        obo:IAO_0000112               ""@en-US ;
+        vitro:descriptionAnnot        ""@en-US ;
+        vitro:publicDescriptionAnnot  ""@en-US .
+
+:userInputRegex
+        a                             owl:DatatypeProperty , owl:FunctionalProperty ;
+        rdfs:domain                   :Filter ;
+        rdfs:label                    "userInputRegex"@en-US ;
+        rdfs:range                    xsd:boolean ;
+        obo:IAO_0000112               ""@en-US ;
+        vitro:descriptionAnnot        ""@en-US ;
+        vitro:publicDescriptionAnnot  ""@en-US .
+
+:multivalued  a                 owl:DatatypeProperty , owl:FunctionalProperty ;
+        rdfs:domain                   :SearchField ;
+        rdfs:label                    "is multivalued"@en-US ;
+        rdfs:range                    xsd:boolean ;
+        obo:IAO_0000112               ""@en-US ;
+        vitro:descriptionAnnot        ""@en-US ;
+        vitro:publicDescriptionAnnot  ""@en-US .
+
+:userInput  a                   owl:DatatypeProperty , owl:FunctionalProperty ;
+        rdfs:domain                   :Filter ;
+        rdfs:label                    "user input"@en-US ;
+        rdfs:range                    xsd:boolean ;
+        obo:IAO_0000112               ""@en-US ;
+        vitro:descriptionAnnot        ""@en-US ;
+        vitro:publicDescriptionAnnot  ""@en-US .
+
+###  https://osl.tib.eu/vitro-searchOntology#from
+:from rdf:type owl:DatatypeProperty ,
+                     owl:FunctionalProperty ;
+            rdfs:domain :RangeFilter ;
+            rdfs:range xsd:string ;
+            rdfs:label "Minimum range value"^^rdf:langString .
+
+###  https://osl.tib.eu/vitro-searchOntology#to
+:to rdf:type owl:DatatypeProperty ,
+                     owl:FunctionalProperty ;
+            rdfs:domain :RangeFilter ;
+            rdfs:range xsd:string ;
+            rdfs:label "Maximum range value"^^rdf:langString .
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://ontology.tib.eu/gesah/Digital_Image
+<http://ontology.tib.eu/gesah/Digital_Image> rdf:type owl:Class .
+
+
+###  https://osl.tib.eu/vitro-searchOntology#FilterValue
+:FilterValue rdf:type owl:Class .
+
+###  https://osl.tib.eu/vitro-searchOntology#FilterGroup
+:FilterGroup rdf:type owl:Class .
+
+###  https://osl.tib.eu/vitro-searchOntology#Filter
+:Filter rdf:type owl:Class ;
+        rdfs:subClassOf :Statement ;
+        rdfs:label "Filter"^^rdf:langString .
+
+###  https://osl.tib.eu/vitro-searchOntology#RangeFilter
+:RangeFilter rdf:type owl:Class ;
+        rdfs:subClassOf :Filter ;
+        rdfs:label "Range filter"^^rdf:langString .
+
+
+###  https://osl.tib.eu/vitro-searchOntology#SearchField
+:SearchField rdf:type owl:Class ;
+             rdfs:subClassOf :Statement ;
+             vitro:hiddenFromDisplayBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
+             vitro:hiddenFromPublishBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
+
+             vitro:prohibitedFromUpdateBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
+             rdfs:label "Field"^^rdf:langString .
+
+
+###  https://osl.tib.eu/vitro-searchOntology#Sort
+:Sort rdf:type owl:Class ;
+      rdfs:subClassOf :Statement ;
+      vitro:hiddenFromDisplayBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
+      vitro:hiddenFromPublishBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
+      vitro:prohibitedFromUpdateBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
+      rdfs:label "Sort"^^rdf:langString .
+
+
+###  https://osl.tib.eu/vitro-searchOntology#Statement
+:Statement rdf:type owl:Class ;
+           vitro:hiddenFromDisplayBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
+           vitro:hiddenFromPublishBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
+           vitro:prohibitedFromUpdateBelowRoleLevelAnnot <http://vitro.mannlib.cornell.edu/ns/vitro/role#public> ;
+           rdfs:label "Search Statement"^^rdf:langString .
+
+:cropRight  a                   owl:DatatypeProperty , owl:FunctionalProperty ;
+        rdfs:domain                   :FilterValue ;
+        rdfs:label                    "Crop right"@en-US ;
+        rdfs:range                    xsd:float ;
+        obo:IAO_0000112               ""@en-US ;
+        vitro:descriptionAnnot        ""@en-US ;
+        vitro:publicDescriptionAnnot  ""@en-US .
+
+:cropTop  a                     owl:DatatypeProperty , owl:FunctionalProperty ;
+        rdfs:domain                   :FilterValue ;
+        rdfs:label                    "Crop top"@en-US ;
+        rdfs:range                    xsd:float ;
+        obo:IAO_0000112               ""@en-US ;
+        vitro:descriptionAnnot        ""@en-US ;
+        vitro:publicDescriptionAnnot  ""@en-US .
+
+
+:cropBottom  a                  owl:DatatypeProperty , owl:FunctionalProperty ;
+        rdfs:domain                   :FilterValue ;
+        rdfs:label                    "Crop bottom"@en-US ;
+        rdfs:range                    xsd:float ;
+        obo:IAO_0000112               ""@en-US ;
+        vitro:descriptionAnnot        ""@en-US ;
+        vitro:publicDescriptionAnnot  ""@en-US .
+
+
+:cropLeft  a                    owl:DatatypeProperty , owl:FunctionalProperty ;
+        rdfs:domain                   :FilterValue ;
+        rdfs:label                    "Crop left"@en-US ;
+        rdfs:range                    xsd:float ;
+        obo:IAO_0000112               ""@en-US ;
+        vitro:descriptionAnnot        ""@en-US ;
+        vitro:publicDescriptionAnnot  ""@en-US .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

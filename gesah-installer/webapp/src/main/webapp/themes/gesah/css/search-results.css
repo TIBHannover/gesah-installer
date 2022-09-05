@@ -1,8 +1,144 @@
 .imageThumbnail{
 	display: inline-block;
 	width: max-content;
+	margin-right: 10px;
+	border-right: #dfe6e5 solid 1px;
+	padding-right: 10px;
 }
-.search-element-information{
-	display: inline-block;
+
+.listElementInformation{
+	flex-basis:100%;
 	vertical-align: top;
+}
+
+.listElementIndividualLink{
+	font-weight:bold;
+	font-size:1.02em;
+}
+
+.listElementContainer {
+	margin: 0px 10px 10px 10px;
+	border-bottom: #dfe6e5 solid 1px;
+	padding-bottom: 10px;
+	display:flex;	
+}
+
+.listElementContainer + a {
+  float: right;
+  margin-top: -55px;
+}
+
+.listElementContainer + a + a {
+  float: right;
+  margin-top: -35px;
+}
+
+.searchTOC ul {
+	display: none;
+}
+
+.searchTOC:hover > ul {
+	display: block;
+}
+
+.tab-pane > label {
+	display: inline-block;
+}
+
+input[type=radio]:checked + label {
+  background-color: #af1414;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 5px 2px 5px;
+}
+
+input[type=checkbox]:checked + label {
+  background-color: #af1414;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 5px 2px 5px;
+}
+
+input[type=radio]:not(:checked) + label {
+  padding: 2px 5px 2px 5px;
+  border-radius: 10px;
+  background-color: #E3E3E3;
+}
+
+input[type=checkbox]:not(:checked) + label {
+  padding: 2px 5px 2px 5px;
+  border-radius: 10px;
+  background-color: #E3E3E3;
+}
+
+#selected-filters > label{
+	display:inline-block;
+}
+
+.user-filter-search-input{
+	display:flex;
+}
+
+.checked-search-input-label {
+  display: inline;
+  background-color: #af1414;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 5px 2px 5px;
+  border: 0px;
+}
+
+.unchecked-selected-search-input-label {
+  background-color: #E3E3E3 !important;
+  color: unset !important;
+}
+
+.filter-area {
+	border-bottom: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	padding: 0.3em;
+}
+
+.range-filter {
+	padding: 15px;
+}
+
+
+#search-filter-container > ul > li > a {
+  padding: 7px 7px;
+}
+
+.fade {
+  display: none;
+}
+
+.fade.in {
+  display: block;
+}
+
+.range-slider{
+	margin: 10px;
+}
+
+.range-slider-end{
+	display: inline-block;
+}
+
+.range-slider-start{
+	display: inline-block;
+}
+
+#extended-search-form input {
+	margin-top: 1px;
+	height: 2.5em;
+}
+
+.extended-search-input-group{
+	padding-left:  0px;
+	padding-right: 0px;
+}
+
+#selected-filters{
+	margin-bottom: 15px;
 }
