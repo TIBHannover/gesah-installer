@@ -74,7 +74,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 	    baseHref: '${urls.base}/individual?uri=',
 	    blankSentinel: '${blankSentinel}',
 	    flagClearLabelForExisting: '${flagClearLabelForExisting}',
-	    subjectName: '${editConfiguration.subjectName}'
+	    subjectName: '${editConfiguration.subjectName?js_string}'
 	};
 	var i18nStrings = {
 	    selectAnExisting: '${i18n().select_an_existing}',
