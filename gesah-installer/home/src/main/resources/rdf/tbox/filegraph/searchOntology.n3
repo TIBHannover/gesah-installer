@@ -84,6 +84,13 @@ rdf:langString rdf:type rdfs:Datatype .
              vitro:selectFromExistingAnnot "true"^^xsd:boolean ;
              rdfs:label "Filter field"^^rdf:langString .
 
+###  https://osl.tib.eu/vitro-searchOntology#sortField
+:sortField rdf:type owl:ObjectProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain :Sort ;
+             rdfs:range :SearchField ;
+             rdfs:label "Sort field"^^rdf:langString .
+
 ###  https://osl.tib.eu/vitro-searchOntology#hasImage
 :hasImage rdf:type owl:ObjectProperty ,
                    owl:FunctionalProperty ;
@@ -119,7 +126,7 @@ rdf:langString rdf:type rdfs:Datatype .
 ###  https://osl.tib.eu/vitro-searchOntology#id
 :id rdf:type owl:DatatypeProperty ,
              owl:FunctionalProperty ;
-    rdfs:domain [ a owl:Class; owl:unionOf  ( :FilterValue :Filter :FilterGroup ) ];
+    rdfs:domain [ a owl:Class; owl:unionOf  ( :Sort :FilterValue :Filter :FilterGroup ) ];
     rdfs:range xsd:string ;
     rdfs:label "Identifier"^^rdf:langString .
 
@@ -137,6 +144,18 @@ rdf:langString rdf:type rdfs:Datatype .
         obo:IAO_0000112               ""@en-US ;
         vitro:descriptionAnnot        ""@en-US ;
         vitro:publicDescriptionAnnot  ""@en-US .
+
+:isAscending
+        a                             owl:DatatypeProperty , owl:FunctionalProperty ;
+        rdfs:domain                   :Sort ;
+        rdfs:label                    "is ascending order"@en-US ;
+        rdfs:range                    xsd:boolean .
+
+:isLanguageSpecific
+        a                             owl:DatatypeProperty , owl:FunctionalProperty ;
+        rdfs:domain                   :SearchField ;
+        rdfs:label                    "is language specific"@en-US ;
+        rdfs:range                    xsd:boolean .
 
 :public
         a                             owl:DatatypeProperty , owl:FunctionalProperty ;

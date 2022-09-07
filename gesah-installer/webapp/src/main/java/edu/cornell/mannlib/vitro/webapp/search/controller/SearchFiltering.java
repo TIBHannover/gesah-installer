@@ -101,10 +101,35 @@ public class SearchFiltering {
 			+ "        BIND(coalesce(?filter_order_found, 0) as ?filter_order)\n"
 			+ " 	}  ORDER BY ?order ?group_label ?filter_order";
 
-	static final String LABEL_QUERY = "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-			+ "    SELECT ?label\n" + " 	WHERE {"
+	static final String LABEL_QUERY = ""
+			+ "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+			+ "     SELECT ?label\n" + " 	WHERE {"
 					+ "\n" + "		?uri rdfs:label ?label .\n"
 					+ "} LIMIT 1";
+	
+	private static final String SORT_QUERY = ""
+			+ "		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+			+ "		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>\n"
+			+ "    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>\n"
+			+ "		Prefix search: <https://osl.tib.eu/vitro-searchOntology#> \n"
+			+ "        SELECT ( STR(?sort_label) as ?label ) ?id ?searchField ?multilingual ?isAsc \n"
+			+ "		WHERE {\n"
+			+ "  			?sort rdf:type search:Sort . \n"
+			+ "  			?sort rdfs:label ?sort_label .\n"
+			+ "  			?sort search:sortField ?field .\n"
+			+ "  			?sort search:id ?id .\n"
+			+ "  			?field search:indexField ?searchField  .\n"
+			+ "  			OPTIONAL {\n"
+			+ "    			 ?field search:isLanguageSpecific ?f_multilingual  .\n"
+			+ "    			 BIND(?f_multilingual as ?bind_multilingual) .\n"
+			+ "  			}\n"
+			+ "    		OPTIONAL {\n"
+			+ "    			 ?sort search:isAscending ?f_ord  .\n"
+			+ "    			 BIND(?f_ord as ?f_order) .\n"
+			+ "  			}\n"
+			+ "   			BIND(COALESCE(?f_order, false) as ?isAsc)\n"
+			+ "  			BIND(COALESCE(?bind_multilingual, false) as ?multilingual)\n"
+			+ "		}";
 
 	static void addFiltersToQuery(VitroRequest vreq, SearchQuery query, Map<String, SearchFilter> filterById) {
 		Enumeration<String> paramNames = vreq.getParameterNames();
@@ -308,6 +333,51 @@ public class SearchFiltering {
 		return new LinkedList<SearchFilterGroup>(groups.values());
 	}
 	
+	public static Map<String, SortConfiguration> getSortConfigurations(VitroRequest vreq) {
+		Map<String, SortConfiguration> sortConfigurations = new LinkedHashMap<>();
+		Model model = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
+		model.enterCriticalSection(Lock.READ);
+		try {
+			Query facetQuery = QueryFactory.create(SORT_QUERY);
+			QueryExecution qexec = QueryExecutionFactory.create(facetQuery, model);
+			ResultSet results = qexec.execSelect();
+			while (results.hasNext()) {
+				QuerySolution solution = results.nextSolution();
+				if (solution.get("label") == null || 
+					solution.get("id") == null	|| 
+					solution.get("searchField") == null) {
+					continue;
+				}
+				
+				String field = solution.get("searchField").toString();
+				String id = solution.get("id").toString();
+				String label = solution.get("label").toString();
+
+				SortConfiguration config = null;
+				if (sortConfigurations.containsKey(id)) {
+					config = sortConfigurations.get(id);
+				} else {
+					config = new SortConfiguration(id, label, field);
+					
+					RDFNode multilingual = solution.get("multilingual");
+					if (multilingual != null) {
+						config.setMultilingual(multilingual.asLiteral().getBoolean());
+					}
+					
+					RDFNode isAsc = solution.get("isAsc");
+					if (isAsc != null) {
+						config.setAscOrder(isAsc.asLiteral().getBoolean());
+					}
+					
+					sortConfigurations.put(id, config);
+				}
+			}
+		} finally {
+			model.leaveCriticalSection();
+		}
+		return sortConfigurations;
+	}
+	
 	public static Map<String, SearchFilter>sortFilters(Map<String, SearchFilter> filters) {
 		List<Entry<String, SearchFilter>> list = new LinkedList<>(filters.entrySet());
 		list.sort(new FilterComparator());
@@ -489,7 +559,9 @@ public class SearchFiltering {
 		while (paramNames.hasMoreElements()) {
 			String paramFilterName = paramNames.nextElement();
 			if (!StringUtils.isBlank(paramFilterName) && (paramFilterName.startsWith(FILTERS)
-					|| paramFilterName.startsWith(FILTER_RANGE) || paramFilterName.startsWith(FILTER_INPUT_PREFIX))) {
+					|| paramFilterName.startsWith(FILTER_RANGE) 
+					|| paramFilterName.startsWith(FILTER_INPUT_PREFIX)
+					|| paramFilterName.startsWith(ExtendedSearchController.PARAM_QUERY_SORT_BY))) {
 				String[] values = vreq.getParameterValues(paramFilterName);
 				if (values.length > 0) {
 					pagingLinkParams.put(paramFilterName, values[0]);

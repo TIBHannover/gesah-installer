@@ -109,7 +109,6 @@
 <#-- <span id="downloadResults" style="float:left"></span>  -->
 </h2>
 
-<span id="searchHelp"><a href="${urls.base}/searchHelp" title="${i18n().search_help}">${i18n().not_expected_results}</a></span>
 <div class="contentsBrowseGroup">
 
     <#-- Search results -->
@@ -171,6 +170,8 @@
 				</#if>
 			</#list>
 		</div>
+		<@printSorting /> 
+		<span id="searchHelp"><a href="${urls.base}/searchHelp" title="${i18n().search_help}">${i18n().not_expected_results}</a></span>
 	</form>
 </#macro>
 
@@ -225,6 +226,20 @@
 	</#list>
 </#macro>
 
+<#macro printSorting>
+	<#if sorting?has_content>
+		<select name="sort" id="sort">
+			<option value="">${i18n().search_results_sort_by} ${i18n().search_results_relevance}</option>
+			<#list sorting as option>
+				<#if option.selected>
+					<option value="${option.id}" selected="selected">${i18n().search_results_sort_by} ${option.label}</option>
+				<#else>
+					<option value="${option.id}" >${i18n().search_results_sort_by} ${option.label}</option>
+				</#if>
+			</#list>
+		</select>
+	</#if>
+</#macro>
 
 <#macro searchFormGroupTab group active >
 	<#if active>
