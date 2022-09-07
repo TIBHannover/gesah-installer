@@ -19,6 +19,20 @@
 		}
         """ .
 
+:vitrodocumentModifier_current_inventory_num_sort
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "former number" ;
+    :hasTargetField "curnum_s" ;
+    :hasSelectQuery """
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT (STR (?number) as ?inventory_number )
+                WHERE
+                {
+                    ?uri gesah:current_inventory_number ?number . 
+                } LIMIT 1
+        """ .
+
 :vitrodocumentModifier_current_inventory_no
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
