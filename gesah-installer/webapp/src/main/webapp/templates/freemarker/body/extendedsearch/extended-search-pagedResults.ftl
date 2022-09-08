@@ -219,7 +219,7 @@
 			<#if v.selected>
 				${getInput(filter, v, getValueID(filter.id, valueNumber), valueNumber)}
 				<#if user.loggedIn || filter.public>
-					${getLabel(valueNumber, v, filter)}
+					${getSelectedLabel(valueNumber, v, filter)}
 				</#if>
 			</#if>
 			<#assign valueNumber = valueNumber + 1>
@@ -325,6 +325,15 @@
 		</div>
 	</div>
 </#macro>
+
+
+<#function getSelectedLabel valueID value filter >
+	<#assign label = filter.name + " : " + value.name >
+	<#if !filter.localizationRequired>
+		<#assign label = filter.name + " : " + value.id >
+	</#if>
+	<#return "<label for=\"" + getValueID(filter.id, valueNumber) + "\">" + getValueLabel(label, value.count) + "</label>" />
+</#function>
 
 <#function getLabel valueID value filter >
 	<#assign label = value.name >
