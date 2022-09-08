@@ -270,21 +270,13 @@
 		<#-- skip query text filter -->
 		<#return>
 	</#if>
-	<#if !assignedActive && ( filter.selected || isEmptySearch )>
-	 	<li class="active">
-	<#else>
 		<li>
-	</#if>
 			<a data-toggle="tab" href="#${filter.id}">${filter.name}</a>
 		</li>
 </#macro>
 
 <#macro printFilterValues filter assignedActive isEmptySearch>
-	<#if !assignedActive && ( filter.selected || isEmptySearch )>
-		<div id="${filter.id}" class="tab-pane fade in active filter-area">
-	<#else>
 		<div id="${filter.id}" class="tab-pane fade filter-area">
-	</#if>
 			<#if filter.id == "querytext">
 			<#-- skip query text filter -->
 			<#elseif filter.type == "RangeFilter">
