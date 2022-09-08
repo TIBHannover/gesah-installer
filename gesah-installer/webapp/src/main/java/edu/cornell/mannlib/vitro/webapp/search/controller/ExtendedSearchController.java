@@ -5,17 +5,20 @@ package edu.cornell.mannlib.vitro.webapp.search.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
-import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,10 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.sparql.function.library.context;
 
-import com.sun.mail.imap.protocol.BODY;
 
 import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
 import edu.cornell.mannlib.vitro.webapp.beans.ApplicationBean;
@@ -68,11 +68,14 @@ import edu.cornell.mannlib.vitro.webapp.web.templatemodels.searchresult.Individu
 		"/extendedfedsearch", "/extendedsearchcontroller" })
 public class ExtendedSearchController extends FreemarkerHttpServlet {
 
+	private static final String HITS_PER_PAGE_OPTIONS = "hitsPerPageOptions";
 	private static final String FACETS = "facets";
 	private static final long serialVersionUID = 1L;
 	static final Log log = LogFactory.getLog(ExtendedSearchController.class);
 
-	protected static final int DEFAULT_HITS_PER_PAGE = 25;
+	protected static final int DEFAULT_HITS_PER_PAGE = 30;
+	private static Set<Integer> hitsPerPageOptions = Stream.of(10, 30, 50).collect(Collectors.toCollection(LinkedHashSet::new));
+
 	protected static final int DEFAULT_MAX_HIT_COUNT = 1000;
 
 	private static final String PARAM_XML_REQUEST = "xml";
@@ -294,6 +297,8 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 			body.put("hitCount", hitCount);
 			body.put("startIndex", startIndex);
 			body.put(PARAM_HITS_PER_PAGE, hitsPerPage);
+			body.put(HITS_PER_PAGE_OPTIONS, hitsPerPageOptions);
+
 
 			body.put("pagingLinks",
 					getPagingLinks(startIndex, hitsPerPage, hitCount, vreq.getServletPath(), pagingLinkParams, vreq));
@@ -372,7 +377,10 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 	private int getHitsPerPage(VitroRequest vreq) {
 		int hitsPerPage = DEFAULT_HITS_PER_PAGE;
 		try {
-			hitsPerPage = Integer.parseInt(vreq.getParameter(PARAM_HITS_PER_PAGE));
+			int hits = Integer.parseInt(vreq.getParameter(PARAM_HITS_PER_PAGE));
+			if (hitsPerPageOptions.contains(hits)) {
+				hitsPerPage = hits;
+			}
 		} catch (Throwable e) {
 			hitsPerPage = DEFAULT_HITS_PER_PAGE;
 		}

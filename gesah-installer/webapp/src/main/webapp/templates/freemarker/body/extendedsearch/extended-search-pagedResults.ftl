@@ -6,109 +6,108 @@
 -->
 <@searchForm  />
 
-<h2 class="searchResultsHeader">
-<#escape x as x?html>
-    ${hitCount} ${i18n().results_found} 
-    <#if classGroupName?has_content>${i18n().limited_to_type} '${classGroupName}'</#if>
-    <#if typeName?has_content>${i18n().limited_to_type} '${typeName}'</#if>
-</#escape>
-<script type="text/javascript">
-	var url = window.location.toString();
-	if (url.indexOf("?") == -1){
-		var queryText = 'querytext=${querytext}';
-	} else {
-		var urlArray = url.split("?");
-		var queryText = urlArray[1];
-	}
-
-	var urlsBase = '${urls.base}';
-	
-	$("input:radio").on("click",function (e) {
-	    var input=$(this);
-	    if (input.is(".selected-input")) { 
-	        input.prop("checked",false);
-	        input.removeClass("selected-input");
-	        return;
-	    }
-	    $("input:radio[name='"+input.prop("name")+"'].selected-input").removeClass("selected-input");
-	    input.addClass("selected-input");
-	});
-	
-	function clearInput(elementId) {
-  		let inputEl = document.getElementById(elementId);
-  		inputEl.value = "";
-  		let srcButton = document.getElementById("button_" + elementId);
-  		srcButton.classList.add("unchecked-selected-search-input-label");
-	}
-	
-	function createSliders(){
-		sliders = document.getElementsByClassName('range-slider-container');
-		for (let sliderElement of sliders) {
-			createSlider(sliderElement);
+<#macro printResultNumbers>
+	<h2 class="searchResultsHeader">
+	<#escape x as x?html>
+	    ${hitCount} ${i18n().results_found} 
+	</#escape>
+	<script type="text/javascript">
+		var url = window.location.toString();
+		if (url.indexOf("?") == -1){
+			var queryText = 'querytext=${querytext}';
+		} else {
+			var urlArray = url.split("?");
+			var queryText = urlArray[1];
 		}
-	};
+	
+		var urlsBase = '${urls.base}';
 		
-	function createSlider(sliderContainer){
-		rangeSlider = sliderContainer.querySelector('.range-slider');
-		
-		noUiSlider.create(rangeSlider, {
-		    range: {
-		        min: Number(sliderContainer.getAttribute('min')),
-		        max: Number(sliderContainer.getAttribute('max'))
-		    },
-		
-		    step: 1,
-		    start: [Number(sliderContainer.querySelector('.range-slider-start').textContent), 
-		  			Number(sliderContainer.querySelector('.range-slider-end').textContent)],
-		
-		    format: wNumb({
-		        decimals: 0
-		    })
-		});
-		
-		var dateValues = [
-		     sliderContainer.querySelector('.range-slider-start'),
-		     sliderContainer.querySelector('.range-slider-end')
-		];
-		
-		var input = sliderContainer.querySelector('.range-slider-input');
-		var first = true;
-		
-		rangeSlider.noUiSlider.on('update', function (values, handle) {
-		    dateValues[handle].innerHTML = values[handle];
-		    var active = input.getAttribute('active');
-		    if (active === null){
-		    	input.setAttribute('active', "false");
-		    } else if (active !== "true"){
-		        input.setAttribute('active', "true");
-		    } else {
-		    	var startDate = new Date(+values[0],1,1);
-		    	var endDate = new Date(+values[1],1,1);
-		    	input.value = startDate.toISOString() + " " + endDate.toISOString();
+		$("input:radio").on("click",function (e) {
+		    var input=$(this);
+		    if (input.is(".selected-input")) { 
+		        input.prop("checked",false);
+		        input.removeClass("selected-input");
+		        return;
 		    }
+		    $("input:radio[name='"+input.prop("name")+"'].selected-input").removeClass("selected-input");
+		    input.addClass("selected-input");
 		});
-	}
+		
+		function clearInput(elementId) {
+	  		let inputEl = document.getElementById(elementId);
+	  		inputEl.value = "";
+	  		let srcButton = document.getElementById("button_" + elementId);
+	  		srcButton.classList.add("unchecked-selected-search-input-label");
+		}
+		
+		function createSliders(){
+			sliders = document.getElementsByClassName('range-slider-container');
+			for (let sliderElement of sliders) {
+				createSlider(sliderElement);
+			}
+		};
+			
+		function createSlider(sliderContainer){
+			rangeSlider = sliderContainer.querySelector('.range-slider');
+			
+			noUiSlider.create(rangeSlider, {
+			    range: {
+			        min: Number(sliderContainer.getAttribute('min')),
+			        max: Number(sliderContainer.getAttribute('max'))
+			    },
+			
+			    step: 1,
+			    start: [Number(sliderContainer.querySelector('.range-slider-start').textContent), 
+			  			Number(sliderContainer.querySelector('.range-slider-end').textContent)],
+			
+			    format: wNumb({
+			        decimals: 0
+			    })
+			});
+			
+			var dateValues = [
+			     sliderContainer.querySelector('.range-slider-start'),
+			     sliderContainer.querySelector('.range-slider-end')
+			];
+			
+			var input = sliderContainer.querySelector('.range-slider-input');
+			var first = true;
+			
+			rangeSlider.noUiSlider.on('update', function (values, handle) {
+			    dateValues[handle].innerHTML = values[handle];
+			    var active = input.getAttribute('active');
+			    if (active === null){
+			    	input.setAttribute('active', "false");
+			    } else if (active !== "true"){
+			        input.setAttribute('active', "true");
+			    } else {
+			    	var startDate = new Date(+values[0],1,1);
+			    	var endDate = new Date(+values[1],1,1);
+			    	input.value = startDate.toISOString() + " " + endDate.toISOString();
+			    }
+			});
+		}
+		
+		window.onload = (event) => {
+	  		createSliders();
+		};
+		
+		$('#extended-search-form').submit(function () {
+	    $(this)
+	        .find('input')
+	        .filter(function () {
+	            return !this.value;
+	        })
+	        .prop('name', '');
+		});
 	
-	window.onload = (event) => {
-  		createSliders();
-	};
 	
-	$('#extended-search-form').submit(function () {
-    $(this)
-        .find('input')
-        .filter(function () {
-            return !this.value;
-        })
-        .prop('name', '');
-	});
-
-
-</script>
-
-<img id="downloadIcon" src="images/download-icon.png" alt="${i18n().download_results}" title="${i18n().download_results}" />
-<#-- <span id="downloadResults" style="float:left"></span>  -->
-</h2>
-
+	</script>
+	
+	<img id="downloadIcon" src="images/download-icon.png" alt="${i18n().download_results}" title="${i18n().download_results}" />
+	<#-- <span id="downloadResults" style="float:left"></span>  -->
+	</h2>
+</#macro>
 <div class="contentsBrowseGroup">
 
     <#-- Search results -->
@@ -170,8 +169,11 @@
 				</#if>
 			</#list>
 		</div>
-		<@printSorting /> 
-		<span id="searchHelp"><a href="${urls.base}/searchHelp" title="${i18n().search_help}">${i18n().not_expected_results}</a></span>
+		<div id="search-form-footer">
+			<@printResultNumbers />
+			<@printHits />
+			<@printSorting />
+		<div> 
 	</form>
 </#macro>
 
@@ -228,7 +230,7 @@
 
 <#macro printSorting>
 	<#if sorting?has_content>
-		<select name="sort" id="sort">
+		<select name="sort" id="search-form-sort">
 			<option value="">${i18n().search_results_sort_by} ${i18n().search_results_relevance}</option>
 			<#list sorting as option>
 				<#if option.selected>
@@ -239,6 +241,18 @@
 			</#list>
 		</select>
 	</#if>
+</#macro>
+
+<#macro printHits>
+	<select name="hitsPerPage" id="search-form-hits-per-page">
+		<#list hitsPerPageOptions as option>
+			<#if option == hitsPerPage>
+				<option value="${option}" selected="selected">${option} ${i18n().search_results_per_page}</option>
+			<#else>
+				<option value="${option}">${option} ${i18n().search_results_per_page}</option>
+			</#if>
+		</#list>
+	</select>
 </#macro>
 
 <#macro searchFormGroupTab group active >
