@@ -340,7 +340,10 @@
 	<#if !filter.localizationRequired>
 		<#assign label = value.id >
 	</#if>
-	<#return "<label for=\"" + getValueID(filter.id, valueNumber) + "\">" + getValueLabel(label, value.count) + "</label>" />
+	<#if value.count != 0 >
+		<#return "<label for=\"" + getValueID(filter.id, valueNumber) + "\">" + getValueLabel(label, value.count) + "</label>" />
+	</#if>
+		<#return "" /> 
 </#function>
 
 
