@@ -17,11 +17,7 @@
     </#if>
     <#if statement.indexNo?has_content>
         <#if statement.indexNoUrl?has_content>
-            <a href="${statement.indexNoUrl}">
-        </#if>
-        ${statement.indexNo}
-		<#if statement.indexNoUrl?has_content>
-            </a>
+            <a href="${statement.indexNoUrl}" target="_blank">${statement.indexNo}</a>
         </#if>
         <br />
     <#else>

@@ -25,7 +25,7 @@
     </#if>
     <#if statement.markID??>
         <#if statement.markObj?? && statement.markURL?has_content && statement.markID?has_content>
-            <a href="${statement.markURL}">${statement.markID}</a>
+            <a href="${statement.markURL}" target="_blank" >${statement.markID}</a>
         <#else>
             ${statement.markID}
         </#if>

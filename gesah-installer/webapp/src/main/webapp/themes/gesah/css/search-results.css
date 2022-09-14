@@ -142,3 +142,16 @@ input[type=checkbox]:not(:checked) + label {
 #selected-filters{
 	margin-bottom: 15px;
 }
+
+#search-form-sort{
+	float:right;
+	margin-right: 0px;
+}
+
+#search-form-footer h2 {
+    margin-top: 10px !important;
+}
+
+#search-form-footer select {
+  margin-top: 10px !important;
+}

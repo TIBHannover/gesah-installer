@@ -35,6 +35,7 @@ display:checkForIIIFDG
                 ?individualURI <http://ontology.tib.eu/gesah/has_digital_representation> ?digRep .
                 ?digRep <http://ontology.tib.eu/gesah/barcode> ?barcode .
                 ?digRep <http://ontology.tib.eu/gesah/image_file_number> ?fileNum .
+    			BIND(exists{?individualURI <http://ontology.tib.eu/gesah/has_main_image> ?digRep .} as ?first)
             }
             UNION
             {
@@ -42,6 +43,6 @@ display:checkForIIIFDG
                 ?individualURI <http://ontology.tib.eu/gesah/barcode> ?barcode .
                 ?individualURI <http://ontology.tib.eu/gesah/image_file_number> ?fileNum .
             }
-        }
+        } ORDER BY DESC(?first) ASC(?fileNum)
         """ .
 
