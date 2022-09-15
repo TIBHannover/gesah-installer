@@ -103,6 +103,24 @@
 <http://ontology.tib.eu/gesah/is_object_category_narrower_term_of>
     display:listViewConfigFile "listViewConfig-information_with_image.xml"^^xsd:string .
 
+<http://ontology.tib.eu/gesah/geographic_assignment_of>
+    display:listViewConfigFile "listViewConfig-information_with_image.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/has_event_object>
+    display:listViewConfigFile "listViewConfig-information_with_image.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/stylistic_assignment_of>
+    display:listViewConfigFile "listViewConfig-information_with_image.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/has_provenance_object>
+    display:listViewConfigFile "listViewConfig-information_with_image.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/has_preservation_object>
+    display:listViewConfigFile "listViewConfig-information_with_image.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/depiction_type_of>
+    display:listViewConfigFile "listViewConfig-information_with_image.xml"^^xsd:string .
+
 <http://ontology.tib.eu/gesah/mark_used_in>
     display:listViewConfigFile "listViewConfig-mark_used_in.xml"^^xsd:string .
 
@@ -111,3 +129,12 @@
 
 <http://ontology.tib.eu/gesah/depicts>
     display:listViewConfigFile "listViewConfig-depicts.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/used_in>
+    display:listViewConfigFile "listViewConfig-over-activity-information_with_image.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/incorporated_in>
+    display:listViewConfigFile "listViewConfig-over-activity-information_with_image.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/is_attribution_type_of>
+    display:listViewConfigFile "listViewConfig-over-activity-information_with_image.xml"^^xsd:string .
