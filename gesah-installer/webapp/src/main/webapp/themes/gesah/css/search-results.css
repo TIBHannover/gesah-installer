@@ -155,3 +155,10 @@ input[type=checkbox]:not(:checked) + label {
 #search-form-footer select {
   margin-top: 10px !important;
 }
+
+
+
+.searchpages span {
+  background: #ddd;
+  border-radius: 3px;
+}
