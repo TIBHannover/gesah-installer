@@ -7,6 +7,6 @@
  -->
 
 <#include "lib-gesah-view.ftl">
-
-<#assign aLabel = labelWithLink(profileUrl(statement.uri("object")), statement.cultObjectLabel, typeFromStatement(statement)) />
-<@printElementContainer statement statement.uri("object") statement.cultObjectLabel aLabel "" />
+<#assign aLabel = labelWithLink(profileUrl(statement.uri("cultObject")), statement.cultObjectLabel!"", typeFromStatement(statement)) />
+<#assign supplementaryPage = getSupplementaryPageLink(statement, statement.supplementaryType!"Activity") />
+<@printElementContainer statement statement.uri("cultObject") statement.cultObjectLabel!"" aLabel supplementaryPage />
