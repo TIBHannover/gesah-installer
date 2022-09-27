@@ -6,6 +6,42 @@
 -->
 <@searchForm  />
 
+
+<div class="contentsBrowseGroup">
+
+    <@printPagingLinks />
+    <#-- Search results -->
+    <ul class="searchhits">
+        <#list individuals as individual>
+            <li>
+            	<@shortView uri=individual.uri viewContext="search" />
+            </li>
+        </#list>
+    </ul>
+
+    <@printPagingLinks />
+    <br />
+</div> 
+
+<#macro printPagingLinks>
+
+<#-- Paging controls -->
+    <#if (pagingLinks?size > 0)>
+        <div class="searchpages">
+            ${i18n().pages}:
+            <#if prevPage??><a class="prev" href="${prevPage}" title="${i18n().previous}">${i18n().previous}</a></#if>
+            <#list pagingLinks as link>
+                <#if link.url??>
+                    <a href="${link.url}" title="${i18n().page_link}">${link.text}</a>
+                <#else>
+                    <span>${link.text}</span> <#-- no link if current page -->
+                </#if>
+            </#list>
+            <#if nextPage??><a class="next" href="${nextPage}" title="${i18n().next_capitalized}">${i18n().next_capitalized}</a></#if>
+        </div>
+    </#if>
+</#macro>
+
 <#macro printResultNumbers>
 	<h2 class="searchResultsHeader">
 	<#escape x as x?html>
@@ -108,33 +144,6 @@
 	<#-- <span id="downloadResults" style="float:left"></span>  -->
 	</h2>
 </#macro>
-<div class="contentsBrowseGroup">
-
-    <#-- Search results -->
-    <ul class="searchhits">
-        <#list individuals as individual>
-            <li>
-            	<@shortView uri=individual.uri viewContext="search" />
-            </li>
-        </#list>
-    </ul>
-
-    <#-- Paging controls -->
-    <#if (pagingLinks?size > 0)>
-        <div class="searchpages">
-            ${i18n().pages}:
-            <#if prevPage??><a class="prev" href="${prevPage}" title="${i18n().previous}">${i18n().previous}</a></#if>
-            <#list pagingLinks as link>
-                <#if link.url??>
-                    <a href="${link.url}" title="${i18n().page_link}">${link.text}</a>
-                <#else>
-                    <span>${link.text}</span> <#-- no link if current page -->
-                </#if>
-            </#list>
-            <#if nextPage??><a class="next" href="${nextPage}" title="${i18n().next_capitalized}">${i18n().next_capitalized}</a></#if>
-        </div>
-    </#if>
-    <br />
 
 <#macro searchForm>
 	<form id="extended-search-form" autocomplete="off" method="get" action="${urls.base}/extendedsearch">
@@ -395,8 +404,6 @@
 	</#if>
 	<#return result />
 </#function>
-
-</div> 
 <!-- end contentsBrowseGroup -->
 
 ${stylesheets.add('<link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />',
