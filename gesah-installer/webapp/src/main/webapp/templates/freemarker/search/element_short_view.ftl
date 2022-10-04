@@ -60,7 +60,11 @@
   <#if yearInfo?has_content && yearInfo[0].literalDate?has_content>
     ${yearInfo[0].literalDate}
   <#elseif yearInfo?has_content && yearInfo[0].year?has_content >
-    ${i18n().gesah_search_in_year} ${yearInfo[0].year}
+    <#if yearInfo[0].yearStart?has_content && ( yearInfo[0].yearStart != yearInfo[0].year ) >
+      ${i18n().gesah_search_in_year} ${yearInfo[0].yearStart}-${yearInfo[0].year}
+    <#else>
+      ${i18n().gesah_search_in_year} ${yearInfo[0].year}
+    </#if>
   </#if>
 </#macro>
 
