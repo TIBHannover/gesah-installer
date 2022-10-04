@@ -14,9 +14,9 @@
 		PREFIX obo: &lt;http://purl.obolibrary.org/obo/&gt;
 		SELECT DISTINCT ?label ?object ?barcode ?fileNum ?cultObjectLabel ?cultObject ?curNumber ?subclass ?typeLabel (GROUP_CONCAT(?role_label;SEPARATOR=", ") AS ?roles)
 		WHERE {
-				?subject ?property ?object .
-				?object gesah:realized_in ?activity .
-				?activity gesah:has_production_output ?cultObject .
+			?subject ?property ?object .
+			?object gesah:realized_in ?activity .
+			?activity gesah:has_production_output|gesah:has_preservation_object|gesah:has_provenance_object|gesah:has_creation_output|gesah:has_inscription_output|gesah:has_inscription_object|gesah:has_edition_object ?cultObject .
 		        ?cultObject gesah:has_main_image ?digRep .
 		        ?cultObject rdfs:label ?cultObjectLabel .
 		        ?digRep gesah:barcode ?barcode .
@@ -76,7 +76,7 @@
 			?subject ?property ?object .
 
 	        ?object gesah:realized_in ?activity .
-			?activity gesah:has_production_output|gesah:has_creation_output|gesah:has_inscription_output|gesah:has_inscription_object|gesah:has_edition_object ?cultObject .
+		?activity gesah:has_production_output|gesah:has_preservation_object|gesah:has_provenance_object|gesah:has_creation_output|gesah:has_inscription_output|gesah:has_inscription_object|gesah:has_edition_object ?cultObject .
 	        ?cultObject rdfs:label ?cultObjectLabel .
 	        ?cultObject gesah:has_main_image ?digRep .
 	        ?digRep gesah:barcode ?barcode .
