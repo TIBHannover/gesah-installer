@@ -1,5 +1,5 @@
 <#assign iiifUrl="https://osl.tib.eu/gesah-iiif" />
-<#assign iiifSlash="^" /> 
+<#assign iiifSlash="%5E" /> 
 <#assign height = "230" />
 
 
