@@ -62,12 +62,14 @@
 		    var input=$(this);
 		    if (input.is(".selected-input")) { 
 		        input.prop("checked",false);
-		        <#-- input.removeClass("selected-input");
-		        return; -->
 		    }
 	        this.form.submit();
-		    <#-- $("input:radio[name='"+input.prop("name")+"'].selected-input").removeClass("selected-input");
-		    input.addClass("selected-input"); -->
+		});
+		
+		$("input:checkbox").on("click",function (e) {
+		    var input=$(this);
+		    input.checked = !input.checked;
+	        this.form.submit();
 		});
 		
 		function clearInput(elementId) {
@@ -147,7 +149,7 @@
 </#macro>
 
 <#macro searchForm>
-	<form id="extended-search-form" autocomplete="off" method="get" action="${urls.base}/extendedsearch">
+	<form id="extended-search-form" name="extended-search-form" autocomplete="off" method="get" action="${urls.base}/extendedsearch">
 		<div class="form-group">
 		     <div class="input-group extended-search-input-group">
 		         <input id="filter_input_querytext" type="text" name="querytext" class="form-control" value="${querytext!}" placeholder="${i18n().search_field_placeholder}" autocapitalize="off" />
