@@ -374,18 +374,8 @@ WHERE
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 		SELECT DISTINCT ?technique 
 		 	WHERE {
-		 	   {
-    			?uri gesah:output_of_edition ?obj .
-    			?obj gesah:uses_technique ?technique .
-  				} UNION
-  				{
-  		 	   ?uri gesah:output_of_production ?obj .
-    		   ?obj gesah:uses_technique ?technique .
-  				} UNION
-  				{
-  			   ?uri gesah:output_of_creation ?obj .
-       		   ?obj gesah:uses_technique ?technique .
-  				}
+    			  ?uri gesah:object_of_edition|gesah:output_of_production|gesah:output_of_creation ?obj .
+    			  ?obj gesah:uses_technique ?technique .
 		 	} 
 """ .
 
