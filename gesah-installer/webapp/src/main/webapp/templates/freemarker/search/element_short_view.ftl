@@ -13,6 +13,8 @@
     ${aLabel}
     <#if elementInfo?has_content && elementInfo[0].curNumber?has_content>
 		<@printCurInventoryNumber elementInfo[0].curNumber />
+	<#elseif elementInfo?has_content && elementInfo[0].formNumber?has_content>
+		<@printFormInventoryNumber elementInfo[0].formNumber />
 	</#if>
 	<@printParticipations />
   </div>

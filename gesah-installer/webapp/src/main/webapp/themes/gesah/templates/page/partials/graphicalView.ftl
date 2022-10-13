@@ -1,5 +1,5 @@
 <#assign iiifUrl="https://osl.tib.eu/gesah-iiif" />
-<#assign iiifSlash="^" /> 
+<#assign iiifSlash="%5E" /> 
 <#assign height = "230" />
 
 
@@ -19,7 +19,7 @@
 
 <#macro printCategory category>
 	<#if category?has_content>
-	  <div class="category_facet" style="height:${height}px;">
+	  <div class="category_facet">
 		<a href="${urls.base}/extendedsearch?filters=${category.filter_id}:${category.id}&filters_type_cultural_object=type:http://ontology.tib.eu/gesah/Cultural_Object">
 		  <img alt="${category.label}" src="${iiifImage(category.barcode category.fileName category.crop_bottom category.crop_top category.crop_left category.crop_right)}" />
 		  <div class="category_facet_label">${category.label}</div>

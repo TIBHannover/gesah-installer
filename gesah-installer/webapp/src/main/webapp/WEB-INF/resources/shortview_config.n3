@@ -142,9 +142,21 @@ mydomain:elementCreationDateSearchShortViewDataGetter
   display:query
      """
 		PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-		SELECT ?curNumber
+		SELECT ?curNumber ?formNumber
 		WHERE {
-			?individualUri gesah:current_inventory_number ?curNumber .
+			OPTIONAL {
+				?individualUri gesah:current_inventory_number ?curNumber .
+			}
+			OPTIONAL {
+		        	?subject ?property ?object .
+				?individualUri gesah:former_inventory_number ?formNumber .
+    				FILTER (regex(?formNumber, '^kl')) .
+		                FILTER NOT EXISTS {
+                			?individualUri gesah:former_inventory_number ?formNumber, ?formNumber2  .
+					FILTER (regex(?formNumber2, '^kl')) .
+					FILTER (?formNumber > ?formNumber2) .
+				}
+		        }
 		} LIMIT 1
      """ .
      

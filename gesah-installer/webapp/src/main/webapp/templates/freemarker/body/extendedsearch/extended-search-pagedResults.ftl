@@ -62,11 +62,12 @@
 		    var input=$(this);
 		    if (input.is(".selected-input")) { 
 		        input.prop("checked",false);
-		        input.removeClass("selected-input");
-		        return;
+		        <#-- input.removeClass("selected-input");
+		        return; -->
 		    }
-		    $("input:radio[name='"+input.prop("name")+"'].selected-input").removeClass("selected-input");
-		    input.addClass("selected-input");
+	        this.form.submit();
+		    <#-- $("input:radio[name='"+input.prop("name")+"'].selected-input").removeClass("selected-input");
+		    input.addClass("selected-input"); -->
 		});
 		
 		function clearInput(elementId) {
@@ -239,7 +240,7 @@
 
 <#macro printSorting>
 	<#if sorting?has_content>
-		<select name="sort" id="search-form-sort">
+		<select name="sort" id="search-form-sort" onchange="this.form.submit()" >
 			<option value="">${i18n().search_results_sort_by} ${i18n().search_results_relevance}</option>
 			<#list sorting as option>
 				<#if option.selected>
@@ -253,7 +254,7 @@
 </#macro>
 
 <#macro printHits>
-	<select name="hitsPerPage" id="search-form-hits-per-page">
+	<select name="hitsPerPage" id="search-form-hits-per-page" onchange="this.form.submit()">
 		<#list hitsPerPageOptions as option>
 			<#if option == hitsPerPage>
 				<option value="${option}" selected="selected">${option} ${i18n().search_results_per_page}</option>

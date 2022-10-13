@@ -555,8 +555,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
   private final static String n3ForExistingTechnique  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + EXISTING_TECHNIQUE + " . " + "\n" +
-      VAR + EXISTING_TECHNIQUE + SPACE + "<" + GESAH_USED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-      VAR + EXISTING_TECHNIQUE + " a" + SPACE + "<" + GESAH_TECHNIQUE + "> .";	
+      VAR + EXISTING_TECHNIQUE + SPACE + "<" + GESAH_USED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" ;	
 	
   private final static String existingTechniqueQuery =
       "SELECT" + SPACE + VAR + EXISTING_TECHNIQUE + " WHERE {" + "\n" +
@@ -601,8 +600,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
   private final static String n3ForExistingMaterial  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_MATERIAL + ">" + SPACE + VAR + EXISTING_MATERIAL + " . " + "\n" +
-      VAR + EXISTING_MATERIAL + SPACE + "<" + GESAH_INCORPORATED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-      VAR + EXISTING_MATERIAL + " a" + SPACE + "<" + GESAH_MATERIAL + "> .";
+      VAR + EXISTING_MATERIAL + SPACE + "<" + GESAH_INCORPORATED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" ;
 
   private final static String existingMaterialLabelQuery =
       "SELECT Distinct" + SPACE + VAR + EXISTING_MATERIAL + "Label" + " WHERE {" + "\n" +

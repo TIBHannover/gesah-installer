@@ -12,7 +12,7 @@
         PREFIX vitro: &lt;http://vitro.mannlib.cornell.edu/ns/vitro/0.7#&gt;
 		PREFIX gesah: &lt;http://ontology.tib.eu/gesah/&gt;
 		PREFIX obo: &lt;http://purl.obolibrary.org/obo/&gt;
-		SELECT DISTINCT ?cultObject ?object ?barcode ?fileNum ?cultObjectLabel ?typeLabel ?curNumber (STR(?cultObjectLabel) as ?strlabel)
+		SELECT DISTINCT ?cultObject ?object ?barcode ?fileNum ?cultObjectLabel ?typeLabel ?curNumber ?formNumber (STR(?cultObjectLabel) as ?strlabel)
 		WHERE {
 			?subject ?property ?object .
 			?object a gesah:Cultural_Object .
@@ -26,15 +26,26 @@
 			?digRep gesah:barcode ?barcode .
 		        ?digRep gesah:image_file_number ?fileNum .
 		        OPTIONAL{
-				?subject ?property ?object .
-				?object a gesah:Cultural_Object .
+					?subject ?property ?object .
+					?object a gesah:Cultural_Object .
 		        	?object vitro:mostSpecificType ?type .
 		        	?type rdfs:label ?typeLabel .
 		        }
 		        OPTIONAL {
 		        	?subject ?property ?object .
-				?object a gesah:Cultural_Object .
-				?object gesah:current_inventory_number ?curNumber .
+					?object a gesah:Cultural_Object .
+					?object gesah:current_inventory_number ?curNumber .
+		        }
+		        OPTIONAL {
+		        	?subject ?property ?object .
+					?object a gesah:Cultural_Object .
+					?object gesah:former_inventory_number ?formNumber  .
+    				FILTER (regex(?formNumber, '^kl')) .
+                    FILTER NOT EXISTS {
+                      ?object gesah:former_inventory_number ?formNumber, ?formNumber2  .
+        			  FILTER (regex(?formNumber2, '^kl')) .
+                      FILTER (?formNumber > ?formNumber2)
+                    }
 		        }
 			<collated>
 	        OPTIONAL {

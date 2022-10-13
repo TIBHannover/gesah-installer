@@ -2,7 +2,7 @@
 
 <#import "lib-meta-tags.ftl" as lmt>
 <#assign iiifUrl="https://osl.tib.eu/gesah-iiif" />
-<#assign iiifSlash="^" /> 
+<#assign iiifSlash="%5E" /> 
 <#assign height = "150" />
 
 <#if images?has_content>
