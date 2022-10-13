@@ -12,30 +12,35 @@
         PREFIX vitro: &lt;http://vitro.mannlib.cornell.edu/ns/vitro/0.7#&gt;
 		PREFIX gesah: &lt;http://ontology.tib.eu/gesah/&gt;
 		PREFIX obo: &lt;http://purl.obolibrary.org/obo/&gt;
-		SELECT DISTINCT ?label ?object ?barcode ?fileNum ?cultObjectLabel ?cultObject ?curNumber ?subclass ?typeLabel (GROUP_CONCAT(?role_label;SEPARATOR=", ") AS ?roles)
+		SELECT DISTINCT ?label ?object ?barcode ?fileNum ?cultObjectLabel ?cultObject ?curNumber ?formNumber ?subclass ?typeLabel (GROUP_CONCAT(?role_label;SEPARATOR=", ") AS ?roles)
 		WHERE {
 			?subject ?property ?object .
 			?object gesah:realized_in ?activity .
 			?activity gesah:has_production_output|gesah:has_preservation_object|gesah:has_provenance_object|gesah:has_creation_output|gesah:has_inscription_output|gesah:has_inscription_object|gesah:has_edition_object ?cultObject .
-		        ?cultObject gesah:has_main_image ?digRep .
-		        ?cultObject rdfs:label ?cultObjectLabel .
-		        ?digRep gesah:barcode ?barcode .
-		        ?digRep gesah:image_file_number ?fileNum .
-		        OPTIONAL {
-		        	?subject ?property ?object .
-					?object gesah:realized_in ?cultObject .
-					?cultObject gesah:current_inventory_number ?curNumber .
-		        }
-		        OPTIONAL {
-		        	?subject ?property ?object .
-					?object rdfs:label ?label .
-		        }
-		        OPTIONAL{
-					?subject ?property ?object .
-					?object gesah:realized_in ?cultObject .
-		        	?cultObject vitro:mostSpecificType ?type .
-		        	?type rdfs:label ?typeLabel .
-		        }
+	        ?cultObject gesah:has_main_image ?digRep .
+	        ?cultObject rdfs:label ?cultObjectLabel .
+	        ?digRep gesah:barcode ?barcode .
+	        ?digRep gesah:image_file_number ?fileNum .
+	        OPTIONAL {
+	        	?cultObject gesah:current_inventory_number ?curNumber .
+	        }
+	        OPTIONAL {
+	        	?cultObject gesah:former_inventory_number ?formNumber .
+				FILTER (regex(?formNumber, '^kl')) .
+                FILTER NOT EXISTS {
+                  ?cultObject gesah:former_inventory_number ?formNumber, ?formNumber2  .
+    			  FILTER (regex(?formNumber2, '^kl')) .
+                  FILTER (?formNumber > ?formNumber2) .
+                }
+	        }
+	        OPTIONAL {
+	        	?object rdfs:label ?label .
+	        }
+	        OPTIONAL{
+				?object gesah:realized_in ?cultObject .
+	        	?cultObject vitro:mostSpecificType ?type .
+	        	?type rdfs:label ?typeLabel .
+	        }
 			OPTIONAL{
 				?object gesah:has_role_type ?role_type .
 				?role_type rdfs:label ?role_label .
@@ -48,7 +53,7 @@
 	        }
 	        FILTER ( REPLACE(STR(?subclass),"^(.*)(#)(.*)$", "$1$2") != "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#" )
 	        </collated>
-		} GROUP BY ?object ?label ?barcode ?fileNum ?cultObjectLabel ?cultObject ?curNumber ?subclass ?typeLabel ORDER BY  <collated> ?subclass </collated> ASC( ?label )
+		} GROUP BY ?object ?label ?barcode ?fileNum ?cultObjectLabel ?cultObject ?curNumber ?formNumber ?subclass ?typeLabel ORDER BY  <collated> ?subclass </collated> ASC( ?label )
 	    </query-select>
 	    <query-construct>
 	    PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
@@ -70,6 +75,7 @@
 	        ?cultObject rdfs:label ?cultObjectLabel .
 	        ?digRep gesah:image_file_number ?fileNum .
 	        ?cultObject gesah:current_inventory_number ?curNumber .
+	        ?cultObject gesah:former_inventory_number ?formNumber .
 	        ?cultObject vitro:mostSpecificType ?type .
         	?type rdfs:label ?typeLabel .
 		} WHERE {
@@ -86,6 +92,9 @@
 	        }
 	        OPTIONAL {
 	        	?cultObject gesah:current_inventory_number ?curNumber .
+	        }
+	        OPTIONAL {
+	        	?cultObject gesah:former_inventory_number ?formNumber .
 	        }
 			OPTIONAL {
 	        	?cultObject vitro:mostSpecificType ?type .

@@ -18,6 +18,8 @@
 			</#if>
 			<#if statement.curNumber?has_content>
 				<@printCurInventoryNumber statement.curNumber />
+			<#elseif statement.formNumber?has_content>
+				<@printFormInventoryNumber statement.formNumber />
 			</#if>
   		</div>
 	</div>
@@ -56,6 +58,11 @@
 	</#if>
 </#function>
 
+<#macro printFormInventoryNumber number>
+    <#if number?has_content>
+      <p>${i18n().gesah_former_inventory_number} ${number}</p>
+    </#if>
+</#macro>
 
 <#macro printCurInventoryNumber curNumber>
     <#if curNumber?has_content>
