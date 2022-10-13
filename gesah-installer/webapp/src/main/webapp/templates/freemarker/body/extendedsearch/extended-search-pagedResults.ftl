@@ -167,7 +167,7 @@
 			<ul class="nav nav-tabs">
 				<#assign active = true>
 				<#list filterGroups as group>
-					<#if user.loggedIn || group.public>
+					<#if ( user.loggedIn || group.public ) && !group.hidden >
 						<@searchFormGroupTab group active/>
 						<#assign active = false>
 					</#if>  
@@ -175,7 +175,7 @@
 			</ul>
 			<#assign active = true>
 			<#list filterGroups as group>
-				<#if user.loggedIn || group.public>
+				<#if ( user.loggedIn || group.public ) && !group.hidden >
 			  		<@groupFilters group active/>
 			  		<#assign active = false>
 				</#if>
@@ -200,7 +200,7 @@
 					<#assign assignedActive = false>
 					<#list group.filters as filterId>
 						<#assign f = filters[filterId]>
-						<#if user.loggedIn || f.public>
+						<#if ( user.loggedIn || f.public ) && !f.hidden >
 							<@searchFormFilterTab f assignedActive emptySearch/>  
 							<#if !assignedActive && (f.selected || emptySearch )>
 								<#assign assignedActive = true>
@@ -213,7 +213,7 @@
 				<#assign assignedActive = false>
 				<#list group.filters as filterId>
 					<#assign f = filters[filterId]>
-					<#if user.loggedIn || f.public>
+					<#if ( user.loggedIn || f.public ) && !f.hidden >
 						<@printFilterValues f assignedActive emptySearch/>  
 						<#if !assignedActive && ( f.selected || emptySearch )>
 							<#assign assignedActive = true>
@@ -352,10 +352,7 @@
 	<#if !filter.localizationRequired>
 		<#assign label = value.id >
 	</#if>
-	<#if value.count != 0 >
-		<#return "<label for=\"" + getValueID(filter.id, valueNumber) + "\">" + getValueLabel(label, value.count) + "</label>" />
-	</#if>
-		<#return "" /> 
+	<#return "<label for=\"" + getValueID(filter.id, valueNumber) + "\">" + getValueLabel(label, value.count) + "</label>" />
 </#function>
 
 

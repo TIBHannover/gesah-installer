@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,6 +53,7 @@ public class SearchFilter {
 	private String type = FILTER;
 	private String rangeText = "";
 	private String rangeInput = "";
+	private boolean hidden = false;
 
 	public String getRangeInput() {
 		return rangeInput;
@@ -313,4 +315,29 @@ public class SearchFilter {
 	    }
 	}
 	
+	public void removeValuesWithZeroCount() {
+		Iterator<Entry<String, FilterValue>> iterator = values.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Entry<String, FilterValue> entry = iterator.next();
+			FilterValue value = entry.getValue();
+			if (value.getCount() == 0) {
+				iterator.remove();
+			}
+		}
+	}
+
+	public boolean isEmpty() {
+		if (values.size() > 0 || isInput() || isRange()) {
+			return false;
+		}
+		return true;
+	}
+
+	public void setHidden(boolean b) {
+		this.hidden = b;
+	}
+	
+	public boolean isHidden() {
+		return hidden;
+	}
 }

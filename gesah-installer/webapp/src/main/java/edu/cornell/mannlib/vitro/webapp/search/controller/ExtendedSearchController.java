@@ -259,8 +259,9 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 				for (Entry<String, SearchFilter> entry : filterConfigurationsByField.entrySet()) {
 					entry.getValue().sortValues();
 				}
-				body.put("filters", SearchFiltering.getFiltersById(filterConfigurationsByField));
-				body.put("filterGroups", SearchFiltering.readFilterGroupsConfigurations(vreq));
+				Map<String, SearchFilter> filtersForTemplateById = SearchFiltering.getFiltersForTemplate(filterConfigurationsByField);
+				body.put("filters", filtersForTemplateById);
+				body.put("filterGroups", SearchFiltering.readFilterGroupsConfigurations(vreq, filtersForTemplateById));
 				body.put("sorting", sortConfigurations.values());
 				body.put("emptySearch", isEmptySearchFilters(filterConfigurationsByField));
 				if (!classGroupFilterRequested && !typeFilterRequested) {

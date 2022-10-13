@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -293,7 +294,7 @@ public class SearchFiltering {
 		return sortFilters(filtersByField);
 	}
 	
-	public static List<SearchFilterGroup> readFilterGroupsConfigurations(VitroRequest vreq) {
+	public static List<SearchFilterGroup> readFilterGroupsConfigurations(VitroRequest vreq, Map<String, SearchFilter> filtersById) {
 		Map<String, SearchFilterGroup> groups = new LinkedHashMap<>();
 		Model model = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
 		model.enterCriticalSection(Lock.READ);
@@ -317,7 +318,6 @@ public class SearchFiltering {
 					group = groups.get(groupId);
 				} else {
 					group = new SearchFilterGroup(groupId, groupLabel);
-					
 					RDFNode publicNode = solution.get("public");
 					if (publicNode != null) {
 						group.setPublic(publicNode.asLiteral().getBoolean());
@@ -326,6 +326,10 @@ public class SearchFiltering {
 					groups.put(groupId, group);
 				}
 				group.addFilterId(filterId);
+				SearchFilter filter = filtersById.get(filterId);
+				if (filter != null && !filter.isHidden()) {
+					group.setHidden(false);
+				}
 			}
 		} finally {
 			model.leaveCriticalSection();
@@ -553,6 +557,20 @@ public class SearchFiltering {
 		Map<String, SearchFilter> filtersById = filtersByField.values().stream()
 				.collect(Collectors.toMap(SearchFilter::getId, Function.identity()));
 		return filtersById;
+	}
+	
+	static Map<String, SearchFilter> getFiltersForTemplate(Map<String, SearchFilter> filtersByField) {
+		Iterator<Entry<String, SearchFilter>> iterator = filtersByField.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Entry<String, SearchFilter> entry = iterator.next();
+			SearchFilter searchFilter = entry.getValue();
+			searchFilter.removeValuesWithZeroCount();
+			if (searchFilter.isEmpty()) {
+				searchFilter.setHidden(true);
+			}
+			
+		}
+		return filtersByField.values().stream().collect(Collectors.toMap(SearchFilter::getId, Function.identity()));
 	}
 
 	static void addFiltersToPageLinks(VitroRequest vreq, ParamMap pagingLinkParams, Enumeration<String> paramNames) {
