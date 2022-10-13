@@ -7,6 +7,7 @@ public class SearchFilterGroup {
 	private String id;
 	private String label;
 	private boolean isPublic = false;
+	private boolean hidden = true;
 
 	private LinkedHashSet<String> filters = new LinkedHashSet <>();
 
@@ -51,6 +52,14 @@ public class SearchFilterGroup {
 
 	public void setPublic(boolean isPublic) {
 		this.isPublic = isPublic;
+	}
+
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 
 }
