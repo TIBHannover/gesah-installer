@@ -26,10 +26,10 @@
 	        }
 	        OPTIONAL {
 	        	?cultObject gesah:former_inventory_number ?formNumber .
-				FILTER (regex(?formNumber, '^kl')) .
+				FILTER (regex(?formNumber, '^((kl)|(m)|(gr)|(ohne Signatur)|(IX 48)|(EB Neuzugänge)|(XXIV)|(Gartenpläne))')) .
                 FILTER NOT EXISTS {
                   ?cultObject gesah:former_inventory_number ?formNumber, ?formNumber2  .
-    			  FILTER (regex(?formNumber2, '^kl')) .
+    			  FILTER (regex(?formNumber2, '^((kl)|(m)|(gr)|(ohne Signatur)|(IX 48)|(EB Neuzugänge)|(XXIV)|(Gartenpläne))')) .
                   FILTER (?formNumber > ?formNumber2) .
                 }
 	        }
