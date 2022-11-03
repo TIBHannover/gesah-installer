@@ -66,6 +66,9 @@
             </div>
             <div class="col-md-8">
                 <div id="viewer" style="height: 65vh"></div>
+		<div class="license-statement">
+		  ${digitalRepresentations?first.rightlabel!""}
+		</div>
             </div>
         </div>
     </div>

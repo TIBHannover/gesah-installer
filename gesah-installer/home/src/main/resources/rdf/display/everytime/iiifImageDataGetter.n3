@@ -29,20 +29,29 @@ display:checkForIIIFDG
     display:saveToVar "digitalRepresentations";
     display:query 
         """
-        SELECT DISTINCT ?barcode ?fileNum
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        SELECT DISTINCT ?barcode ?fileNum  (MIN(?rightLabels) AS ?rightlabel )
         WHERE {
             {
                 ?individualURI <http://ontology.tib.eu/gesah/has_digital_representation> ?digRep .
                 ?digRep <http://ontology.tib.eu/gesah/barcode> ?barcode .
                 ?digRep <http://ontology.tib.eu/gesah/image_file_number> ?fileNum .
-    			BIND(exists{?individualURI <http://ontology.tib.eu/gesah/has_main_image> ?digRep .} as ?first)
+                BIND(exists{?individualURI <http://ontology.tib.eu/gesah/has_main_image> ?digRep .} as ?first) 
+                OPTIONAL{
+                        ?digRep <http://ontology.tib.eu/gesah/digital_image_right> ?right .
+                        ?right rdfs:label ?rightLabels .
+                }       
             }
             UNION
             {
                 ?individualURI a <http://ontology.tib.eu/gesah/Digital_Image> .
                 ?individualURI <http://ontology.tib.eu/gesah/barcode> ?barcode .
                 ?individualURI <http://ontology.tib.eu/gesah/image_file_number> ?fileNum .
+                OPTIONAL{
+                        ?individualURI <http://ontology.tib.eu/gesah/digital_image_right> ?right .      
+                        ?right rdfs:label ?rightLabels .
+                }
             }
-        } ORDER BY DESC(?first) ASC(?fileNum)
+        } GROUP BY  ?barcode ?fileNum  ORDER BY DESC(?first) ASC(?fileNum)
         """ .
 

@@ -389,3 +389,7 @@ img.add-individual {
 .reportDatasource button.delete {
     float: right;
 }
+
+.license-statement {
+    text-align: center;
+}
