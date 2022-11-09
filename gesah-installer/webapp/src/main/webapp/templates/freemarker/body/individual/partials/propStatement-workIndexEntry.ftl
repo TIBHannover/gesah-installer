@@ -18,7 +18,9 @@
     <#if statement.indexNo?has_content>
         <#if statement.indexNoUrl?has_content>
             <a href="${statement.indexNoUrl}" target="_blank">${statement.indexNo}</a>
-        </#if>
+        <#else>
+	    ${statement.indexNo}
+	</#if>
         <br />
     <#else>
     	<a href="${profileUrl(statement.uri("object"))}">${statement.object?keep_after_last("/")}</a>
