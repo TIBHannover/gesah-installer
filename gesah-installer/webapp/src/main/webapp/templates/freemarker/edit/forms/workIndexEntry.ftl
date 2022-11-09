@@ -25,7 +25,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 
 
 
-<h2>${titleVerb}&nbsp;mark designation for ${editConfiguration.subjectName}</h2>
+<h2>${titleVerb}&nbsp;work index entry for ${editConfiguration.subjectName}</h2>
 
 <section id="markDesignation" role="region">
 	<form id="markDesignation" class="customForm noIE67" action="${submitUrl}"  role="add/edit markDesignation" >
