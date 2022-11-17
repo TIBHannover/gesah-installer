@@ -248,8 +248,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
   private final static String n3ForExistingAttrType  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
-      VAR + EXISTING_ATTR_TYPE + SPACE + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-      VAR + EXISTING_ATTR_TYPE + " a" + SPACE + "<" + GESAH_ATTRIBUTION_TYPE + "> .";	
+      VAR + EXISTING_ATTR_TYPE + SPACE + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + ACTIVITY_OBJ + " . ";	
 
   private final static String existingAttrTypeLabelQuery =
       "SELECT Distinct" + SPACE + VAR + EXISTING_ATTR_TYPE_LABEL + " WHERE {" + "\n" +
