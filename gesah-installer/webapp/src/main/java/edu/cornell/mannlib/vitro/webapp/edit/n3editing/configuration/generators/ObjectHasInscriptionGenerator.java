@@ -57,6 +57,7 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
 	private static final String OBJECT_OF_INSCRIPTION = "object_of_inscription";
 	private static final String NEW_AGENT = "newAgent";
 	private static final String NEW_INSC_TYPE = "newInscType";
+	private static final String EXIST_INSC_TYPE = "existInscType";
 	private static final String NEW_INSCRIPTION_OUTPUT = "newInscriptionOutput";
 	private static final String NEW_ROLE_TYPE = "newRoleType";
 	private static final String NEW_ROLE = "newRole";
@@ -97,7 +98,7 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
         conf.addNewResource(NEW_ROLE,DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addNewResource(NEW_ROLE_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addNewResource(NEW_INSCRIPTION_OUTPUT,DEFAULT_NS_FOR_NEW_RESOURCE);
-        conf.addNewResource(NEW_INSC_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
+       // conf.addNewResource(NEW_INSC_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
         
         conf.addN3Optional(Arrays.asList(n3ForNewAgent));
         conf.addNewResource(NEW_AGENT,DEFAULT_NS_FOR_NEW_RESOURCE);
@@ -134,8 +135,6 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
             setValidators( list("nonempty")).
             setOptions( new ChildVClassesOptions(
                     AGENT_CLASS)));		
-
-
 
        // uris in scope: none
        // literals in scope: none
@@ -223,10 +222,6 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
         "?cultObject <http://ontology.tib.eu/gesah/object_of_inscription>  ?obInscription .\n" +
         "?obInscription  a <http://ontology.tib.eu/gesah/Inscription_Activity> . \n" +
         "?obInscription	 <http://ontology.tib.eu/gesah/realizes> ?newRole . \n" +
-        "?obInscription	 <http://ontology.tib.eu/gesah/has_inscription_output> ?newInscriptionOutput . \n" +
-        "?newInscriptionOutput a ?inscriptionOutputType . \n" +
-        "?inscriptionOutputType rdfs:subClassOf <http://ontology.tib.eu/gesah/Inscription> . \n" +
-        "?newInscriptionOutput <http://ontology.tib.eu/gesah/output_of_inscription> ?obInscription . \n" +
         "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obInscription . \n" +
         //"?newRole a <http://purl.obolibrary.org/obo/BFO_0000023> . \n" +
         "?obInscription <http://ontology.tib.eu/gesah/has_inscription_object> ?cultObject .";
@@ -280,15 +275,13 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
     final static String n3ForNewInscType  =
         //"@prefix gesah: <"+ gesah +"> .\n"+
     		"@prefix rdfs: <"+ RDFS +">   .\n"+
-    		"?obInscription <http://ontology.tib.eu/gesah/has_inscription_output> ?newInscriptionOutput . \n" +
+    	"?obInscription <http://ontology.tib.eu/gesah/has_inscription_output> ?newInscriptionOutput . \n" +
         "?newInscriptionOutput <http://ontology.tib.eu/gesah/has_inscription_type> ?newInscType . \n" +
-        "?newInscType <http://ontology.tib.eu/gesah/inscription_type_of> ?newInscriptionOutput . \n" +
-        "?newInscType <"+ LABEL +"> ?inscTypeLabel . \n" +
-        "?newInscType a <http://ontology.tib.eu/gesah/Inscription_Type> .";
+        "?newInscType <http://ontology.tib.eu/gesah/inscription_type_of> ?newInscriptionOutput . \n";     
 		
     final static String n3ForExistingInscType  =
         //"@prefix gesah: <"+ gesah +"> .\n"+
-				"?obInscription <http://ontology.tib.eu/gesah/has_inscription_output> ?newInscriptionOutput . \n" +
+		"?obInscription <http://ontology.tib.eu/gesah/has_inscription_output> ?newInscriptionOutput . \n" +
         "?newInscriptionOutput <http://ontology.tib.eu/gesah/has_inscription_type> ?existingInscType . \n" +
         "?existingInscType <http://ontology.tib.eu/gesah/inscription_type_of> ?newInscriptionOutput . \n" +
         "?existingInscType a <http://ontology.tib.eu/gesah/Inscription_Type> .";	
