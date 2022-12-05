@@ -54,6 +54,7 @@ import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
  *
  */
 public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerator implements EditConfigurationGenerator{
+	private static final String INSCRIPTION_OUTPUT_TYPE_VAR = "inscriptionOutputType";
 	private static final String OBJECT_OF_INSCRIPTION = "object_of_inscription";
 	private static final String NEW_AGENT = "newAgent";
 	private static final String NEW_INSC_TYPE = "newInscType";
@@ -140,14 +141,14 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
        // literals in scope: none
 
         conf.addUrisOnForm( Arrays.asList("inscriptionOutput"));
-        conf.addUrisOnForm( Arrays.asList("inscriptionOutputType"));
+        conf.addUrisOnForm( Arrays.asList(INSCRIPTION_OUTPUT_TYPE_VAR));
         conf.addUrisOnForm( Arrays.asList("existingInscType"));
         conf.addUrisOnForm( Arrays.asList("existingRoleType"));
         conf.addLiteralsOnForm( Arrays.asList("roleTypeLabel"));
         conf.addLiteralsOnForm( Arrays.asList("existingInscTypeLabel"));
         
         
-        conf.addN3Optional(Arrays.asList(transcriptionAssertion));
+        conf.addN3Optional(Arrays.asList(transcriptionN3));
         conf.addLiteralsOnForm( Arrays.asList("transcription"));
         conf.addSparqlForExistingLiteral("transcription", transcriptionQuery);
         conf.addField( new FieldVTwo().
@@ -164,14 +165,14 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
         conf.addSparqlForExistingUris("existingInscType", existingInscTypeQuery);
         conf.addSparqlForExistingUris("existingRoleType", existingRoleTypeQuery);
         conf.addSparqlForExistingUris(NEW_ROLE, existingRoleQuery);
-        conf.addSparqlForExistingUris("inscriptionOutputType", inscriptionOutputTypeQuery);
+        conf.addSparqlForExistingUris(INSCRIPTION_OUTPUT_TYPE_VAR, inscriptionOutputTypeQuery);
 		//conf.addSparqlForExistingUris("inscriptionOutput", inscriptionOutputQuery);
         
         //Add sparql to include inverse property as well
         conf.addSparqlForAdditionalUrisInScope("hasInscriptionObject", hasInscriptionObjectQuery);
 			
         conf.addField( new FieldVTwo().
-                setName("inscriptionOutputType").
+                setName(INSCRIPTION_OUTPUT_TYPE_VAR).
                 setValidators( list("nonempty")).
                 setOptions( new ChildVClassesOptions(
                         INSCRIPTION_OUTPUT_CLASS)));					
@@ -226,11 +227,7 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
         //"?newRole a <http://purl.obolibrary.org/obo/BFO_0000023> . \n" +
         "?obInscription <http://ontology.tib.eu/gesah/has_inscription_object> ?cultObject .";
 		
-    final static String n3ForNewInscriptionOutput  =
-    		"?obInscription <http://ontology.tib.eu/gesah/has_inscription_output> ?newInscriptionOutput . \n" +
-    		"?newInscriptionOutput <http://ontology.tib.eu/gesah/output_of_inscription> ?obInscription . \n" +
-    		"?newInscriptionOutput a ?inscriptionOutputType  . \n" +
-    		"?inscriptionOutputType rdfs:subClassOf <http://ontology.tib.eu/gesah/Inscription> ." ;
+
 		
     final static String n3ForNewAgent  =
 				"@prefix rdfs: <"+ RDFS +">   .\n"+
@@ -241,7 +238,7 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
         "?newRole <http://ontology.tib.eu/gesah/is_role_of> ?newAgent . \n" +
         "?newRole <http://ontology.tib.eu/gesah/realized_in> ?obInscription . \n" +
         "?newAgent a ?agentType . \n" +
-        "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> .\n" +
+        "?agentType <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://xmlns.com/foaf/0.1/Agent> .\n" +
         "?newAgent rdfs:label ?agentLabel . ";
 
     final static String n3ForExistingAgent  =
@@ -286,8 +283,13 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
         "?existingInscType <http://ontology.tib.eu/gesah/inscription_type_of> ?newInscriptionOutput . \n" +
         "?existingInscType a <http://ontology.tib.eu/gesah/Inscription_Type> .";	
 		
-    final static String transcriptionAssertion  =
+    final static String transcriptionN3  =
         "?newInscriptionOutput <http://ontology.tib.eu/gesah/transcription> ?transcription .";
+    
+    final static String transcriptionQuery  =
+        "SELECT (STR(?existingTranscriptionLit) as ?existingTranscription) WHERE {\n" +
+        "?obInscription <http://ontology.tib.eu/gesah/has_inscription_output> ?newInscriptionOutput .\n" +
+        "?newInscriptionOutput <"+ TRANSCRIPTION_PRED +"> ?existingTranscriptionLit . }";
 		
     final static String commentAssertion  =
         "?obInscription <http://ontology.tib.eu/gesah/comment> ?comment .";	
@@ -328,7 +330,7 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
         "?existingAgent <http://ontology.tib.eu/gesah/has_role> ?existingRole .\n" +
         "?existingRole <http://ontology.tib.eu/gesah/is_role_of> ?existingAgent .\n" +
         "?existingAgent a ?agentType . \n " +
-        "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> . }" ;
+        "?agentType <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://xmlns.com/foaf/0.1/Agent> . }" ;
 
     final static String agentLabelQuery  =
         "PREFIX rdfs: <"+ RDFS +">   \n"+
@@ -337,7 +339,7 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
 		"?existingAgent <http://ontology.tib.eu/gesah/participates_in> ?obInscription . \n" +
         "?existingAgent <"+ LABEL +"> ?existingAgentLabel .\n"+
         "?existingAgent a ?agentType . \n " +
-        "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> . }" ;
+        "?agentType <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://xmlns.com/foaf/0.1/Agent> . }" ;
 
 
 	/* Limit type to subclasses of foaf:Agent. Otherwise, sometimes owl:Thing or another
@@ -351,7 +353,7 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
         "?existingAgent <http://ontology.tib.eu/gesah/has_role> ?existingRole .\n" +
         "?existingRole <http://ontology.tib.eu/gesah/is_role_of> ?existingAgent .\n" +
         "?existingAgent a ?agentType .\n"+
-        "?agentType rdfs:subClassOf <http://xmlns.com/foaf/0.1/Agent> .}";		
+        "?agentType <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://xmlns.com/foaf/0.1/Agent> .}";		
 		
     final static String inscriptionOutputTypeQuery  =
         "PREFIX rdfs: <"+ RDFS +">   \n"+
@@ -359,11 +361,13 @@ public class ObjectHasInscriptionGenerator extends GesahEditConfigurationGenerat
         "?obInscription <http://ontology.tib.eu/gesah/has_inscription_output> ?newInscriptionOutput . \n" +
         "?newInscriptionOutput <http://ontology.tib.eu/gesah/output_of_inscription> ?obInscription . \n" +
         "?newInscriptionOutput a ?inscriptionOutputType  . \n" +
-        "?inscriptionOutputType rdfs:subClassOf <http://ontology.tib.eu/gesah/Inscription> . }";		
+        "?inscriptionOutputType <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://ontology.tib.eu/gesah/Inscription> . }";		
 	
-    final static String transcriptionQuery  =
-        "SELECT (STR(?existingTranscriptionLit) as ?existingTranscription) WHERE {\n"+
-        "?newInscriptionOutput <"+ TRANSCRIPTION_PRED +"> ?existingTranscriptionLit . }";
+    final static String n3ForNewInscriptionOutput  =
+    	"?obInscription <http://ontology.tib.eu/gesah/has_inscription_output> ?newInscriptionOutput . \n" +
+    	"?newInscriptionOutput <http://ontology.tib.eu/gesah/output_of_inscription> ?obInscription . \n" +
+    	"?newInscriptionOutput a ?inscriptionOutputType  . \n" +
+    	"?inscriptionOutputType <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://ontology.tib.eu/gesah/Inscription> ." ;
 
     final static String commentQuery  =
         "SELECT ?existingComment WHERE {\n"+

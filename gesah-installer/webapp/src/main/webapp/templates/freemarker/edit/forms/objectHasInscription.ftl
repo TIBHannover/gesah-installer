@@ -40,7 +40,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
             <select name="inscriptionOutputType" style="margin-top:-2px" >
                 <option value="" <#if inscriptionOutputTypeValue == "">selected</#if>>${i18n().select_one}</option>
                 <#list inscriptionOutputTypeOpts?keys as key>
-                    <option value="${key}"  <#if inscriptionOutputTypeValue == key>selected</#if>><#if inscriptionOutputTypeOpts[key] == "Other">${i18n().or_other}<#else>${inscriptionOutputTypeOpts[key]}</#if></option>
+                    <option value="${key}"  <#if inscriptionOutputTypeValue == key>selected</#if>>${inscriptionOutputTypeOpts[key]}</option>
                 </#list>
             </select>
             <#-- input type="hidden" id="roleTypeLabel" name="roleTypeLabel" value=""/-->
