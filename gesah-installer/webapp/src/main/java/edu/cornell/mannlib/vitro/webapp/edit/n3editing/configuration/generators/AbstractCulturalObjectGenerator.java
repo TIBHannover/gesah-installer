@@ -339,7 +339,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 		conf.addLiteralsOnForm(Arrays.asList(ACTOR_LABEL_DISPLAY));
 		conf.addSparqlForExistingLiteral(ACTOR_LABEL, actorLabelQuery);
 		conf.addSparqlForExistingUris(ACTOR_TYPE, actorTypeQuery);
-		conf.addField(new FieldVTwo().setName(ACTOR_TYPE).setValidators(list(NONEMPTY))
+		conf.addField(new FieldVTwo().setName(ACTOR_TYPE).setValidators(list(DATATYPE + XSD.xstring.toString()))
 				.setOptions(new ChildVClassesOptions(ACTOR_CLASS)));
 		conf.addField(new FieldVTwo().setName(ACTOR_LABEL).setRangeDatatypeUri(XSD.xstring.toString())
 				.setValidators(list(DATATYPE + XSD.xstring.toString())));
