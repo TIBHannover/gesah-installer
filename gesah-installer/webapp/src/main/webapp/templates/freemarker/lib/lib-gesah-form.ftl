@@ -155,7 +155,7 @@
 		<#assign existingAgentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingAgent") />
 
 		<p class="inline">
-            <label for="agentType">${i18n().agent_type_capitalized} ${requiredHint}</label>
+            <label for="agentType">${i18n().agent_type_capitalized}</label>
             <#assign agentTypeOpts = editConfiguration.pageData.agentType />
             <select id="typeSelector" name="agentType" acGroupName="agent">
                 <option value="" selected="selected">${i18n().select_one}</option>
@@ -169,7 +169,7 @@
             </select>
         </p>
         <p>
-            <label for="relatedIndLabel">${i18n().agent_capitalized} ${i18n().name_capitalized} ${requiredHint}</label>
+            <label for="relatedIndLabel">${i18n().agent_capitalized} ${i18n().name_capitalized}</label>
             <input class="acSelector" size="50"  type="text" id="relatedIndLabel" name="agentLabel" acGroupName="agent" value="${agentLabelValue}"  />
             <input class="display" type="hidden" id="agentDisplay" acGroupName="agent" name="agentLabelDisplay" value="${agentLabelDisplayValue}">
         </p>
