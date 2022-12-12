@@ -126,10 +126,8 @@ public class ObjectHasInscriptionGenerator extends AbstractCulturalObjectGenerat
         "?" + CULT_OBJECT + " <http://ontology.tib.eu/gesah/object_of_inscription>  ?" + ACTIVITY_OBJ + " .\n" +
         "?" + ACTIVITY_OBJ + " <http://ontology.tib.eu/gesah/has_inscription_object> ?" + CULT_OBJECT + " ." +
         "?" + ACTIVITY_OBJ + " a <http://ontology.tib.eu/gesah/Inscription_Activity> . \n" +
-        "?" + ACTIVITY_OBJ + " <http://ontology.tib.eu/gesah/realizes> ?" + NEW_ACTOR_ROLE + " . \n" +
         "?" + ACTIVITY_OBJ + " <http://ontology.tib.eu/gesah/has_inscription_output> ?" + INSCRIPTION_OUTPUT + " . \n" +
-        "?" + INSCRIPTION_OUTPUT + " <http://ontology.tib.eu/gesah/output_of_inscription> ?" + ACTIVITY_OBJ + " . \n" +
-        "?" + NEW_ACTOR_ROLE + " " + "<" + GESAH_REALIZED_IN + ">" + " ?" + ACTIVITY_OBJ + " . \n" ;
+        "?" + INSCRIPTION_OUTPUT + " <http://ontology.tib.eu/gesah/output_of_inscription> ?" + ACTIVITY_OBJ + " . \n" ;
     
     final static String n3ForInscriptionSpecification  =
         "?" + INSCRIPTION_OUTPUT + " <http://ontology.tib.eu/gesah/has_inscription_type> ?" + INSCRIPTION_SPECIFICATION + " . \n" +
