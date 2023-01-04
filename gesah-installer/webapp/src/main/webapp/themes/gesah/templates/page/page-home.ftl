@@ -77,8 +77,9 @@
              <div class="col-md-12">
                  <div class="container">
                      <div class="jumbotron">
-                         <p>${i18n().intro_para1}</p>
-                         <p>${i18n().intro_para2}</p>
+                         <div><a href="https://www.tib.eu/de/recherchieren-entdecken/sondersammlungen/sammlung-albrecht-haupt">${i18n().collection_link_text}</a></div>
+                         <div><a href="https://projects.tib.eu/haupt">${i18n().project_link_text}</a></div>
+                         <div><a href="contact">${i18n().contact_link_text}</a></div>
                      </div>
                  </div>
              </div>
