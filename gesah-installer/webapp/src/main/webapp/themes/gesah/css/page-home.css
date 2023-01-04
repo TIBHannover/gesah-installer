@@ -1,17 +1,18 @@
 .jumbotron {
     background-color: transparent;
     color: #4b4b4b;
+    display: flex;
+    justify-content: space-between;
+}
+
+.jumbotron div {
+    flex-basis: 31%;
     text-align: center;
-    text-align: left;
 }
 
-.jumbotron h1 {
-    font-size: 40px;
-}
-
-.jumbotron p {
-    color: #4b4b4b;
-    font-size: 18px;
+.jumbotron  a {
+    font-size: 1.5rem;
+    color: #AF1414;
 }
 
 .hero {
