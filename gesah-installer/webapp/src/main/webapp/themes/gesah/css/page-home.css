@@ -1,16 +1,37 @@
 .jumbotron {
     background-color: transparent;
     color: #4b4b4b;
-    display: flex;
+}
+
+.flex-home-blocks {
+	display: flex;
     justify-content: space-between;
 }
 
-.jumbotron div {
+.more-objects-image-container {
+	display: flex;
+    justify-content: space-evenly;
+    padding-top:20px!important;
+    padding-bottom:0px!important;
+    margin-bottom:0px!important;
+}
+
+.more-objects-image-container > div {
+	position: relative;
+}
+
+.jumbotron h1 {
+    font-size: 34px;
+    text-align: left;
+    color: #4b4b4b;
+}
+
+.flex-home-blocks div {
     flex-basis: 31%;
     text-align: center;
 }
 
-.jumbotron  a {
+.flex-home-blocks  a {
     font-size: 1.5rem;
     color: #AF1414;
 }
@@ -266,6 +287,12 @@ div.faculty-home {
 	font-size: 2.0em;
 	margin-top: 30px;
 	margin-bottom: 20px;
+}
+#search-collection-heading {
+	padding-left: 80px;
+        font-size: 2.0em;
+        margin-top: 30px;
+        margin-bottom: 20px;
 }
 
 .category_facet_label {
