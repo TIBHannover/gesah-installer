@@ -49,7 +49,7 @@
 		                        <fieldset>
 		                            <div class="form-group">
 			                             <div id="search-line-container">
-			                                 <div class="input-group">
+			                                 <div class="input-group home-page-input-group">
 			                                     <input type="text" name="querytext" class="form-control" value="" placeholder="${i18n().search_field_placeholder}" autocapitalize="off" />
 			                                     <span class="input-group-btn">
 			                                         <button class="btn btn-default" type="submit">
