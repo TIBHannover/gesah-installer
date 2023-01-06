@@ -45,23 +45,27 @@
                             <h1>${i18n().intro_title}</h1>
                         </div>
                         <div id="search-collection-heading">${i18n().search_collection_text}</div>
-                        <form id="search-homepage" action="${urls.base}/extendedsearch" name="search-home" role="search" method="GET" class="form-horizontal">
-                            <fieldset>
-                             <div class="form-group">
-                                 <div class="input-group">
-                                     <input type="text" name="querytext" class="form-control" value="" placeholder="${i18n().search_field_placeholder}" autocapitalize="off" />
-                                     <span class="input-group-btn">
-                                         <button class="btn btn-default" type="submit">
-                                             <span class="icon-search">${i18n().search_button}</span>
-                                         </button>
-                                     </span>
-                                 </div>
-                             </div>
-                             <input type="checkbox" id="filters_type_cultural_object" value="type:http://ontology.tib.eu/gesah/Cultural_Object" name="filters_type_cultural_object" style="display:none;" checked="checked" "="" class="selected-input">
-                         </fieldset>
-                     </form>
-                 </div>
-             </div>
+                        	<form id="search-homepage" action="${urls.base}/extendedsearch" name="search-home" role="search" method="GET" class="form-horizontal">
+		                        <fieldset>
+		                            <div class="form-group">
+			                             <div id="search-line-container">
+			                                 <div class="input-group">
+			                                     <input type="text" name="querytext" class="form-control" value="" placeholder="${i18n().search_field_placeholder}" autocapitalize="off" />
+			                                     <span class="input-group-btn">
+			                                         <button class="btn btn-default" type="submit">
+			                                             <span class="icon-search">${i18n().search_button}</span>
+			                                         </button>
+			                                     </span>
+			                                 </div>
+			                              	<a href="${urls.base}/extendedsearch"><img class="search-icon search-icon-settings" src="images/icons/settings.svg"></a>
+			                             	<img class="search-icon search-icon-question"  src="images/icons/question.svg">
+			                             </div>
+			                         </div>
+		                             <input type="checkbox" id="filters_type_cultural_object" value="type:http://ontology.tib.eu/gesah/Cultural_Object" name="filters_type_cultural_object" style="display:none;" checked="checked" "="" class="selected-input">
+		                         </fieldset>
+                     		</form>
+		                 </div>
+		             </div>
 
 			<#include "graphicalView.ftl">
 			<div class="col-md-12">

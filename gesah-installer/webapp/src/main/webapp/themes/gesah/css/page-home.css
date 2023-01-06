@@ -36,6 +36,40 @@
     color: #AF1414;
 }
 
+.input-group {
+	width: calc(100% - 127px);
+	padding-right: unset!important;
+}
+
+.search-icon {
+	width: 36px;
+	height: 36px;
+	display: inline;
+	margin-top: 10px;
+	margin-left: 5px;
+}
+
+.search-icon-question{
+	padding: 5px;	
+}
+
+.search-icon-settings{
+	padding: 2px;	
+}
+
+#search-line-container {
+	width: 100%;
+	display: flex;	
+}
+
+#search-line-container > a {
+	display: flex;
+}
+
+.form-group {
+	width: 100%;
+}
+
 .hero {
    /* background: #283a4b url(../images/library.jpg) repeat-x 0 0; */
 }
