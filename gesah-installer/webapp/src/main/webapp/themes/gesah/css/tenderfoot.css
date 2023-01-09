@@ -284,8 +284,9 @@ h1.vivo-logo {
     height: 120px;
     top: 15px;
     left: 0;
-    background-size: auto 60% !important;
+    background-size: 100% auto !important;
     z-index: -1;
+    max-width: 650px;
 }
 h1.vivo-logo a {
     display: block;
