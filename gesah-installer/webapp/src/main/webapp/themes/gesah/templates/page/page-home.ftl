@@ -54,7 +54,7 @@
 			                                         </button>
 			                                     </span>
 			                                 </div>
-			                              	<a href="${urls.base}/extendedsearch"><img class="search-icon search-icon-settings" src="images/icons/settings.svg"></a>
+			                              	<a href="${urls.base}/extendedsearch?filters_type_cultural_object=type:http://ontology.tib.eu/gesah/Cultural_Object"><img class="search-icon search-icon-settings" src="images/icons/settings.svg"></a>
 			                             	<img class="search-icon search-icon-question"  src="images/icons/question.svg">
 			                             </div>
 			                         </div>
@@ -70,13 +70,13 @@
                     <div id="search-collection-heading">${i18n().more_objects_in_albrecht_haupt_collection}</div>
                     <div class="more-objects-image-container jumbotron">
                     	<div>
-                    		<a href="https://opac.tib.eu/DB=1/SET=1/TTL=1/CMD?ACT=SRCHA&IKT=2140&SRT=YOP&TRM=*Haupt*">
+                    		<a target="_blank" href="https://opac.tib.eu/DB=1/SET=1/TTL=1/CMD?ACT=SRCHA&IKT=2140&SRT=YOP&TRM=*Haupt*">
                     			<img src="images/library.jpg">
                     			<div class="category_facet_label">${i18n().haupt_library_img_text}</div>
                     		</a>
                     	</div>
                     	<div>
-                    		<a href="https://www.tib.eu/sammlung-haupt-architektonische-reiseskizzen/">
+                    		<a target="_blank" href="https://www.tib.eu/sammlung-haupt-architektonische-reiseskizzen/">
                     			<img src="images/travel_sketches.jpg">
                     			<div class="category_facet_label">${i18n().haupt_sketches_img_text}</div>
                     		</a>
