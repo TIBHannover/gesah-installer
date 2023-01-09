@@ -281,12 +281,10 @@ a.powered-by-vivo:hover {
 h1.vivo-logo {
     position: absolute;
     width: 100%;
-    max-width: 650px;
     height: 120px;
     top: 15px;
     left: 0;
-    background: url(../images/gesah.jpg) 0 0 no-repeat;
-    background-size: 100% auto;
+    background-size: auto 60% !important;
     z-index: -1;
 }
 h1.vivo-logo a {
