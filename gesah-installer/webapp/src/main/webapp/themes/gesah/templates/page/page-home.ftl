@@ -41,9 +41,6 @@
             <div class="theme-showcase">
                 <div class="col-md-12">
                     <div class="container" role="main">
-                        <div class="jumbotron">
-                            <h1>${i18n().intro_title}</h1>
-                        </div>
                         <div id="search-collection-heading">${i18n().search_collection_text}</div>
                         	<form id="search-homepage" action="${urls.base}/extendedsearch" name="search-home" role="search" method="GET" class="form-horizontal">
 		                        <fieldset>
