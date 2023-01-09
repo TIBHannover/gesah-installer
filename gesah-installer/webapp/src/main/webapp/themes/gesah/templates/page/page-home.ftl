@@ -90,9 +90,9 @@
             <div class="col-md-12">
                  <div class="container">
                      <div class="jumbotron flex-home-blocks">
-                         <div><a href="https://www.tib.eu/de/recherchieren-entdecken/sondersammlungen/sammlung-albrecht-haupt">${i18n().collection_link_text}</a></div>
-                         <div><a href="https://projects.tib.eu/haupt">${i18n().project_link_text}</a></div>
-                         <div><a href="contact">${i18n().contact_link_text}</a></div>
+                         <div><a target="_blank" href="${i18n().collection_link_value}">${i18n().collection_link_text}</a></div>
+                         <div><a target="_blank" href="${i18n().project_link_value}">${i18n().project_link_text}</a></div>
+                         <div><a target="_blank" href="contact">${i18n().contact_link_text}</a></div>
                      </div>
                  </div>
              </div>
