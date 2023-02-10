@@ -185,7 +185,7 @@
 			<@printResultNumbers />
 			<@printHits />
 			<@printSorting />
-		<div> 
+		</div> 
 	</form>
 </#macro>
 

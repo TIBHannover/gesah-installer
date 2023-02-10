@@ -33,7 +33,7 @@
 
 .flex-home-blocks  a {
     font-size: 1.5rem;
-    color: #AF1414;
+    color: #2B3C46;
 }
 
 .home-page-input-group {
@@ -317,12 +317,14 @@ div.faculty-home {
 }
 
 #exploreTheCollection {
+	color: #2B3C46;
 	padding-left: 80px;
 	font-size: 2.0em;
 	margin-top: 30px;
 	margin-bottom: 20px;
 }
 #search-collection-heading {
+	color: #2B3C46;
 	padding-left: 80px;
         font-size: 2.0em;
         margin-top: 30px;

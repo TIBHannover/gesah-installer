@@ -7,11 +7,11 @@ legend {
 }
 
 #nav {
-    background: #E3E3E3;
+    background: #2B3C46;
 }
 
 .navbar-default {
-    background-color: #E3E3E3;
+    background-color: #2B3C46;
     background-image: none;
     background-repeat: no-repeat;
     filter: none;
@@ -136,10 +136,9 @@ body {
 
 /* HEADER ------>  */
 #branding {
-    border-bottom: 1px solid #AF1414;
+    border-bottom: 0px !important;
     position: relative;
-//    width: 970px;
-    height: 140px;
+    height: 70px;
     margin: 0 auto;
 }
 #branding .row {
@@ -168,7 +167,7 @@ ul#header-nav li:last-child {
     border-right: none;
 }
 ul#header-nav a {
-    color: #AF1414;
+    color: #2B3C46;
 }
 ul#header-nav a:hover,
 ul#header-nav a:active {
@@ -225,16 +224,15 @@ footer {
     margin: 0 auto;
     font-size: .7em;
     color: white;
-    background-color: #e3e3e3;
-    border-top: 2px solid #AF1414;
+    background-color: #2B3C46;
 }
 footer .row {
-    background-color: #e3e3e3;
+    background-color: #2B3C46;
 }
 footer p.copyright {
     float: left;
     padding-top: 55px;
-    color: #AF1414;
+    color: #8499A3;
 }
 footer p.copyright small {
     font-size: 1em;
@@ -261,12 +259,12 @@ ul#individual-facultyMemberships li:last-child {
     border-right: none;
 }
 #footer-nav a {
-    color: #AF1414;
+    color: #fff;
 }
 #footer-nav a:hover,
 a.terms,
 a.powered-by-vivo {
-    color: #AF1414;
+    color: #8499A3;
     text-decoration: none;
 }
 #footer-nav  a.terms:hover,
@@ -281,12 +279,12 @@ a.powered-by-vivo:hover {
 h1.vivo-logo {
     position: absolute;
     width: 100%;
-    height: 120px;
+    height: 50px;
     top: 15px;
     left: 0;
-    background-size: 100% auto !important;
+    background-size: auto 100% !important;
     z-index: -1;
-    max-width: 650px;
+    max-width: 25%;
 }
 h1.vivo-logo a {
     display: block;

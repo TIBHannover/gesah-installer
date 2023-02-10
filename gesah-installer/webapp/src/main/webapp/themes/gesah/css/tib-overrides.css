@@ -14,7 +14,7 @@ input[type="text"], select, input[type="password"] {
 }
 
 .navbar-default .navbar-nav>li>a {
-    color: #4b4b4b;
+    color: #fff;
 }
 .navbar-default .navbar-nav>li>a:hover {
     color: #af1414;
