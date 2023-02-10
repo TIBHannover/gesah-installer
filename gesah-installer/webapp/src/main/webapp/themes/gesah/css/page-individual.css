@@ -4,7 +4,7 @@ article.property {
 
 article.property h3 {
     background-image: none;
-    background-color: #e4e4e4;
+    background-color: #f1f1f1;
     background-repeat: repeat-x;
     color: #4b4b4b;
 }
@@ -132,7 +132,7 @@ a.edit-mainImage img.edit-individual {
 }
 
 #admin {
-    background-color: #E3E3E3;
+    background-color: #f1f1f1;
     margin-top: 15px;
 }
 #admin h3 {
