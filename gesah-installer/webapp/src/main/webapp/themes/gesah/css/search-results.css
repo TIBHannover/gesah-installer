@@ -46,29 +46,27 @@
 }
 
 input[type=radio]:checked + label {
-  background-color: #af1414;
-  color: white;
-  border-radius: 10px;
+  background-color: #0F6568;
   padding: 2px 5px 2px 5px;
+  color: #fff;
 }
 
 input[type=checkbox]:checked + label {
-  background-color: #af1414;
-  color: white;
-  border-radius: 10px;
+  background-color: #0F6568;
+  color: #fff;
   padding: 2px 5px 2px 5px;
 }
 
 input[type=radio]:not(:checked) + label {
   padding: 2px 5px 2px 5px;
-  border-radius: 10px;
-  background-color: #E3E3E3;
+  color: #fff;
+  background-color: #8499A3;
 }
 
 input[type=checkbox]:not(:checked) + label {
   padding: 2px 5px 2px 5px;
-  border-radius: 10px;
-  background-color: #E3E3E3;
+  color: #fff;
+  background-color: #8499A3;
 }
 
 #selected-filters > label{
@@ -81,16 +79,15 @@ input[type=checkbox]:not(:checked) + label {
 
 .checked-search-input-label {
   display: inline;
-  background-color: #af1414;
-  color: white;
-  border-radius: 10px;
+  background-color: #0F6568;
+  color: #fff;
   padding: 2px 5px 2px 5px;
   border: 0px;
 }
 
 .unchecked-selected-search-input-label {
-  background-color: #E3E3E3 !important;
-  color: unset !important;
+  background-color: #8499A3 !important;
+  color: #fff !important;
 }
 
 .filter-area {
