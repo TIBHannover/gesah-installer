@@ -35,6 +35,15 @@
                         </nav>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="bottom-logos">
+					    <div>
+			              <a href="https://tib.eu/" target="_blank"><img src="${urls.base}/themes/gesah/images/tib-logo.svg" alt="TIB – Leibniz-Informationszentrum Technik und Naturwissenschaften Universitätsbibliothek"></a>
+			              <a href="https://www.uni-hannover.de" target="_blank"> <img src="${urls.base}/themes/gesah/images/luh_logo.svg" alt="Leibniz Universität Hannover"></a>
+			              <a href="https://www.dfg.de" target="_blank"><img src="${urls.base}/themes/gesah/images/dfg_logo_schriftzug_weiss.svg" alt="Deutsche Forschungsgemeinschaft"></a>
+					    </div>
+			 		</div>
+                </div>
             </div>
         </div>
     </div>

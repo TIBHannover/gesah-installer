@@ -89,6 +89,11 @@ text-shadow: unset!important;
 #main-science-areas-table-footer a:hover {
     color: #fafafa;
 }
+.bottom-logos > div {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
 
 #header-entity-label a {
     font-size: 1.5em;
