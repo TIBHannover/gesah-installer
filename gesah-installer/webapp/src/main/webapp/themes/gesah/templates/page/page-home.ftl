@@ -75,29 +75,20 @@
                     <div class="home-page-heading2">${i18n().more_objects_in_albrecht_haupt_collection}</div>
                     <div class="more-objects-image-container jumbotron">
                     	<div>
-                    		<a target="_blank" href="https://opac.tib.eu/DB=1/SET=1/TTL=1/CMD?ACT=SRCHA&IKT=2140&SRT=YOP&TRM=*Haupt*">
-                    			<img src="images/library.jpg">
-                    			<div class="category_facet_label">${i18n().haupt_library_img_text}</div>
-                    		</a>
-                    	</div>
-                    	<div>
                     		<a target="_blank" href="https://www.tib.eu/sammlung-haupt-architektonische-reiseskizzen/">
                     			<img src="images/travel_sketches.jpg">
                     			<div class="category_facet_label">${i18n().haupt_sketches_img_text}</div>
                     		</a>
                     	</div>
+                    	<div>
+                    		<a target="_blank" href="https://opac.tib.eu/DB=1/SET=1/TTL=1/CMD?ACT=SRCHA&IKT=2140&SRT=YOP&TRM=*Haupt*">
+                    			<img src="images/library.jpg">
+                    			<div class="category_facet_label">${i18n().haupt_library_img_text}</div>
+                    		</a>
+                    	</div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12">
-                 <div class="container">
-                     <div class="jumbotron flex-home-blocks">
-                         <div><a target="_blank" href="${i18n().collection_link_value}">${i18n().collection_link_text}</a></div>
-                         <div><a target="_blank" href="${i18n().project_link_value}">${i18n().project_link_text}</a></div>
-                         <div><a target="_blank" href="contact">${i18n().contact_link_text}</a></div>
-                     </div>
-                 </div>
-             </div>
          </div>
      </div>
         <#if geoFocusMapsEnabled >

@@ -219,20 +219,28 @@ input.search-vivo {
     display: none;
 }
 /* FOOTER------>  */
+footer p, footer a {
+    color:#fff;
+}
+
 footer {
+    padding-top:2rem;
     height: 88px;
-    margin: 0 auto;
+    margin-top: 2rem;
     font-size: .7em;
-    color: white;
     background-color: #2B3C46;
 }
+
+.footer-heading, .footer-heading a, .footer-heading p {
+    font-size: 1.2rem;
+}
+
 footer .row {
     background-color: #2B3C46;
 }
 footer p.copyright {
     float: left;
     padding-top: 55px;
-    color: #8499A3;
 }
 footer p.copyright small {
     font-size: 1em;
