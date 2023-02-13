@@ -41,7 +41,12 @@
             <div class="theme-showcase">
                 <div class="col-md-12">
                     <div class="container" role="main">
-                        <div id="search-collection-heading">${i18n().search_collection_text}</div>
+                   		<div class="home-page-intro">
+                   			<h1 class="home-page-heading">${i18n().home_page_intro_header}</h1>
+                   			<p>${i18n().home_page_intro_text}</p>
+                   		</div>
+		                          
+                        <div class="home-page-heading2">${i18n().search_collection_text}</div>
                         	<form id="search-homepage" action="${urls.base}/extendedsearch" name="search-home" role="search" method="GET" class="form-horizontal">
 		                        <fieldset>
 		                            <div class="form-group">
@@ -67,7 +72,7 @@
 			<#include "graphicalView.ftl">
 			<div class="col-md-12">
             	<div class="container">
-                    <div id="search-collection-heading">${i18n().more_objects_in_albrecht_haupt_collection}</div>
+                    <div class="home-page-heading2">${i18n().more_objects_in_albrecht_haupt_collection}</div>
                     <div class="more-objects-image-container jumbotron">
                     	<div>
                     		<a target="_blank" href="https://opac.tib.eu/DB=1/SET=1/TTL=1/CMD?ACT=SRCHA&IKT=2140&SRT=YOP&TRM=*Haupt*">

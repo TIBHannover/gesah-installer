@@ -7,7 +7,7 @@
 <#if categories?has_content>
 <div class="col-md-12">
 	<div class="container">
-      <div id="exploreTheCollection">${i18n().explore_collection_text}</div>
+      <div class="home-page-heading2">${i18n().explore_collection_text}</div>
 	   <div id="searchFacets">
 		 <#list categories as category>
 			<@printCategory category />

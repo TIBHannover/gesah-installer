@@ -312,6 +312,15 @@ div.faculty-home {
     font-size: 1.2em;
 }
 
+.home-page-intro > p {
+  font-size: 1.2rem;
+  text-align: justify;
+}
+
+.home-page-intro > p > a {
+  font-size: 1.2rem;
+}
+
 #searchFacets {
 	display: flex;
 	flex-basis: 100%;
@@ -321,20 +330,21 @@ div.faculty-home {
 	//padding-left: 60px;
 }
 
-#exploreTheCollection {
+.home-page-heading {
 	color: #2B3C46;
-	//padding-left: 80px;
-	font-size: 2.0em;
-	margin-top: 30px;
-	margin-bottom: 20px;
-}
-#search-collection-heading {
-	color: #2B3C46;
-	//padding-left: 80px;
         font-size: 2.0em;
         margin-top: 30px;
         margin-bottom: 20px;
 }
+
+.home-page-heading2 {
+        color: #2B3C46;
+        font-size: 1.6em;
+        margin-top: 30px;
+        margin-bottom: 10px;
+}
+
+
 
 .category_facet_label {
 	position: absolute;
