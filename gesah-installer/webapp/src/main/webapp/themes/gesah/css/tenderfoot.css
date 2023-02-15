@@ -6,6 +6,10 @@ legend {
     z-index: 9;
 }
 
+.navbar-toggle {
+	margin-left: 15px;
+}
+
 #nav {
     background: #2B3C46;
 }
@@ -143,22 +147,7 @@ body {
     background-color:rgba(255, 255, 255, 0);
 }
 /* HEADER NAV------>  */
-ul#header-nav {
-    float: right;
-    list-style: none;
-    height: 30px;
-    padding-top: 10px;
-    margin-right: 13px;
-}
-ul#header-nav li {
-    float: left;
-    display: block;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-right: 0px solid #7c7d7f;
-    font-size: .7em;
-    color: #fff;
-}
+
 ul#header-nav li:last-child {
     padding-left: 1px;
     padding-right: 0;
@@ -219,6 +208,11 @@ input.search-vivo {
 /* FOOTER------>  */
 footer p, footer a {
     color:#fff;
+}
+
+.bottom-logos > div > a > img{
+    width:100%;
+    padding-right:10px;
 }
 
 footer {
@@ -395,6 +389,10 @@ img.add-individual {
     text-align: center;
 }
 
+#nav > div.container > nav > button > span {
+  color: white;
+}
+
 @media screen and (min-width: 640px) {
 	#branding {
 	    height: 70px;
@@ -402,12 +400,42 @@ img.add-individual {
 	h1.vivo-logo {
 	    position: absolute;
 	}
+	ul#header-nav {
+	    float: right;
+	    list-style: none;
+	    height: 30px;
+	    padding-top: 10px;
+	    margin-right: 13px;
+	}
+	ul#header-nav li {
+	    float: left;
+	    display: block;
+	    padding-left: 10px;
+	    padding-right: 10px;
+	    border-right: 0px solid #7c7d7f;
+	    font-size: .7em;
+	    color: #fff;
+	}
 }
 @media screen and (max-width: 640px) {
 	#branding {
-	    height: 100px;
+	    height: 105px;
 	}
 	h1.vivo-logo {
 	    position: relative;
 	}
+	ul#header-nav {
+	    list-style: none;
+	    height: 30px;
+	    padding-top: 20px;
+	}
+	ul#header-nav li {
+	    float: left;
+	    display: block;
+	    border-right: 0px solid #7c7d7f;
+	    font-size: .7em;
+	    color: #fff;
+	}
 }
+
+

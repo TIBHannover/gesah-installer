@@ -11,15 +11,21 @@
 .more-objects-image-container {
 	display: flex;
     justify-content: left;
+    flex-wrap: wrap;
+    gap: 15px;
     padding-top:20px!important;
     padding-bottom:0px!important;
     padding-left:0px!important;
     margin-bottom:0px!important;
+    padding-right:0px!important;
 }
 
 .more-objects-image-container > div {
 	position: relative;
-	margin-right:15px;
+}
+
+.more-objects-image-container > div > a {
+	display: flex;
 }
 
 .jumbotron h1 {
@@ -370,6 +376,24 @@ div.faculty-home {
 	color: white;
 	font-size: 1.2em;
 	text-shadow: 1px 1px 4px black;
+}
+
+.category_facet_description {
+	position: absolute;
+	top: 18px;
+	left: 30px;
+	color: white;
+	font-size: 1.2em;
+	text-shadow: 1px 1px 4px black;
+	display: none;
+	
+}
+a.facet_link:hover > div.category_facet_description {
+	display: block;
+}
+
+a.facet_link:hover > div.category_facet_label {
+	display: none;
 }
 
 .category_facet{
