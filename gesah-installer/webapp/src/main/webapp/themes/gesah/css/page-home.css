@@ -38,6 +38,19 @@
     color: #2B3C46;
 }
 
+.home-page-help-text {
+	position: absolute;
+	display: none;
+    border:1px solid #AE1313;
+	z-index: 2;
+	top: 50px;
+	background-color: #fff;
+	padding: 1rem;
+}
+a.home-page-help-icon:hover + div {
+	display: block;
+}
+
 .home-page-input-group {
 	width: calc(100% - 127px);
 	padding-right: unset!important;
@@ -328,8 +341,7 @@ div.faculty-home {
 	flex-basis: 100%;
 	flex-direction: row;
 	flex-wrap: wrap;
-	//padding-right: 60px;
-	//padding-left: 60px;
+	gap: 15px;
 }
 
 .home-page-heading {
@@ -346,8 +358,6 @@ div.faculty-home {
         margin-bottom: 10px;
 }
 
-
-
 .category_facet_label {
 	position: absolute;
 	top: 18px;
@@ -361,8 +371,6 @@ div.faculty-home {
 	position: relative;
 	flex-grow: 1;
 	overflow: hidden;
-	padding-right: 15px;
-        padding-top: 15px;
 }
 
 .category_facet > a > img {
