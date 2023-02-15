@@ -52,7 +52,7 @@ a.home-page-help-icon:hover + div {
 }
 
 .home-page-input-group {
-	width: calc(100% - 127px);
+	width: 100%;
 	padding-right: unset!important;
 }
 
@@ -83,7 +83,12 @@ a.home-page-help-icon:hover + div {
 }
 
 #search-homepage {
-        padding-left: 15px!important;
+     padding-left: 0px!important;
+}
+
+#search-homepage > fieldset > div {
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 .form-group {
