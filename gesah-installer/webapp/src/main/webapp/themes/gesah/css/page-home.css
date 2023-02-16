@@ -401,6 +401,10 @@ a.facet_link:hover > div.category_facet_label {
 	display: none;
 }
 
+#navbarContent > ul:first-child {
+	display: none;
+}
+
 .category_facet{
 	position: relative;
 	flex-grow: 1;
