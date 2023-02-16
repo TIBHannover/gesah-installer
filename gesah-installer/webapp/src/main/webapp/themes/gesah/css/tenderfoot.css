@@ -225,6 +225,11 @@ footer {
 
 .footer-heading, .footer-heading a, .footer-heading p {
     font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+footer a:hover {
+	color: #8499A3;
 }
 
 footer .row {
