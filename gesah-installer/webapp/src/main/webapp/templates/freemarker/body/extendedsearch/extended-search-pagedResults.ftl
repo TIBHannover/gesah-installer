@@ -269,9 +269,9 @@
 
 <#macro searchFormGroupTab group active >
 	<#if active>
-	 	<li class="active">
+	 	<li class="active form-group-tab">
 	<#else>
-		<li>
+		<li class="form-group-tab">
 	</#if>
 			<a data-toggle="tab" href="#${group.id}">${group.label}</a>
 		</li>
@@ -282,7 +282,7 @@
 		<#-- skip query text filter -->
 		<#return>
 	</#if>
-		<li>
+		<li class="filter-tab">
 			<a data-toggle="tab" href="#${filter.id}">${filter.name}</a>
 		</li>
 </#macro>
