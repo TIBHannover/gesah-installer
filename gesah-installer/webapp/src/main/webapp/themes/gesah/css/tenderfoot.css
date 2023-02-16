@@ -417,6 +417,7 @@ img.add-individual {
 	    color: #fff;
 	}
 }
+
 @media screen and (max-width: 640px) {
 	#branding {
 	    height: 105px;
@@ -438,4 +439,11 @@ img.add-individual {
 	}
 }
 
-
+@media screen and (max-width: 500px) {
+	.listElementContainer {
+		flex-direction: column-reverse;
+	}
+	.listElementInformation {
+		margin-bottom: 10px;
+	}
+}
