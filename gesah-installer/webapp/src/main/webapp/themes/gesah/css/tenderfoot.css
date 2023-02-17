@@ -217,6 +217,9 @@ input.search-vivo {
 footer p, footer a {
     color:#fff;
 }
+footer a:hover {
+	text-decoration: none;
+}
 
 .bottom-logos > div > a > img{
     width:100%;

@@ -77,6 +77,10 @@ input[type=checkbox]:not(:checked) + label {
 	display:flex;
 }
 
+.user-filter-search-input > input {
+	margin-top: 0.8em !important;
+}
+
 .checked-search-input-label {
   display: inline;
   background-color: #0F6568;
