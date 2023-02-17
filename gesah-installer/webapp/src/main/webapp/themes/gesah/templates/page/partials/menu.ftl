@@ -17,7 +17,15 @@
                     <div class="navbar-header pull-right">
                         <ul class="nav pull-left">
                             <li>
-                            <#include "search.ftl">
+                        	    <#include "search.ftl">
+                            </li>
+                        </ul>
+                    </div>
+                <#else>
+                	<div class="navbar-header pull-right">
+                        <ul class="nav pull-left">
+                            <li>
+                    	        <#include "remote-search.ftl">
                             </li>
                         </ul>
                     </div>

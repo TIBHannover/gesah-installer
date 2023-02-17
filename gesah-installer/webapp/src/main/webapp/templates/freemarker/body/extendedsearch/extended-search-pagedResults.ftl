@@ -132,7 +132,7 @@
 		};
 		
 		$('#extended-search-form').submit(function () {
-	    $(this)
+	    $('#extended-search-form')
 	        .find('input')
 	        .filter(function () {
 	            return !this.value;

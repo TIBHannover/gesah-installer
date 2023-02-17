@@ -186,3 +186,7 @@ input[type=checkbox]:not(:checked) + label {
 .tab-content > div {
   border: 0px;
 }
+
+.extended-search-input-group {
+  display: none;
+}

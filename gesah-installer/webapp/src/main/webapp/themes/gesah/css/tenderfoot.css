@@ -70,6 +70,10 @@ span.icon-search {
   text-shadow: none!important;
 }
 
+#search-field > input {
+  outline: none !important;
+}
+
 button.navbar-toggle {
     z-index: 999;
 }
