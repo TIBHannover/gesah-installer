@@ -153,3 +153,8 @@ a.temporalGraphLinks:hover {
 span#searchHelp {
     padding-right: 0px;
 }
+
+.searchResultsHeader {
+	width: unset!important;
+}
+

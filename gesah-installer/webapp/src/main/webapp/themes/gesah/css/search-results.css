@@ -153,6 +153,18 @@ input[type=checkbox]:not(:checked) + label {
   margin-top: 10px !important;
 }
 
+#search-form-footer {
+	display: flex;
+	justify-content: space-between;
+	flex-grow: 0;
+}
+
+#search-form-footer > div:nth-child(2) {
+ display: flex;
+ justify-content: right;
+ flex-wrap: wrap;
+}
+
 .searchpages span {
   background: #ddd;
   border-radius: 3px;

@@ -182,9 +182,13 @@
 			</#list>
 		</div>
 		<div id="search-form-footer">
-			<@printResultNumbers />
-			<@printHits />
-			<@printSorting />
+			<div>
+				<@printResultNumbers />
+			</div>
+			<div>
+				<@printHits />
+				<@printSorting />
+			</div>
 		</div> 
 	</form>
 </#macro>
@@ -242,20 +246,23 @@
 
 <#macro printSorting>
 	<#if sorting?has_content>
-		<select name="sort" id="search-form-sort" onchange="this.form.submit()" >
-			<option value="">${i18n().search_results_sort_by} ${i18n().search_results_relevance}</option>
-			<#list sorting as option>
-				<#if option.selected>
-					<option value="${option.id}" selected="selected">${i18n().search_results_sort_by} ${option.label}</option>
-				<#else>
-					<option value="${option.id}" >${i18n().search_results_sort_by} ${option.label}</option>
-				</#if>
-			</#list>
-		</select>
+		<div>
+			<select name="sort" id="search-form-sort" onchange="this.form.submit()" >
+				<option value="">${i18n().search_results_sort_by} ${i18n().search_results_relevance}</option>
+				<#list sorting as option>
+					<#if option.selected>
+						<option value="${option.id}" selected="selected">${i18n().search_results_sort_by} ${option.label}</option>
+					<#else>
+						<option value="${option.id}" >${i18n().search_results_sort_by} ${option.label}</option>
+					</#if>
+				</#list>
+			</select>
+		</div>
 	</#if>
 </#macro>
 
 <#macro printHits>
+	<div>
 	<select name="hitsPerPage" id="search-form-hits-per-page" onchange="this.form.submit()">
 		<#list hitsPerPageOptions as option>
 			<#if option == hitsPerPage>
@@ -265,6 +272,7 @@
 			</#if>
 		</#list>
 	</select>
+	</div>
 </#macro>
 
 <#macro searchFormGroupTab group active >
