@@ -66,6 +66,10 @@ p.navbar-text {
     float: right;
 }
 
+span.icon-search {
+  text-shadow: none!important;
+}
+
 button.navbar-toggle {
     z-index: 999;
 }

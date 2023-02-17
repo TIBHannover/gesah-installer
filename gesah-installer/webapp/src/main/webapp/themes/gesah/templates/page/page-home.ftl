@@ -25,6 +25,9 @@
             #nav.affix-top section#search {
                 display: none;
             }
+            #navbarContent > ul:first-child {
+                display: none;
+            }
         </style>
 
     </head>
