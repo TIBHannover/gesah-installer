@@ -55,6 +55,7 @@
 }
 a.home-page-help-icon:hover + div {
 	display: block;
+	right: 0px;
 }
 
 .home-page-input-group {

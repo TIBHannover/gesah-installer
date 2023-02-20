@@ -62,7 +62,8 @@
 			                                         </button>
 			                                     </span>
 			                                 </div>
-			                              	<a href="${urls.base}/extendedsearch?filters_type_cultural_object=type:http://ontology.tib.eu/gesah/Cultural_Object"><img class="search-icon search-icon-settings" src="images/icons/settings.svg"></a>
+			                              	<a class="home-page-help-icon" href="${urls.base}/extendedsearch?filters_type_cultural_object=type:http://ontology.tib.eu/gesah/Cultural_Object"><img class="search-icon search-icon-settings" src="images/icons/settings.svg"></a>
+			                              	<div class="home-page-help-text">${i18n().search_filters_help_text}</div>
 			                             	<a class="home-page-help-icon"><img class="search-icon search-icon-question"  src="images/icons/question.svg"></a>
 			                             	<div class="home-page-help-text">${i18n().search_help_text}</div>
 			                             </div>
