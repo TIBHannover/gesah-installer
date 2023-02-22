@@ -9,6 +9,7 @@
 <#-- import "lib-sequence.ftl" as s -->
 <#import "lib-datetime.ftl" as dt>
 <#import "lib-meta-tags.ftl" as lmt>
+<#import "lib-gesah-view.ftl" as lgv>
 
 <@showObCreation statement />
 <#-- Use a macro to keep variable assignments local; otherwise the values carry over to the next statement -->
@@ -25,14 +26,20 @@
 		<#if statement.attrTypeLabels??>
 			${statement.attrTypeLabels}<br />
 		</#if>
+		<#assign place_printed = false />
 		<#if statement.place??>
-			<b>${i18n().place_capitalized}:</b> <a href="${profileUrl(statement.uri("place"))}">${statement.placeLabel}</a>
-			<br />
+			<a href="${profileUrl(statement.uri("place"))}">${statement.placeLabel}</a>
+			<#assign place_printed = true />
 		</#if>
 		<#if statement.litteralDtAppel??>
-			<b>${i18n().date_capitalized}:</b> ${statement.litteralDtAppel}<br />
+			<#if place_printed>
+				<@lgv.addCommaSeparator />
+			</#if>
+			${statement.litteralDtAppel}<br />
 		<#elseif statement.dateTimeStart??>
-			<b>${i18n().date_capitalized}:</b>
+			<#if place_printed>
+				<@lgv.addCommaSeparator />
+			</#if>
 			<#if statement.dateTimeEnd??>
 				<@dt.yearIntervalSpan "${statement.dateTimeStart!}" "${statement.dateTimeEnd!}" />
 			<#else>
@@ -40,20 +47,24 @@
 			</#if>
 			<br />
 		<#elseif statement.dateTimeEnd??>
-			<b>${i18n().date_capitalized}:</b>
+			<#if place_printed>
+				<@lgv.addCommaSeparator />
+			</#if>
 			<@dt.yearSpan "${statement.dateTimeEnd!}" />
+			<br />
+		<#elseif place_printed>
 			<br />
 		</#if>
 		<#if statement.techniqueLabels??>
-			<b>${i18n().technique_capitalized}:</b> ${statement.techniqueLabels}
-			<br />
-		</#if>
-		<#if statement.materialLabels??>
-			<b>${i18n().material_capitalized}:</b> ${statement.materialLabels}
+			${statement.techniqueLabels}
+			${i18n().gesah_made_on}
+			<#if statement.materialLabels??>
+				${statement.materialLabels}
+			</#if>
 			<br />
 		</#if>
 		<#if statement.comments??>
-			<b>${i18n().comment_capitalized}:</b> ${statement.comments}
+			${i18n().comment_capitalized}: ${statement.comments}
 			<br />
 		</#if>
 		<#-- If user can edit individual, show a link to the context object -->

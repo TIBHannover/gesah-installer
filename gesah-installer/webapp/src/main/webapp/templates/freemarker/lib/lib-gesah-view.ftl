@@ -4,6 +4,9 @@
 <#assign height = "200" />
 <#assign maxWidth = "220" />
 
+<#macro addCommaSeparator>
+, <#lt>
+</#macro>
 
 <#macro printElementContainer statement uri title aLabel pageLink>
     <div class="listElementContainer">

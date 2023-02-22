@@ -42,10 +42,6 @@
 ,
 </#macro>
 
-<#macro addCommaSeparator>
-, <#lt>
-</#macro>
-
 <#macro openName name >
   <p>${name}
 </#macro>

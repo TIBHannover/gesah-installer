@@ -7,6 +7,7 @@
  -->
 
 <#import "lib-meta-tags.ftl" as lmt>
+<#import "lib-gesah-view.ftl" as lgv>
 
 <@showCollectionCare statement />
 <#-- Use a macro to keep variable assignments local; otherwise the values carry over to the next statement -->
@@ -25,26 +26,37 @@
     <#if statement.treatmentLabels??>
         <b>${i18n().treatment_capitalized}:</b> ${statement.treatmentLabels}<br />
     </#if>
-    <#if statement.placeObj??>
-        <b>${i18n().place_capitalized}:</b> <a href="${profileUrl(statement.uri("placeObj"))}">${statement.placeLabel}</a><br />
-    </#if>
-    <#if statement.litteralDtAppel??>
-        <b>${i18n().date_capitalized}:</b> ${statement.litteralDtAppel}<br />
-    <#elseif statement.dateTimeStart??>
-        <b>${i18n().date_capitalized}:</b>
-        <#if statement.dateTimeEnd??>
-            <@dt.yearIntervalSpan "${statement.dateTimeStart!}" "${statement.dateTimeEnd!}" />
-        <#else>
-            <@dt.yearSpan "${statement.dateTimeStart!}" />
-        </#if>
-        <br />
-    <#elseif statement.dateTimeEnd??>
-        <b>${i18n().date_capitalized}:</b>
-        <@dt.yearSpan "${statement.dateTimeEnd!}" />
-        <br />
-    </#if>
+    <#assign place_printed = false />
+	<#if statement.placeObj??>
+		<a href="${profileUrl(statement.uri("placeObj"))}">${statement.placeLabel}</a><#rt>
+		<#assign place_printed = true />
+	</#if>
+	<#if statement.litteralDtAppel??>
+		<#if place_printed>
+			<@lgv.addCommaSeparator />
+		</#if>
+		${statement.litteralDtAppel}<br />
+	<#elseif statement.dateTimeStart??>
+		<#if place_printed>
+			<@lgv.addCommaSeparator />
+		</#if>
+		<#if statement.dateTimeEnd??>
+			<@dt.yearIntervalSpan "${statement.dateTimeStart!}" "${statement.dateTimeEnd!}" />
+		<#else>
+			<@dt.yearSpan "${statement.dateTimeStart!}" />
+		</#if>
+		<br />
+	<#elseif statement.dateTimeEnd??>
+		<#if place_printed>
+			<@lgv.addCommaSeparator />
+		</#if>
+		<@dt.yearSpan "${statement.dateTimeEnd!}" />
+		<br />
+	<#elseif place_printed>
+		<br />
+	</#if>
     <#if statement.comments??>
-        <b>${i18n().comment_capitalized}:</b> ${statement.comments}
+        ${i18n().comment_capitalized}: ${statement.comments}
         <br />
     </#if>
 <#-- If user can edit individual, show a link to the context object -->

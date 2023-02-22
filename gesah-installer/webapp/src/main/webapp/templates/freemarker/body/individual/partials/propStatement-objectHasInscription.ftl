@@ -28,7 +28,7 @@
 			<br />
 		</#if>
 		<#if statement.comments??>
-			<b>${i18n().comment_capitalized}:</b> ${statement.comments}
+			${i18n().comment_capitalized}: ${statement.comments}
 			<br />
 		</#if>
 		<#if statement.person??>
