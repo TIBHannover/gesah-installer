@@ -1,4 +1,3 @@
-
 <#include "lib-gesah-view.ftl">
 
 <#assign aLabel = labelWithLink(individual.profileUrl, individual.name, typeFromIndividual(individual)) />
@@ -43,6 +42,9 @@
 ,
 </#macro>
 
+<#macro addCommaSeparator>
+, <#lt>
+</#macro>
 
 <#macro openName name >
   <p>${name}
@@ -50,12 +52,6 @@
 
 <#macro closeName >
   </p>
-</#macro>
-
-<#macro openCreators>
-  <p>${i18n().gesah_search_element_created}
-  <@printDate creators />
-  <@byPeople />
 </#macro>
 
 <#macro printDate yearInfo>
@@ -70,41 +66,56 @@
   </#if>
 </#macro>
 
+<#macro printPlaceAndDate placeAndDateInfo>
+	<#if placeAndDateInfo?has_content>
+		<#assign place_printed = false />
+		<#if placeAndDateInfo[0].place?has_content>
+			${placeAndDateInfo[0].place}<#rt>
+			<#assign place_printed = true />
+		</#if>
+		<#if placeAndDateInfo[0].literalDate?has_content>
+			<#if place_printed>
+				<@addCommaSeparator/>
+			</#if>
+			${placeAndDateInfo[0].literalDate}
+		<#elseif placeAndDateInfo[0].year?has_content >
+			<#if placeAndDateInfo[0].yearStart?has_content && ( placeAndDateInfo[0].yearStart != placeAndDateInfo[0].year ) >
+				<#if place_printed>
+					<@addCommaSeparator/>
+				</#if>
+				${i18n().gesah_search_in_year} ${placeAndDateInfo[0].yearStart}-${placeAndDateInfo[0].year}
+			<#else>
+				<#if place_printed>
+					<@addCommaSeparator/>
+				</#if>
+				${i18n().gesah_search_in_year} ${placeAndDateInfo[0].year}
+			</#if>
+		</#if>
+	</#if>
+</#macro>
+
 <#macro byPeople>
     ${i18n().gesah_search_created_by} 
 </#macro>
 
-<#macro openEditors>
-  <p>${i18n().gesah_search_element_edited}
-  <@printDate editors />
-  <@byPeople />
-</#macro>
-
-<#macro openProducers>
-  <p>${i18n().gesah_search_element_produced}
-  <@printDate producers />
-  <@byPeople />
-</#macro>
-
-<#macro closeType>
-  </p>
-</#macro>
-
 <#macro printParticipations>
 	     <#if creators?has_content>
-	       <@openCreators />
+	       <p>
 	 	   <@printTypeInfo creators />
-	 	   <@closeType />
+           <@printPlaceAndDate creators />
+	 	   </p>
 	     </#if>
 	     <#if producers?has_content>
-	       <@openProducers />
+	       <p>
 	 	   <@printTypeInfo producers />
-	 	   <@closeType />
+           <@printPlaceAndDate producers />
+	 	   </p>
 	     </#if>
 	     <#if editors?has_content>
-	       <@openEditors />
+	       <p>
 	 	   <@printTypeInfo editors />
-	 	   <@closeType />
+           <@printPlaceAndDate editors />
+	 	   </p>
 	     </#if>
 </#macro>
 
