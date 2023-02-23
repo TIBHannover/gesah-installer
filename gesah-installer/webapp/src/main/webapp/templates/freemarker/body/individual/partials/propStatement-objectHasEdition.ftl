@@ -28,7 +28,7 @@
 		</#if>
 		<#assign place_printed = false />
 		<#if statement.place??>
-			<a href="${profileUrl(statement.uri("place"))}">${statement.placeLabel}</a>
+			<a href="${profileUrl(statement.uri("place"))}">${statement.placeLabel}</a><#rt>
 			<#assign place_printed = true />
 		</#if>
 		<#if statement.litteralDtAppel??>
