@@ -55,9 +55,9 @@
     ${yearInfo[0].literalDate}
   <#elseif yearInfo?has_content && yearInfo[0].year?has_content >
     <#if yearInfo[0].yearStart?has_content && ( yearInfo[0].yearStart != yearInfo[0].year ) >
-      ${i18n().gesah_search_in_year} ${yearInfo[0].yearStart}-${yearInfo[0].year}
+      ${yearInfo[0].yearStart}-${yearInfo[0].year}
     <#else>
-      ${i18n().gesah_search_in_year} ${yearInfo[0].year}
+      ${yearInfo[0].year}
     </#if>
   </#if>
 </#macro>
@@ -79,12 +79,12 @@
 				<#if place_printed>
 					<@addCommaSeparator/>
 				</#if>
-				${i18n().gesah_search_in_year} ${placeAndDateInfo[0].yearStart}-${placeAndDateInfo[0].year}
+				${placeAndDateInfo[0].yearStart}-${placeAndDateInfo[0].year}
 			<#else>
 				<#if place_printed>
 					<@addCommaSeparator/>
 				</#if>
-				${i18n().gesah_search_in_year} ${placeAndDateInfo[0].year}
+				${placeAndDateInfo[0].year}
 			</#if>
 		</#if>
 	</#if>
