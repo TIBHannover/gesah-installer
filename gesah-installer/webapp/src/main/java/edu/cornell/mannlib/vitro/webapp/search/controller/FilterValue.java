@@ -15,9 +15,15 @@ public class FilterValue {
 	private long count;
 
 	private boolean selected = false;
+
+	private boolean defaultPublic;
 	
 	public FilterValue(String id) {
 		this.id = id;
+	}
+
+	public boolean isDefaultPublic() {
+		return defaultPublic;
 	}
 
 	public String getName() {
@@ -62,5 +68,9 @@ public class FilterValue {
 	
 	public boolean getSelected() {
 		return selected;
+	}
+
+	public void setDefaultPublic(boolean b) {
+		defaultPublic = b;
 	}
 }

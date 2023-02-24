@@ -140,10 +140,20 @@
 	        })
 	        .prop('name', '');
 		});
+		
+		function expandSearchOptions(){
+			$(event.target).parent().children('.additional-search-options').removeClass("hidden-search-option");
+			$(event.target).parent().children('.less-facets-link').show();
+			$(event.target).hide();
+		}
 	
+		function collapseSearchOptions(){
+			$(event.target).parent().children('.additional-search-options').addClass("hidden-search-option");
+			$(event.target).parent().children('.more-facets-link').show();
+			$(event.target).hide();
+		}
 	
 	</script>
-	
 	<img id="downloadIcon" src="images/download-icon.png" alt="${i18n().download_results}" title="${i18n().download_results}" />
 	<#-- <span id="downloadResults" style="float:left"></span>  -->
 	</h2>
@@ -300,13 +310,22 @@
 				</#if>
 	
 				<#assign valueNumber = 1>
+				<#assign additionalLabels = false>
 				<#list filter.values?values as v>
 					<#if !v.selected>
+						<#if filter.moreLimit = valueNumber - 1 >
+							<#assign additionalLabels = true>
+							<a class="more-facets-link" href="javascript:void(0);" onclick="expandSearchOptions(this)">${i18n().paging_link_more}</a>
+						</#if>  
 						${getInput(filter, v, getValueID(filter.id, valueNumber), valueNumber)}
-						${getLabel(valueNumber, v, filter)}
+						${getLabel(valueNumber, v, filter, additionalLabels)}
+						<#assign valueNumber = valueNumber + 1>
 					</#if>
-					<#assign valueNumber = valueNumber + 1>
+
 				</#list>
+				<#if additionalLabels >
+					<a class="less-facets-link additional-search-options hidden-search-option" href="javascript:void(0);" onclick="collapseSearchOptions(this)">${i18n().display_less}</a>
+				</#if>  
 			</#if>
 		</div>
 </#macro>
@@ -346,12 +365,16 @@
 	<#return "<label for=\"" + getValueID(filter.id, valueNumber) + "\">" + getValueLabel(label, value.count) + "</label>" />
 </#function>
 
-<#function getLabel valueID value filter >
+<#function getLabel valueID value filter additional=false >
 	<#assign label = value.name >
+	<#assign additionalClass = "" >
 	<#if !filter.localizationRequired>
 		<#assign label = value.id >
 	</#if>
-	<#return "<label for=\"" + getValueID(filter.id, valueNumber) + "\">" + getValueLabel(label, value.count) + "</label>" />
+	<#if additional=true>
+		<#assign additionalClass = "additional-search-options hidden-search-option" >
+	</#if>
+	<#return "<label class=\"" + additionalClass + "\" for=\"" + getValueID(filter.id, valueNumber) + "\">" + getValueLabel(label, value.count) + "</label>" />
 </#function>
 
 

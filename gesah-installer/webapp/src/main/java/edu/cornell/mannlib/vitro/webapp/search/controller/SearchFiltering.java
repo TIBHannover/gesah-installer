@@ -27,7 +27,9 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.shared.Lock;
 
+import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
 import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
+import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.UrlBuilder.ParamMap;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
@@ -36,6 +38,8 @@ import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchFacetField;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchFacetField.Count;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchQuery;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchResponse;
+import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
+import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 
 public class SearchFiltering {
 
@@ -49,7 +53,7 @@ public class SearchFiltering {
 			+ "     PREFIX gesah:    <http://ontology.tib.eu/gesah/>\n"
 			+ "     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 			+ "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-			+ "SELECT ?filter_id ?filter_type ?filter_label ?value_label ?value_id  ?field_name ?public ?filter_order ?value_order  (STR(?isUriReq) as ?isUri ) ?multivalued ?input ?regex ?facet ?min ?max \n"
+			+ "SELECT ?filter_id ?filter_type ?filter_label ?value_label ?value_id  ?field_name ?public ?filter_order ?value_order  (STR(?isUriReq) as ?isUri ) ?multivalued ?input ?regex ?facet ?min ?max ?public_default ?more_limit \n"
 			+ " 	WHERE {\n"
 			+ " 	    ?filter rdf:type search:Filter .\n"
 			+ "        ?filter rdfs:label ?filter_label .\n"
@@ -60,10 +64,13 @@ public class SearchFiltering {
 			+ "         OPTIONAL {?filter search:hasKnownValue ?value . \n"
 			+ "         	?value rdfs:label ?value_label .\n"
 			+ "         	?value search:id ?value_id .\n"
-			+ "            OPTIONAL {\n"
+			+ "            OPTIONAL {"
 			+ "      			?value search:order ?v_order .\n"
 			+ "              	bind(?v_order as ?value_order_found).\n"
-			+ "    		}\n"
+			+ "    	       }"
+			+ "	           OPTIONAL {"
+			+ "	                ?value search:defaultPublic ?public_default ."
+			+ "			   }"
 			+ "  		 }\n"
 			+ "  		 OPTIONAL {?field search:multivalued ?multivalued}\n"
 			+ "  		 OPTIONAL {?filter search:isUriValues ?isUriReq }\n"
@@ -73,6 +80,7 @@ public class SearchFiltering {
 			+ "  		 OPTIONAL {?filter search:from ?min }\n"
 			+ "  		 OPTIONAL {?filter search:public ?public }\n"
 			+ "  		 OPTIONAL {?filter search:to ?max }\n"
+			+ "  		 OPTIONAL {?filter search:moreLimit ?more_limit }\n"
 			+ "        OPTIONAL {\n"
 			+ "    		?filter search:order ?f_order \n"
 			+ "        	bind(?f_order as ?filter_order_found).\n"
@@ -161,6 +169,11 @@ public class SearchFiltering {
 				SearchFiltering.addInputFilter(query, searchFilter);
 			} else if (searchFilter.isRange()) {
 				SearchFiltering.addRangeFilter(query, searchFilter);
+			} 
+			for (FilterValue fv : searchFilter.getValues().values()) {
+				if (fv.isDefaultPublic()) {
+					query.addFilterQuery(searchFilter.getField() + ":\"" + fv.getId() + "\"");
+				}
 			}
 		}
 	}
@@ -283,6 +296,10 @@ public class SearchFiltering {
 					value.setName(solution.get("value_label"));
 					value.setOrder(solution.get("value_order"));
 					filter.addValue(value);
+					RDFNode pubDefault = solution.get("public_default");
+					if (pubDefault != null && pubDefault.asLiteral().getBoolean() && isNotLoggedIn(vreq)){
+						value.setDefaultPublic(true);
+					}
 				}
 			}
 		} finally {
@@ -294,6 +311,11 @@ public class SearchFiltering {
 		return sortFilters(filtersByField);
 	}
 	
+	private static boolean isNotLoggedIn(VitroRequest vreq) {
+		UserAccount user = LoginStatusBean.getCurrentUser(vreq);
+		return user == null;
+	}
+
 	public static List<SearchFilterGroup> readFilterGroupsConfigurations(VitroRequest vreq, Map<String, SearchFilter> filtersById) {
 		Map<String, SearchFilterGroup> groups = new LinkedHashMap<>();
 		Model model = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
@@ -444,6 +466,11 @@ public class SearchFiltering {
 		RDFNode facet = solution.get("facet");
 		if (facet != null) {
 			filter.setFacetsRequired(facet.asLiteral().getBoolean());
+		}
+		
+		RDFNode moreLimit = solution.get("more_limit");
+		if (moreLimit != null&& moreLimit.isLiteral()) {
+			filter.setMoreLimit(moreLimit.asLiteral().getInt());
 		}
 		
 		filter.setInputText(getFilterInputText(vreq, resultFilterId));

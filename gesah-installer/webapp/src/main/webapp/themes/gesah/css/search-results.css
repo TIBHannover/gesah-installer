@@ -169,6 +169,19 @@ input[type=checkbox]:not(:checked) + label {
  flex-wrap: wrap;
 }
 
+label.hidden-search-option {
+	display: none;
+}
+
+a.hidden-search-option {
+	display: none;
+}
+
+.more-facets-link, .less-facets-link {
+	padding: 5px;
+	font-size: 1.1rem;
+}
+
 .searchpages span {
   background: #ddd;
   border-radius: 3px;
