@@ -25,6 +25,9 @@
             #nav.affix-top section#search {
                 display: none;
             }
+            #navbarContent > ul:first-child {
+                display: none;
+            }
         </style>
 
     </head>
@@ -41,72 +44,60 @@
             <div class="theme-showcase">
                 <div class="col-md-12">
                     <div class="container" role="main">
-                        <div class="jumbotron">
-                            <h1>${i18n().intro_title}</h1>
-                        </div>
-                       <form id="search-homepage" action="${urls.base}/extendedsearch" name="search-home" role="search" method="GET" class="form-horizontal">
-                            <fieldset>
-                            <#--   <div class="form-group pull-left" style="margin-right: 5px;">
-                                 <select class="form-control" id="classgroup" name="classgroup">
-                                     <option value="">${i18n().all_capitalized}</option>
-                                     <#list vClassGroups as group>
-                                         <#if (group.individualCount > 0)>
-                                             <option value="${group.uri}">${group.displayName?capitalize}</option>
-                                         </#if>
-                                     </#list>
-                                 </select>
-                             </div>
-                             -->
-                             <div class="form-group">
-                                 <div class="input-group">
-                                     <input type="text" name="querytext" class="form-control" value="" placeholder="${i18n().search_field_placeholder}" autocapitalize="off" />
-                                     <span class="input-group-btn">
-                                         <button class="btn btn-default" type="submit">
-                                             <span class="icon-search">${i18n().search_button}</span>
-                                         </button>
-                                     </span>
-                                 </div>
-                             </div>
-                             <input type="checkbox" id="filters_type_cultural_object" value="type:http://ontology.tib.eu/gesah/Cultural_Object" name="filters_type_cultural_object" style="display:none;" checked="checked" "="" class="selected-input">
-                         </fieldset>
-                     </form>
-                 </div>
-             </div>
+                   		<div class="home-page-intro">
+                   			<h1 class="home-page-heading">${i18n().home_page_intro_header}</h1>
+                   			<p>${i18n().home_page_intro_text}</p>
+                   		</div>
+		                          
+                        <div class="home-page-heading2">${i18n().search_collection_text}</div>
+                        	<form id="search-homepage" action="${urls.base}/extendedsearch" name="search-home" role="search" method="GET" class="form-horizontal">
+		                        <fieldset>
+		                            <div class="form-group">
+			                             <div id="search-line-container">
+			                                 <div class="input-group home-page-input-group">
+			                                     <input type="text" name="querytext" class="form-control" value="" placeholder="${i18n().search_field_placeholder}" autocapitalize="off" />
+			                                     <span class="input-group-btn">
+			                                         <button class="btn btn-default" type="submit">
+			                                             <span class="icon-search">${i18n().search_button}</span>
+			                                         </button>
+			                                     </span>
+			                                 </div>
+			                              	<a class="home-page-help-icon" href="${urls.base}/extendedsearch?filters_type_cultural_object=type:http://ontology.tib.eu/gesah/Cultural_Object"><img class="search-icon search-icon-settings" src="images/icons/settings.svg"></a>
+			                              	<div class="home-page-help-text">${i18n().search_filters_help_text}</div>
+			                             	<a class="home-page-help-icon"><img class="search-icon search-icon-question"  src="images/icons/question.svg"></a>
+			                             	<div class="home-page-help-text">${i18n().search_help_text}</div>
+			                             </div>
+			                         </div>
+		                             <input type="checkbox" id="filters_type_cultural_object" value="type:http://ontology.tib.eu/gesah/Cultural_Object" name="filters_type_cultural_object" style="display:none;" checked="checked" "="" class="selected-input">
+		                         </fieldset>
+                     		</form>
+		                 </div>
+		             </div>
 
 			<#include "graphicalView.ftl">
-             <div class="col-md-12">
-                 <div class="container">
-                     <div class="jumbotron">
-                         <div><a href="https://www.tib.eu/de/recherchieren-entdecken/sondersammlungen/sammlung-albrecht-haupt">${i18n().collection_link_text}</a></div>
-                         <div><a href="https://projects.tib.eu/haupt">${i18n().project_link_text}</a></div>
-                         <div><a href="contact">${i18n().contact_link_text}</a></div>
-                     </div>
-                 </div>
-             </div>
+			<div class="col-md-12">
+            	<div class="container">
+                    <div class="home-page-heading2">${i18n().more_objects_in_albrecht_haupt_collection}</div>
+                    <div class="more-objects-image-container jumbotron">
+                    	<div class="category_facet">
+                    		<a class="facet_link" target="_blank" href="https://www.tib.eu/sammlung-haupt-architektonische-reiseskizzen/">
+                    			<img src="images/travel_sketches.jpg">
+                    			<div class="category_facet_label">${i18n().haupt_sketches_img_text}</div>
+                    			<div class="category_facet_description">${i18n().haupt_sketches_img_description}</div>
+                    		</a>
+                    	</div>
+                    	<div class="category_facet">
+                    		<a class="facet_link" target="_blank" href="https://opac.tib.eu/DB=1/SET=1/TTL=1/CMD?ACT=SRCHA&IKT=2140&SRT=YOP&TRM=*Haupt*">
+                    			<img src="images/library.jpg">
+                    			<div class="category_facet_label">${i18n().haupt_library_img_text}</div>
+                    			<div class="category_facet_description">${i18n().haupt_library_img_description}</div>
+                    		</a>
+                    	</div>
+                    </div>
+                </div>
+            </div>
          </div>
      </div>
-<#--
-     <div class="row icons-home">
-            <div class="col-md-4">
-                <a href="${urls.base}/people" id="icon1">
-                    <span class="glyphicon glyphicon-user"></span>
-                    <h3>Who?</h3>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="${urls.base}/organizations" id="icon2">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                    <h3>Where?</h3>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="${urls.base}/research" id="icon3">
-                    <span class="glyphicon glyphicon-education"></span>
-                    <h3>What?</h3>
-                </a>
-            </div>
-        </div>
- -->
         <#if geoFocusMapsEnabled >
             <div class="row geo-focus">
                 <div class="container">

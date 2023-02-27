@@ -33,7 +33,7 @@ mydomain:elementInfoCreatedSearchShortViewDataGetter
 	PREFIX vivo:     <http://vivoweb.org/ontology/core#>
 	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
 	PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
-	SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate
+	SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate ?place
 	WHERE {
 	      ?individualUri gesah:output_of_creation ?participation .
 	      ?participation gesah:realizes ?participationRole .
@@ -49,8 +49,13 @@ mydomain:elementInfoCreatedSearchShortViewDataGetter
 	        ?dateTimeStart vivo:dateTime ?dateStart .
 	      }
 	      OPTIONAL{
-	        ?participation gesah:literal_date_appellation ?literalDate
+	        ?participation gesah:literal_date_appellation ?literalDate .
 	      }
+              OPTIONAL{
+                ?participation gesah:has_place ?place_uri .
+                ?place_uri rdfs:label ?place .
+              }
+
 	} ORDER BY ?name ?role
      """ .
      
@@ -63,7 +68,7 @@ mydomain:elementInfoProducedSearchShortViewDataGetter
 	PREFIX vivo:     <http://vivoweb.org/ontology/core#>
 	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
 	PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
-	SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate
+	SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate ?place
 	WHERE {
 	      ?individualUri gesah:output_of_production ?participation .
 	      ?participation gesah:realizes ?participationRole .
@@ -79,8 +84,12 @@ mydomain:elementInfoProducedSearchShortViewDataGetter
                 ?dateTimeStart vivo:dateTime ?dateStart .
 	      }
 	      OPTIONAL{
-	        ?participation gesah:literal_date_appellation ?literalDate
+	        ?participation gesah:literal_date_appellation ?literalDate .
 	      }
+              OPTIONAL{
+                ?participation gesah:has_place ?place_uri .
+                ?place_uri rdfs:label ?place .
+              }
 	} ORDER BY ?name ?role
      """ .
      
@@ -93,7 +102,7 @@ mydomain:elementInfoEditedSearchShortViewDataGetter
 	PREFIX vivo:     <http://vivoweb.org/ontology/core#>
 	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
 	PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
-	SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate
+	SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate ?place
 	WHERE {
 	      ?individualUri gesah:object_of_edition ?participation .
 	      ?participation gesah:realizes ?participationRole .
@@ -109,8 +118,12 @@ mydomain:elementInfoEditedSearchShortViewDataGetter
                 ?dateTimeStart vivo:dateTime ?dateStart .
 	      }
 	      OPTIONAL{
-	        ?participation gesah:literal_date_appellation ?literalDate
+	        ?participation gesah:literal_date_appellation ?literalDate .
 	      }
+              OPTIONAL{
+                ?participation gesah:has_place ?place_uri .
+                ?place_uri rdfs:label ?place .
+              }
 	} ORDER BY ?name ?role
      """ .
      

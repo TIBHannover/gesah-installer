@@ -36,6 +36,7 @@ public class SearchFilter {
 	
 	private String min = "0";
 	private String max = "2000";
+	private int moreLimit = 30;
 	private int order = 0;
 	private String field= "";
 	private String endField= "";
@@ -339,5 +340,13 @@ public class SearchFilter {
 	
 	public boolean isHidden() {
 		return hidden;
+	}
+
+	public int getMoreLimit() {
+		return moreLimit;
+	}
+
+	public void setMoreLimit(int moreLimit) {
+		this.moreLimit = moreLimit;
 	}
 }

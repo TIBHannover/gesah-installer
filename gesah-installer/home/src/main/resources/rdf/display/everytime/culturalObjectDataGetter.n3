@@ -1,0 +1,145 @@
+# $This file is distributed under the terms of the license in LICENSE$ 
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix display: <http://vitro.mannlib.cornell.edu/ontologies/display/1.1#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix core: <http://vivoweb.org/ontology/core#> .
+@prefix vivoweb: <http://vivoweb.org/ontology#> .
+@prefix mydomain: <http://tib.eu/gesah/individualProfile> .
+@prefix gesah: <http://ontology.tib.eu/gesah/> .
+
+<http://ontology.tib.eu/gesah/Cultural_Object> display:hasDataGetter mydomain:elementInfoCreatedSearchShortViewDataGetter .
+<http://ontology.tib.eu/gesah/Cultural_Object> display:hasDataGetter mydomain:elementInfoProducedSearchShortViewDataGetter .
+<http://ontology.tib.eu/gesah/Cultural_Object> display:hasDataGetter mydomain:elementInfoEditedSearchShortViewDataGetter .
+<http://ontology.tib.eu/gesah/Cultural_Object> display:hasDataGetter mydomain:elementCreationDateSearchShortViewDataGetter .
+
+mydomain:elementInfoCreatedSearchShortViewDataGetter
+  a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
+  display:saveToVar "creators" ;
+  display:query
+     """
+        PREFIX vitro:    <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
+        PREFIX vivo:     <http://vivoweb.org/ontology/core#>
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+        SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate ?place
+        WHERE {
+              ?individualURI gesah:output_of_creation ?participation .
+              ?participation gesah:realizes ?participationRole .
+          ?participationRole gesah:has_role_type ?roleType .
+              ?roleType rdfs:label ?role .
+          ?participationRole  gesah:is_role_of ?participant .
+              ?participant rdfs:label ?name .
+              OPTIONAL {
+                ?participation vivo:dateTimeInterval ?dateTimeInterval .
+                ?dateTimeInterval vivo:end ?dateTimeEnd .
+                ?dateTimeEnd vivo:dateTime ?dateTime .
+                ?dateTimeInterval vivo:start ?dateTimeStart .
+                ?dateTimeStart vivo:dateTime ?dateStart .
+              }
+              OPTIONAL{
+                ?participation gesah:literal_date_appellation ?literalDate .
+              }
+              OPTIONAL{
+                ?participation gesah:has_place ?place_uri .
+                ?place_uri rdfs:label ?place .
+              }
+
+        } ORDER BY ?name ?role
+     """ .
+
+mydomain:elementInfoProducedSearchShortViewDataGetter
+  a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
+  display:saveToVar "producers" ;
+  display:query
+     """
+        PREFIX vitro:    <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
+        PREFIX vivo:     <http://vivoweb.org/ontology/core#>
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+        SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate ?place
+        WHERE {
+              ?individualURI gesah:output_of_production ?participation .
+              ?participation gesah:realizes ?participationRole .
+          ?participationRole gesah:has_role_type ?roleType .
+              ?roleType rdfs:label ?role .
+          ?participationRole  gesah:is_role_of ?participant .
+              ?participant rdfs:label ?name .
+              OPTIONAL{
+                ?participation vivo:dateTimeInterval ?dateTimeInterval .
+                ?dateTimeInterval vivo:end ?dateTimeEnd .
+                ?dateTimeEnd vivo:dateTime ?dateTime .
+                ?dateTimeInterval vivo:start ?dateTimeStart .
+                ?dateTimeStart vivo:dateTime ?dateStart .
+              }
+              OPTIONAL{
+                ?participation gesah:literal_date_appellation ?literalDate .
+              }
+              OPTIONAL{
+                ?participation gesah:has_place ?place_uri .
+                ?place_uri rdfs:label ?place .
+              }
+        } ORDER BY ?name ?role
+     """ .
+
+
+mydomain:elementInfoEditedSearchShortViewDataGetter
+  a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
+  display:saveToVar "editors" ;
+  display:query
+     """
+        PREFIX vitro:    <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
+        PREFIX vivo:     <http://vivoweb.org/ontology/core#>
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+        SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate ?place
+        WHERE {
+              ?individualURI gesah:object_of_edition ?participation .
+              ?participation gesah:realizes ?participationRole .
+          ?participationRole gesah:has_role_type ?roleType .
+              ?roleType rdfs:label ?role .
+          ?participationRole  gesah:is_role_of ?participant .
+              ?participant rdfs:label ?name .
+              OPTIONAL{
+                ?participation vivo:dateTimeInterval ?dateTimeInterval .
+                ?dateTimeInterval vivo:end ?dateTimeEnd .
+                ?dateTimeEnd vivo:dateTime ?dateTime .
+                ?dateTimeInterval vivo:start ?dateTimeStart .
+                ?dateTimeStart vivo:dateTime ?dateStart .
+              }
+              OPTIONAL{
+                ?participation gesah:literal_date_appellation ?literalDate .
+              }
+              OPTIONAL{
+                ?participation gesah:has_place ?place_uri .
+                ?place_uri rdfs:label ?place .
+              }
+        } ORDER BY ?name ?role
+     """ .
+
+mydomain:elementCreationDateSearchShortViewDataGetter
+  a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
+  display:saveToVar "elementInfo" ;
+  display:query
+     """
+                PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+                SELECT ?curNumber ?formNumber
+                WHERE {
+                        OPTIONAL {
+                                ?individualURI gesah:current_inventory_number ?curNumber .
+                        }
+                        OPTIONAL {
+                                ?subject ?property ?object .
+                                ?individualURI gesah:former_inventory_number ?formNumber .
+                                FILTER (regex(?formNumber, '^((kl)|(m)|(gr)|(ohne Signatur)|(IX 48)|(EB Neuzugänge)|(XXIV)|(Gartenpläne))')) .
+                                FILTER NOT EXISTS {
+                                        ?individualURI gesah:former_inventory_number ?formNumber, ?formNumber2  .
+                                        FILTER (regex(?formNumber2, '^((kl)|(m)|(gr)|(ohne Signatur)|(IX 48)|(EB Neuzugänge)|(XXIV)|(Gartenpläne))')) .
+                                        FILTER (?formNumber > ?formNumber2) .
+                                }
+                        }
+                } LIMIT 1
+     """ .
+
+

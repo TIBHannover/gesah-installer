@@ -63,13 +63,13 @@
 		    if (input.is(".selected-input")) { 
 		        input.prop("checked",false);
 		    }
-	        this.form.submit();
+	        $('#extended-search-form').submit();
 		});
 		
 		$("input:checkbox").on("click",function (e) {
 		    var input=$(this);
 		    input.checked = !input.checked;
-	        this.form.submit();
+	        $('#extended-search-form').submit();
 		});
 		
 		function clearInput(elementId) {
@@ -77,6 +77,7 @@
 	  		inputEl.value = "";
 	  		let srcButton = document.getElementById("button_" + elementId);
 	  		srcButton.classList.add("unchecked-selected-search-input-label");
+	  		$('#extended-search-form').submit();
 		}
 		
 		function createSliders(){
@@ -132,17 +133,27 @@
 		};
 		
 		$('#extended-search-form').submit(function () {
-	    $(this)
+	    $('#extended-search-form')
 	        .find('input')
 	        .filter(function () {
 	            return !this.value;
 	        })
 	        .prop('name', '');
 		});
+		
+		function expandSearchOptions(){
+			$(event.target).parent().children('.additional-search-options').removeClass("hidden-search-option");
+			$(event.target).parent().children('.less-facets-link').show();
+			$(event.target).hide();
+		}
 	
+		function collapseSearchOptions(){
+			$(event.target).parent().children('.additional-search-options').addClass("hidden-search-option");
+			$(event.target).parent().children('.more-facets-link').show();
+			$(event.target).hide();
+		}
 	
 	</script>
-	
 	<img id="downloadIcon" src="images/download-icon.png" alt="${i18n().download_results}" title="${i18n().download_results}" />
 	<#-- <span id="downloadResults" style="float:left"></span>  -->
 	</h2>
@@ -150,16 +161,6 @@
 
 <#macro searchForm>
 	<form id="extended-search-form" name="extended-search-form" autocomplete="off" method="get" action="${urls.base}/extendedsearch">
-		<div class="form-group">
-		     <div class="input-group extended-search-input-group">
-		         <input id="filter_input_querytext" type="text" name="querytext" class="form-control" value="${querytext!}" placeholder="${i18n().search_field_placeholder}" autocapitalize="off" />
-		         <span class="input-group-btn">
-		             <button class="btn btn-default" type="submit">
-		                 <span class="icon-search">${i18n().search_button}</span>
-		             </button>
-		         </span>
-		     </div>
-		 </div>
 		<div id="selected-filters">
 			<@printSelectedFilterValueLabels filters />
 		</div>  
@@ -182,10 +183,14 @@
 			</#list>
 		</div>
 		<div id="search-form-footer">
-			<@printResultNumbers />
-			<@printHits />
-			<@printSorting />
-		<div> 
+			<div>
+				<@printResultNumbers />
+			</div>
+			<div>
+				<@printHits />
+				<@printSorting />
+			</div>
+		</div> 
 	</form>
 </#macro>
 
@@ -242,21 +247,24 @@
 
 <#macro printSorting>
 	<#if sorting?has_content>
-		<select name="sort" id="search-form-sort" onchange="this.form.submit()" >
-			<option value="">${i18n().search_results_sort_by} ${i18n().search_results_relevance}</option>
-			<#list sorting as option>
-				<#if option.selected>
-					<option value="${option.id}" selected="selected">${i18n().search_results_sort_by} ${option.label}</option>
-				<#else>
-					<option value="${option.id}" >${i18n().search_results_sort_by} ${option.label}</option>
-				</#if>
-			</#list>
-		</select>
+		<div>
+			<select form="extended-search-form" name="sort" id="search-form-sort" onchange="this.form.submit()" >
+				<option value="">${i18n().search_results_sort_by} ${i18n().search_results_relevance}</option>
+				<#list sorting as option>
+					<#if option.selected>
+						<option value="${option.id}" selected="selected">${i18n().search_results_sort_by} ${option.label}</option>
+					<#else>
+						<option value="${option.id}" >${i18n().search_results_sort_by} ${option.label}</option>
+					</#if>
+				</#list>
+			</select>
+		</div>
 	</#if>
 </#macro>
 
 <#macro printHits>
-	<select name="hitsPerPage" id="search-form-hits-per-page" onchange="this.form.submit()">
+	<div>
+	<select form="extended-search-form" name="hitsPerPage" id="search-form-hits-per-page" onchange="this.form.submit()">
 		<#list hitsPerPageOptions as option>
 			<#if option == hitsPerPage>
 				<option value="${option}" selected="selected">${option} ${i18n().search_results_per_page}</option>
@@ -265,13 +273,14 @@
 			</#if>
 		</#list>
 	</select>
+	</div>
 </#macro>
 
 <#macro searchFormGroupTab group active >
 	<#if active>
-	 	<li class="active">
+	 	<li class="active form-group-tab">
 	<#else>
-		<li>
+		<li class="form-group-tab">
 	</#if>
 			<a data-toggle="tab" href="#${group.id}">${group.label}</a>
 		</li>
@@ -282,7 +291,7 @@
 		<#-- skip query text filter -->
 		<#return>
 	</#if>
-		<li>
+		<li class="filter-tab">
 			<a data-toggle="tab" href="#${filter.id}">${filter.name}</a>
 		</li>
 </#macro>
@@ -301,13 +310,22 @@
 				</#if>
 	
 				<#assign valueNumber = 1>
+				<#assign additionalLabels = false>
 				<#list filter.values?values as v>
 					<#if !v.selected>
+						<#if filter.moreLimit = valueNumber - 1 >
+							<#assign additionalLabels = true>
+							<a class="more-facets-link" href="javascript:void(0);" onclick="expandSearchOptions(this)">${i18n().paging_link_more}</a>
+						</#if>  
 						${getInput(filter, v, getValueID(filter.id, valueNumber), valueNumber)}
-						${getLabel(valueNumber, v, filter)}
+						${getLabel(valueNumber, v, filter, additionalLabels)}
+						<#assign valueNumber = valueNumber + 1>
 					</#if>
-					<#assign valueNumber = valueNumber + 1>
+
 				</#list>
+				<#if additionalLabels >
+					<a class="less-facets-link additional-search-options hidden-search-option" href="javascript:void(0);" onclick="collapseSearchOptions(this)">${i18n().display_less}</a>
+				</#if>  
 			</#if>
 		</div>
 </#macro>
@@ -333,7 +351,7 @@
 			<#else>
 				<div class="range-slider-end">${max}</div>
 			</#if>
-			<input id="filter_range_${filter.id}" style="display:none;" class="range-slider-input" name="filter_range_${filter.id}" value="${filter.rangeInput}"/>
+			<input form="extended-search-form" id="filter_range_${filter.id}" style="display:none;" class="range-slider-input" name="filter_range_${filter.id}" value="${filter.rangeInput}"/>
 		</div>
 	</div>
 </#macro>
@@ -347,29 +365,33 @@
 	<#return "<label for=\"" + getValueID(filter.id, valueNumber) + "\">" + getValueLabel(label, value.count) + "</label>" />
 </#function>
 
-<#function getLabel valueID value filter >
+<#function getLabel valueID value filter additional=false >
 	<#assign label = value.name >
+	<#assign additionalClass = "" >
 	<#if !filter.localizationRequired>
 		<#assign label = value.id >
 	</#if>
-	<#return "<label for=\"" + getValueID(filter.id, valueNumber) + "\">" + getValueLabel(label, value.count) + "</label>" />
+	<#if additional=true>
+		<#assign additionalClass = "additional-search-options hidden-search-option" >
+	</#if>
+	<#return "<label class=\"" + additionalClass + "\" for=\"" + getValueID(filter.id, valueNumber) + "\">" + getValueLabel(label, value.count) + "</label>" />
 </#function>
 
 
 <#macro userSelectedInput filter>
 	<#if filter.inputText?has_content>
-		<button type="button" id="button_filter_input_${filter.id}" onclick="clearInput('filter_input_${filter.id}')" class="checked-search-input-label">${filter.name} : ${filter.inputText}</button>
+		<button form="extended-search-form" type="button" id="button_filter_input_${filter.id}" onclick="clearInput('filter_input_${filter.id}')" class="checked-search-input-label">${filter.name} : ${filter.inputText}</button>
 	</#if>
 	<#assign from = filter.fromYear >
 	<#assign to = filter.toYear >
 	<#if from?has_content && to?has_content >
 		<#assign range = i18n().from + " " + from + " " + i18n().to + " " + to >
-		<button type="button" id="button_filter_range_${filter.id}" onclick="clearInput('filter_range_${filter.id}')" class="checked-search-input-label">${filter.name} : ${range}</button>
+		<button form="extended-search-form" type="button" id="button_filter_range_${filter.id}" onclick="clearInput('filter_range_${filter.id}')" class="checked-search-input-label">${filter.name} : ${range}</button>
 	</#if>
 </#macro>
 
 <#macro createUserInput filter>
-	<input id="filter_input_${filter.id}"  placeholder="${i18n().search_field_placeholder}" class="search-vivo" type="text" name="filter_input_${filter.id}" value="${filter.inputText}" autocapitalize="none" />
+	<input form="extended-search-form" id="filter_input_${filter.id}"  placeholder="${i18n().search_field_placeholder}" class="search-vivo" type="text" name="filter_input_${filter.id}" value="${filter.inputText}" autocapitalize="none" />
 </#macro>
 
 <#function getInput filter filterValue valueID valueNumber>
@@ -388,7 +410,7 @@
 		<#assign filterName = filterName + "_" + valueNumber >
 	</#if>
 
-	<#return "<input type=\"" + type + "\" id=\"" + valueID + "\"  value=\"" + filter.id + ":" + filterValue.id 
+	<#return "<input form=\"extended-search-form\" type=\"" + type + "\" id=\"" + valueID + "\"  value=\"" + filter.id + ":" + filterValue.id 
 		+ "\" name=\"filters_" + filterName + "\" style=\"display:none;\" " + checked + "\" class=\"" + class + "\" >" />
 </#function>
 

@@ -46,29 +46,27 @@
 }
 
 input[type=radio]:checked + label {
-  background-color: #af1414;
-  color: white;
-  border-radius: 10px;
+  background-color: #0F6568;
   padding: 2px 5px 2px 5px;
+  color: #fff;
 }
 
 input[type=checkbox]:checked + label {
-  background-color: #af1414;
-  color: white;
-  border-radius: 10px;
+  background-color: #0F6568;
+  color: #fff;
   padding: 2px 5px 2px 5px;
 }
 
 input[type=radio]:not(:checked) + label {
   padding: 2px 5px 2px 5px;
-  border-radius: 10px;
-  background-color: #E3E3E3;
+  color: #fff;
+  background-color: #8499A3;
 }
 
 input[type=checkbox]:not(:checked) + label {
   padding: 2px 5px 2px 5px;
-  border-radius: 10px;
-  background-color: #E3E3E3;
+  color: #fff;
+  background-color: #8499A3;
 }
 
 #selected-filters > label{
@@ -79,18 +77,21 @@ input[type=checkbox]:not(:checked) + label {
 	display:flex;
 }
 
+.user-filter-search-input > input {
+	margin-top: 1.1em !important;
+}
+
 .checked-search-input-label {
   display: inline;
-  background-color: #af1414;
-  color: white;
-  border-radius: 10px;
+  background-color: #0F6568;
+  color: #fff;
   padding: 2px 5px 2px 5px;
   border: 0px;
 }
 
 .unchecked-selected-search-input-label {
-  background-color: #E3E3E3 !important;
-  color: unset !important;
+  background-color: #8499A3 !important;
+  color: #fff !important;
 }
 
 .filter-area {
@@ -156,9 +157,66 @@ input[type=checkbox]:not(:checked) + label {
   margin-top: 10px !important;
 }
 
+#search-form-footer {
+	display: flex;
+	justify-content: space-between;
+	flex-grow: 0;
+}
 
+#search-form-footer > div:nth-child(2) {
+ display: flex;
+ justify-content: right;
+ flex-wrap: wrap;
+}
+
+label.hidden-search-option {
+	display: none;
+}
+
+a.hidden-search-option {
+	display: none;
+}
+
+.more-facets-link, .less-facets-link {
+	padding: 5px;
+	font-size: 1.1rem;
+}
 
 .searchpages span {
   background: #ddd;
   border-radius: 3px;
+}
+
+.filter-tab {
+  border-right: 0px !important;
+  border-top: 0px !important;
+  border-left: 0px !important;
+}
+
+.filter-tab.active > a {
+  background: linear-gradient(white 10%, #F1F1F1);
+  border-bottom-color: #ddd !important;
+}
+
+.filter-tab > a {
+  border-right: 0px !important;
+  border-top: 0px !important;
+  border-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.filter-tab.hover {
+  background: linear-gradient(white 10%, #F1F1F1);
+}
+
+.filter-tab > a:hover {
+  background: linear-gradient(white 10%, #ddd);
+}
+
+.tab-content > div {
+  border: 0px;
+}
+
+.extended-search-input-group {
+  display: none;
 }

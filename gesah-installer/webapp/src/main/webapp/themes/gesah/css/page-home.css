@@ -1,18 +1,105 @@
 .jumbotron {
     background-color: transparent;
     color: #4b4b4b;
-    display: flex;
+}
+
+.flex-home-blocks {
+	display: flex;
     justify-content: space-between;
 }
 
-.jumbotron div {
+.more-objects-image-container {
+	display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding-top:20px!important;
+    padding-bottom:0px!important;
+    padding-left:0px!important;
+    margin-bottom:0px!important;
+    padding-right:0px!important;
+}
+
+.more-objects-image-container > div {
+	position: relative;
+}
+
+.more-objects-image-container > div > a {
+	display: flex;
+}
+
+.jumbotron h1 {
+    font-size: 34px;
+    text-align: left;
+    color: #4b4b4b;
+}
+
+.flex-home-blocks div {
     flex-basis: 31%;
     text-align: center;
 }
 
-.jumbotron  a {
+.flex-home-blocks  a {
     font-size: 1.5rem;
-    color: #AF1414;
+    color: #2B3C46;
+}
+
+.home-page-help-text {
+	position: absolute;
+	display: none;
+    border:1px solid #AE1313;
+	z-index: 2;
+	top: 50px;
+	background-color: #fff;
+	padding: 1rem;
+}
+a.home-page-help-icon:hover + div {
+	display: block;
+	right: 0px;
+}
+
+.home-page-input-group {
+	width: 100%;
+	padding-right: unset!important;
+}
+
+.search-icon {
+	width: 36px;
+	height: 36px;
+	display: inline;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+.search-icon-question{
+	padding: 5px;	
+	margin-left: 5px;	
+}
+
+.search-icon-settings{
+	padding: 2px;	
+}
+
+#search-line-container {
+	width: 100%;
+	display: flex;	
+}
+
+#search-line-container > a {
+	display: flex;
+}
+
+#search-homepage {
+     padding-left: 0px!important;
+}
+
+#search-homepage > fieldset > div {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.form-group {
+	width: 100%;
 }
 
 .hero {
@@ -252,20 +339,36 @@ div.faculty-home {
     font-size: 1.2em;
 }
 
+.home-page-intro > p {
+  font-size: 1.2rem;
+  text-align: justify;
+}
+
+.home-page-intro > p > a {
+  font-size: 1.2rem;
+  text-decoration: underline;
+}
+
 #searchFacets {
 	display: flex;
 	flex-basis: 100%;
 	flex-direction: row;
 	flex-wrap: wrap;
-	padding-right: 60px;
-	padding-left: 60px;
+	gap: 15px;
 }
 
-#exploreTheCollection {
-	padding-left: 80px;
-	font-size: 2.0em;
-	margin-top: 30px;
-	margin-bottom: 20px;
+.home-page-heading {
+	color: #2B3C46;
+        font-size: 2.0em;
+        margin-top: 30px;
+        margin-bottom: 20px;
+}
+
+.home-page-heading2 {
+        color: #2B3C46;
+        font-size: 1.6em;
+        margin-top: 30px;
+        margin-bottom: 10px;
 }
 
 .category_facet_label {
@@ -277,9 +380,32 @@ div.faculty-home {
 	text-shadow: 1px 1px 4px black;
 }
 
+.category_facet_description {
+	position: absolute;
+	top: 18px;
+	left: 30px;
+	color: white;
+	font-size: 1.2em;
+	text-shadow: 1px 1px 4px black;
+	display: none;
+	
+}
+a.facet_link:hover > div.category_facet_description {
+	display: block;
+}
+
+a.facet_link:hover > img {
+	opacity: 0.6;
+}
+
+a.facet_link:hover > div.category_facet_label {
+	display: none;
+}
+
 .category_facet{
 	position: relative;
 	flex-grow: 1;
+	background: black;
 	overflow: hidden;
 }
 

@@ -9,7 +9,6 @@ h3 {
 }
 
 .input-group{
-    padding-left: 50px;
     padding-top: 10px;
     padding-right: 75px;
 }
@@ -166,4 +165,21 @@ h3 {
 
 .photo-wrapper {
     background-color: #E3E3E3;
+}
+
+#wrapper-content > p {
+  font-size: 1.2rem;
+  text-align: justify;
+  line-height: 1.6rem;
+}
+
+#wrapper-content > p > a {
+  font-size: 1.2rem;
+  text-align: justify;
+  line-height: 1.6rem;
+}
+
+#wrapper-content > h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
 }

@@ -7,7 +7,7 @@
 <#if categories?has_content>
 <div class="col-md-12">
 	<div class="container">
-      <div id="exploreTheCollection">${i18n().explore_collection_text}</div>
+      <div class="home-page-heading2">${i18n().explore_collection_text}</div>
 	   <div id="searchFacets">
 		 <#list categories as category>
 			<@printCategory category />
@@ -20,9 +20,10 @@
 <#macro printCategory category>
 	<#if category?has_content>
 	  <div class="category_facet">
-		<a href="${urls.base}/extendedsearch?filters=${category.filter_id}:${category.id}&filters_type_cultural_object=type:http://ontology.tib.eu/gesah/Cultural_Object">
+		<a class="facet_link" href="${urls.base}/extendedsearch?filters=${category.filter_id}:${category.id}">
 		  <img alt="${category.label}" src="${iiifImage(category.barcode category.fileName category.crop_bottom category.crop_top category.crop_left category.crop_right)}" />
 		  <div class="category_facet_label">${category.label}</div>
+		  <div class="category_facet_description">${category.label}</div>
 		</a>
       </div>
 	</#if>
