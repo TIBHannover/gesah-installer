@@ -61,10 +61,13 @@
 <#if digitalRepresentations?has_content>
     <div id="property-and-image">
         <div class="row">
-            <div class="col-md-4" style="overflow: auto; overflow-x: hidden; height: 65vh">
+            <div class="col-md-4">
                 <#include "cultural-object-short-description.ftl">
+                <div style="overflow: auto; overflow-x: hidden; height: 65vh">
                 <#include "individual-property-group-notabs.ftl">
+            	</div>
             </div>
+            
             <div class="col-md-8">
                 <div id="viewer" style="height: 65vh"></div>
 		<div class="license-statement">

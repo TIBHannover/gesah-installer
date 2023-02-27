@@ -108,45 +108,68 @@
 
 <#macro printTypeInfo people>
 	    <#assign name = "" />
+	    <#assign nameIsStarted = false />
+	    
 	    <#assign role = "" />
 	    <#assign rolesIsStarted = false />
-	    <#assign nameIsStarted = false />
-	 	
+	    
+		<#assign technique_and_material = "" />
+		<#assign attribution = "" />
+	    	    
 	    <#list people as participation>
-	    	        
 	    	<#if name != participation.name >
 	    	  <#if rolesIsStarted>
 	    	    <@closeRoles />
 	    	    <#assign rolesIsStarted = false />
 	    	    <#assign role = "" />
+	    	    ${attribution}
+   	    		<#assign attribution = "" />
 	    	  </#if>
 	    	  <#if nameIsStarted>
 	    	    <@closeName />
+	    	    ${technique_and_material}
+	      		<#assign technique_and_material = "" />
 	    	    <#assign nameIsStarted = false />
 	    	  </#if>
 	    	  <#assign name = participation.name />
-	    	  <@openName name />
+	    	  <#assign technique_and_material = getTechniqueAndMaterial(participation) />
+	    	  <p>${name}
+	    	  <#if participation.attributionType?has_content>
+    	  		<#assign attribution = "<span class=\"titleTypeListItemInv\">" + participation.attributionType + "</span>" />
+	    	  </#if>
 	    	  <#assign nameIsStarted = true />
 	        </#if>
-	        
 	        <#if role != participation.role >
 	    	  <#if rolesIsStarted>
-	    	    <@addRoleSeparator />
+	    	    ,<#lt>
 	    	  <#else>
 	    	    <@openRoles />
 	    	  </#if>
 	    	  <#assign rolesIsStarted = true />
 	    	  <#assign role = participation.role />
-			  <@printRole role/>
+			  ${role}<#t>
 	        </#if>
 	    </#list>
 	    <#if rolesIsStarted>
 	      <@closeRoles />
+	      ${attribution}
+   	      <#assign attribution = "" />
 	    </#if>
 	    <#if nameIsStarted>
 	      <@closeName />
+	      ${technique_and_material}
+	      <#assign technique_and_material = "" />
 	    </#if>
 </#macro>
+
+<#function getTechniqueAndMaterial participation>
+  <#if participation.technique?has_content && participation.material?has_content >
+	<#return "<p> ${participation.technique} ${i18n().gesah_made_on} ${participation.material} </p>" >
+  <#else>
+   <#return "">
+  </#if>
+</#function>
+
 
 <#macro printPlaceAndDate placeAndDateInfo>
 	<#if placeAndDateInfo?has_content>
@@ -177,24 +200,12 @@
 </#macro>
 
 
-<#macro printRole role>
-  ${role}
-</#macro>
-
 <#macro openRoles>
-  (
+  (<#rt>
 </#macro>
 
 <#macro closeRoles>
-  )
-</#macro>
-
-<#macro addRoleSeparator>
-,
-</#macro>
-
-<#macro openName name >
-  <p>${name}
+  )<#lt>
 </#macro>
 
 <#macro closeName >

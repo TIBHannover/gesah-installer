@@ -23,7 +23,7 @@ mydomain:elementInfoCreatedSearchShortViewDataGetter
         PREFIX vivo:     <http://vivoweb.org/ontology/core#>
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
         PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
-        SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate ?place
+        SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate ?place ?attributionType ?technique ?material
         WHERE {
               ?individualURI gesah:output_of_creation ?participation .
               ?participation gesah:realizes ?participationRole .
@@ -45,6 +45,18 @@ mydomain:elementInfoCreatedSearchShortViewDataGetter
                 ?participation gesah:has_place ?place_uri .
                 ?place_uri rdfs:label ?place .
               }
+              OPTIONAL {
+                ?participation gesah:has_type_of_attribution ?attributionTypeUri .
+                ?attributionTypeUri rdfs:label ?attributionType .
+              }
+              OPTIONAL {
+                ?participation gesah:uses_technique ?techniqueUri .
+                ?techniqueUri rdfs:label ?technique .
+              }
+              OPTIONAL {
+                ?participation gesah:has_material ?materialUri .
+                ?materialUri rdfs:label ?material .
+              }
 
         } ORDER BY ?name ?role
      """ .
@@ -58,7 +70,7 @@ mydomain:elementInfoProducedSearchShortViewDataGetter
         PREFIX vivo:     <http://vivoweb.org/ontology/core#>
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
         PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
-        SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate ?place
+        SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate ?place ?attributionType ?technique ?material
         WHERE {
               ?individualURI gesah:output_of_production ?participation .
               ?participation gesah:realizes ?participationRole .
@@ -80,6 +92,19 @@ mydomain:elementInfoProducedSearchShortViewDataGetter
                 ?participation gesah:has_place ?place_uri .
                 ?place_uri rdfs:label ?place .
               }
+              OPTIONAL {
+                ?participation gesah:has_type_of_attribution ?attributionTypeUri .
+                ?attributionTypeUri rdfs:label ?attributionType .
+              }
+              OPTIONAL {
+                ?participation gesah:uses_technique ?techniqueUri .
+                ?techniqueUri rdfs:label ?technique .
+              }
+              OPTIONAL {
+                ?participation gesah:has_material ?materialUri .
+                ?materialUri rdfs:label ?material .
+              }
+
         } ORDER BY ?name ?role
      """ .
 
@@ -93,7 +118,7 @@ mydomain:elementInfoEditedSearchShortViewDataGetter
         PREFIX vivo:     <http://vivoweb.org/ontology/core#>
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
         PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
-        SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate ?place
+        SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate ?place ?attributionType ?technique ?material
         WHERE {
               ?individualURI gesah:object_of_edition ?participation .
               ?participation gesah:realizes ?participationRole .
@@ -115,6 +140,19 @@ mydomain:elementInfoEditedSearchShortViewDataGetter
                 ?participation gesah:has_place ?place_uri .
                 ?place_uri rdfs:label ?place .
               }
+              OPTIONAL {
+                ?participation gesah:has_type_of_attribution ?attributionTypeUri .
+                ?attributionTypeUri rdfs:label ?attributionType .
+              }
+              OPTIONAL {
+                ?participation gesah:uses_technique ?techniqueUri .
+                ?techniqueUri rdfs:label ?technique .
+              }
+              OPTIONAL {
+                ?participation gesah:has_material ?materialUri .
+                ?materialUri rdfs:label ?material .
+              }
+
         } ORDER BY ?name ?role
      """ .
 
