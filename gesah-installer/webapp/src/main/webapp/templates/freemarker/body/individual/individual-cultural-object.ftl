@@ -62,6 +62,7 @@
     <div id="property-and-image">
         <div class="row">
             <div class="col-md-4" style="overflow: auto; overflow-x: hidden; height: 65vh">
+                <#include "cultural-object-short-description.ftl">
                 <#include "individual-property-group-notabs.ftl">
             </div>
             <div class="col-md-8">
