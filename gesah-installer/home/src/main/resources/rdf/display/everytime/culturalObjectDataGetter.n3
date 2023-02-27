@@ -26,10 +26,12 @@ mydomain:elementInfoCreatedSearchShortViewDataGetter
         SELECT DISTINCT ?name ?role (year(?dateStart) as ?yearStart) (year(?dateTime) as ?year) ?literalDate ?place ?attributionType ?technique ?material
         WHERE {
               ?individualURI gesah:output_of_creation ?participation .
-              ?participation gesah:realizes ?participationRole .
-          ?participationRole gesah:has_role_type ?roleType .
-              ?roleType rdfs:label ?role .
-          ?participationRole  gesah:is_role_of ?participant .
+	        ?participation gesah:realizes ?participationRole .
+              OPTIONAL {
+                ?participationRole gesah:has_role_type ?roleType .
+                ?roleType rdfs:label ?role .
+              }
+              ?participationRole  gesah:is_role_of ?participant .
               ?participant rdfs:label ?name .
               OPTIONAL {
                 ?participation vivo:dateTimeInterval ?dateTimeInterval .
@@ -74,10 +76,12 @@ mydomain:elementInfoProducedSearchShortViewDataGetter
         WHERE {
               ?individualURI gesah:output_of_production ?participation .
               ?participation gesah:realizes ?participationRole .
-          ?participationRole gesah:has_role_type ?roleType .
+              ?participationRole gesah:has_role_type ?roleType .
               ?roleType rdfs:label ?role .
-          ?participationRole  gesah:is_role_of ?participant .
-              ?participant rdfs:label ?name .
+              OPTIONAL {
+                ?participationRole gesah:has_role_type ?roleType .
+                ?roleType rdfs:label ?role .
+              }
               OPTIONAL{
                 ?participation vivo:dateTimeInterval ?dateTimeInterval .
                 ?dateTimeInterval vivo:end ?dateTimeEnd .
@@ -122,9 +126,11 @@ mydomain:elementInfoEditedSearchShortViewDataGetter
         WHERE {
               ?individualURI gesah:object_of_edition ?participation .
               ?participation gesah:realizes ?participationRole .
-          ?participationRole gesah:has_role_type ?roleType .
-              ?roleType rdfs:label ?role .
-          ?participationRole  gesah:is_role_of ?participant .
+              OPTIONAL {
+                ?participationRole gesah:has_role_type ?roleType .
+                ?roleType rdfs:label ?role .
+              }
+              ?participationRole  gesah:is_role_of ?participant .
               ?participant rdfs:label ?name .
               OPTIONAL{
                 ?participation vivo:dateTimeInterval ?dateTimeInterval .
