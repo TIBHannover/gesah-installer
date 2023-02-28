@@ -82,6 +82,8 @@ mydomain:elementInfoProducedSearchShortViewDataGetter
                 ?participationRole gesah:has_role_type ?roleType .
                 ?roleType rdfs:label ?role .
               }
+              ?participationRole  gesah:is_role_of ?participant .
+              ?participant rdfs:label ?name .
               OPTIONAL{
                 ?participation vivo:dateTimeInterval ?dateTimeInterval .
                 ?dateTimeInterval vivo:end ?dateTimeEnd .

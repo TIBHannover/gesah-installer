@@ -115,7 +115,7 @@
         <#assign placeAndDate = "" />
 	    	    
 	    <#list people as participation>
-	    	<#if name != participation.name >
+	    	<#if participation.name?? & name != participation.name >
 	    	  <#assign name = participation.name />
 	    	  <#if rolesIsStarted>
 	    	    <@closeRoles />
@@ -173,34 +173,32 @@
   </#if>
 </#function>
 
-
 <#function getPlaceAndDate participation>
   <#assign result = "" />
-  <#if participation.technique?has_content && participation.material?has_content >
 	<#assign place_printed = false />
 	<#if participation.place?has_content>
-        <#assign result = result + participation.place/>
+	    <#assign result = result + participation.place/>
 		<#assign place_printed = true />
 	</#if>
 	<#if participation.literalDate?has_content>
 		<#if place_printed>
 	        <#assign result = result + ", "/>
 		</#if>
-        <#assign result = result + participation.literalDate />
+	    <#assign result = result + participation.literalDate />
 	<#elseif participation.year?has_content >
 		<#if participation.yearStart?has_content && ( participation.yearStart != participation.year ) >
 			<#if place_printed>
-                <#assign result = result + ", "/>
+	            <#assign result = result + ", "/>
 			</#if>
-            <#assign result = result + participation.yearStart + "-" + participation.year />
+	        <#assign result = result + participation.yearStart + "-" + participation.year />
 		<#else>
 			<#if place_printed>
-                <#assign result = result + ", "/>
+	            <#assign result = result + ", "/>
 			</#if>
-            <#assign result = result + participation.year />
+	        <#assign result = result + participation.year />
 		</#if>
 	</#if>
-  </#if>
+
   <#return result>
 </#function>
 
