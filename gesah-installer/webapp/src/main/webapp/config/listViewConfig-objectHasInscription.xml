@@ -30,7 +30,7 @@
                 <precise-subquery>?subject ?property ?objInscriptionActivity .
                 ?objInscriptionActivity a gesah:Inscription_Activity .</precise-subquery>
                 ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
-                ?objInscription vitro:mostSpecificType ?objInscriptionClass .
+		?objInscription vitro:mostSpecificType ?objInscriptionClass .
                 ?objInscriptionClass rdfs:label ?inscriptionLabel .
             }
             OPTIONAL {
@@ -113,6 +113,7 @@
                 ?objInscriptionActivity a gesah:Inscription_Activity .
                 ?objInscriptionActivity gesah:has_inscription_output ?objInscription .
                 ?objInscription vitro:mostSpecificType ?objInscriptionClass .
+	        ?objInscriptionClass rdfs:subClassOf gesah:Inscription .
                 ?objInscriptionClass rdfs:label ?inscriptionLabel .
             } UNION {
                 ?subject ?property ?objInscriptionActivity .
