@@ -194,7 +194,7 @@ a.hidden-search-option {
 }
 
 .filter-tab.active > a {
-  background: linear-gradient(white 10%, #F1F1F1);
+  background: linear-gradient(white 10%, #d3d3d3);
   border-bottom-color: #ddd !important;
 }
 
