@@ -248,7 +248,7 @@
 <#macro printSorting>
 	<#if sorting?has_content>
 		<div>
-			<select form="extended-search-form" name="sort" id="search-form-sort" onchange="this.form.submit()" >
+			<select form="extended-search-form" name="sort" id="search-form-sort" onchange="$('#extended-search-form').submit()" >
 				<option value="">${i18n().search_results_sort_by} ${i18n().search_results_relevance}</option>
 				<#list sorting as option>
 					<#if option.selected>
@@ -264,7 +264,7 @@
 
 <#macro printHits>
 	<div>
-	<select form="extended-search-form" name="hitsPerPage" id="search-form-hits-per-page" onchange="this.form.submit()">
+	<select form="extended-search-form" name="hitsPerPage" id="search-form-hits-per-page" onchange="$('#extended-search-form').submit()">
 		<#list hitsPerPageOptions as option>
 			<#if option == hitsPerPage>
 				<option value="${option}" selected="selected">${option} ${i18n().search_results_per_page}</option>
@@ -391,7 +391,7 @@
 </#macro>
 
 <#macro createUserInput filter>
-	<input form="extended-search-form" id="filter_input_${filter.id}"  placeholder="${i18n().search_field_placeholder}" class="search-vivo" type="text" name="filter_input_${filter.id}" value="${filter.inputText}" autocapitalize="none" />
+	<input form="extended-search-form" id="filter_input_${filter.id}"  placeholder="${i18n().search_field_placeholder}" class="search-vivo" type="text" name="filter_input_${filter.id}" value="${filter.inputText?html}" autocapitalize="none" />
 </#macro>
 
 <#function getInput filter filterValue valueID valueNumber>
