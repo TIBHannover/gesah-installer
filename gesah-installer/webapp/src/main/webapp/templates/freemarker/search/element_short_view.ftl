@@ -20,9 +20,3 @@
 
 </div>
 
-<#macro closeParticipationRoleList participation type name >
- <#if name?has_content && type?has_content && ( participation.name != name || participation.type != type )>
-   <@roleCloseList />
- </#if>
-</#macro>
-

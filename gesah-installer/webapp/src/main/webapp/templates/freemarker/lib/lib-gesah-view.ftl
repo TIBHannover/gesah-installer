@@ -89,112 +89,125 @@
 	     <#if creators?has_content>
 	       <p>
 	 	   <@printTypeInfo creators />
-           <@printPlaceAndDate creators />
 	 	   </p>
 	     </#if>
 	     <#if producers?has_content>
 	       <p>
 	 	   <@printTypeInfo producers />
-           <@printPlaceAndDate producers />
 	 	   </p>
 	     </#if>
 	     <#if editors?has_content>
 	       <p>
 	 	   <@printTypeInfo editors />
-           <@printPlaceAndDate editors />
 	 	   </p>
 	     </#if>
 </#macro>
 
 <#macro printTypeInfo people>
 	    <#assign name = "" />
+	    <#assign nameIsStarted = false />
+	    
 	    <#assign role = "" />
 	    <#assign rolesIsStarted = false />
-	    <#assign nameIsStarted = false />
-	 	
+	    
+		<#assign technique_and_material = "" />
+		<#assign attribution = "" />
+        <#assign placeAndDate = "" />
+	    	    
 	    <#list people as participation>
-	    	        
-	    	<#if name != participation.name >
+	    	<#if participation.name?? & name != participation.name >
+	    	  <#assign name = participation.name />
 	    	  <#if rolesIsStarted>
 	    	    <@closeRoles />
 	    	    <#assign rolesIsStarted = false />
 	    	    <#assign role = "" />
+	    	    ${attribution}
+   	    		<#assign attribution = "" />
 	    	  </#if>
 	    	  <#if nameIsStarted>
 	    	    <@closeName />
+	    	    ${technique_and_material}
+	      		<#assign technique_and_material = "" />
 	    	    <#assign nameIsStarted = false />
+	    	    ${placeAndDate}
+	      		<#assign placeAndDate = "" />
 	    	  </#if>
-	    	  <#assign name = participation.name />
-	    	  <@openName name />
+	    	  <#assign technique_and_material = getTechniqueAndMaterial(participation) />
+  	    	  <#assign placeAndDate = getPlaceAndDate(participation) />
+	    	  <p>${name}
+	    	  <#if participation.attributionType?has_content>
+    	  		<#assign attribution = "<span class=\"titleTypeListItemInv\">" + participation.attributionType + "</span>" />
+	    	  </#if>
 	    	  <#assign nameIsStarted = true />
 	        </#if>
-	        
-	        <#if role != participation.role >
+	        <#if participation.role?has_content && role != participation.role >
 	    	  <#if rolesIsStarted>
-	    	    <@addRoleSeparator />
+	    	    ,<#lt>
 	    	  <#else>
 	    	    <@openRoles />
 	    	  </#if>
 	    	  <#assign rolesIsStarted = true />
 	    	  <#assign role = participation.role />
-			  <@printRole role/>
+			  ${role}<#t>
 	        </#if>
 	    </#list>
 	    <#if rolesIsStarted>
 	      <@closeRoles />
+	      ${attribution}
+   	      <#assign attribution = "" />
 	    </#if>
 	    <#if nameIsStarted>
 	      <@closeName />
+	      ${technique_and_material}
+	      <#assign technique_and_material = "" />
+	      ${placeAndDate}
+	      <#assign placeAndDate = "" />
 	    </#if>
 </#macro>
 
-<#macro printPlaceAndDate placeAndDateInfo>
-	<#if placeAndDateInfo?has_content>
-		<#assign place_printed = false />
-		<#if placeAndDateInfo[0].place?has_content>
-			${placeAndDateInfo[0].place}<#rt>
-			<#assign place_printed = true />
+<#function getTechniqueAndMaterial participation>
+  <#if participation.technique?has_content && participation.material?has_content >
+	<#return "<p> ${participation.technique} ${i18n().gesah_made_on} ${participation.material} </p>" >
+  <#else>
+   <#return "">
+  </#if>
+</#function>
+
+<#function getPlaceAndDate participation>
+  <#assign result = "" />
+	<#assign place_printed = false />
+	<#if participation.place?has_content>
+	    <#assign result = result + participation.place/>
+		<#assign place_printed = true />
+	</#if>
+	<#if participation.literalDate?has_content>
+		<#if place_printed>
+	        <#assign result = result + ", "/>
 		</#if>
-		<#if placeAndDateInfo[0].literalDate?has_content>
+	    <#assign result = result + participation.literalDate />
+	<#elseif participation.year?has_content >
+		<#if participation.yearStart?has_content && ( participation.yearStart != participation.year ) >
 			<#if place_printed>
-				<@addCommaSeparator/>
+	            <#assign result = result + ", "/>
 			</#if>
-			${placeAndDateInfo[0].literalDate}
-		<#elseif placeAndDateInfo[0].year?has_content >
-			<#if placeAndDateInfo[0].yearStart?has_content && ( placeAndDateInfo[0].yearStart != placeAndDateInfo[0].year ) >
-				<#if place_printed>
-					<@addCommaSeparator/>
-				</#if>
-				${placeAndDateInfo[0].yearStart}-${placeAndDateInfo[0].year}
-			<#else>
-				<#if place_printed>
-					<@addCommaSeparator/>
-				</#if>
-				${placeAndDateInfo[0].year}
+	        <#assign result = result + participation.yearStart + "-" + participation.year />
+		<#else>
+			<#if place_printed>
+	            <#assign result = result + ", "/>
 			</#if>
+	        <#assign result = result + participation.year />
 		</#if>
 	</#if>
-</#macro>
 
-
-<#macro printRole role>
-  ${role}
-</#macro>
+  <#return result>
+</#function>
 
 <#macro openRoles>
-  (
+  (<#rt>
 </#macro>
 
 <#macro closeRoles>
-  )
-</#macro>
-
-<#macro addRoleSeparator>
-,
-</#macro>
-
-<#macro openName name >
-  <p>${name}
+  )<#lt>
 </#macro>
 
 <#macro closeName >
