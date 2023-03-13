@@ -410,8 +410,8 @@
 		<#assign filterName = filterName + "_" + valueNumber >
 	</#if>
 
-	<#return "<input form=\"extended-search-form\" type=\"" + type + "\" id=\"" + valueID + "\"  value=\"" + filter.id + ":" + filterValue.id 
-		+ "\" name=\"filters_" + filterName + "\" style=\"display:none;\" " + checked + "\" class=\"" + class + "\" >" />
+	<#return "<input form=\"extended-search-form\" type=\"" + type?html + "\" id=\"" + valueID?html + "\"  value=\"" + filter.id?html + ":" + filterValue.id?html 
+		+ "\" name=\"filters_" + filterName?html + "\" style=\"display:none;\" " + checked + "\" class=\"" + class + "\" >" />
 </#function>
 
 <#function getValueID id number>

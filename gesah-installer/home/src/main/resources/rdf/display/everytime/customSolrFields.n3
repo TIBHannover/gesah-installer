@@ -231,16 +231,16 @@ WHERE
           ?uri rdf:type gesah:Drawing .
           BIND("drawing" as ?filterValue )
         } UNION {
-          <https://vivo.tib.eu/gesah/individual/n2242> gesah:is_object_category_generic_term_of ?uri 
+          <https://sah.tib.eu/individual/n2242> gesah:is_object_category_generic_term_of ?uri 
           BIND("architecture" as ?filterValue )
         } UNION {
-          <https://vivo.tib.eu/gesah/individual/n31174> gesah:is_object_category_narrower_term_of ?uri 
+          <https://sah.tib.eu/individual/n31174> gesah:is_object_category_narrower_term_of ?uri 
           BIND("scenography" as ?filterValue )
         } UNION {
-          <https://vivo.tib.eu/gesah/individual/n1692> gesah:is_object_category_generic_term_of ?uri 
+          <https://sah.tib.eu/individual/n1692> gesah:is_object_category_generic_term_of ?uri 
           BIND("ornament" as ?filterValue )
         } UNION {
-          <https://vivo.tib.eu/gesah/individual/n14180> gesah:is_object_category_narrower_term_of ?uri 
+          <https://sah.tib.eu/individual/n14180> gesah:is_object_category_narrower_term_of ?uri 
           BIND("garden" as ?filterValue )
         } 
  	} 
