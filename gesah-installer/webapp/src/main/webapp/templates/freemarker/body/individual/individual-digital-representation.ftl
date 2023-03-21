@@ -29,7 +29,7 @@
         <div style="float: right;"><a href="${urls.base}/contact"><img src="${urls.images}/icons/mail.svg" title="${i18n().feedback_icon}" width="30"></a></div>
         <#if digitalRepresentations?has_content>
             <!-- Download button -->
-            <div onclick="downloadImage()" style="float: right; margin-right: 5px;"><img src="${urls.images}/icons/down-arrow.svg?v=2" width="30"></div>
+            <div onclick="downloadImage()" style="float: right; margin-right: 5px;"><img title="${i18n().download_image}" src="${urls.images}/icons/down-arrow.svg?v=2" width="30"></div>
         </#if>
         <header style="float: left">
             <#if relatedSubject??>
