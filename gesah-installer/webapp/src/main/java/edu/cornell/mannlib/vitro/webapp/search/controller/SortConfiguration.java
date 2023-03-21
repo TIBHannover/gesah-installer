@@ -12,6 +12,7 @@ public class SortConfiguration {
 	private boolean ascOrder = false;
 	private boolean selected = false;
 	private String label = "";
+	private int order = 0;
 	public SortConfiguration(String id, String label, String field) {
 		this.id = id;
 		this.setLabel(label);
@@ -74,6 +75,14 @@ public class SortConfiguration {
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
 }
