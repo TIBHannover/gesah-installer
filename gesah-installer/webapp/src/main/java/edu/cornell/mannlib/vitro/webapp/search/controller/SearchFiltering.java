@@ -121,7 +121,7 @@ public class SearchFiltering {
 			+ "		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>\n"
 			+ "    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>\n"
 			+ "		Prefix search: <https://osl.tib.eu/vitro-searchOntology#> \n"
-			+ "        SELECT ( STR(?sort_label) as ?label ) ?id ?searchField ?multilingual ?isAsc \n"
+			+ "        SELECT ( STR(?sort_label) as ?label ) ?id ?searchField ?multilingual ?isAsc ?sort_order \n"
 			+ "		WHERE {\n"
 			+ "  			?sort rdf:type search:Sort . \n"
 			+ "  			?sort rdfs:label ?sort_label .\n"
@@ -129,16 +129,21 @@ public class SearchFiltering {
 			+ "  			?sort search:id ?id .\n"
 			+ "  			?field search:indexField ?searchField  .\n"
 			+ "  			OPTIONAL {\n"
-			+ "    			 ?field search:isLanguageSpecific ?f_multilingual  .\n"
-			+ "    			 BIND(?f_multilingual as ?bind_multilingual) .\n"
-			+ "  			}\n"
-			+ "    		OPTIONAL {\n"
+			+ "    			  ?field search:isLanguageSpecific ?f_multilingual  .\n"
+			+ "				  BIND(?f_multilingual as ?bind_multilingual) .\n"
+			+ "				}\n"
+			+ "				OPTIONAL {\n"
 			+ "    			 ?sort search:isAscending ?f_ord  .\n"
 			+ "    			 BIND(?f_ord as ?f_order) .\n"
 			+ "  			}\n"
+			+ "             OPTIONAL{ "
+			+ "				  ?sort search:order ?s_order .\n"
+			+ "               bind(?s_order as ?sort_order_found).\n"
+			+ "  	        }\n"
+			+ "             BIND(coalesce(?sort_order_found, 0) as ?sort_order)\n"
 			+ "   			BIND(COALESCE(?f_order, false) as ?isAsc)\n"
 			+ "  			BIND(COALESCE(?bind_multilingual, false) as ?multilingual)\n"
-			+ "		}";
+			+ "		} ORDER BY ?sort_order ?label ";
 
 	static void addFiltersToQuery(VitroRequest vreq, SearchQuery query, Map<String, SearchFilter> filterById) {
 		Enumeration<String> paramNames = vreq.getParameterNames();
@@ -393,6 +398,11 @@ public class SearchFiltering {
 					RDFNode isAsc = solution.get("isAsc");
 					if (isAsc != null) {
 						config.setAscOrder(isAsc.asLiteral().getBoolean());
+					}
+					
+					RDFNode order = solution.get("sort_order");
+					if (order != null) {
+						config.setOrder(order.asLiteral().getInt());
 					}
 					
 					sortConfigurations.put(id, config);

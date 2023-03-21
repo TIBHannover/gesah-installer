@@ -120,7 +120,7 @@ rdf:langString rdf:type rdfs:Datatype .
              rdfs:label "description"^^rdf:langString .
 
 :order  a      owl:DatatypeProperty , owl:FunctionalProperty ;
-        rdfs:domain  [ a owl:Class; owl:unionOf  ( :FilterValue :Filter :FilterGroup ) ];
+        rdfs:domain  [ a owl:Class; owl:unionOf  ( :Sort :FilterValue :Filter :FilterGroup ) ];
         rdfs:range   xsd:integer .
 
 ###  https://osl.tib.eu/vitro-searchOntology#id
