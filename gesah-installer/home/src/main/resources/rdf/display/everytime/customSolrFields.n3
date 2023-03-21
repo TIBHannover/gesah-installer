@@ -72,7 +72,7 @@
                 WHERE
                 {
                     ?uri gesah:former_inventory_number ?number .
-                } LIMIT 1
+                } ORDER BY DESC(?inventory_number) LIMIT 1
         """ .
 
 
