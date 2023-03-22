@@ -70,6 +70,9 @@
 			                         </div>
 		                         </fieldset>
                      		</form>
+                     		<div class="home-page-intro home-page-index-status">
+                   				<p>${i18n().home_page_index_status_text}</p>
+                   			</div>
 		                 </div>
 		             </div>
 
