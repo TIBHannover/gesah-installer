@@ -121,8 +121,8 @@
 			    } else if (active !== "true"){
 			        input.setAttribute('active', "true");
 			    } else {
-			    	var startDate = new Date(+values[0],1,1);
-			    	var endDate = new Date(+values[1],1,1);
+			    	var startDate = new Date(+values[0],0,1);
+			    	var endDate = new Date(+values[1],0,1);
 			    	input.value = startDate.toISOString() + " " + endDate.toISOString();
 			    }
 			});
