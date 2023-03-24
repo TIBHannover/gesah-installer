@@ -70,6 +70,9 @@
 			                         </div>
 		                         </fieldset>
                      		</form>
+                     		<div class="home-page-intro home-page-index-status">
+                   				<p>${i18n().home_page_index_status_text}</p>
+                   			</div>
 		                 </div>
 		             </div>
 
@@ -86,7 +89,7 @@
                     		</a>
                     	</div>
                     	<div class="category_facet">
-                    		<a class="facet_link" target="_blank" href="https://opac.tib.eu/DB=1/SET=1/TTL=1/CMD?ACT=SRCHA&IKT=2140&SRT=YOP&TRM=*Haupt*">
+                    		<a class="facet_link" target="_blank" href="https://www.tib.eu/de/suchen?tx_tibsearch_search[action]=search&tx_tibsearch_search[cnt]=20&tx_tibsearch_search[controller]=Search&tx_tibsearch_search[pg]=1&tx_tibsearch_search[query]=prefix%3Atibkat shelfmark%3A*Haupt\ * -shelfmark%3A*Haupt\ 16%3F%3F* -shelfmark%3A*Haupt\ 17%3F%3F* -shelfmark%3A*Haupt\ 18%3F%3F* -shelfmark%3A*Haupt\ Hs* -shelfmark%3AArchiv\ *">
                     			<img src="images/library.jpg">
                     			<div class="category_facet_label">${i18n().haupt_library_img_text}</div>
                     			<div class="category_facet_description">${i18n().haupt_library_img_description}</div>
