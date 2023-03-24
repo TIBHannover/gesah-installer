@@ -146,7 +146,8 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 		boolean wasCSVRequested = Format.CSV == format;
 		log.debug("Requested format was " + (wasXmlRequested ? "xml" : "html"));
 		boolean wasHtmlRequested = !(wasXmlRequested || wasCSVRequested);
-
+		long startTime = System.nanoTime();
+		
 		try {
 
 			// make sure an IndividualDao is available
@@ -169,11 +170,22 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
 			String queryText = getQueryText(vreq);
 			log.debug("Query text is \"" + queryText + "\"");
-
+			if (log.isDebugEnabled()) {
+				log.debug( getSpentTime(startTime) +  "ms spent before read filter configurations.");
+			}
 			Map<String, SearchFilter> filterConfigurationsByField = SearchFiltering.readFilterConfigurations(vreq);
+			if (log.isDebugEnabled()) {
+				log.debug( getSpentTime(startTime) +  "ms spent before get sort configurations.");
+			}
 			Map<String, SortConfiguration> sortConfigurations = SearchFiltering.getSortConfigurations(vreq);
+			if (log.isDebugEnabled()) {
+				log.debug( getSpentTime(startTime) +  "ms spent before get query configurations.");
+			}
 			SearchQuery query = getQuery(queryText, hitsPerPage, startIndex, vreq, filterConfigurationsByField,
 					sortConfigurations);
+			if (log.isDebugEnabled()) {
+				log.debug( getSpentTime(startTime) +  "ms spent after get query configurations.");
+			}
 			SearchEngine search = ApplicationUtils.instance().getSearchEngine();
 			SearchResponse response = null;
 
@@ -184,13 +196,18 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 				log.error("could not run search query", ex);
 				return doFailedSearch(msg, queryText, format, vreq);
 			}
+			if (log.isDebugEnabled()) {
+				log.debug( getSpentTime(startTime) +  "ms spent after get query execution.");
+			}
 
 			if (response == null) {
 				log.error("Search response was null");
 				return doFailedSearch(I18n.text(vreq, "error_in_search_request"), queryText, format, vreq);
 			}
 			addFacetCountersFromRequest(response, filterConfigurationsByField, vreq);
-
+			if (log.isDebugEnabled()) {
+				log.debug( getSpentTime(startTime) +  "ms spent after addFacetCountersFromRequest.");
+			}
 			SearchResultDocumentList docs = response.getResults();
 			if (docs == null) {
 				log.error("Document list for a search was null");
@@ -254,8 +271,14 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
 			/* Add ClassGroup and type refinement links to body */
 			if (wasHtmlRequested) {
+				if (log.isDebugEnabled()) {
+					log.debug( getSpentTime(startTime) +  "ms spent before sorting filterConfigurationsByField values.");
+				}
 				for (Entry<String, SearchFilter> entry : filterConfigurationsByField.entrySet()) {
 					entry.getValue().sortValues();
+				}
+				if (log.isDebugEnabled()) {
+					log.debug( getSpentTime(startTime) +  "ms spent after sorting filterConfigurationsByField values.");
 				}
 				Map<String, SearchFilter> filtersForTemplateById = SearchFiltering.getFiltersForTemplate(filterConfigurationsByField);
 				body.put("filters", filtersForTemplateById);
@@ -311,11 +334,21 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 			}
 
 			String template = templateTable.get(format).get(Result.PAGED);
-
-			return new TemplateResponseValues(template, body);
+			if (log.isDebugEnabled()) {
+				log.debug( getSpentTime(startTime) +  "ms spent before TemplateResponseValues.");
+			}
+			TemplateResponseValues templateResponseValues = new TemplateResponseValues(template, body);
+			if (log.isDebugEnabled()) {
+				log.debug( getSpentTime(startTime) +  "ms spent after TemplateResponseValues.");
+			}
+			return templateResponseValues;
 		} catch (Throwable e) {
 			return doSearchError(e, format);
 		}
+	}
+
+	private long getSpentTime(long startTime) {
+		return (System.nanoTime() - startTime  )/1000000;
 	}
 
 	private Object isEmptySearchFilters(Map<String, SearchFilter> filterConfigurationsByField) {
@@ -329,15 +362,26 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 
 	private void addFacetCountersFromRequest(SearchResponse response, Map<String, SearchFilter> filtersByField,
 			VitroRequest vreq) {
+		long startTime = System.nanoTime();
 		List<SearchFacetField> resultfacetFields = response.getFacetFields();
+		if (log.isDebugEnabled()) {
+			log.debug( getSpentTime(startTime) +  "ms spent after getFacetFields.");
+		}
 		Map<String, List<String>> requestFiltersById = SearchFiltering.getRequestFilters(vreq);
+		if (log.isDebugEnabled()) {
+			log.debug( getSpentTime(startTime) +  "ms spent after SearchFiltering.getRequestFilters.");
+		}
 		for (SearchFacetField resultField : resultfacetFields) {
 			SearchFilter searchFilter = filtersByField.get(resultField.getName());
 			if (searchFilter == null) {
 				continue;
 			}
 			List<Count> values = resultField.getValues();
+
 			for (Count value : values) {
+				if (value.getCount() == 0) {
+					continue;
+				}
 				String valueName = value.getName();
 				FilterValue filterValue = searchFilter.getValue(valueName);
 				if (filterValue == null) {
@@ -361,6 +405,9 @@ public class ExtendedSearchController extends FreemarkerHttpServlet {
 				}
 				// COUNT should be from the real results of the query
 				filterValue.setCount(value.getCount());
+			}
+			if (log.isDebugEnabled()) {
+				log.debug( getSpentTime(startTime) +  "ms spent after SearchFacetField " + searchFilter.getName() + "processing.");
 			}
 		}
 	}
