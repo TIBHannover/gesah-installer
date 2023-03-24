@@ -14,6 +14,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -29,7 +31,6 @@ import org.apache.jena.shared.Lock;
 
 import edu.cornell.mannlib.vedit.beans.LoginStatusBean;
 import edu.cornell.mannlib.vitro.webapp.application.ApplicationUtils;
-import edu.cornell.mannlib.vitro.webapp.auth.policy.PolicyHelper;
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.controller.freemarker.UrlBuilder.ParamMap;
 import edu.cornell.mannlib.vitro.webapp.modelaccess.ModelAccess;
@@ -38,10 +39,11 @@ import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchFacetField;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchFacetField.Count;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchQuery;
 import edu.cornell.mannlib.vitro.webapp.modules.searchEngine.SearchResponse;
-import edu.cornell.mannlib.vitro.webapp.auth.requestedAction.AuthorizationRequest;
 import edu.cornell.mannlib.vitro.webapp.beans.UserAccount;
 
 public class SearchFiltering {
+
+	static final Log log = LogFactory.getLog(SearchFiltering.class);
 
 	private static final String FILTER_RANGE = "filter_range_";
 	private static final String FILTER_INPUT_PREFIX = "filter_input_";
@@ -270,6 +272,8 @@ public class SearchFiltering {
 	}
 
 	static Map<String, SearchFilter> readFilterConfigurations(VitroRequest vreq) {
+		long startTime = System.nanoTime();
+
 		Map<String, SearchFilter> filtersByField = new LinkedHashMap<>();
 		Model model = ModelAccess.on(vreq).getOntModelSelector().getABoxModel();
 		model.enterCriticalSection(Lock.READ);
@@ -310,9 +314,17 @@ public class SearchFiltering {
 		} finally {
 			model.leaveCriticalSection();
 		}
+		if (log.isDebugEnabled()) {
+			log.debug( getSpentTime(startTime) +  "ms spent after FILTER QUERY request.");
+		}
 		Map<String, List<String>> requestFilters = getRequestFilters(vreq);
+		if (log.isDebugEnabled()) {
+			log.debug( getSpentTime(startTime) +  "ms spent after getRequestFilters.");
+		}
 		setSelectedFilters(filtersByField, requestFilters);
-		SearchFiltering.querySolrFilterInfo(filtersByField, vreq, requestFilters);
+		if (log.isDebugEnabled()) {
+			log.debug( getSpentTime(startTime) +  "ms spent after setSelectedFilters.");
+		}
 		return sortFilters(filtersByField);
 	}
 	
@@ -499,51 +511,7 @@ public class SearchFiltering {
 		return filter;
 	}
 
-	static void querySolrFilterInfo(Map<String, SearchFilter> filtersByField, VitroRequest vreq,
-			Map<String, List<String>> requestFilters) {
-		SearchQuery query = ApplicationUtils.instance().getSearchEngine().createQuery("*:*");
-		query.setRows(0);
-		query.setFacetLimit(1000);
-		SearchFiltering.addFacetFieldsToQuery(filtersByField, query);
-		SearchEngine search = ApplicationUtils.instance().getSearchEngine();
-		SearchResponse response = null;
-		try {
-			response = search.query(query);
-			List<SearchFacetField> resultfacetFields = response.getFacetFields();
-			for (SearchFacetField resultField : resultfacetFields) {
-				SearchFilter searchFilter = filtersByField.get(resultField.getName());
-				if (searchFilter == null) {
-					continue;
-				}
-				List<Count> values = resultField.getValues();
-				for (Count value : values) {
-					String name = value.getName();
-					FilterValue filterValue = searchFilter.getValue(name);
-					if (filterValue == null) {
-						filterValue = new FilterValue(name);
-						searchFilter.addValue(filterValue);
-					}
 
-					if (requestFilters.containsKey(searchFilter.getId())) {
-						List<String> requestedValues = requestFilters.get(searchFilter.getId());
-						if (requestedValues.contains(name)) {
-							filterValue.setSelected(true);
-							searchFilter.setSelected(true);
-
-						}
-					}
-					if (searchFilter.isLocalizationRequired()) {
-						String label = SearchFiltering.getUriLabel(value.getName(), vreq);
-						if (!StringUtils.isBlank(label)) {
-							filterValue.setName(label);
-						}
-					}
-				}
-			}
-		} catch (Exception e) {
-			ExtendedSearchController.log.error(e, e);
-		}
-	}
 
 	static boolean isEmptyValues(List<String> requestedValues) {
 		if (requestedValues.isEmpty()) {
@@ -625,4 +593,7 @@ public class SearchFiltering {
 		}
 	}
 
+	private static long getSpentTime(long startTime) {
+		return (System.nanoTime() - startTime )/1000000;
+	}
 }
