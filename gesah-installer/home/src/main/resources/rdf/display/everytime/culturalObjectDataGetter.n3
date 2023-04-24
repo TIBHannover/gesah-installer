@@ -176,7 +176,6 @@ mydomain:elementCreationDateSearchShortViewDataGetter
                                 ?individualURI gesah:current_inventory_number ?curNumber .
                         }
                         OPTIONAL {
-                                ?subject ?property ?object .
                                 ?individualURI gesah:former_inventory_number ?formNumber .
                                 FILTER (regex(?formNumber, '^((kl)|(m)|(gr)|(ohne Signatur)|(IX 48)|(EB Neuzugänge)|(XXIV)|(Gartenpläne))')) .
                                 FILTER NOT EXISTS {
