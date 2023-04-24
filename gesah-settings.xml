@@ -7,8 +7,8 @@
             <properties>
                 <app-name>gesah</app-name>
 
-                <vitro-dir>/tib/app/vivo/data/gesah</vitro-dir>
-                <tomcat-dir>/tib/app/vivo/tomcat</tomcat-dir>
+		<vitro-dir>/tib/app/vivo/data/gesah</vitro-dir>
+		<tomcat-dir>/tib/app/vivo/tomcat</tomcat-dir>
                 <vitro-installer-dir>../gesah-installer</vitro-installer-dir>
 
                 <default-theme>vitro</default-theme>
