@@ -15,45 +15,34 @@
 		SELECT DISTINCT ?object ?supplementaryType ?cultObject ?barcode ?fileNum ?cultObjectLabel ?typeLabel ?curNumber ?formNumber (STR(?cultObjectLabel) as ?strlabel)
 		WHERE {
 			?subject ?property ?object .
-			?object a gesah:Activitiy .
 			OPTIONAL {
 				?object &lt;http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType&gt; ?objectType .
 				?objectType rdfs:label ?supplementaryTypeOpt .
 			}
 			BIND(COALESCE(?supplementaryTypeOpt, "Activity") as ?supplementaryType)
-			?object gesah:has_production_output|gesah:has_creation_output|gesah:has_edition_object|gesah:has_inscription_object ?cultObject . 
+			?object gesah:has_production_output|gesah:has_creation_output|gesah:has_edition_object|gesah:has_inscription_object|gesah:has_preservation_object|gesah:has_event_object|gesah:has_provenance_object ?cultObject . 
+			?cultObject a gesah:Cultural_Object .
 			OPTIONAL{
 				?cultObject rdfs:label ?cultObjectLabel .
 			}
-	        ?cultObject gesah:has_main_image ?digRep .
-	        ?digRep gesah:barcode ?barcode .
-	        ?digRep gesah:image_file_number ?fileNum .
-	        OPTIONAL{
-                    ?subject ?property ?object .
-                    ?object a gesah:Activitiy .
-                    ?object gesah:has_production_output|gesah:has_creation_output|gesah:has_edition_object|gesah:has_inscription_object ?cultObject .
+			?cultObject gesah:has_main_image ?digRep .
+			?digRep gesah:barcode ?barcode .
+			?digRep gesah:image_file_number ?fileNum .
+			OPTIONAL{
 	        		?cultObject &lt;http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType&gt; ?type .
-	        		?type rdfs:label ?typeLabel .
-	        }
+				?type rdfs:label ?typeLabel .
+			}
 			OPTIONAL {
-                    ?subject ?property ?object .
-					?object a gesah:Activitiy .
-               	    ?object gesah:has_production_output|gesah:has_creation_output|gesah:has_edition_object|gesah:has_inscription_object ?cultObject .
-					?cultObject a gesah:Cultural_Object .
-					?cultObject gesah:current_inventory_number ?curNumber .
-		    }
-		    OPTIONAL {
-                    ?subject ?property ?object .
-					?object a gesah:Activitiy .
-               	    ?object gesah:has_production_output|gesah:has_creation_output|gesah:has_edition_object|gesah:has_inscription_object ?cultObject .
-					?cultObject a gesah:Cultural_Object .
-					?cultObject gesah:former_inventory_number ?formNumber  .
+				?cultObject gesah:current_inventory_number ?curNumber .
+		        }
+		        OPTIONAL {
+				?cultObject gesah:former_inventory_number ?formNumber  .
     				FILTER (regex(?formNumber, '^((kl)|(m)|(gr)|(ohne Signatur)|(IX 48)|(EB Neuzugänge)|(XXIV)|(Gartenpläne))')) .
-                    FILTER NOT EXISTS {
-                      ?cultObject gesah:former_inventory_number ?formNumber, ?formNumber2  .
-        			  FILTER (regex(?formNumber2, '^((kl)|(m)|(gr)|(ohne Signatur)|(IX 48)|(EB Neuzugänge)|(XXIV)|(Gartenpläne))')) .
-                      FILTER (?formNumber > ?formNumber2)
-                    }
+                                FILTER NOT EXISTS {
+                                ?cultObject gesah:former_inventory_number ?formNumber, ?formNumber2  .
+                                FILTER (regex(?formNumber2, '^((kl)|(m)|(gr)|(ohne Signatur)|(IX 48)|(EB Neuzugänge)|(XXIV)|(Gartenpläne))')) .
+                                FILTER (?formNumber > ?formNumber2)
+                        }
 		    }
 			<collated>
 	        OPTIONAL {
