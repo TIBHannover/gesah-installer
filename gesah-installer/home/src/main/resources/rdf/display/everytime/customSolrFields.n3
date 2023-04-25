@@ -459,25 +459,8 @@ WHERE
 		SELECT ?participant
 		WHERE
 		{
-  			{
-		  		?uri gesah:output_of_production ?production .
-		  		?production gesah:has_participant ?participant .
-  			} 
-  				UNION
-  			{
-		  		?uri gesah:output_of_creation ?creation .
-		  		?creation gesah:has_participant ?participant .
-  			}
-    			UNION
-  			{
-		  		?uri gesah:object_of_edition ?edition .
-		  		?edition gesah:has_participant ?participant .
-  			}
-      			UNION
-  			{
-		  		?uri gesah:object_of_inscription ?inscription .
-		  		?inscription gesah:has_participant ?participant .
-  			}
+			?uri gesah:output_of_production|gesah:output_of_creation|gesah:object_of_edition|gesah:object_of_inscription|gesah:object_of_preservation|gesah:object_of_event|gesah:object_of_provenance ?intermediate_object .
+			?intermediate_object gesah:has_participant ?participant .
 		}
 """ .
 
