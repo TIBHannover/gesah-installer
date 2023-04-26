@@ -278,10 +278,10 @@
     :hasTargetField "ALLTEXT" ;
     :hasTargetField "ALLTEXTUNSTEMMED" ;
     :hasSelectQuery """
-		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+	PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+	PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
     	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-        SELECT DISTINCT ?label ( STR(?comment) as ?comment_str ) 
+        SELECT DISTINCT ( STR(?label) as ?label_str )  ( STR(?specifics_label) as ?specifics_str )  ( STR(?comment) as ?comment_str ) ( STR(?publication) as ?publication_str )
 		WHERE {
 		  ?uri rdf:type gesah:Cultural_Object .
 		  ?uri gesah:output_of_production | gesah:output_of_creation | gesah:object_of_edition | gesah:object_of_inscription | gesah:object_of_preservation | gesah:object_of_event | gesah:object_of_provenance ?edition .
@@ -300,6 +300,13 @@
 		  UNION {
 		  	?edition gesah:comment ?comment .
 		  }
+                  UNION {
+                        ?edition gesah:related_publication ?publication .
+                  }
+                  UNION {
+                        ?edition gesah:has_measure_specifics ?specifics .
+                        ?specifics rdfs:label ?specifics_label .
+                  }
 		  UNION {
 		  	?edition gesah:realizes ?role .
 		  	 { 
