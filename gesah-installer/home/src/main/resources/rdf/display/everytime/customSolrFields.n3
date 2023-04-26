@@ -442,7 +442,8 @@ WHERE
 		WHERE
 		{
 			?uri gesah:output_of_production|gesah:output_of_creation|gesah:object_of_edition|gesah:object_of_inscription|gesah:object_of_preservation|gesah:object_of_event|gesah:object_of_provenance ?intermediate_object .
-			?intermediate_object gesah:has_participant ?participant .
+                        { ?intermediate_object gesah:has_participant ?participant . } UNION
+                        { ?intermediate_object gesah:has_organizer ?participant . } 
 		}
 """ .
 
