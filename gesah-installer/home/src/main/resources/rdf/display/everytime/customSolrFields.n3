@@ -200,32 +200,14 @@ WHERE
 	WHERE
 	{
 		{
-		  ?uri gesah:object_of_edition ?edition .
+		  ?uri gesah:output_of_production | gesah:output_of_creation | gesah:object_of_edition | gesah:object_of_inscription | gesah:object_of_preservation | gesah:object_of_event | gesah:object_of_provenance ?edition .
 		  ?edition <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
 		  ?interval <http://vivoweb.org/ontology/core#end> ?start .
 		  ?start <http://vivoweb.org/ontology/core#dateTime> ?startTime .
 		  ?interval <http://vivoweb.org/ontology/core#end> ?end .
 		  ?end <http://vivoweb.org/ontology/core#dateTime> ?endTime .
 		  BIND( CONCAT("[", STR(?startTime),"Z TO ", STR(?endTime),"Z]") as ?result )
-		} UNION 
-		{
-		  ?uri gesah:output_of_creation ?creation .
-		  ?creation <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
-		  ?interval <http://vivoweb.org/ontology/core#end> ?start .
-		  ?start <http://vivoweb.org/ontology/core#dateTime> ?startTime .
-		  ?interval <http://vivoweb.org/ontology/core#end> ?end .
-		  ?end <http://vivoweb.org/ontology/core#dateTime> ?endTime .
-		  BIND( CONCAT("[", STR(?startTime),"Z TO ", STR(?endTime),"Z]") as ?result )
-		} UNION
-		{
-		  ?uri gesah:output_of_production ?production .
-		  ?production <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
-		  ?interval <http://vivoweb.org/ontology/core#end> ?start .
-		  ?start <http://vivoweb.org/ontology/core#dateTime> ?startTime .
-		  ?interval <http://vivoweb.org/ontology/core#end> ?end .
-		  ?end <http://vivoweb.org/ontology/core#dateTime> ?endTime .
-		  BIND( CONCAT("[", STR(?startTime),"Z TO ", STR(?endTime),"Z]") as ?result )
-		}
+		} 
 	}
 """ .
 
