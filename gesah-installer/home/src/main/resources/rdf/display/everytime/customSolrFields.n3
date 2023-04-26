@@ -478,3 +478,21 @@ WHERE
 		}
 """ .
 
+:vitrodocumentModifier_collectors_mark
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "collector's mark" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+                PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+                SELECT DISTINCT ( STR(?label) as ?str_label ) ( STR(?mark_id) as ?str_mark_id )
+                WHERE   {
+                        ?uri gesah:has_mark_designation ?mark_designation .
+                        ?mark_designation gesah:uses_mark ?mark .
+                        ?mark rdfs:label ?label .
+                        OPTIONAL {?mark gesah:mark_ID ?mark_id . }
+                }
+""" .
+
