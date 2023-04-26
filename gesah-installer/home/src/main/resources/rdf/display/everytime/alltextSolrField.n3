@@ -62,8 +62,8 @@
     :hasTargetField "ALLTEXT" ;
     :hasTargetField "ALLTEXTUNSTEMMED" ;
     :hasSelectQuery """
-		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+	PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+	PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
     	PREFIX gesah:    <http://ontology.tib.eu/gesah/>
         SELECT DISTINCT	?label 		
 		WHERE {
@@ -72,6 +72,23 @@
     		?depiction_type rdfs:label ?label .
 		}
         	""" .
+
+:vitrodocumentModifier_cultural_object_secondary_literature
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "secondary literature" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX gesah: <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT ?literature
+        WHERE {
+              ?uri rdf:type gesah:Cultural_Object .
+              ?uri gesah:secondary_literature ?literature .
+        }
+    """ .
         	
 :vitrodocumentModifier_cultural_object_stylistic_assignment
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
