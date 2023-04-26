@@ -89,6 +89,28 @@
               ?uri gesah:secondary_literature ?literature .
         }
     """ .
+
+:vitrodocumentModifier_inscription_output_properties
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "inscription output data properties to cultural object" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+                PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+                SELECT ( STR(?transcription) as ?transcription_str ) ( STR(?comment) as ?comment_str ) 
+                WHERE
+                {
+                        ?uri gesah:object_of_inscription ?inscription_activity .
+                        ?inscription_activity gesah:has_inscription_output ?output
+                        { ?output gesah:transcription ?transcription . }
+                        UNION 
+                        { ?output gesah:comment ?comment . }
+                }
+""" .
+
+
         	
 :vitrodocumentModifier_cultural_object_stylistic_assignment
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
@@ -262,7 +284,7 @@
         SELECT DISTINCT ?label ( STR(?comment) as ?comment_str ) 
 		WHERE {
 		  ?uri rdf:type gesah:Cultural_Object .
-		  ?uri gesah:object_of_edition|gesah:output_of_creation|gesah:output_of_production|gesah:object_of_provenance ?edition .
+		  ?uri gesah:output_of_production | gesah:output_of_creation | gesah:object_of_edition | gesah:object_of_inscription | gesah:object_of_preservation | gesah:object_of_event | gesah:object_of_provenance ?edition .
 		  { 
 		  	?edition gesah:has_place ?place .
 		  	?place rdfs:label ?label .
