@@ -471,14 +471,14 @@ WHERE
     :hasSelectQuery """
 		PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
 		PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-		SELECT DISTINCT ?mark
+		SELECT DISTINCT ( STR(?mark) as ?mark_str )
 		WHERE	{
   			?uri gesah:has_mark_designation ?mark_designation .
  			?mark_designation gesah:uses_mark ?mark .
 		}
 """ .
 
-:vitrodocumentModifier_collectors_mark
+:vitrodocumentModifier_collectors_mark_alltext
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
     rdfs:label "collector's mark" ;
