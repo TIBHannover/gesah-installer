@@ -62,6 +62,8 @@
 		    var input=$(this);
 		    if (input.is(".selected-input")) { 
 		        input.prop("checked",false);
+		    } else {
+		        input.prop("checked",true);
 		    }
 	        $('#extended-search-form').submit();
 		});
@@ -319,8 +321,8 @@
 						</#if>  
 						${getInput(filter, v, getValueID(filter.id, valueNumber), valueNumber)}
 						${getLabel(valueNumber, v, filter, additionalLabels)}
-						<#assign valueNumber = valueNumber + 1>
 					</#if>
+ 					<#assign valueNumber = valueNumber + 1>
 
 				</#list>
 				<#if additionalLabels >
@@ -411,7 +413,7 @@
 	</#if>
 
 	<#return "<input form=\"extended-search-form\" type=\"" + type?html + "\" id=\"" + valueID?html + "\"  value=\"" + filter.id?html + ":" + filterValue.id?html 
-		+ "\" name=\"filters_" + filterName?html + "\" style=\"display:none;\" " + checked + "\" class=\"" + class + "\" >" />
+		+ "\" name=\"filters_" + valueID?html + "\" style=\"display:none;\" " + checked + "\" class=\"" + class + "\" >" />
 </#function>
 
 <#function getValueID id number>
