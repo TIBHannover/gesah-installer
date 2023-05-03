@@ -543,7 +543,10 @@ public class SearchFiltering {
 			} else {
 				result = uri;
 			}
-		} finally {
+		} catch(Exception e) {
+			log.error(e, e);
+		}
+		finally {
 			model.leaveCriticalSection();
 		}
 		return result;

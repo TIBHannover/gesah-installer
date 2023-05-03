@@ -200,32 +200,14 @@ WHERE
 	WHERE
 	{
 		{
-		  ?uri gesah:object_of_edition ?edition .
+		  ?uri gesah:output_of_production | gesah:output_of_creation | gesah:object_of_edition | gesah:object_of_inscription | gesah:object_of_preservation | gesah:object_of_event | gesah:object_of_provenance ?edition .
 		  ?edition <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
 		  ?interval <http://vivoweb.org/ontology/core#end> ?start .
 		  ?start <http://vivoweb.org/ontology/core#dateTime> ?startTime .
 		  ?interval <http://vivoweb.org/ontology/core#end> ?end .
 		  ?end <http://vivoweb.org/ontology/core#dateTime> ?endTime .
 		  BIND( CONCAT("[", STR(?startTime),"Z TO ", STR(?endTime),"Z]") as ?result )
-		} UNION 
-		{
-		  ?uri gesah:output_of_creation ?creation .
-		  ?creation <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
-		  ?interval <http://vivoweb.org/ontology/core#end> ?start .
-		  ?start <http://vivoweb.org/ontology/core#dateTime> ?startTime .
-		  ?interval <http://vivoweb.org/ontology/core#end> ?end .
-		  ?end <http://vivoweb.org/ontology/core#dateTime> ?endTime .
-		  BIND( CONCAT("[", STR(?startTime),"Z TO ", STR(?endTime),"Z]") as ?result )
-		} UNION
-		{
-		  ?uri gesah:output_of_production ?production .
-		  ?production <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
-		  ?interval <http://vivoweb.org/ontology/core#end> ?start .
-		  ?start <http://vivoweb.org/ontology/core#dateTime> ?startTime .
-		  ?interval <http://vivoweb.org/ontology/core#end> ?end .
-		  ?end <http://vivoweb.org/ontology/core#dateTime> ?endTime .
-		  BIND( CONCAT("[", STR(?startTime),"Z TO ", STR(?endTime),"Z]") as ?result )
-		}
+		} 
 	}
 """ .
 
@@ -459,25 +441,9 @@ WHERE
 		SELECT ?participant
 		WHERE
 		{
-  			{
-		  		?uri gesah:output_of_production ?production .
-		  		?production gesah:has_participant ?participant .
-  			} 
-  				UNION
-  			{
-		  		?uri gesah:output_of_creation ?creation .
-		  		?creation gesah:has_participant ?participant .
-  			}
-    			UNION
-  			{
-		  		?uri gesah:object_of_edition ?edition .
-		  		?edition gesah:has_participant ?participant .
-  			}
-      			UNION
-  			{
-		  		?uri gesah:object_of_inscription ?inscription .
-		  		?inscription gesah:has_participant ?participant .
-  			}
+			?uri gesah:output_of_production|gesah:output_of_creation|gesah:object_of_edition|gesah:object_of_inscription|gesah:object_of_preservation|gesah:object_of_event|gesah:object_of_provenance ?intermediate_object .
+                        { ?intermediate_object gesah:has_participant ?participant . } UNION
+                        { ?intermediate_object gesah:has_organizer ?participant . } 
 		}
 """ .
 
@@ -505,10 +471,28 @@ WHERE
     :hasSelectQuery """
 		PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
 		PREFIX gesah:    <http://ontology.tib.eu/gesah/>
-		SELECT DISTINCT ?mark
+		SELECT DISTINCT ( STR(?mark) as ?mark_str )
 		WHERE	{
   			?uri gesah:has_mark_designation ?mark_designation .
  			?mark_designation gesah:uses_mark ?mark .
 		}
+""" .
+
+:vitrodocumentModifier_collectors_mark_alltext
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "collector's mark" ;
+    :hasTargetField "ALLTEXT" ;
+    :hasTargetField "ALLTEXTUNSTEMMED" ;
+    :hasSelectQuery """
+                PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+                SELECT DISTINCT ( STR(?label) as ?str_label ) ( STR(?mark_id) as ?str_mark_id )
+                WHERE   {
+                        ?uri gesah:has_mark_designation ?mark_designation .
+                        ?mark_designation gesah:uses_mark ?mark .
+                        ?mark rdfs:label ?label .
+                        OPTIONAL {?mark gesah:mark_ID ?mark_id . }
+                }
 """ .
 
