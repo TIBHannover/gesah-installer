@@ -9,5 +9,5 @@
 <@showIsilLink statement />
 
 <#macro showIsilLink statement>
-    <p>info:isil/${statement.value?trim}</p>
+    <p>${statement.value?trim?html}</p>
 </#macro>
