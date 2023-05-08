@@ -1,7 +1,6 @@
 
 
 <#import "lib-meta-tags.ftl" as lmt>
-<#assign iiifUrl="https://osl.tib.eu/gesah-iiif" />
 <#assign iiifSlash="%5E" /> 
 <#assign height = "150" />
 
@@ -22,7 +21,7 @@
 <#macro createImageThumbnail barcode fileName uri>
   <div class="imageThumbnail">
      <a href="${profileUrl(uri)}">
-       <img src="${iiifUrl}/iiif/2/${barcode}${iiifSlash}content${iiifSlash}streams${iiifSlash}${fileName}/full/,${height}/0/default.jpg" />
+       <img src="${urls.iiif}/iiif/2/${barcode}${iiifSlash}content${iiifSlash}streams${iiifSlash}${fileName}/full/,${height}/0/default.jpg" />
      </a>
   </div>
 </#macro>
