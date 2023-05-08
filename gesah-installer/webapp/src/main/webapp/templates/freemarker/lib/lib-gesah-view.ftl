@@ -1,5 +1,4 @@
 
-<#assign iiifUrl="https://osl.tib.eu/gesah-iiif" />
 <#assign iiifSlash="%5E" /> 
 <#assign height = "200" />
 <#assign maxWidth = "220" />
@@ -80,7 +79,7 @@
 <#macro createImageThumbnail barcode fileName profileUrl title>
   <div class="imageThumbnail">
      <a href="${profileUrl}" title="${title}">
-       <img src="${iiifUrl}/iiif/2/${barcode}${iiifSlash}content${iiifSlash}streams${iiifSlash}${fileName}/full/${maxWidth},/0/default.jpg" />
+       <img src="${urls.iiif}/iiif/2/${barcode}${iiifSlash}content${iiifSlash}streams${iiifSlash}${fileName}/full/${maxWidth},/0/default.jpg" />
      </a>
   </div>
 </#macro>

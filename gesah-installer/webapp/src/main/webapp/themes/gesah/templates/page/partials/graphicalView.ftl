@@ -1,4 +1,3 @@
-<#assign iiifUrl="https://osl.tib.eu/gesah-iiif" />
 <#assign iiifSlash="%5E" /> 
 <#assign height = "230" />
 
@@ -57,6 +56,6 @@
 	
 				
 	
-	<#return iiifUrl + "/iiif/2/" + barcode + iiifSlash + "content" + iiifSlash + "streams" + iiifSlash + fileName + 
+	<#return urls.iiif + "/iiif/2/" + barcode + iiifSlash + "content" + iiifSlash + "streams" + iiifSlash + fileName + 
 	"/pct:" + crop_left_n?c + "," + crop_top_n?c + "," + crop_width_n?c + "," + crop_height_n?c + "/," + height + "/0/default.jpg" />
 </#function>

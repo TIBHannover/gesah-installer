@@ -1,6 +1,7 @@
 <#include "individual-setup.ftl">
 <#-- $This file is distributed under the terms of the license in LICENSE$ -->
 <#import "lib-microformats.ftl" as mf>
+<#assign iiifSlash="%5E" /> 
 
 <#--Number of labels present-->
 <#if !labelCount??>
@@ -84,7 +85,7 @@
 -->
     <script type="text/javascript">
         var imageDownloadUrls = [
-            <#list digitalRepresentations as digRep>"${iiifUrl}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/full/full/0/default.tif"<#sep>, </#list>
+            <#list digitalRepresentations as digRep>"${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/full/full/0/default.tif"<#sep>, </#list>
         ];
         var viewer = OpenSeadragon({
             id: "viewer",
@@ -92,16 +93,13 @@
             sequenceMode:         true,
             showReferenceStrip:   true,
             tileSources: [
-            <#list digitalRepresentations as digRep>"${iiifUrl}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/info.json"<#sep>, </#list>
+            <#list digitalRepresentations as digRep>"${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/info.json"<#sep>, </#list>
             ]
         });
         function downloadImage() {
             window.location = imageDownloadUrls[viewer.currentPage()];
         }
     </script>
-<#--
-    "http://gesah01.develop.labs.tib.eu:8080/gesah-iiif/iiif/2/${digRep["barcode"]}%2Fcontent%2Fstreams%2Fmaster_${digRep["barcode"]}_${digRep["fileNum"]}.tif/info.json"
--->
 <#else>
     <#include "individual-property-group-tabs.ftl">
 </#if>
