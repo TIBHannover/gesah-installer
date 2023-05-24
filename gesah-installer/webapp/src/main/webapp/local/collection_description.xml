@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cld:cld xmlns:cld="http://purl.org/cld/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:dcterms="http://purl.org/dc/terms/" xmlns:marcrel="http://www.loc.gov/loc.terms/relators/"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<dc:identifier>DE-89/SAHgesah</dc:identifier>
+<dc:type>Sammlung</dc:type>
+<dc:title>Sammlung Albrecht Haupt - Graphische Einzelblätter</dc:title>
+<dcterms:abstract>Der Teilbestand der Graphischen Einzelblätter der Sammlung Albrecht Haupt umfasst einen bedeutenden Bestand historischer Zeichnungen und Druckgraphiken vom 16. bis Mitte des 19. Jahrhunderts. Die Sammlung geht zurück auf Karl Albrecht Haupt (1852-1932), der als Bauforscher, Professor an der damaligen Technischen Hochschule (TH) Hannover, freischaffender Architekt, Konservator, Forschungsreisender und Sammler agierte. Bereits 1901 ging ein großer Teil dieser Bestände aus dem Besitz Haupts an die Bibliothek der TH Hannover über. Der Teilbestand der Graphischen Einzelblätter umfasst über 6200 Blätter, darunter ca. 1000 Handzeichnungen unterschiedlichster Herkunft und Sujets, u.a. Architektur, Gärten, Ornament, figürliche Kunst, Kunsthandwerk, u.a.m.</dcterms:abstract>
+<cld:isLocatedAt>TIB Technische Informationsbibliothek Leibniz-Informationszentrum Technik und Naturwissenschaften Universitätsbibliothek</cld:isLocatedAt>
+<cld:isAccessedVia>https://sah.tib.eu/</cld:isAccessedVia>
+<dcterms:provenance>Albrecht Haupt (1852-1932), Architekt, Verkauf der Sammlung an TH Hannover, 1901</dcterms:provenance>
+<dc:subject>Kunst</dc:subject>
+<dc:subject>Architektur</dc:subject>
+<dc:creator>Haupt, Albrecht</dc:creator>
+<cld:itemType>Druckgraphik</cld:itemType>
+<cld:itemType>Zeichnung</cld:itemType>
+<dcterms:isPartOf>Sammlung Albrecht Haupt</dcterms:isPartOf>
+<cld:associatedCollection>Sammlung Albrecht Haupt - Reiseskizzen</cld:associatedCollection>
+<cld:associatedCollection>Sammlung Albrecht Haupt - Monographien</cld:associatedCollection>
+</cld:cld>
+
