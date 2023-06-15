@@ -408,11 +408,14 @@ WHERE
     rdfs:label "geographic assignment" ;
     :hasTargetField "geographic_assignment_ss" ;
     :hasSelectQuery """
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX gesah: <http://ontology.tib.eu/gesah/>
-		SELECT DISTINCT ?assignment
-		 	WHERE {
-		 	   ?uri gesah:has_geographic_assignment ?assignment .
-		 	} 
+        SELECT DISTINCT ?assignment
+	WHERE {
+          ?uri rdf:type  <http://ontology.tib.eu/gesah/Cultural_Object> .
+          OPTIONAL { ?uri gesah:has_geographic_assignment ?found_assignment .}
+          BIND( COALESCE(?found_assignment, "search:no_assignment") As ?assignment )
+	} 
 """ .
 
 :vitrodocumentModifier_object_type
