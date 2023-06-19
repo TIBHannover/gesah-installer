@@ -18,6 +18,20 @@ public class FilterValue {
 
 	private boolean defaultPublic;
 	
+	private boolean publiclyAvailable = true;
+	
+	public boolean isPubliclyAvailable() {
+		return publiclyAvailable;
+	}
+
+	public void setPubliclyAvailable(RDFNode rdfNode) {
+		if (rdfNode != null && rdfNode.isLiteral()) {
+			publiclyAvailable = rdfNode.asLiteral().getBoolean();
+		} else {
+			publiclyAvailable = false;
+		}
+	}
+
 	public FilterValue(String id) {
 		this.id = id;
 	}

@@ -159,7 +159,7 @@ rdf:langString rdf:type rdfs:Datatype .
 
 :public
         a                             owl:DatatypeProperty , owl:FunctionalProperty ;
-        rdfs:domain                   [ a owl:Class; owl:unionOf  ( :Filter :FilterGroup ) ] ;
+        rdfs:domain                   [ a owl:Class; owl:unionOf  ( :Filter :FilterGroup :FilterValue ) ] ;
         rdfs:label                    "public"@en-US ;
         rdfs:range                    xsd:boolean ;
         obo:IAO_0000112               ""@en-US ;

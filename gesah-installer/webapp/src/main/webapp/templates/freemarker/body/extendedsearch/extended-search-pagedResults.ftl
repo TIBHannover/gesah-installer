@@ -318,9 +318,11 @@
 						<#if filter.moreLimit = valueNumber - 1 >
 							<#assign additionalLabels = true>
 							<a class="more-facets-link" href="javascript:void(0);" onclick="expandSearchOptions(this)">${i18n().paging_link_more}</a>
-						</#if>  
-						${getInput(filter, v, getValueID(filter.id, valueNumber), valueNumber)}
-						${getLabel(valueNumber, v, filter, additionalLabels)}
+						</#if>
+						<#if user.loggedIn || v.publiclyAvailable>  
+							${getInput(filter, v, getValueID(filter.id, valueNumber), valueNumber)}
+							${getLabel(valueNumber, v, filter, additionalLabels)}
+						</#if>
 					</#if>
  					<#assign valueNumber = valueNumber + 1>
 

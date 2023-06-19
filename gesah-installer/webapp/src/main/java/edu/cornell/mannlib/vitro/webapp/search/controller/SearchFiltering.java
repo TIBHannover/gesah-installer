@@ -55,7 +55,7 @@ public class SearchFiltering {
 			+ "     PREFIX gesah:    <http://ontology.tib.eu/gesah/>\n"
 			+ "     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 			+ "     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
-			+ "SELECT ?filter_id ?filter_type ?filter_label ?value_label ?value_id  ?field_name ?public ?filter_order ?value_order  (STR(?isUriReq) as ?isUri ) ?multivalued ?input ?regex ?facet ?min ?max ?public_default ?more_limit \n"
+			+ "SELECT ?filter_id ?filter_type ?filter_label ?value_label ?value_id  ?field_name ?public ?filter_order ?value_order  (STR(?isUriReq) as ?isUri ) ?multivalued ?input ?regex ?facet ?min ?max ?public_default ?value_public ?more_limit \n"
 			+ " 	WHERE {\n"
 			+ " 	    ?filter rdf:type search:Filter .\n"
 			+ "        ?filter rdfs:label ?filter_label .\n"
@@ -72,6 +72,9 @@ public class SearchFiltering {
 			+ "    	       }"
 			+ "	           OPTIONAL {"
 			+ "	                ?value search:defaultPublic ?public_default ."
+			+ "			   }"
+			+ "	           OPTIONAL {"
+			+ "	                ?value search:public ?value_public ."
 			+ "			   }"
 			+ "  		 }\n"
 			+ "  		 OPTIONAL {?field search:multivalued ?multivalued}\n"
@@ -304,6 +307,7 @@ public class SearchFiltering {
 					FilterValue value = new FilterValue(valueId);
 					value.setName(solution.get("value_label"));
 					value.setOrder(solution.get("value_order"));
+					value.setPubliclyAvailable(solution.get("value_public"));
 					filter.addValue(value);
 					RDFNode pubDefault = solution.get("public_default");
 					if (pubDefault != null && pubDefault.asLiteral().getBoolean() && isNotLoggedIn(vreq)){
