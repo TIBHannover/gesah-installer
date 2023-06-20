@@ -7,7 +7,7 @@
 
     <groupId>eu.tib.osl</groupId>
     <artifactId>gesah-installer</artifactId>
-    <version>1.13.0</version>
+    <version>1.14.0</version>
     <packaging>pom</packaging>
 
     <name>Gesah Installer</name>
@@ -104,7 +104,6 @@
     </build>
 
     <modules>
-	<module>../Vitro-languages</module>
         <module>home</module>
         <module>webapp</module>
     </modules>
