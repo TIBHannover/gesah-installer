@@ -7,13 +7,13 @@
 
     <groupId>eu.tib.osl</groupId>
     <artifactId>gesah-installer-webapp</artifactId>
-    <version>1.13.0</version>
+    <version>1.14.0</version>
     <packaging>war</packaging>
 
     <parent>
         <groupId>eu.tib.osl</groupId>
         <artifactId>gesah-installer</artifactId>
-        <version>1.13.0</version>
+        <version>1.14.0</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -42,12 +42,6 @@
                                 <overlay>
                                     <groupId>org.vivoweb</groupId>
                                     <artifactId>vitro-webapp</artifactId>
-                                    <type>war</type>
-                                </overlay>
-                                <!-- Overlays for multilingual support -->
-                                <overlay>
-                                    <groupId>org.vivoweb</groupId>
-                                    <artifactId>vitro-languages-webapp-core</artifactId>
                                     <type>war</type>
                                 </overlay>
                             </overlays>
@@ -145,13 +139,6 @@
         <dependency>
             <groupId>org.vivoweb</groupId>
             <artifactId>vitro-webapp</artifactId>
-            <type>war</type>
-        </dependency>
-        <!-- Dependency for multilingual support -->
-        <dependency>
-            <groupId>org.vivoweb</groupId>
-            <artifactId>vitro-languages-webapp-core</artifactId>
-            <version>${project.version}</version>
             <type>war</type>
         </dependency>
         <dependency>
