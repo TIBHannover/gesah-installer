@@ -7,6 +7,7 @@
                     <div class="col-md-4">
                         <p class="footer-heading"><a target="_blank" href="contact">${i18n().contact_link_text}</a></p>
                         <p><a href="/about_page" title="${i18n().menu_about}">${i18n().menu_about}</a></p>
+                        <p><a rel="me" href="https://baudigital.social/@sah">${i18n().follow_us_on_mastodon}</a></p>
                     </div>
                     <div class="col-md-4">
 						<p class="footer-heading">${i18n().footer_legal_notices}</p>
