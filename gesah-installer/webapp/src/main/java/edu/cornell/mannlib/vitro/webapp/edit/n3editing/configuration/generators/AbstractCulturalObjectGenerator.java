@@ -160,8 +160,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	private final static String n3ForExistingPlace  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + EXISTING_PLACE + " . " + "\n" +
-      VAR + EXISTING_PLACE + SPACE + "<" + GESAH_IS_PLACE_OF + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-      VAR + EXISTING_PLACE + " a <http://vivoweb.org/ontology/core#GeographicLocation> .";
+      VAR + EXISTING_PLACE + SPACE + "<" + GESAH_IS_PLACE_OF + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " ;
   
   private final static String existingPlaceQuery =
       "SELECT " + SPACE + VAR + EXISTING_PLACE + " WHERE {" + "\n" +
