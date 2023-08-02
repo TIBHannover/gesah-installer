@@ -27,6 +27,22 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 
 <h2>${titleVerb}&nbsp;work index entry for ${editConfiguration.subjectName}</h2>
 
+ <#-- If edit submission exists, then retrieve validation errors if they exist-->
+ <#if editSubmission?has_content && editSubmission.submissionExists = true && editSubmission.validationErrors?has_content>
+ 	<#assign submissionErrors = editSubmission.validationErrors/>
+ </#if>
+ <#--Display error messages if any-->
+ <#if submissionErrors?has_content>
+     <section id="error-alert" role="alert">
+         <img src="${urls.images}/iconAlert.png" width="24" height="24" alert="${i18n().error_alert_icon}" />
+         <p>
+          <#if lvf.submissionErrorExists(editSubmission, "indexNumber")>
+  	        ${i18n().error_message_index_number_is_empty}
+         </#if>
+         </p>
+     </section>
+ </#if>
+
 <section id="markDesignation" role="region">
 	<form id="markDesignation" class="customForm noIE67" action="${submitUrl}"  role="add/edit markDesignation" >
 		<#-- 

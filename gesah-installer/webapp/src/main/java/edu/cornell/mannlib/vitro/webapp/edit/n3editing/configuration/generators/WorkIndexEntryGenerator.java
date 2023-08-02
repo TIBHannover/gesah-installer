@@ -186,7 +186,7 @@ public class WorkIndexEntryGenerator extends AbstractCulturalObjectGenerator imp
 		conf.addField( new FieldVTwo().
         setName(INDEX_NUMBER).
         setRangeDatatypeUri( XSD.xstring.toString() ).
-        setValidators(list(DATATYPE + XSD.xstring.toString())));
+        setValidators(list(NONEMPTY, DATATYPE + XSD.xstring.toString())));
 	}
 	private static final String sparqlForExistingIndexNumber = ""
 			+ SELECT + VAR + INDEX_NUMBER + WHERE 
