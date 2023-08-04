@@ -5,36 +5,140 @@
 @prefix dynapi: <https://vivoweb.org/ontology/vitro-dynamic-api#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/get_cultural_objects>
+<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido>
         a                                   dynapi:Procedure ;
-        rdfs:label                          "get cultural objects"@en-US ;
+        rdfs:label                          "Export cultural object to LIDO"@en-US ;
         dynapi:publicAccess                 "true"^^xsd:boolean ;
-        dynapi:hasFirstStep                 <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/get_cultural_objects/step1> ;
-        dynapi:providesParameter            <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/get_cultural_objects/operation/get_cultural_objects/parameter/cultural_objects> .
+        dynapi:hasFirstStep                 <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/step1> ;
+        dynapi:providesParameter            <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/cultural_object_graph> .
         
-<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/get_cultural_objects/step1>
+<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/step1>
         a                                   dynapi:OperationalStep ;
         rdfs:label                          "Step 1"@en-US ;
-        dynapi:hasOperation                 <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/get_cultural_objects/operation/get_cultural_objects> .
+#        dynapi:nextStep                     <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/step2> ;
+        dynapi:hasOperation                 <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido> .
         
-<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/get_cultural_objects/operation/get_cultural_objects> 
-        a                                   dynapi:SparqlSelectQuery ;
+<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido> 
+        a                                   dynapi:SparqlConstructQuery ;
         rdfs:label                          "Get cultural objects operation"@en-US ;
         dynapi:hasModel                     <https://vivoweb.org/ontology/vitro-dynamic-api/model/full_union> ;
         dynapi:sparqlQueryText              """
-        prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-        prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
-        prefix xsd: <http://www.w3.org/2001/XMLSchema#>
-        SELECT ?cultural_object WHERE {
-          ?cultural_object rdf:type <http://ontology.tib.eu/gesah/Cultural_Object> .
+        PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
+        PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+        PREFIX gesah: <http://ontology.tib.eu/gesah/> 
+        CONSTRUCT {
+          ?cultural_object rdf:type ?type .
+          ?cultural_object rdfs:label ?co_label .
+          ?cultural_object vitro:mostSpecificType ?most_specific_type .
+
+          ?most_specific_type rdfs:label ?most_specific_type_label .
+          ?most_specific_type rdfs:label ?most_specific_type_label .
+
+          ?cultural_object gesah:has_object_category_generic_term ?object_category_generic_term .
+          ?object_category_generic_term rdfs:label ?object_category_generic_term_label .
+  
+          ?cultural_object gesah:has_object_category_narrower_term ?object_category_narrower_term .
+          ?object_category_narrower_term rdfs:label ?object_category_narrower_term_label .
+          
+          ?cultural_object gesah:object_of_inscription ?object_of_inscription .
+          ?object_of_inscription rdfs:label ?object_of_inscription_label .
+  
+          ?cultural_object gesah:current_inventory_number ?current_inv_number .
+  
+          ?cultural_object gesah:former_inventory_number ?former_inv_number .
+
+          ?cultural_object gesah:has_current_holding_institution ?current_holding_institution .
+          ?current_holding_institution rdfs:label ?current_holding_institution_label .
+        }				
+		WHERE {
+          VALUES ?cultural_object     {  <https://sah.tib.eu/individual/n58832>  }
+          ?cultural_object rdf:type ?type .
+          OPTIONAL {
+            ?cultural_object vitro:mostSpecificType ?most_specific_type .
+            ?most_specific_type rdfs:label ?most_specific_type_label .
+          }
+          OPTIONAL {
+            ?cultural_object rdfs:label ?co_label .
+          }
+          OPTIONAL {
+            ?cultural_object gesah:has_object_category_generic_term ?object_category_generic_term .
+            ?object_category_generic_term rdfs:label ?object_category_generic_term_label .
+          }
+          OPTIONAL {
+            ?cultural_object gesah:has_object_category_narrower_term ?object_category_narrower_term .
+            ?object_category_narrower_term rdfs:label ?object_category_narrower_term_label .
+          }
+          OPTIONAL {
+            ?cultural_object gesah:object_of_inscription ?object_of_inscription .
+            ?object_of_inscription rdfs:label ?object_of_inscription_label .
+          }
+          OPTIONAL {
+            ?cultural_object gesah:current_inventory_number ?current_inv_number .
+          }  
+          OPTIONAL {
+            ?cultural_object gesah:former_inventory_number ?former_inv_number .
+          }
+          OPTIONAL {
+            ?cultural_object gesah:has_current_holding_institution ?current_holding_institution .
+            ?current_holding_institution rdfs:label ?current_holding_institution_label .
+          }
         }
         """ ;
-        dynapi:providesParameter            <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/get_cultural_objects/operation/get_cultural_objects/parameter/cultural_objects> .
+        dynapi:providesParameter            <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/cultural_object_graph> .
 
-        
-<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/get_cultural_objects/operation/get_cultural_objects/parameter/cultural_objects>
+
+<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/step2>
+        a                                   dynapi:OperationalStep ;
+        dynapi:nextStep                     <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/step3> ;
+        dynapi:hasOperation                 <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/XMLTranslation> .
+
+<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/XMLTranslation>
+        a                                   dynapi:XMLTransformation ;
+        dynapi:xslt                         <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/xml_transformation_rules_param> ;
+        dynapi:inputXml                     <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/cultural_object_graph> ;
+        dynapi:outputXml                    <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/cultural_object_lido_xml> .
+
+<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/step3>
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasOperation                 <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/XMLValidation> .
+
+<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/XMLValidation> 
+        a                                   dynapi:XMLValidation ;
+	    dynapi:xsd                          <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/xml_schemal_rules_param> ;
+        dynapi:inputXml                     <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/cultural_object_lido_xml> ;
+        dynapi:errorMessage                 <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/error_message>;
+        dynapi:result                       <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/result> .
+
+####################################################################################################################################################################
+
+<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/result>
         a                                   dynapi:Parameter ;
-        rdfs:label                          "cultural objects array"@en-US ;
-        dynapi:name                         "cultural_object" ;
-        dynapi:hasType                      <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/JsonContainerArray> .
+        dynapi:name                         "result" ;
+        dynapi:hasType                      <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/boolean> .
 
+<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/xml_schemal_rules_param>
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "xsd" ;
+        dynapi:hasType                      <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/string> .
+        
+<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/error_message>
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "error" ;
+        dynapi:hasType                      <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/string> .
+
+<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/cultural_object_lido_xml>
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "lido" ;
+        dynapi:hasType                      <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/string> .
+
+<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/xml_transformation_rules_param>
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "xslt" ;
+        dynapi:hasType                      <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/string> .
+
+<https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido/operation/export_cultural_object_to_lido/parameter/cultural_object_graph>
+        a                                   dynapi:Model ;
+        dynapi:name                         "cultural_object_graph" ;
+        dynapi:hasType                      <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/model> .

@@ -10,5 +10,14 @@
         rdfs:label                          "Cultural object resourceAPI"@en-US ;
         dynapi:name                         "cultural_object" ;
         dynapi:minAPIVersion                "0.1.0" ;
+        dynapi:hasCustomRESTAction          <https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/export_cultural_object_to_lido> ;
         dynapi:onGetAll                     <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/get_cultural_objects> .
+
+<https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/export_cultural_object_to_lido>
+        a                                   dynapi:CustomRESTAction ;
+        rdfs:label                          "Export cultural object to LIDO format"@en-US ;
+        dynapi:name                         "export_cultural_object_to_lido" ;
+        dynapi:hasDefaultMethod             <https://vivoweb.org/ontology/vitro-dynamic-api/http_method/post> ;
+        dynapi:forwardsTo                   <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido> .
+
 
