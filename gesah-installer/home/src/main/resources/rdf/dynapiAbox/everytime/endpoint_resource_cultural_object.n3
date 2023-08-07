@@ -18,6 +18,6 @@
         rdfs:label                          "Export cultural object to LIDO format"@en-US ;
         dynapi:name                         "export_cultural_object_to_lido" ;
         dynapi:hasDefaultMethod             <https://vivoweb.org/ontology/vitro-dynamic-api/http_method/post> ;
-        dynapi:forwardsTo                   <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/export_cultural_object_to_lido> .
+        dynapi:forwardsTo                   <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/export_cultural_object_to_lido/procedure> .
 
 
