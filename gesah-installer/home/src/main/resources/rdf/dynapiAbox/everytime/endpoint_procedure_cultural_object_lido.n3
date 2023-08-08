@@ -12,8 +12,9 @@
         rdfs:label                          "Export cultural object to LIDO"@en-US ;
         dynapi:publicAccess                 "true"^^xsd:boolean ;
         dynapi:hasFirstStep                 :step1 ;
+        dynapi:providesParameter            :parameter_validation_errors ;
         dynapi:providesParameter            :parameter_lido_xml ;
-        dynapi:providesParameter            :parameter_cultural_object_graph ;
+#        dynapi:providesParameter            :parameter_cultural_object_graph ;
         dynapi:providesParameter            :parameter_validation_result .
         
 :step1
@@ -118,35 +119,18 @@
 
 :parameter_validation_result
         a                                   dynapi:Parameter ;
-        dynapi:name                         "result" ;
+        dynapi:name                         "valid" ;
         dynapi:hasType                      paramType:boolean .
 
 :parameter_xml_schema_rules
         a                                   dynapi:Parameter ;
         dynapi:name                         "xsd" ;
         dynapi:isInternal                   "true"^^xsd:boolean ;
-        dynapi:defaultValue                 """<?xml version="1.0" encoding="UTF-8" ?>
-											<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-												<xs:element name="individual">
-													<xs:complexType>
-														<xs:sequence>
-															<xs:element name="name">
-																<xs:simpleType>
-																	<xs:restriction base="xs:string">
-																		<xs:maxLength value="3" />
-																	</xs:restriction>
-																</xs:simpleType>
-															</xs:element>
-														</xs:sequence>
-													</xs:complexType>
-												</xs:element>
-											</xs:schema>
-											""" ;
         dynapi:hasType                      paramType:string .
         
 :parameter_validation_errors
         a                                   dynapi:Parameter ;
-        dynapi:name                         "error" ;
+        dynapi:name                         "errors" ;
         dynapi:hasType                      paramType:string .
 
 :parameter_lido_xml
@@ -157,15 +141,6 @@
 :parameter_xml_transformation_rules
         a                                   dynapi:Parameter ;
         dynapi:isInternal                   "true"^^xsd:boolean ;
-        dynapi:defaultValue                 """<?xml version="1.0" encoding="UTF-8"?>
-											<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-											    <xsl:template match="/">
-													<xsl:copy>
-														<xsl:apply-templates/>
-													</xsl:copy>
-												</xsl:template>
-											</xsl:stylesheet>
-											""" ;
         dynapi:name                         "xslt" ;
         dynapi:hasType                      paramType:string .
 

@@ -1,0 +1,272 @@
+@prefix : <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/export_cultural_object_to_lido/> .
+@prefix dynapi: <https://vivoweb.org/ontology/vitro-dynamic-api#> .
+
+:parameter_xml_transformation_rules dynapi:defaultValue
+
+"""<?xml version="1.0" encoding="UTF-8"?>
+    <xsl:stylesheet version="2.0"
+        xmlns="http://www.lido-schema.org"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+        xmlns:owl="http://www.w3.org/2002/07/owl#"
+        xmlns:gml="http://www.opengis.net/gml"
+        xmlns:doc="http://www.mda.org.uk/spectrumXML/Documentation"
+        xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+        xmlns:skos="http://www.w3.org/2004/02/skos/core#" 
+        xmlns:tei="http://www.tei-c.org/ns/1.0"
+        xmlns:lido="http://www.lido-schema.org" 
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:smil20lang="http://www.w3.org/2001/SMIL20/Language"
+        xsi:schemaLocation="http://www.lido-schema.org https://lido-schema.org/profiles/v1.1/lido-v1.1-profile-paintingandsculpture-v1.0.xsd"
+    >
+        <xsl:output method="xml" indent="yes"/>
+
+        <xsl:template match="/">
+            <lido:lido xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.lido-schema.org"
+                xmlns:owl="http://www.w3.org/2002/07/owl#"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+                xmlns:gml="http://www.opengis.net/gml"
+                xmlns:doc="http://www.mda.org.uk/spectrumXML/Documentation"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                xmlns:skos="http://www.w3.org/2004/02/skos/core#" 
+                xmlns:tei="http://www.tei-c.org/ns/1.0"
+                xmlns:lido="http://www.lido-schema.org" 
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlns:smil20lang="http://www.w3.org/2001/SMIL20/Language"
+                xsi:schemaLocation="http://www.lido-schema.org https://lido-schema.org/profiles/v1.1/lido-v1.1-profile-paintingandsculpture-v1.0.xsd"
+            >
+                <lido:lidoRecID
+                    lido:type="http://terminology.lido-schema.org/lido00099"
+                    lido:source="ld.zdb-services.de/resource/organisations/DE-89"
+                >
+                </lido:lidoRecID>
+
+                <lido:objectPublishedID
+                    lido:pref="http://terminology.lido-schema.org/lido00169"
+                    lido:type="http://terminology.lido-schema.org/lido00099"
+                    lido:source="Deutsche Nationalbibliothek: Gemeinsame Normdatei. URL: http://d-nb.info/gnd [2022-09-23]"
+                >
+                </lido:objectPublishedID>
+
+                <lido:category>
+                    <skos:Concept rdf:about="http://terminology.lido-schema.org/lido00096">
+                        <skos:prefLabel xml:lang="en">Human-made object</skos:prefLabel>
+                    </skos:Concept>
+                </lido:category>
+
+                <lido:applicationProfile lido:type="http://terminology.lido-schema.org/lido00099">https://lido-schema.org/profiles/v1.1/lido-v1.1-profile-paintingandsculpture-v1.0.xsd</lido:applicationProfile>
+
+                <lido:descriptiveMetadata xml:lang="de">
+                    <lido:objectClassificationWrap>
+                        <lido:objectWorkTypeWrap>
+                            <lido:objectWorkType lido:type="http://terminology.lido-schema.org/lido00789">
+                                <skos:Concept rdf:about="http://vocab.getty.edu/aat/300033799">
+                                    <skos:prefLabel xml:lang="en">oil paintings (visual works)</skos:prefLabel>
+                                    <skos:prefLabel xml:lang="de">Ölgemälde</skos:prefLabel>
+                                    <skos:altLabel xml:lang="de">Ölmalerei (visuelles Werk)</skos:altLabel>
+                                    <skos:exactMatch>https://www.wikidata.org/entity/Q56676227</skos:exactMatch>
+                                    <skos:closeMatch>https://d-nb.info/gnd/4043238-5</skos:closeMatch>
+                                </skos:Concept>
+                            </lido:objectWorkType>
+                        </lido:objectWorkTypeWrap>
+                        <lido:classificationWrap>
+                            <lido:classification lido:type="http://terminology.lido-schema.org/lido00853">
+                                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00100" lido:source="Deutsches Dokumentationszentrum für Kunstgeschichte - Bildarchiv Foto Marburg. DDK-Thesaurus">48835800</lido:conceptID>
+                                <lido:term xml:lang="de">Malerei (Objektgattung)</lido:term>
+                                <lido:term xml:lang="en">painting (classification)</lido:term>
+                            </lido:classification>
+                        </lido:classificationWrap>
+                    </lido:objectClassificationWrap>
+
+                    <lido:objectIdentificationWrap>
+                        <lido:titleWrap>
+                            <lido:titleSet lido:type="http://vocab.getty.edu/aat/300417200">
+                                <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00526" xml:lang="de">Rubens und Isabella Brant in der Geißblattlaube</lido:appellationValue>
+                                <lido:sourceAppellation>Peter Paul Rubens, Rubens und Isabella Brant in der Geißblattlaube, um 1609/10, Bayerische Staatsgemäldesammlungen - Alte Pinakothek München, URL: https://www.sammlung.pinakothek.de/en/artwork/o5xrMEr47X (Last updated on 20.05.2022) [2022-06-01]</lido:sourceAppellation>
+                            </lido:titleSet>
+                           
+                        </lido:titleWrap>
+                        <lido:repositoryWrap>
+                            <lido:repositorySet lido:type="http://terminology.lido-schema.org/lido01017">
+                                <lido:displayRepository xml:lang="en">Bayerische Staatsgemäldesammlungen, Alte Pinakothek, Munich, first floor, room VII, (Rubens-Saal), permanent exhibition</lido:displayRepository>
+                                <lido:repositoryName>
+                                    <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-MUS-096417</lido:legalBodyID>
+                                    <lido:legalBodyName>
+                                        <lido:appellationValue>Bayerische Staatsgemäldesammlungen, Alte Pinakothek, Munich</lido:appellationValue>
+                                    </lido:legalBodyName>
+                                    <lido:legalBodyWeblink lido:pref="http://terminology.lido-schema.org/lido00169">https://www.sammlung.pinakothek.de</lido:legalBodyWeblink>
+                                </lido:repositoryName>
+                                <lido:workID lido:type="http://terminology.lido-schema.org/lido00113">334</lido:workID>
+                                <lido:repositoryLocation>
+                                    <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">https://www.wikidata.org/entity/Q1726</lido:placeID>
+                                    <lido:namePlaceSet>
+                                        <lido:appellationValue xml:lang="en">Munich</lido:appellationValue>
+                                    </lido:namePlaceSet>
+                                    <lido:partOfPlace>
+                                        <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">https://www.wikidata.org/entity/Q980</lido:placeID>
+                                        <lido:namePlaceSet>
+                                            <lido:appellationValue xml:lang="en">Bavaria</lido:appellationValue>
+                                            <lido:appellationValue xml:lang="de">Bayern</lido:appellationValue>
+                                        </lido:namePlaceSet>
+                                        <lido:partOfPlace>
+                                            <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">https://www.wikidata.org/entity/Q183</lido:placeID>
+                                            <lido:namePlaceSet>
+                                                <lido:appellationValue xml:lang="en">Germany</lido:appellationValue>
+                                                <lido:appellationValue xml:lang="de">Deutschland</lido:appellationValue>
+                                            </lido:namePlaceSet>
+                                        </lido:partOfPlace>
+                                    </lido:partOfPlace>
+                                </lido:repositoryLocation>
+                                <sourceRepositorySet>https://www.sammlung.pinakothek.de/en/artwork/o5xrMEr47X (Last updated on 20.05.2022) [2022-06-01]</sourceRepositorySet>
+                            </lido:repositorySet>
+                        </lido:repositoryWrap>
+                        <lido:objectDescriptionWrap>
+                            <lido:objectDescriptionSet>
+                                <lido:descriptiveNoteValue xml:lang="en">Rubens returned to Antwerp in 1608 after an eight-year stay in Italy. The following year he married Isabella Brant. This portrait was probably painted to mark this occasion. Both its representative format and the exquisite robes chosen served as a means of nobilitation. Through its allusions to Antiquity and the humanist tradition it also points to Rubens’s self-image as an artist. Honeysuckle is also commonly known as “the longer the better” and symbolises love’s durability.</lido:descriptiveNoteValue>
+                                <sourceDescriptiveNote>https://www.sammlung.pinakothek.de/en/artwork/o5xrMEr47X (Last updated on 20.05.2022) [2022-06-01]</sourceDescriptiveNote>
+                            </lido:objectDescriptionSet>
+                        </lido:objectDescriptionWrap>
+                        <lido:objectMeasurementsWrap>
+                            <lido:objectMeasurementsSet lido:type="http://terminology.lido-schema.org/lido00927">
+                                <lido:displayObjectMeasurements xml:lang="en">height x width: 178 x 136,5 cm</lido:displayObjectMeasurements>
+                                <lido:objectMeasurements>
+                                    <lido:measurementsSet>
+                                        <lido:measurementType>
+                                            <skos:Concept rdf:about="https://www.wikidata.org/entity/Q208826">
+                                                <skos:prefLabel xml:lang="en">height</skos:prefLabel>
+                                                <skos:prefLabel xml:lang="de">Höhe</skos:prefLabel>
+                                                <skos:mappingRelation>http://vocab.getty.edu/aat/300055644</skos:mappingRelation>
+                                                <skos:mappingRelation>https://d-nb.info/gnd/4229619-5</skos:mappingRelation>
+                                            </skos:Concept>
+                                        </lido:measurementType>
+                                        <lido:measurementUnit>
+                                            <skos:Concept rdf:about="https://www.wikidata.org/entity/Q174728">
+                                                <skos:prefLabel xml:lang="en">centimetre</skos:prefLabel>
+                                                <skos:prefLabel xml:lang="de">Zentimeter</skos:prefLabel>
+                                                <skos:altLabel xml:lang="mul">cm</skos:altLabel>
+                                            </skos:Concept>
+                                        </lido:measurementUnit>
+                                        <lido:measurementValue>178</lido:measurementValue>
+                                    </lido:measurementsSet>
+                                    
+                                    <lido:extentMeasurements>
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300014078">
+                                            <skos:prefLabel xml:lang="en">canvas (textile
+                                                material)</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Leinwand</skos:prefLabel>
+                                        </skos:Concept>
+                                    </lido:extentMeasurements>
+                                </lido:objectMeasurements>
+                            </lido:objectMeasurementsSet>
+                        </lido:objectMeasurementsWrap>
+                        <!-- Element <objectMaterialsTechWrap> is repeatable and at least element regarding material or technique is mandatory for this profile. -->
+                        <lido:objectMaterialsTechWrap>
+                            <lido:objectMaterialsTechSet>
+                                <lido:displayMaterialsTech xml:lang="en">oil on canvas, mounted on oak wood panel</lido:displayMaterialsTech>
+                                <lido:materialsTech>
+                                    <lido:termMaterialsTech
+                                        lido:type="http://terminology.lido-schema.org/lido00513">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300015050">
+                                            <skos:prefLabel xml:lang="en">oil paint (paint)</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Ölfarbe</skos:prefLabel>
+                                            <skos:mappingRelation>https://www.wikidata.org/entity/Q296955</skos:mappingRelation>
+                                            <skos:mappingRelation>https://d-nb.info/gnd/4528761-2</skos:mappingRelation>
+                                        </skos:Concept>
+                                    </lido:termMaterialsTech>
+                                    
+                                    <lido:sourceMaterialsTech>https://www.sammlung.pinakothek.de/en/artwork/o5xrMEr47X (Last updated on 20.05.2022) [2022-06-01]</lido:sourceMaterialsTech>
+                                    <lido:sourceMaterialsTech>Wikidata contributors, "Q571416," Wikidata, https://www.wikidata.org/w/index.php?title=Q571416&amp;oldid=1631598551 (accessed May 4, 2022).</lido:sourceMaterialsTech>
+                                </lido:materialsTech>
+                            </lido:objectMaterialsTechSet>
+                        </lido:objectMaterialsTechWrap>
+                    </lido:objectIdentificationWrap>
+
+                </lido:descriptiveMetadata>
+
+                <lido:administrativeMetadata xml:lang="en">
+                    <lido:rightsWorkWrap>
+                        <lido:rightsWorkSet>
+                            <lido:rightsType lido:type="http://terminology.lido-schema.org/lido00921">
+                                <skos:Concept rdf:about="https://creativecommons.org/publicdomain/mark/1.0/">
+                                    <skos:prefLabel xml:lang="en">Public Domain Mark 1.0</skos:prefLabel>
+                                    <skos:prefLabel xml:lang="de">Kein Urheberrechtsschutz</skos:prefLabel>
+                                </skos:Concept>
+                            </lido:rightsType>
+                        </lido:rightsWorkSet>
+                    </lido:rightsWorkWrap>
+                    <lido:recordWrap>
+                        <lido:recordID lido:type="http://terminology.lido-schema.org/lido00100">o5xrMEr47X</lido:recordID>
+                        <lido:recordType>
+                            <skos:Concept rdf:about="http://terminology.lido-schema.org/lido00141">
+                                <skos:prefLabel xml:lang="en">Item-level record</skos:prefLabel>
+                                <skos:prefLabel xml:lang="de">Einzelobjekt (Katalogisierungsebene)</skos:prefLabel>
+                            </skos:Concept>
+                        </lido:recordType>
+                        <lido:recordSource>
+                            <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-MUS-096417</lido:legalBodyID>
+                            <lido:legalBodyName>
+                                <lido:appellationValue>Bayerische Staatsgemäldesammlungen, Alte Pinakothek, Munich</lido:appellationValue>
+                            </lido:legalBodyName>
+                            <lido:legalBodyWeblink>https://www.sammlung.pinakothek.de/</lido:legalBodyWeblink>
+                        </lido:recordSource>
+                        <lido:recordRights>
+                            <lido:rightsType lido:type="http://terminology.lido-schema.org/lido00921">
+                                <skos:Concept rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+                                    <skos:prefLabel xml:lang="en">CC0 1.0 Universal (CC0 1.0)</skos:prefLabel>
+                                    <skos:altLabel xml:lang="en">No Copyright</skos:altLabel>
+                                    <skos:altLabel xml:lang="en">Public Domain Dedication</skos:altLabel>
+                                    <skos:altLabel xml:lang="de">Kein Urheberrechtsschutz</skos:altLabel>
+                                </skos:Concept>
+                            </lido:rightsType>
+                        </lido:recordRights>
+                        <lido:recordInfoSet>
+                            <lido:recordInfoLink>https://www.sammlung.pinakothek.de/de/artwork/o5xrMEr47X</lido:recordInfoLink>
+                            <lido:recordMetadataDate lido:type="http://terminology.lido-schema.org/lido00472">2020-11-23T08:15:59Z</lido:recordMetadataDate>
+                        </lido:recordInfoSet>
+                    </lido:recordWrap>
+                    <lido:resourceWrap>
+                        <lido:resourceSet>
+                            <lido:resourceID lido:type="http://terminology.lido-schema.org/lido00100">334</lido:resourceID>
+                            <lido:resourceRepresentation
+                                lido:type="http://terminology.lido-schema.org/lido00451">
+                                <lido:linkResource lido:formatResource="image/jpeg">https://res.cloudinary.com/tne/image/authenticated/s--kAZIN-Uj--/q_80/artworks/PETER-PAUL-RUBENS_RUBENS-UND-ISABELLA-BRANT-IN-DER-GEISSBLATTLAUBE_CC-BY-SA_BSTGS_334.jpg</lido:linkResource>
+                            </lido:resourceRepresentation>
+                            <lido:resourceType>
+                                <skos:Concept rdf:about="http://vocab.getty.edu/aat/300215302">
+                                    <skos:prefLabel xml:lang="en">digital images</skos:prefLabel>
+                                    <skos:altLabel xml:lang="en">digital image</skos:altLabel>
+                                    <skos:mappingRelation>https://www.wikidata.org/entity/Q1250322</skos:mappingRelation>
+                                </skos:Concept>
+                            </lido:resourceType>
+                            <lido:resourceSource>
+                                <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-MUS-096417</lido:legalBodyID>
+                                <lido:legalBodyName>
+                                    <lido:appellationValue>Bayerische Staatsgemäldesammlungen, Alte Pinakothek, Munich</lido:appellationValue>
+                                </lido:legalBodyName>
+                            </lido:resourceSource>
+                            <lido:rightsResource>
+                                <lido:rightsType lido:type="http://terminology.lido-schema.org/lido00921">
+                                    <skos:Concept rdf:about="https://creativecommons.org/licenses/by-sa/4.0">
+                                        <skos:prefLabel xml:lang="de">Namensnennung 4.0 International (CC BY 4.0)</skos:prefLabel>
+                                        <skos:prefLabel xml:lang="en">Attribution 4.0 International (CC BY 4.0)</skos:prefLabel>
+                                    </skos:Concept>
+                                </lido:rightsType>
+                                <lido:rightsHolder>
+                                    <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-MUS-096417</lido:legalBodyID>
+                                    <lido:legalBodyName>
+                                        <lido:appellationValue>Bayerische Staatsgemäldesammlungen, Alte Pinakothek, Munich</lido:appellationValue>
+                                    </lido:legalBodyName>
+                                    <lido:legalBodyWeblink lido:pref="http://terminology.lido-schema.org/lido00169">https://www.sammlung.pinakothek.de/</lido:legalBodyWeblink>
+                                </lido:rightsHolder>
+                                <lido:creditLine>Bayerische Staatsgemäldesammlungen, Alte Pinakothek, Munich, Attribution 4.0 International (CC BY 4.0)</lido:creditLine>
+                            </lido:rightsResource>
+                        </lido:resourceSet>
+                    </lido:resourceWrap>
+                </lido:administrativeMetadata>
+
+            </lido:lido>
+        </xsl:template>
+    </xsl:stylesheet>
+""" .
+
