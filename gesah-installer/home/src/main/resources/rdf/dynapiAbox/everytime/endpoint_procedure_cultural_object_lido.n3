@@ -20,13 +20,14 @@
 :step1
         a                                   dynapi:OperationalStep ;
         rdfs:label                          "Step 1"@en-US ;
-        dynapi:hasNextStep                     :step2 ;
+        dynapi:hasNextStep                  :step2 ;
         dynapi:hasOperation                 :operation_export_cultural_object_to_lido .
         
 :operation_export_cultural_object_to_lido 
         a                                   dynapi:SparqlConstructQuery ;
         rdfs:label                          "Get cultural objects operation"@en-US ;
         dynapi:hasModel                     <https://vivoweb.org/ontology/vitro-dynamic-api/model/full_union> ;
+        dynapi:requiresParameter            :parameter_cultural_object_uri ;
         dynapi:sparqlQueryText              """
         PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
         PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -58,7 +59,6 @@
           ?current_holding_institution rdfs:label ?current_holding_institution_label .
         }				
 		WHERE {
-          VALUES ?cultural_object     {  <https://sah.tib.eu/individual/n58832>  }
           ?cultural_object rdf:type ?type .
           OPTIONAL {
             ?cultural_object vitro:mostSpecificType ?most_specific_type .
@@ -116,6 +116,11 @@
         dynapi:result                       :parameter_validation_result .
 
 ####################################################################################################################################################################
+
+:parameter_cultural_object_uri
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "cultural_object" ;
+        dynapi:hasType                      paramType:uri .
 
 :parameter_validation_result
         a                                   dynapi:Parameter ;
