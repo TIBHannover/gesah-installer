@@ -45,9 +45,8 @@
                 <lido:objectPublishedID
                     lido:pref="http://terminology.lido-schema.org/lido00169"
                     lido:type="http://terminology.lido-schema.org/lido00099"
-                    lido:source="Deutsche Nationalbibliothek: Gemeinsame Normdatei. URL: http://d-nb.info/gnd [2022-09-23]"
-                >
-                </lido:objectPublishedID>
+                    lido:source="ld.zdb-services.de/resource/organisations/DE-89"
+                ><xsl:value-of select="string(//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/@rdf:about)" /></lido:objectPublishedID>
 
                 <lido:category>
                     <skos:Concept rdf:about="http://terminology.lido-schema.org/lido00096">
