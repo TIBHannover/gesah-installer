@@ -8,8 +8,10 @@
         xmlns="http://www.lido-schema.org"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
         xmlns:owl="http://www.w3.org/2002/07/owl#"
+        xmlns:gesah="http://ontology.tib.eu/gesah/"
         xmlns:gml="http://www.opengis.net/gml"
         xmlns:doc="http://www.mda.org.uk/spectrumXML/Documentation"
         xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -60,32 +62,150 @@
                     <lido:objectClassificationWrap>
                         <lido:objectWorkTypeWrap>
                             <lido:objectWorkType lido:type="http://terminology.lido-schema.org/lido00789">
-                                <skos:Concept rdf:about="http://vocab.getty.edu/aat/300033799">
-                                    <skos:prefLabel xml:lang="en">oil paintings (visual works)</skos:prefLabel>
-                                    <skos:prefLabel xml:lang="de">Ölgemälde</skos:prefLabel>
-                                    <skos:altLabel xml:lang="de">Ölmalerei (visuelles Werk)</skos:altLabel>
-                                    <skos:exactMatch>https://www.wikidata.org/entity/Q56676227</skos:exactMatch>
-                                    <skos:closeMatch>https://d-nb.info/gnd/4043238-5</skos:closeMatch>
-                                </skos:Concept>
+                                <xsl:choose>
+                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Print'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Print']">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300041273">
+                                            <skos:prefLabel xml:lang="en">print (visual works)</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Druckgraphik</skos:prefLabel>
+                                        </skos:Concept>
+                                    </xsl:when>
+                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Drawing'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Drawing']">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300033973">
+                                            <skos:prefLabel xml:lang="en">drawings (visual works)</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Zeichnung</skos:prefLabel>
+                                        </skos:Concept>
+                                    </xsl:when>
+                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Manuscript'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Manuscript']">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300028569">
+                                            <skos:prefLabel xml:lang="en">manuscripts (documents)</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Handschrift</skos:prefLabel>
+                                        </skos:Concept>
+                                    </xsl:when>
+                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Seal'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Seal']">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300028877">
+                                            <skos:prefLabel xml:lang="en">seals (artifacts)</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Siegel</skos:prefLabel>
+                                        </skos:Concept>
+                                    </xsl:when>
+                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Printed_Materials'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Printed_Materials']">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300404588">
+                                            <skos:prefLabel xml:lang="en">printed materials (object genre)</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Druckschrift</skos:prefLabel>
+                                        </skos:Concept>
+                                    </xsl:when>
+                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Painting'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Painting']">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300264522">
+                                            <skos:prefLabel xml:lang="en">illuminations (paintings)</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Buchmalerei</skos:prefLabel>
+                                        </skos:Concept>
+                                    </xsl:when>
+                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Musical_Notation'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Musical_Notation']">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300417622">
+                                            <skos:prefLabel xml:lang="en">musical notation</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Notenschrift</skos:prefLabel>
+                                        </skos:Concept>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                    </xsl:otherwise>
+                                </xsl:choose>
                             </lido:objectWorkType>
                         </lido:objectWorkTypeWrap>
+
                         <lido:classificationWrap>
                             <lido:classification lido:type="http://terminology.lido-schema.org/lido00853">
-                                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00100" lido:source="Deutsches Dokumentationszentrum für Kunstgeschichte - Bildarchiv Foto Marburg. DDK-Thesaurus">48835800</lido:conceptID>
-                                <lido:term xml:lang="de">Malerei (Objektgattung)</lido:term>
-                                <lido:term xml:lang="en">painting (classification)</lido:term>
+                                <xsl:choose>
+                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Print'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Print']">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300041273">
+                                            <skos:prefLabel xml:lang="en">print (visual works)</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Druckgraphik</skos:prefLabel>
+                                        </skos:Concept>
+                                        <lido:term lido:addedSearchTerm="yes" xml:lang="de">Druckgraphik</lido:term>
+                                    </xsl:when>
+                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Drawing'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Drawing']">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300033973">
+                                            <skos:prefLabel xml:lang="en">drawings (visual works)</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Zeichnung</skos:prefLabel>
+                                        </skos:Concept>
+                                        <lido:term lido:addedSearchTerm="yes" xml:lang="de">Zeichnung</lido:term>
+                                    </xsl:when>
+                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Manuscript'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Manuscript']">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300028569">
+                                            <skos:prefLabel xml:lang="en">manuscripts (documents)</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Handschrift</skos:prefLabel>
+                                        </skos:Concept>
+                                        <lido:term lido:addedSearchTerm="yes" xml:lang="de">Handschrift</lido:term>
+                                    </xsl:when>
+                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Seal'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Seal']">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300028877">
+                                            <skos:prefLabel xml:lang="en">seals (artifacts)</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Siegel</skos:prefLabel>
+                                        </skos:Concept>
+                                        <lido:term lido:addedSearchTerm="yes" xml:lang="de">Siegel</lido:term>
+                                    </xsl:when>
+                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Printed_Materials'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Printed_Materials']">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300404588">
+                                            <skos:prefLabel xml:lang="en">printed materials (object genre)</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Druckschrift</skos:prefLabel>
+                                        </skos:Concept>
+                                        <lido:term lido:addedSearchTerm="yes" xml:lang="de">Druckschrift</lido:term>
+                                    </xsl:when>
+                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Painting'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Painting']">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300264522">
+                                            <skos:prefLabel xml:lang="en">illuminations (paintings)</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Buchmalerei</skos:prefLabel>
+                                        </skos:Concept>
+                                        <lido:term lido:addedSearchTerm="yes" xml:lang="de">Buchmalerei</lido:term>
+                                    </xsl:when>
+                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Musical_Notation'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Musical_Notation']">
+                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300417622">
+                                            <skos:prefLabel xml:lang="en">musical notation</skos:prefLabel>
+                                            <skos:prefLabel xml:lang="de">Notenschrift</skos:prefLabel>
+                                        </skos:Concept>
+                                        <lido:term lido:addedSearchTerm="yes" xml:lang="de">Notenschrift</lido:term>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                    </xsl:otherwise>
+                                </xsl:choose>
                             </lido:classification>
                         </lido:classificationWrap>
                     </lido:objectClassificationWrap>
 
                     <lido:objectIdentificationWrap>
                         <lido:titleWrap>
-                            <lido:titleSet lido:type="http://vocab.getty.edu/aat/300417200">
-                                <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00526" xml:lang="de">Rubens und Isabella Brant in der Geißblattlaube</lido:appellationValue>
-                                <lido:sourceAppellation>Peter Paul Rubens, Rubens und Isabella Brant in der Geißblattlaube, um 1609/10, Bayerische Staatsgemäldesammlungen - Alte Pinakothek München, URL: https://www.sammlung.pinakothek.de/en/artwork/o5xrMEr47X (Last updated on 20.05.2022) [2022-06-01]</lido:sourceAppellation>
+
+                            <lido:titleSet lido:pref="http://terminology.lido-schema.org/lido00169">
+                                <xsl:for-each select="//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/rdfs:label">
+                                    <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="en">
+                                        <xsl:if test="@xml:lang">
+                                            <xsl:attribute name="xml:lang">
+                                                <xsl:value-of select="@xml:lang" />
+                                            </xsl:attribute>
+                                        </xsl:if>
+                                        <xsl:value-of select="text()"/>
+                                    </lido:appellationValue>
+                                </xsl:for-each>
                             </lido:titleSet>
-                           
+                            
+                            <xsl:for-each select="//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/gesah:has_Title/rdf:Description">
+                                <lido:titleSet lido:pref="http://terminology.lido-schema.org/lido00170"> 
+                                 <skos:Concept rdf:about="http://vocab.getty.edu/page/aat/300417202">
+                                    <xsl:for-each select="gesah:has_title_type/rdf:Description/rdfs:label">
+                                        <skos:prefLabel>
+                                            <xsl:attribute name="xml:lang">
+                                                <xsl:value-of select="@xml:lang" />
+                                            </xsl:attribute>
+                                            <xsl:value-of select="text()" />
+                                        </skos:prefLabel>
+                                    </xsl:for-each>
+                                </skos:Concept>
+                                <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00170">
+                                    <xsl:value-of select="gesah:title/text()" />
+                                </lido:appellationValue>
+                                </lido:titleSet>
+                            </xsl:for-each>
+
                         </lido:titleWrap>
+
                         <lido:repositoryWrap>
                             <lido:repositorySet lido:type="http://terminology.lido-schema.org/lido01017">
                                 <lido:displayRepository xml:lang="en">Bayerische Staatsgemäldesammlungen, Alte Pinakothek, Munich, first floor, room VII, (Rubens-Saal), permanent exhibition</lido:displayRepository>

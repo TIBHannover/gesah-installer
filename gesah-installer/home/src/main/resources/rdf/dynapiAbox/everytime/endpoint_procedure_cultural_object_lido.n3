@@ -36,8 +36,14 @@
         PREFIX gesah: <http://ontology.tib.eu/gesah/> 
         CONSTRUCT {
           ?cultural_object rdf:type ?type .
+
           ?cultural_object rdfs:label ?co_label .
           ?cultural_object vitro:mostSpecificType ?most_specific_type .
+
+          ?cultural_object gesah:has_Title ?title_ind .
+          ?title_ind gesah:has_title_type ?title_type .
+          ?title_type rdfs:label ?title_type_label .
+          ?title_ind gesah:title ?title_label .
 
           ?most_specific_type rdfs:label ?most_specific_type_label .
           ?most_specific_type rdfs:label ?most_specific_type_label .
@@ -66,6 +72,12 @@
           }
           OPTIONAL {
             ?cultural_object rdfs:label ?co_label .
+          }
+          OPTIONAL {
+            ?cultural_object gesah:has_Title ?title_ind .
+            ?title_ind gesah:has_title_type ?title_type .
+            ?title_type rdfs:label ?title_type_label .
+            ?title_ind gesah:title ?title_label .
           }
           OPTIONAL {
             ?cultural_object gesah:has_object_category_generic_term ?object_category_generic_term .
