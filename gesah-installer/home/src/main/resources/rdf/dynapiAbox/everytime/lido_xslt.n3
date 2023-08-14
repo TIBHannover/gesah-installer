@@ -188,7 +188,8 @@
                             
                             <xsl:for-each select="//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/gesah:has_Title/rdf:Description">
                                 <lido:titleSet lido:pref="http://terminology.lido-schema.org/lido00170"> 
-                                 <skos:Concept rdf:about="http://vocab.getty.edu/page/aat/300417202">
+<!-- Not valid LIDO xml elements                                 
+								<skos:Concept rdf:about="http://vocab.getty.edu/page/aat/300417202">
                                     <xsl:for-each select="gesah:has_title_type/rdf:Description/rdfs:label">
                                         <skos:prefLabel>
                                             <xsl:attribute name="xml:lang">
@@ -198,6 +199,7 @@
                                         </skos:prefLabel>
                                     </xsl:for-each>
                                 </skos:Concept>
+-->
                                 <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00170">
                                     <xsl:value-of select="gesah:title/text()" />
                                 </lido:appellationValue>
