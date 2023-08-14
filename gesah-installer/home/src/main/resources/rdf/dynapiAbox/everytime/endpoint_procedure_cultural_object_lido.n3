@@ -31,11 +31,14 @@
         dynapi:sparqlQueryText              """
         PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
         PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
         PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
         PREFIX gesah: <http://ontology.tib.eu/gesah/> 
         CONSTRUCT {
           ?cultural_object rdf:type ?type .
+
+          ?cultural_object xsd:date ?current_date .
 
           ?cultural_object rdfs:label ?co_label .
           ?cultural_object vitro:mostSpecificType ?most_specific_type .
@@ -66,6 +69,9 @@
         }				
 		WHERE {
           ?cultural_object rdf:type ?type .
+
+          BIND( now() AS ?current_date ) .
+
           OPTIONAL {
             ?cultural_object vitro:mostSpecificType ?most_specific_type .
             ?most_specific_type rdfs:label ?most_specific_type_label .

@@ -18,6 +18,7 @@
         xmlns:skos="http://www.w3.org/2004/02/skos/core#" 
         xmlns:tei="http://www.tei-c.org/ns/1.0"
         xmlns:lido="http://www.lido-schema.org" 
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         xmlns:smil20lang="http://www.w3.org/2001/SMIL20/Language"
         xsi:schemaLocation="http://www.lido-schema.org https://lido-schema.org/profiles/v1.1/lido-v1.1-profile-paintingandsculpture-v1.0.xsd"
@@ -189,7 +190,7 @@
                             <xsl:for-each select="//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/gesah:has_Title/rdf:Description">
                                 <lido:titleSet lido:pref="http://terminology.lido-schema.org/lido00170"> 
 <!-- Not valid LIDO xml elements                                 
-								<skos:Concept rdf:about="http://vocab.getty.edu/page/aat/300417202">
+                                <skos:Concept rdf:about="http://vocab.getty.edu/page/aat/300417202">
                                     <xsl:for-each select="gesah:has_title_type/rdf:Description/rdfs:label">
                                         <skos:prefLabel>
                                             <xsl:attribute name="xml:lang">
@@ -306,9 +307,10 @@
                 </lido:descriptiveMetadata>
 
                 <lido:administrativeMetadata xml:lang="en">
+
                     <lido:rightsWorkWrap>
-                        <lido:rightsWorkSet>
-                            <lido:rightsType lido:type="http://terminology.lido-schema.org/lido00921">
+                        <lido:rightsWorkSet> <!-- This is for the real physical described object: for all our objects this is true-->
+                             <lido:rightsType lido:type="http://terminology.lido-schema.org/lido00921">
                                 <skos:Concept rdf:about="https://creativecommons.org/publicdomain/mark/1.0/">
                                     <skos:prefLabel xml:lang="en">Public Domain Mark 1.0</skos:prefLabel>
                                     <skos:prefLabel xml:lang="de">Kein Urheberrechtsschutz</skos:prefLabel>
@@ -316,21 +318,27 @@
                             </lido:rightsType>
                         </lido:rightsWorkSet>
                     </lido:rightsWorkWrap>
+
                     <lido:recordWrap>
-                        <lido:recordID lido:type="http://terminology.lido-schema.org/lido00100">o5xrMEr47X</lido:recordID>
+                    <!-- This is for the Cultural Object record: for all our Cultural Objects records this is true, the URI/record ID is dynamic the rest should be always the same-->
+                        <lido:recordID lido:type="http://terminology.lido-schema.org/lido00099">
+                            <xsl:value-of select="string(//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/@rdf:about)" />
+                        </lido:recordID>
                         <lido:recordType>
                             <skos:Concept rdf:about="http://terminology.lido-schema.org/lido00141">
                                 <skos:prefLabel xml:lang="en">Item-level record</skos:prefLabel>
                                 <skos:prefLabel xml:lang="de">Einzelobjekt (Katalogisierungsebene)</skos:prefLabel>
                             </skos:Concept>
                         </lido:recordType>
+
                         <lido:recordSource>
-                            <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-MUS-096417</lido:legalBodyID>
+                            <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
                             <lido:legalBodyName>
-                                <lido:appellationValue>Bayerische Staatsgemäldesammlungen, Alte Pinakothek, Munich</lido:appellationValue>
+                                <lido:appellationValue>Technische Informationsbibliothek (TIB)</lido:appellationValue>
                             </lido:legalBodyName>
-                            <lido:legalBodyWeblink>https://www.sammlung.pinakothek.de/</lido:legalBodyWeblink>
+                            <lido:legalBodyWeblink>https://www.tib.eu/de/</lido:legalBodyWeblink>
                         </lido:recordSource>
+
                         <lido:recordRights>
                             <lido:rightsType lido:type="http://terminology.lido-schema.org/lido00921">
                                 <skos:Concept rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
@@ -341,11 +349,17 @@
                                 </skos:Concept>
                             </lido:rightsType>
                         </lido:recordRights>
+
                         <lido:recordInfoSet>
-                            <lido:recordInfoLink>https://www.sammlung.pinakothek.de/de/artwork/o5xrMEr47X</lido:recordInfoLink>
-                            <lido:recordMetadataDate lido:type="http://terminology.lido-schema.org/lido00472">2020-11-23T08:15:59Z</lido:recordMetadataDate>
+                            <lido:recordInfoLink>
+                                <xsl:value-of select="string(//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/@rdf:about)" />
+                            </lido:recordInfoLink>
+                            <lido:recordMetadataDate lido:type="http://terminology.lido-schema.org/lido00472">
+                                <xsl:value-of select="//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/xsd:date/text()" />
+                            </lido:recordMetadataDate>
                         </lido:recordInfoSet>
                     </lido:recordWrap>
+
                     <lido:resourceWrap>
                         <lido:resourceSet>
                             <lido:resourceID lido:type="http://terminology.lido-schema.org/lido00100">334</lido:resourceID>
