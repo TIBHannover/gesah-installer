@@ -72,38 +72,38 @@
 
           BIND( now() AS ?current_date ) .
 
-          OPTIONAL {
+          {
             ?cultural_object vitro:mostSpecificType ?most_specific_type .
             ?most_specific_type rdfs:label ?most_specific_type_label .
-          }
-          OPTIONAL {
+          } UNION
+          {
             ?cultural_object rdfs:label ?co_label .
-          }
-          OPTIONAL {
+          } UNION
+          {
             ?cultural_object gesah:has_Title ?title_ind .
             ?title_ind gesah:has_title_type ?title_type .
             ?title_type rdfs:label ?title_type_label .
             ?title_ind gesah:title ?title_label .
-          }
-          OPTIONAL {
+          } UNION
+          {
             ?cultural_object gesah:has_object_category_generic_term ?object_category_generic_term .
             ?object_category_generic_term rdfs:label ?object_category_generic_term_label .
-          }
-          OPTIONAL {
+          } UNION
+          {
             ?cultural_object gesah:has_object_category_narrower_term ?object_category_narrower_term .
             ?object_category_narrower_term rdfs:label ?object_category_narrower_term_label .
-          }
-          OPTIONAL {
+          } UNION
+          {
             ?cultural_object gesah:object_of_inscription ?object_of_inscription .
             ?object_of_inscription rdfs:label ?object_of_inscription_label .
-          }
-          OPTIONAL {
+          } UNION
+          {
             ?cultural_object gesah:current_inventory_number ?current_inv_number .
-          }  
-          OPTIONAL {
+          } UNION
+          {
             ?cultural_object gesah:former_inventory_number ?former_inv_number .
-          }
-          OPTIONAL {
+          } UNION
+          {
             ?cultural_object gesah:has_current_holding_institution ?current_holding_institution .
             ?current_holding_institution rdfs:label ?current_holding_institution_label .
           }
