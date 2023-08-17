@@ -66,6 +66,11 @@
 
           ?cultural_object gesah:has_current_holding_institution ?current_holding_institution .
           ?current_holding_institution rdfs:label ?current_holding_institution_label .
+
+          ?cultural_object gesah:has_digital_representation ?representation .
+          ?representation ?representation_p ?representation_o .
+
+          ?representation gesah:digital_image_right_label ?digital_image_right_label .
         }				
 		WHERE {
           ?cultural_object rdf:type ?type .
@@ -106,6 +111,15 @@
           {
             ?cultural_object gesah:has_current_holding_institution ?current_holding_institution .
             ?current_holding_institution rdfs:label ?current_holding_institution_label .
+          } UNION {
+            ?cultural_object gesah:has_digital_representation ?representation .
+            { 
+              ?representation ?representation_p ?representation_o . } UNION
+            { 
+              ?representation gesah:digital_image_right ?digital_image_right .
+              ?digital_image_right rdfs:label ?digital_image_right_label .
+            } 
+ 
           }
         }
         """ ;

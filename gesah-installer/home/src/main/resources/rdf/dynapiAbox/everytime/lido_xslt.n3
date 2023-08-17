@@ -42,14 +42,13 @@
                 <lido:lidoRecID
                     lido:type="http://terminology.lido-schema.org/lido00099"
                     lido:source="ld.zdb-services.de/resource/organisations/DE-89"
-                >
-                </lido:lidoRecID>
+                >DE-89/lido/<xsl:value-of select="string(//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/@rdf:about)" /></lido:lidoRecID>
 
                 <lido:objectPublishedID
                     lido:pref="http://terminology.lido-schema.org/lido00169"
                     lido:type="http://terminology.lido-schema.org/lido00099"
                     lido:source="ld.zdb-services.de/resource/organisations/DE-89"
-                ><xsl:value-of select="string(//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/@rdf:about)" /></lido:objectPublishedID>
+                >DE-89/object/<xsl:value-of select="string(//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/@rdf:about)" /></lido:objectPublishedID>
 
                 <lido:category>
                     <skos:Concept rdf:about="http://terminology.lido-schema.org/lido00096">
@@ -359,45 +358,56 @@
                             </lido:recordMetadataDate>
                         </lido:recordInfoSet>
                     </lido:recordWrap>
-
+				    
                     <lido:resourceWrap>
-                        <lido:resourceSet>
-                            <lido:resourceID lido:type="http://terminology.lido-schema.org/lido00100">334</lido:resourceID>
-                            <lido:resourceRepresentation
-                                lido:type="http://terminology.lido-schema.org/lido00451">
-                                <lido:linkResource lido:formatResource="image/jpeg">https://res.cloudinary.com/tne/image/authenticated/s--kAZIN-Uj--/q_80/artworks/PETER-PAUL-RUBENS_RUBENS-UND-ISABELLA-BRANT-IN-DER-GEISSBLATTLAUBE_CC-BY-SA_BSTGS_334.jpg</lido:linkResource>
-                            </lido:resourceRepresentation>
-                            <lido:resourceType>
-                                <skos:Concept rdf:about="http://vocab.getty.edu/aat/300215302">
-                                    <skos:prefLabel xml:lang="en">digital images</skos:prefLabel>
-                                    <skos:altLabel xml:lang="en">digital image</skos:altLabel>
-                                    <skos:mappingRelation>https://www.wikidata.org/entity/Q1250322</skos:mappingRelation>
-                                </skos:Concept>
-                            </lido:resourceType>
-                            <lido:resourceSource>
-                                <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-MUS-096417</lido:legalBodyID>
-                                <lido:legalBodyName>
-                                    <lido:appellationValue>Bayerische Staatsgemäldesammlungen, Alte Pinakothek, Munich</lido:appellationValue>
-                                </lido:legalBodyName>
-                            </lido:resourceSource>
-                            <lido:rightsResource>
-                                <lido:rightsType lido:type="http://terminology.lido-schema.org/lido00921">
-                                    <skos:Concept rdf:about="https://creativecommons.org/licenses/by-sa/4.0">
-                                        <skos:prefLabel xml:lang="de">Namensnennung 4.0 International (CC BY 4.0)</skos:prefLabel>
-                                        <skos:prefLabel xml:lang="en">Attribution 4.0 International (CC BY 4.0)</skos:prefLabel>
-                                    </skos:Concept>
-                                </lido:rightsType>
-                                <lido:rightsHolder>
-                                    <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-MUS-096417</lido:legalBodyID>
-                                    <lido:legalBodyName>
-                                        <lido:appellationValue>Bayerische Staatsgemäldesammlungen, Alte Pinakothek, Munich</lido:appellationValue>
-                                    </lido:legalBodyName>
-                                    <lido:legalBodyWeblink lido:pref="http://terminology.lido-schema.org/lido00169">https://www.sammlung.pinakothek.de/</lido:legalBodyWeblink>
-                                </lido:rightsHolder>
-                                <lido:creditLine>Bayerische Staatsgemäldesammlungen, Alte Pinakothek, Munich, Attribution 4.0 International (CC BY 4.0)</lido:creditLine>
-                            </lido:rightsResource>
-                        </lido:resourceSet>
-                    </lido:resourceWrap>
+						<!-- This is on images. It sais normally one high resolution image and one small preview is delivered. The internal IDs of these files I don't know, I use here the URI of the image in Vitro.-->
+                        <xsl:for-each select="//gesah:has_digital_representation/*">
+							<lido:resourceSet>
+							  <lido:resourceID lido:type="http://terminology.lido-schema.org/lido00099"><xsl:value-of select="@rdf:about" /></lido:resourceID>
+							  <!-- Preview image-->
+							  <lido:resourceRepresentation lido:type="http://terminology.lido-schema.org/lido00451">
+								<lido:linkResource lido:formatResource="image/jpeg">https://sah.tib.eu/iiif/2/<xsl:value-of select="gesah:barcode/text()" />%5Econtent%5Estreams%5E<xsl:value-of select="gesah:image_file_number/text()" />/full/300,/0/default.jpg</lido:linkResource>
+							  </lido:resourceRepresentation>
+							  <!-- Full size image-->
+							  <lido:resourceRepresentation lido:type="http://terminology.lido-schema.org/lido00464">
+								<lido:linkResource lido:formatResource="image/tiff">https://sah.tib.eu/iiif/2/<xsl:value-of select="gesah:barcode/text()" />%5Econtent%5Estreams%5E<xsl:value-of select="gesah:image_file_number/text()" />/full/full/0/default.tif</lido:linkResource>
+							  </lido:resourceRepresentation>
+							  <lido:resourceType>
+								<skos:Concept rdf:about="http://vocab.getty.edu/aat/300215302">
+								  <skos:prefLabel xml:lang="en">digital images</skos:prefLabel>
+								  <skos:altLabel xml:lang="en">digital image</skos:altLabel>
+								  <skos:mappingRelation>https://www.wikidata.org/entity/Q1250322</skos:mappingRelation>
+								</skos:Concept>
+								<lido:term lido:pref="http://terminology.lido-schema.org/lido00526" xml:lang="de">Digitales Bild</lido:term>
+								<lido:term xml:lang="de">Digitalbild</lido:term>
+							  </lido:resourceType>
+							  <lido:resourceSource>
+								<lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
+								<lido:legalBodyName>
+								  <lido:appellationValue>Technische Informationsbibliothek (TIB)</lido:appellationValue>
+								</lido:legalBodyName>
+							  </lido:resourceSource>
+							  <lido:rightsResource>
+								<lido:rightsType lido:type="http://terminology.lido-schema.org/lido00921">
+								  <skos:Concept rdf:about="https://creativecommons.org/publicdomain/mark/1.0/deed.de">
+									<skos:prefLabel xml:lang="en">Public Domain Mark 1.0</skos:prefLabel>
+									<skos:altLabel xml:lang="en">No Copyright</skos:altLabel>
+									<skos:altLabel xml:lang="en">Public Domain Mark 1.0</skos:altLabel>
+									<skos:altLabel xml:lang="de">Kein Urheberrechtsschutz</skos:altLabel>
+								  </skos:Concept>
+								</lido:rightsType>
+								<lido:rightsHolder>
+								  <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-MUS-89</lido:legalBodyID>
+								  <lido:legalBodyName>
+									<lido:appellationValue>Technische Informationsbibliothek (TIB)</lido:appellationValue>
+								  </lido:legalBodyName>
+								  <lido:legalBodyWeblink lido:pref="http://terminology.lido-schema.org/lido00169">https://www.tib.eu/de/</lido:legalBodyWeblink>
+								</lido:rightsHolder>
+								<lido:creditLine>Technische Informationsbibliothek (TIB), Public Domain Mark 1.0 </lido:creditLine>
+							  </lido:rightsResource>
+							</lido:resourceSet>
+                        </xsl:for-each>
+				    </lido:resourceWrap>
                 </lido:administrativeMetadata>
 
             </lido:lido>
