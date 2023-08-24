@@ -125,6 +125,37 @@
 
 </script>
 
+<@addImageMetadata digitalRepresentations />
+
+<#macro addImageMetadata digitalRepresentations>
+   <#local imageMetadata>
+   <#assign addComma = false>
+	<script type="application/ld+json">
+		[
+		<#list digitalRepresentations as digRep>
+			 <#if addComma >,</#if>
+		    {
+		      "@context": "https://schema.org/",
+		      "@type": "ImageObject",
+		      "contentUrl": "${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/full/300,/0/default.jpg",
+		      "license": "https://sah.tib.eu/images_and_metadata",
+		      "acquireLicensePage": "https://sah.tib.eu/about_page",
+		      "creditText": "Technische Informationsbibliothek (TIB)",
+		      "creator": {
+		        "@type": "Organization",
+		        "name": "Technische Informationsbibliothek (TIB)"
+		       },
+		      "copyrightNotice": "Technische Informationsbibliothek (TIB)"
+		    }
+	   		<#assign addComma = true>
+	    </#list>
+		]
+	</script>
+	</#local>
+	${headScripts.add(imageMetadata)}
+</#macro>
+
+
 ${stylesheets.add('<link rel="stylesheet" href="${urls.base}/css/individual/individual.css" />',
 '<link rel="stylesheet" type="text/css" href="${urls.base}/css/jquery_plugins/qtip/jquery.qtip.min.css" />')}
 
