@@ -1,8 +1,7 @@
 @prefix : <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/export_cultural_object_to_lido/> .
 @prefix dynapi: <https://vivoweb.org/ontology/vitro-dynamic-api#> .
 
-:parameter_xml_schema_rules
-        dynapi:defaultValue                 """<?xml version="1.0"?>
+:parameter_xml_schema_rules dynapi:defaultValue """<?xml version="1.0"?>
 <xs:schema xmlns:doc="http://www.mda.org.uk/spectrumXML/Documentation" xmlns:gml="http://www.opengis.net/gml" xmlns:lido="http://www.lido-schema.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" targetNamespace="http://www.lido-schema.org" elementFormDefault="qualified" attributeFormDefault="qualified">
 
 	<xs:annotation>
@@ -4146,4 +4145,4 @@
 		</xs:simpleContent>
 	</xs:complexType>
 </xs:schema>
-											""" .
+""" .

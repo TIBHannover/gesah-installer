@@ -7,28 +7,7 @@
 @prefix : <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/export_cultural_object_to_lido/> .
 @prefix paramType: <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/> .
 
-:procedure
-        a                                   dynapi:Procedure ;
-        rdfs:label                          "Export cultural object to LIDO"@en-US ;
-        dynapi:publicAccess                 "true"^^xsd:boolean ;
-        dynapi:hasFirstStep                 :step1 ;
-        dynapi:providesParameter            :parameter_validation_errors ;
-        dynapi:providesParameter            :parameter_lido_xml ;
-#        dynapi:providesParameter            :parameter_cultural_object_graph ;
-        dynapi:providesParameter            :parameter_validation_result .
-        
-:step1
-        a                                   dynapi:OperationalStep ;
-        rdfs:label                          "Step 1"@en-US ;
-        dynapi:hasNextStep                  :step2 ;
-        dynapi:hasOperation                 :operation_export_cultural_object_to_lido .
-        
-:operation_export_cultural_object_to_lido 
-        a                                   dynapi:SparqlConstructQuery ;
-        rdfs:label                          "Get cultural objects operation"@en-US ;
-        dynapi:hasModel                     <https://vivoweb.org/ontology/vitro-dynamic-api/model/full_union> ;
-        dynapi:requiresParameter            :parameter_cultural_object_uri ;
-        dynapi:sparqlQueryText              """
+:operation_export_cultural_object_to_lido dynapi:sparqlQueryText """
         PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
         PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -122,66 +101,4 @@
  
           }
         }
-        """ ;
-        dynapi:providesParameter            :parameter_cultural_object_graph .
-
-:step2
-        a                                   dynapi:OperationalStep ;
-        dynapi:hasNextStep                  :step3 ;
-        dynapi:hasOperation                 :operation_XMLTranslation .
-
-:operation_XMLTranslation
-        a                                   dynapi:XMLTransformation ;
-        dynapi:xslt                         :parameter_xml_transformation_rules ;
-        dynapi:inputXml                     :parameter_cultural_object_graph ;
-        dynapi:outputXml                    :parameter_lido_xml .
-
-:step3
-        a                                   dynapi:OperationalStep ;
-        dynapi:hasOperation                 :operation_XMLValidation  .
-
-:operation_XMLValidation  
-        a                                   dynapi:XMLValidation ;
-	    dynapi:xsd                          :parameter_xml_schema_rules ;
-        dynapi:inputXml                     :parameter_lido_xml ;
-        dynapi:errorMessage                 :parameter_validation_errors;
-        dynapi:result                       :parameter_validation_result .
-
-####################################################################################################################################################################
-
-:parameter_cultural_object_uri
-        a                                   dynapi:Parameter ;
-        dynapi:name                         "cultural_object" ;
-        dynapi:hasType                      paramType:uri .
-
-:parameter_validation_result
-        a                                   dynapi:Parameter ;
-        dynapi:name                         "valid" ;
-        dynapi:hasType                      paramType:boolean .
-
-:parameter_xml_schema_rules
-        a                                   dynapi:Parameter ;
-        dynapi:name                         "xsd" ;
-        dynapi:isInternal                   "true"^^xsd:boolean ;
-        dynapi:hasType                      paramType:string .
-        
-:parameter_validation_errors
-        a                                   dynapi:Parameter ;
-        dynapi:name                         "errors" ;
-        dynapi:hasType                      paramType:string .
-
-:parameter_lido_xml
-        a                                   dynapi:Parameter ;
-        dynapi:name                         "lido" ;
-        dynapi:hasType                      paramType:string .
-
-:parameter_xml_transformation_rules
-        a                                   dynapi:Parameter ;
-        dynapi:isInternal                   "true"^^xsd:boolean ;
-        dynapi:name                         "xslt" ;
-        dynapi:hasType                      paramType:string .
-
-:parameter_cultural_object_graph
-        a                                   dynapi:Model ;
-        dynapi:name                         "cultural_object_graph" ;
-        dynapi:hasType                      paramType:model .
+""" .
