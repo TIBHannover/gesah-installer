@@ -21,7 +21,6 @@
         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         xmlns:smil20lang="http://www.w3.org/2001/SMIL20/Language"
-        xsi:schemaLocation="http://www.lido-schema.org https://lido-schema.org/profiles/v1.1/lido-v1.1-profile-paintingandsculpture-v1.0.xsd"
     >
         <xsl:output method="xml" indent="yes"/>
 
@@ -37,7 +36,6 @@
                 xmlns:lido="http://www.lido-schema.org" 
                 xmlns:xlink="http://www.w3.org/1999/xlink"
                 xmlns:smil20lang="http://www.w3.org/2001/SMIL20/Language"
-                xsi:schemaLocation="http://www.lido-schema.org https://lido-schema.org/profiles/v1.1/lido-v1.1-profile-paintingandsculpture-v1.0.xsd"
             >
                 <lido:lidoRecID
                     lido:type="http://terminology.lido-schema.org/lido00099"
@@ -55,8 +53,6 @@
                         <skos:prefLabel xml:lang="en">Human-made object</skos:prefLabel>
                     </skos:Concept>
                 </lido:category>
-
-                <lido:applicationProfile lido:type="http://terminology.lido-schema.org/lido00099">https://lido-schema.org/profiles/v1.1/lido-v1.1-profile-paintingandsculpture-v1.0.xsd</lido:applicationProfile>
 
                 <lido:descriptiveMetadata xml:lang="de">
                     <lido:objectClassificationWrap>
