@@ -1,0 +1,23 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> .
+@prefix dynapi: <https://vivoweb.org/ontology/vitro-dynamic-api#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://vivoweb.org/ontology/vitro-dynamic-api/resourceAPI/resource/cultural_object>
+        a                                   dynapi:ResourceAPI ;
+        rdfs:label                          "Cultural object resourceAPI"@en-US ;
+        dynapi:name                         "cultural_object" ;
+        dynapi:minAPIVersion                "0.1.0" ;
+        dynapi:hasCustomRESTAction          <https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/export_cultural_object_to_lido> ;
+        dynapi:onGetAll                     <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/get_cultural_objects> .
+
+<https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/export_cultural_object_to_lido>
+        a                                   dynapi:CustomRESTAction ;
+        rdfs:label                          "Export cultural object to LIDO format"@en-US ;
+        dynapi:name                         "export_cultural_object_to_lido" ;
+        dynapi:hasDefaultMethod             <https://vivoweb.org/ontology/vitro-dynamic-api/http_method/post> ;
+        dynapi:forwardsTo                   <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/export_cultural_object_to_lido/procedure> .
+
+

@@ -1,0 +1,104 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> .
+@prefix dynapi: <https://vivoweb.org/ontology/vitro-dynamic-api#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/export_cultural_object_to_lido/> .
+@prefix paramType: <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/> .
+
+:operation_export_cultural_object_to_lido dynapi:sparqlQueryText """
+        PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
+        PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+        PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+        PREFIX gesah: <http://ontology.tib.eu/gesah/> 
+        CONSTRUCT {
+          ?cultural_object rdf:type ?type .
+
+          ?cultural_object xsd:date ?current_date .
+
+          ?cultural_object rdfs:label ?co_label .
+          ?cultural_object vitro:mostSpecificType ?most_specific_type .
+
+          ?cultural_object gesah:has_Title ?title_ind .
+          ?title_ind gesah:has_title_type ?title_type .
+          ?title_type rdfs:label ?title_type_label .
+          ?title_ind gesah:title ?title_label .
+
+          ?most_specific_type rdfs:label ?most_specific_type_label .
+          ?most_specific_type rdfs:label ?most_specific_type_label .
+
+          ?cultural_object gesah:has_object_category_generic_term ?object_category_generic_term .
+          ?object_category_generic_term rdfs:label ?object_category_generic_term_label .
+  
+          ?cultural_object gesah:has_object_category_narrower_term ?object_category_narrower_term .
+          ?object_category_narrower_term rdfs:label ?object_category_narrower_term_label .
+          
+          ?cultural_object gesah:object_of_inscription ?object_of_inscription .
+          ?object_of_inscription rdfs:label ?object_of_inscription_label .
+  
+          ?cultural_object gesah:current_inventory_number ?current_inv_number .
+  
+          ?cultural_object gesah:former_inventory_number ?former_inv_number .
+
+          ?cultural_object gesah:has_current_holding_institution ?current_holding_institution .
+          ?current_holding_institution rdfs:label ?current_holding_institution_label .
+
+          ?cultural_object gesah:has_digital_representation ?representation .
+          ?representation ?representation_p ?representation_o .
+
+          ?representation gesah:digital_image_right_label ?digital_image_right_label .
+        }				
+		WHERE {
+          ?cultural_object rdf:type ?type .
+
+          BIND( now() AS ?current_date ) .
+
+          {
+            ?cultural_object vitro:mostSpecificType ?most_specific_type .
+            ?most_specific_type rdfs:label ?most_specific_type_label .
+          } UNION
+          {
+            ?cultural_object rdfs:label ?co_label .
+          } UNION
+          {
+            ?cultural_object gesah:has_Title ?title_ind .
+            ?title_ind gesah:has_title_type ?title_type .
+            ?title_type rdfs:label ?title_type_label .
+            ?title_ind gesah:title ?title_label .
+          } UNION
+          {
+            ?cultural_object gesah:has_object_category_generic_term ?object_category_generic_term .
+            ?object_category_generic_term rdfs:label ?object_category_generic_term_label .
+          } UNION
+          {
+            ?cultural_object gesah:has_object_category_narrower_term ?object_category_narrower_term .
+            ?object_category_narrower_term rdfs:label ?object_category_narrower_term_label .
+          } UNION
+          {
+            ?cultural_object gesah:object_of_inscription ?object_of_inscription .
+            ?object_of_inscription rdfs:label ?object_of_inscription_label .
+          } UNION
+          {
+            ?cultural_object gesah:current_inventory_number ?current_inv_number .
+          } UNION
+          {
+            ?cultural_object gesah:former_inventory_number ?former_inv_number .
+          } UNION
+          {
+            ?cultural_object gesah:has_current_holding_institution ?current_holding_institution .
+            ?current_holding_institution rdfs:label ?current_holding_institution_label .
+          } UNION {
+            ?cultural_object gesah:has_digital_representation ?representation .
+            { 
+              ?representation ?representation_p ?representation_o . } UNION
+            { 
+              ?representation gesah:digital_image_right ?digital_image_right .
+              ?digital_image_right rdfs:label ?digital_image_right_label .
+            } 
+ 
+          }
+        }
+""" .
