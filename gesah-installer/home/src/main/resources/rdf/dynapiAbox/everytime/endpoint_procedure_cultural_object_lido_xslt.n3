@@ -196,40 +196,47 @@
 
                         </lido:titleWrap>
 
-                        <lido:repositoryWrap>
-                            <lido:repositorySet lido:type="http://terminology.lido-schema.org/lido01017">
-                                <lido:displayRepository xml:lang="en">Bayerische Staatsgemäldesammlungen, Alte Pinakothek, Munich, first floor, room VII, (Rubens-Saal), permanent exhibition</lido:displayRepository>
-                                <lido:repositoryName>
-                                    <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-MUS-096417</lido:legalBodyID>
-                                    <lido:legalBodyName>
-                                        <lido:appellationValue>Bayerische Staatsgemäldesammlungen, Alte Pinakothek, Munich</lido:appellationValue>
-                                    </lido:legalBodyName>
-                                    <lido:legalBodyWeblink lido:pref="http://terminology.lido-schema.org/lido00169">https://www.sammlung.pinakothek.de</lido:legalBodyWeblink>
-                                </lido:repositoryName>
-                                <lido:workID lido:type="http://terminology.lido-schema.org/lido00113">334</lido:workID>
-                                <lido:repositoryLocation>
-                                    <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">https://www.wikidata.org/entity/Q1726</lido:placeID>
-                                    <lido:namePlaceSet>
-                                        <lido:appellationValue xml:lang="en">Munich</lido:appellationValue>
-                                    </lido:namePlaceSet>
-                                    <lido:partOfPlace>
-                                        <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">https://www.wikidata.org/entity/Q980</lido:placeID>
-                                        <lido:namePlaceSet>
-                                            <lido:appellationValue xml:lang="en">Bavaria</lido:appellationValue>
-                                            <lido:appellationValue xml:lang="de">Bayern</lido:appellationValue>
-                                        </lido:namePlaceSet>
-                                        <lido:partOfPlace>
-                                            <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">https://www.wikidata.org/entity/Q183</lido:placeID>
-                                            <lido:namePlaceSet>
-                                                <lido:appellationValue xml:lang="en">Germany</lido:appellationValue>
-                                                <lido:appellationValue xml:lang="de">Deutschland</lido:appellationValue>
-                                            </lido:namePlaceSet>
-                                        </lido:partOfPlace>
-                                    </lido:partOfPlace>
-                                </lido:repositoryLocation>
-                                <sourceRepositorySet>https://www.sammlung.pinakothek.de/en/artwork/o5xrMEr47X (Last updated on 20.05.2022) [2022-06-01]</sourceRepositorySet>
-                            </lido:repositorySet>
-                        </lido:repositoryWrap>
+						<lido:repositoryWrap>
+							<!-- lido type is "current repository" which is equivalent to gesah:has_current_holding_institution, in our case this is always static Technische Informationsbibliothek (TIB) + "Hannover" as it is on the vitro surface, too --> 
+							<lido:repositorySet lido:type="http://terminology.lido-schema.org/lido01017">
+								<lido:displayRepository xml:lang="de">Technische Informationsbibliothek (TIB), Hannover</lido:displayRepository>
+								<lido:repositoryName>
+								   <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
+									<lido:legalBodyName>
+										<lido:appellationValue>Technische Informationsbibliothek (TIB) / Leibniz-Informationszentrum Technik und Naturwissenschaften und Universitätsbibliothek</lido:appellationValue>
+									</lido:legalBodyName>
+									<lido:legalBodyWeblink lido:pref="http://terminology.lido-schema.org/lido00169">https://www.tib.eu/de/</lido:legalBodyWeblink>
+								</lido:repositoryName>
+								<!-- Inventarnummer (lido00113) is dynamic, it is equavalent to gesah:current_inventory_number-->
+								<lido:workID lido:type="http://terminology.lido-schema.org/lido00113"><xsl:value-of select="//gesah:current_inventory_number[1]/text()[1]"/></lido:workID>
+								<!-- this is static , always Hannover-->
+								<lido:repositoryLocation>
+									<lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">https://www.wikidata.org/entity/Q1715</lido:placeID>
+									<lido:namePlaceSet>
+										<lido:appellationValue xml:lang="de">Hannover</lido:appellationValue>
+									</lido:namePlaceSet>
+									<!-- Bundesland -->
+									<lido:partOfPlace>
+										<lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">https://www.wikidata.org/entity/Q1197</lido:placeID>
+										<lido:namePlaceSet>
+											<lido:appellationValue xml:lang="en">Lower Saxony</lido:appellationValue>
+											<lido:appellationValue xml:lang="de">Niedersachsen</lido:appellationValue>
+										</lido:namePlaceSet>
+										<!-- Land -->
+										<lido:partOfPlace>
+											<lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">https://www.wikidata.org/entity/Q183</lido:placeID>
+											<lido:namePlaceSet>
+												<lido:appellationValue xml:lang="en">Germany</lido:appellationValue>
+												<lido:appellationValue xml:lang="de">Deutschland</lido:appellationValue>
+											</lido:namePlaceSet>
+										</lido:partOfPlace>
+									</lido:partOfPlace>
+								</lido:repositoryLocation>
+								
+								<!-- here I don't know whether we should put the URI of the cultural object and what date? and how the date could be generated? Text below is of the example xml sheet, for lido element description cf. https://lido-schema.org/schema/v1.1/lido-v1.1.html#sourceRepositorySet-->
+								<sourceRepositorySet>https://www.sammlung.pinakothek.de/de/artwork/o5xrMEr47X (aktualisiert am 11.01.2022) [2022-04-29]</sourceRepositorySet>
+							</lido:repositorySet>
+						</lido:repositoryWrap>
                         <lido:objectDescriptionWrap>
                             <lido:objectDescriptionSet>
                                 <lido:descriptiveNoteValue xml:lang="en">Rubens returned to Antwerp in 1608 after an eight-year stay in Italy. The following year he married Isabella Brant. This portrait was probably painted to mark this occasion. Both its representative format and the exquisite robes chosen served as a means of nobilitation. Through its allusions to Antiquity and the humanist tradition it also points to Rubens’s self-image as an artist. Honeysuckle is also commonly known as “the longer the better” and symbolises love’s durability.</lido:descriptiveNoteValue>
