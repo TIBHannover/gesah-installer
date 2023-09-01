@@ -167,9 +167,9 @@
 
                     <lido:objectIdentificationWrap>
                         <lido:titleWrap>
-                            <lido:titleSet lido:pref="http://terminology.lido-schema.org/lido00169">
+                            <lido:titleSet lido:pref="http://vocab.getty.edu/page/aat/300417200">
                                 <xsl:for-each select="//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/rdfs:label">
-                                    <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00169">
+                                    <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00526">
                                         <xsl:if test="@xml:lang">
                                             <xsl:attribute name="xml:lang">
                                                    <xsl:value-of select="@xml:lang" />
@@ -181,22 +181,16 @@
                             </lido:titleSet>
                             
                             <xsl:for-each select="//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/gesah:has_Title/rdf:Description">
-                                <lido:titleSet lido:pref="http://terminology.lido-schema.org/lido00170"> 
-<!-- Not valid LIDO xml elements                                 
-                                <skos:Concept rdf:about="http://vocab.getty.edu/page/aat/300417202">
-                                    <xsl:for-each select="gesah:has_title_type/rdf:Description/rdfs:label">
-                                        <skos:prefLabel>
-                                            <xsl:attribute name="xml:lang">
-                                                <xsl:value-of select="@xml:lang" />
-                                            </xsl:attribute>
-                                            <xsl:value-of select="text()" />
-                                        </skos:prefLabel>
-                                    </xsl:for-each>
-                                </skos:Concept>
--->
-                                <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00170">
-                                    <xsl:value-of select="gesah:title/text()" />
-                                </lido:appellationValue>
+                                <lido:titleSet>
+                                    <xsl:if test="gesah:has_title_type/rdf:Description/gesah:AAT_ID/text()">
+                                        <xsl:attribute name="lido:type">
+											<xsl:text>http://vocab.getty.edu/aat/</xsl:text>
+                                           	<xsl:value-of select="gesah:has_title_type/rdf:Description/gesah:AAT_ID/text()" />
+                                        </xsl:attribute>
+                                    </xsl:if>
+		                            <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00170">
+		                                <xsl:value-of select="gesah:title/text()" />
+		                            </lido:appellationValue>
                                 </lido:titleSet>
                             </xsl:for-each>
 

@@ -25,6 +25,7 @@
           ?cultural_object gesah:has_Title ?title_ind .
           ?title_ind gesah:has_title_type ?title_type .
           ?title_type rdfs:label ?title_type_label .
+          ?title_type gesah:AAT_ID ?aat_id .
           ?title_ind gesah:title ?title_label .
 
           ?most_specific_type rdfs:label ?most_specific_type_label .
@@ -65,9 +66,14 @@
           } UNION
           {
             ?cultural_object gesah:has_Title ?title_ind .
-            ?title_ind gesah:has_title_type ?title_type .
-            ?title_type rdfs:label ?title_type_label .
-            ?title_ind gesah:title ?title_label .
+            { 
+              ?title_ind gesah:title ?title_label . 
+            } UNION 
+            { 
+              ?title_ind gesah:has_title_type ?title_type .
+              ?title_type rdfs:label ?title_type_label . 
+              ?title_type gesah:AAT_ID ?aat_id .
+            } 
           } UNION
           {
             ?cultural_object gesah:has_object_category_generic_term ?object_category_generic_term .
