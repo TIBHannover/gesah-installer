@@ -51,6 +51,14 @@
           ?representation ?representation_p ?representation_o .
 
           ?representation gesah:digital_image_right_label ?digital_image_right_label .
+  
+            ?cultural_object gesah:has_measurements ?measurement .
+            ?measurement gesah:measurement_height ?measurement_height .
+            ?measurement gesah:measurement_width ?measurement_width .
+            ?measurement gesah:measurement_diameter ?measurement_diameter .
+            ?measurement gesah:measurement_depth ?measurement_depth .
+            ?measurement gesah:has_measurement_specification ?measurement_specification .
+            ?measurement_specification rdfs:label ?measurement_specification_label .
         }				
 		WHERE {
           ?cultural_object rdf:type ?type .
@@ -104,7 +112,24 @@
               ?representation gesah:digital_image_right ?digital_image_right .
               ?digital_image_right rdfs:label ?digital_image_right_label .
             } 
- 
+          } UNION {
+            ?cultural_object gesah:has_measurements ?measurement .
+            {
+                ?measurement gesah:measurement_height ?measurement_height .
+            } UNION 
+            {
+               ?measurement gesah:measurement_width ?measurement_width .
+            }  UNION 
+            {
+               ?measurement gesah:measurement_diameter ?measurement_diameter .
+            } UNION 
+            {
+               ?measurement gesah:measurement_depth ?measurement_depth .
+            } UNION 
+            {
+               ?measurement gesah:has_measurement_specification ?measurement_specification .
+               ?measurement_specification rdfs:label ?measurement_specification_label .
+            }
           }
         }
 """ .

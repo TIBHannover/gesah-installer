@@ -243,39 +243,46 @@
                                 <sourceDescriptiveNote>https://www.sammlung.pinakothek.de/en/artwork/o5xrMEr47X (Last updated on 20.05.2022) [2022-06-01]</sourceDescriptiveNote>
                             </lido:objectDescriptionSet>
                         </lido:objectDescriptionWrap>
-                        <lido:objectMeasurementsWrap>
-                            <lido:objectMeasurementsSet lido:type="http://terminology.lido-schema.org/lido00927">
-                                <lido:displayObjectMeasurements xml:lang="en">height x width: 178 x 136,5 cm</lido:displayObjectMeasurements>
-                                <lido:objectMeasurements>
-                                    <lido:measurementsSet>
-                                        <lido:measurementType>
-                                            <skos:Concept rdf:about="https://www.wikidata.org/entity/Q208826">
-                                                <skos:prefLabel xml:lang="en">height</skos:prefLabel>
-                                                <skos:prefLabel xml:lang="de">Höhe</skos:prefLabel>
-                                                <skos:mappingRelation>http://vocab.getty.edu/aat/300055644</skos:mappingRelation>
-                                                <skos:mappingRelation>https://d-nb.info/gnd/4229619-5</skos:mappingRelation>
-                                            </skos:Concept>
-                                        </lido:measurementType>
-                                        <lido:measurementUnit>
-                                            <skos:Concept rdf:about="https://www.wikidata.org/entity/Q174728">
-                                                <skos:prefLabel xml:lang="en">centimetre</skos:prefLabel>
-                                                <skos:prefLabel xml:lang="de">Zentimeter</skos:prefLabel>
-                                                <skos:altLabel xml:lang="mul">cm</skos:altLabel>
-                                            </skos:Concept>
-                                        </lido:measurementUnit>
-                                        <lido:measurementValue>178</lido:measurementValue>
-                                    </lido:measurementsSet>
-                                    
-                                    <lido:extentMeasurements>
-                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300014078">
-                                            <skos:prefLabel xml:lang="en">canvas (textile
-                                                material)</skos:prefLabel>
-                                            <skos:prefLabel xml:lang="de">Leinwand</skos:prefLabel>
-                                        </skos:Concept>
-                                    </lido:extentMeasurements>
-                                </lido:objectMeasurements>
-                            </lido:objectMeasurementsSet>
-                        </lido:objectMeasurementsWrap>
+
+						<lido:objectMeasurementsWrap>
+							<!-- This is dynamic, in Vitro it is object property gesah:has_measurements of CO with gesah:measurement_height, gesah:measurement_width, gesah:measurement_diameter and gesah:has_measurement_specification, there are four types of measurment specification: support, plate, sheet and image in German and English. In the aviarium example plate and image is not existant-->
+							<lido:objectMeasurementsSet lido:type="http://terminology.lido-schema.org/lido00927">
+								<xsl:for-each select="//gesah:has_measurements/rdf:Description">
+                                    <xsl:variable name="measurement_height" select="./gesah:measurement_height/text()" />
+                                    <xsl:variable name="measurement_width" select="./gesah:measurement_width/text()" />
+                                    <xsl:variable name="measurement_diameter" select="./gesah:measurement_diameter/text()" />
+                                    <xsl:variable name="measurement_depth" select="./gesah:measurement_depth/text()" />
+
+									<xsl:for-each select="gesah:has_measurement_specification/rdf:Description/rdfs:label">
+		                            	<xsl:value-of select="./gesah:has_measurement_specification/rdf:Description/rdfs:label" />
+										<lido:displayObjectMeasurements>
+											<xsl:attribute name="xml:lang">
+				                                <xsl:value-of select="@xml:lang" />
+				                            </xsl:attribute>
+			                                <xsl:value-of select="text()" />
+											<xsl:text>: </xsl:text>
+		                                    <xsl:choose>
+		                                        <xsl:when test="$measurement_diameter">
+				                             		<xsl:value-of select="$measurement_diameter" />
+													<xsl:text> x </xsl:text>
+													<xsl:value-of select="$measurement_diameter" />
+		                                        </xsl:when>
+		                                        <xsl:otherwise>
+				                             		<xsl:value-of select="$measurement_height" />
+													<xsl:text> x </xsl:text>
+													<xsl:value-of select="$measurement_width" />
+		                                        </xsl:otherwise>
+		                                    </xsl:choose>
+                                            <xsl:if test="$measurement_depth">
+												<xsl:text> x </xsl:text>
+												<xsl:value-of select="$measurement_depth" />
+                                            </xsl:if>
+										</lido:displayObjectMeasurements>
+			                        </xsl:for-each>
+		                        </xsl:for-each>
+							</lido:objectMeasurementsSet>	
+						</lido:objectMeasurementsWrap> 
+
                         <!-- Element <objectMaterialsTechWrap> is repeatable and at least element regarding material or technique is mandatory for this profile. -->
                         <lido:objectMaterialsTechWrap>
                             <lido:objectMaterialsTechSet>
