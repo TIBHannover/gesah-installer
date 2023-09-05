@@ -54,6 +54,9 @@ CONSTRUCT {
   ?activity gesah:uses_technique ?technique .
   ?technique rdfs:label ?label .
   ?technique gesah:AAT_ID ?technique_aat_id .
+
+  ?cultural_object gesah:description ?description .
+  ?cultural_object gesah:condition_state ?condition_state .
 }				
 WHERE {
   ?cultural_object rdf:type ?type .
@@ -156,6 +159,14 @@ WHERE {
         ?technique gesah:AAT_ID ?technique_aat_id .
       }
     }  
+  }
+  UNION
+  {
+    ?cultural_object gesah:description ?description .
+  } 
+  UNION
+  {
+    ?cultural_object gesah:condition_state ?condition_state .
   } 
 }
 """ .
