@@ -232,8 +232,11 @@
 									</lido:partOfPlace>
 								</lido:repositoryLocation>
 								
-								<!-- here I don't know whether we should put the URI of the cultural object and what date? and how the date could be generated? Text below is of the example xml sheet, for lido element description cf. https://lido-schema.org/schema/v1.1/lido-v1.1.html#sourceRepositorySet-->
-								<sourceRepositorySet>https://www.sammlung.pinakothek.de/de/artwork/o5xrMEr47X (aktualisiert am 11.01.2022) [2022-04-29]</sourceRepositorySet>
+								<!-- the URI of the cultural object and current date -->
+								<sourceRepositorySet>
+									<xsl:variable name="today_date" select="current-date()"/>
+									<xsl:value-of select="concat(string(//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/@rdf:about), ' [', format-date($today_date,'[Y0001].[M01].[D01]'), ']')" />
+								</sourceRepositorySet>
 							</lido:repositorySet>
 						</lido:repositoryWrap>
                         <lido:objectDescriptionWrap>
@@ -295,7 +298,7 @@
 						    <lido:objectMaterialsTechSet>
 
 								<xsl:for-each select="//rdf:Description[gesah:uses_technique and gesah:has_material]">
-									<xsl:for-each select="./gesah:uses_technique/rdf:Description/rdfs:label">
+									<xsl:for-each select="./gesah:has_material/rdf:Description/rdfs:label">
                                         <xsl:variable name="lang" select="@xml:lang" />
 										<lido:displayMaterialsTech>
 											<xsl:attribute name="xml:lang">
@@ -303,10 +306,10 @@
 				                            </xsl:attribute>
 											<xsl:choose>
 		                                		<xsl:when test="$lang = 'de-DE'">
-													<xsl:value-of select="concat(text(), ' auf ', ../../../gesah:has_material/rdf:Description/rdfs:label[@xml:lang=$lang])" />
+													<xsl:value-of select="concat(string-join(../../../gesah:uses_technique/rdf:Description/rdfs:label[@xml:lang=$lang], ', '), ' auf ', text())" />
 				                            	</xsl:when>
 												<xsl:when test="$lang = 'en-US'">
-													<xsl:value-of select="concat(text(), ' on ', ../../../gesah:has_material/rdf:Description/rdfs:label[@xml:lang=$lang])" />
+													<xsl:value-of select="concat(string-join(../../../gesah:uses_technique/rdf:Description/rdfs:label[@xml:lang=$lang], ', '), ' on ', text())" />
 				                            	</xsl:when>
 												<xsl:otherwise>
 		                               			</xsl:otherwise>
