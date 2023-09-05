@@ -162,7 +162,8 @@ WHERE {
   }
   UNION
   {
-    ?cultural_object gesah:description ?description .
+    ?cultural_object gesah:description ?description_literal .
+    BIND ( str(?description_literal) as ?description )
   } 
   UNION
   {
