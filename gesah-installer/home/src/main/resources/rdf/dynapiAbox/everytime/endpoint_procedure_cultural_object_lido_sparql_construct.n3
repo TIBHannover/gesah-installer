@@ -8,7 +8,7 @@
 @prefix paramType: <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/> .
 
 :operation_export_cultural_object_to_lido dynapi:sparqlQueryText """
-        PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
+PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
 PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
@@ -57,7 +57,7 @@ CONSTRUCT {
 
   ?cultural_object gesah:description ?description .
   ?cultural_object gesah:condition_state ?condition_state .
-}				
+}                
 WHERE {
   ?cultural_object rdf:type ?type .
   BIND( now() AS ?current_date ) .
