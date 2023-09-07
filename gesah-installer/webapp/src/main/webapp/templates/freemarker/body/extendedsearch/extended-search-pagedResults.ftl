@@ -87,6 +87,9 @@
 			for (let sliderElement of sliders) {
 				createSlider(sliderElement);
 			}
+			$(".noUi-handle").on("click",function (e) {
+				$('#extended-search-form').submit();
+			});
 		};
 			
 		function createSlider(sliderContainer){
