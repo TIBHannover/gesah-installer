@@ -87,6 +87,15 @@
 			for (let sliderElement of sliders) {
 				createSlider(sliderElement);
 			}
+			$(".noUi-handle").on("mousedown", function (e) {
+			    $(this)[0].setPointerCapture(e.pointerId);
+			});
+			$(".noUi-handle").on("mouseup", function (e) {
+				$('#extended-search-form').submit();
+			});
+			$(".noUi-handle").on("pointerup", function (e) {
+				$('#extended-search-form').submit();
+			});
 		};
 			
 		function createSlider(sliderContainer){
