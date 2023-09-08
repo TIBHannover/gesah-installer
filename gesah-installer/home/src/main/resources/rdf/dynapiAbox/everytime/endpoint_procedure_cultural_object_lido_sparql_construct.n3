@@ -16,6 +16,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX gesah: <http://ontology.tib.eu/gesah/> 
 CONSTRUCT {
   ?resource_id rdf:type ?type .
+  ?resource_id rdfs:comment "target_object" .
   ?resource_id xsd:date ?current_date .
   ?resource_id rdfs:label ?co_label .
   ?resource_id vitro:mostSpecificType ?most_specific_type .
