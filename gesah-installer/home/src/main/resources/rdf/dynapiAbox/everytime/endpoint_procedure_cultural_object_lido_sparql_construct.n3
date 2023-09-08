@@ -15,31 +15,31 @@ PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX gesah: <http://ontology.tib.eu/gesah/> 
 CONSTRUCT {
-  ?cultural_object rdf:type ?type .
-  ?cultural_object xsd:date ?current_date .
-  ?cultural_object rdfs:label ?co_label .
-  ?cultural_object vitro:mostSpecificType ?most_specific_type .
-  ?cultural_object gesah:has_Title ?title_ind .
+  ?resource_id rdf:type ?type .
+  ?resource_id xsd:date ?current_date .
+  ?resource_id rdfs:label ?co_label .
+  ?resource_id vitro:mostSpecificType ?most_specific_type .
+  ?resource_id gesah:has_Title ?title_ind .
   ?title_ind gesah:has_title_type ?title_type .
   ?title_type rdfs:label ?title_type_label .
   ?title_type gesah:AAT_ID ?aat_id .
   ?title_ind gesah:title ?title_label .
   ?most_specific_type rdfs:label ?most_specific_type_label .
   ?most_specific_type rdfs:label ?most_specific_type_label .
-  ?cultural_object gesah:has_object_category_generic_term ?object_category_generic_term .
+  ?resource_id gesah:has_object_category_generic_term ?object_category_generic_term .
   ?object_category_generic_term rdfs:label ?object_category_generic_term_label .
-  ?cultural_object gesah:has_object_category_narrower_term ?object_category_narrower_term .
+  ?resource_id gesah:has_object_category_narrower_term ?object_category_narrower_term .
   ?object_category_narrower_term rdfs:label ?object_category_narrower_term_label .
-  ?cultural_object gesah:object_of_inscription ?object_of_inscription .
+  ?resource_id gesah:object_of_inscription ?object_of_inscription .
   ?object_of_inscription rdfs:label ?object_of_inscription_label .
-  ?cultural_object gesah:current_inventory_number ?current_inv_number .
-  ?cultural_object gesah:former_inventory_number ?former_inv_number .
-  ?cultural_object gesah:has_current_holding_institution ?current_holding_institution .
+  ?resource_id gesah:current_inventory_number ?current_inv_number .
+  ?resource_id gesah:former_inventory_number ?former_inv_number .
+  ?resource_id gesah:has_current_holding_institution ?current_holding_institution .
   ?current_holding_institution rdfs:label ?current_holding_institution_label .
-  ?cultural_object gesah:has_digital_representation ?representation .
+  ?resource_id gesah:has_digital_representation ?representation .
   ?representation ?representation_p ?representation_o .
   ?representation gesah:digital_image_right_label ?digital_image_right_label .
-  ?cultural_object gesah:has_measurements ?measurement .
+  ?resource_id gesah:has_measurements ?measurement .
   ?measurement gesah:measurement_height ?measurement_height .
   ?measurement gesah:measurement_width ?measurement_width .
   ?measurement gesah:measurement_diameter ?measurement_diameter .
@@ -47,7 +47,7 @@ CONSTRUCT {
   ?measurement gesah:has_measurement_specification ?measurement_specification .
   ?measurement_specification rdfs:label ?measurement_specification_label .
   
-  ?cultural_object ?activity_property ?activity .
+  ?resource_id ?activity_property ?activity .
   ?activity gesah:has_material ?material .
   ?material rdfs:label ?label .
   ?material gesah:AAT_ID ?material_aat_id .
@@ -55,21 +55,21 @@ CONSTRUCT {
   ?technique rdfs:label ?label .
   ?technique gesah:AAT_ID ?technique_aat_id .
 
-  ?cultural_object gesah:description ?description .
-  ?cultural_object gesah:condition_state ?condition_state .
+  ?resource_id gesah:description ?description .
+  ?resource_id gesah:condition_state ?condition_state .
 }                
 WHERE {
-  ?cultural_object rdf:type ?type .
+  ?resource_id rdf:type ?type .
   BIND( now() AS ?current_date ) .
   {
-    ?cultural_object vitro:mostSpecificType ?most_specific_type .
+    ?resource_id vitro:mostSpecificType ?most_specific_type .
     ?most_specific_type rdfs:label ?most_specific_type_label .
   } UNION
   {
-    ?cultural_object rdfs:label ?co_label .
+    ?resource_id rdfs:label ?co_label .
   } UNION
   {
-    ?cultural_object gesah:has_Title ?title_ind .
+    ?resource_id gesah:has_Title ?title_ind .
     {
       ?title_ind gesah:title ?title_label .
     } UNION 
@@ -80,28 +80,28 @@ WHERE {
     } 
   } UNION
   {
-    ?cultural_object gesah:has_object_category_generic_term ?object_category_generic_term .
+    ?resource_id gesah:has_object_category_generic_term ?object_category_generic_term .
     ?object_category_generic_term rdfs:label ?object_category_generic_term_label .
   } UNION
   {
-    ?cultural_object gesah:has_object_category_narrower_term ?object_category_narrower_term .
+    ?resource_id gesah:has_object_category_narrower_term ?object_category_narrower_term .
     ?object_category_narrower_term rdfs:label ?object_category_narrower_term_label .
   } UNION
   {
-    ?cultural_object gesah:object_of_inscription ?object_of_inscription .
+    ?resource_id gesah:object_of_inscription ?object_of_inscription .
     ?object_of_inscription rdfs:label ?object_of_inscription_label .
   } UNION
   {
-    ?cultural_object gesah:current_inventory_number ?current_inv_number .
+    ?resource_id gesah:current_inventory_number ?current_inv_number .
   } UNION
   {
-    ?cultural_object gesah:former_inventory_number ?former_inv_number .
+    ?resource_id gesah:former_inventory_number ?former_inv_number .
   } UNION
   {
-    ?cultural_object gesah:has_current_holding_institution ?current_holding_institution .
+    ?resource_id gesah:has_current_holding_institution ?current_holding_institution .
     ?current_holding_institution rdfs:label ?current_holding_institution_label .
   } UNION {
-    ?cultural_object gesah:has_digital_representation ?representation .
+    ?resource_id gesah:has_digital_representation ?representation .
     {
       ?representation ?representation_p ?representation_o .
     } UNION
@@ -110,7 +110,7 @@ WHERE {
       ?digital_image_right rdfs:label ?digital_image_right_label .
     } 
   } UNION {
-    ?cultural_object gesah:has_measurements ?measurement .
+    ?resource_id gesah:has_measurements ?measurement .
     {
       ?measurement gesah:measurement_height ?measurement_height .
     } UNION 
@@ -130,7 +130,7 @@ WHERE {
   } 
   UNION
   {
-    ?cultural_object ?activity_property ?activity .
+    ?resource_id ?activity_property ?activity .
 
     { ?activity_property rdfs:subPropertyOf gesah:output_of_production  . }
     UNION
@@ -162,12 +162,12 @@ WHERE {
   }
   UNION
   {
-    ?cultural_object gesah:description ?description_literal .
+    ?resource_id gesah:description ?description_literal .
     BIND ( str(?description_literal) as ?description )
   } 
   UNION
   {
-    ?cultural_object gesah:condition_state ?condition_state .
+    ?resource_id gesah:condition_state ?condition_state .
   } 
 }
 """ .

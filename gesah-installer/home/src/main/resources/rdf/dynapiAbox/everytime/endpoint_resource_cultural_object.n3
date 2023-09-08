@@ -15,8 +15,8 @@
 
 <https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/export_cultural_object_to_lido>
         a                                   dynapi:CustomRESTAction ;
-        rdfs:label                          "Export cultural object to LIDO format"@en-US ;
-        dynapi:name                         "export_cultural_object_to_lido" ;
+        rdfs:label                          "Export cultural object in LIDO format"@en-US ;
+        dynapi:name                         "lido_export" ;
         dynapi:hasDefaultMethod             <https://vivoweb.org/ontology/vitro-dynamic-api/http_method/post> ;
         dynapi:forwardsTo                   <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/export_cultural_object_to_lido/procedure> .
 
