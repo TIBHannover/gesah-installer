@@ -43,13 +43,13 @@
                 <lido:lidoRecID
                     lido:type="http://terminology.lido-schema.org/lido00099"
                     lido:source="ld.zdb-services.de/resource/organisations/DE-89"
-                >DE-89/lido/<xsl:value-of select="string(//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/@rdf:about)" /></lido:lidoRecID>
+                >DE-89/lido/<xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" /></lido:lidoRecID>
 
                 <lido:objectPublishedID
                     lido:pref="http://terminology.lido-schema.org/lido00169"
                     lido:type="http://terminology.lido-schema.org/lido00099"
                     lido:source="ld.zdb-services.de/resource/organisations/DE-89"
-                >DE-89/object/<xsl:value-of select="string(//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/@rdf:about)" /></lido:objectPublishedID>
+                >DE-89/object/<xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" /></lido:objectPublishedID>
 
                 <lido:category>
                     <skos:Concept rdf:about="http://terminology.lido-schema.org/lido00096">
@@ -140,7 +140,7 @@
                                             </xsl:otherwise>
                                         </xsl:choose>
                                     </xsl:attribute>
-                                    <xsl:for-each select="//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/vitro:mostSpecificType/rdf:Description/rdfs:label">
+                                    <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/vitro:mostSpecificType/rdf:Description/rdfs:label">
                                         <skos:prefLabel >
                                             <xsl:if test="@xml:lang">
                                                 <xsl:attribute name="xml:lang">
@@ -151,7 +151,7 @@
                                         </skos:prefLabel>
                                     </xsl:for-each>
                                 </skos:Concept>
-                                <xsl:for-each select="//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/vitro:mostSpecificType/rdf:Description/rdfs:label">
+                                <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/vitro:mostSpecificType/rdf:Description/rdfs:label">
                                     <lido:term lido:addedSearchTerm="yes">
                                         <xsl:if test="@xml:lang">
                                             <xsl:attribute name="xml:lang">
@@ -168,7 +168,7 @@
                     <lido:objectIdentificationWrap>
                         <lido:titleWrap>
                             <lido:titleSet lido:pref="http://vocab.getty.edu/page/aat/300417200">
-                                <xsl:for-each select="//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/rdfs:label">
+                                <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/rdfs:label">
                                     <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00526">
                                         <xsl:if test="@xml:lang">
                                             <xsl:attribute name="xml:lang">
@@ -180,7 +180,7 @@
                                 </xsl:for-each>
                             </lido:titleSet>
                             
-                            <xsl:for-each select="//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/gesah:has_Title/rdf:Description">
+                            <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_Title/rdf:Description">
                                 <lido:titleSet>
                                     <xsl:if test="gesah:has_title_type/rdf:Description/gesah:AAT_ID/text()">
                                         <xsl:attribute name="lido:type">
@@ -235,7 +235,7 @@
                                 <!-- the URI of the cultural object and current date -->
                                 <sourceRepositorySet>
                                     <xsl:variable name="today_date" select="current-date()"/>
-                                    <xsl:value-of select="concat(string(//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/@rdf:about), ' [', format-date($today_date,'[Y0001].[M01].[D01]'), ']')" />
+                                    <xsl:value-of select="concat(string(//*[rdfs:comment/text() = 'target_object']/@rdf:about), ' [', format-date($today_date,'[Y0001].[M01].[D01]'), ']')" />
                                 </sourceRepositorySet>
                             </lido:repositorySet>
                         </lido:repositoryWrap>
@@ -415,7 +415,7 @@
                     <lido:recordWrap>
                     <!-- This is for the Cultural Object record: for all our Cultural Objects records this is true, the URI/record ID is dynamic the rest should be always the same-->
                         <lido:recordID lido:type="http://terminology.lido-schema.org/lido00099">
-                            <xsl:value-of select="string(//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/@rdf:about)" />
+                            <xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" />
                         </lido:recordID>
                         <lido:recordType>
                             <skos:Concept rdf:about="http://terminology.lido-schema.org/lido00141">
@@ -445,10 +445,10 @@
 
                         <lido:recordInfoSet>
                             <lido:recordInfoLink>
-                                <xsl:value-of select="string(//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/@rdf:about)" />
+                                <xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" />
                             </lido:recordInfoLink>
                             <lido:recordMetadataDate lido:type="http://terminology.lido-schema.org/lido00472">
-                                <xsl:value-of select="//*[rdf:type/@rdf:resource = 'http://ontology.tib.eu/gesah/Cultural_Object']/xsd:date/text()" />
+                                <xsl:value-of select="//*[rdfs:comment/text() = 'target_object']/xsd:date/text()" />
                             </lido:recordMetadataDate>
                         </lido:recordInfoSet>
                     </lido:recordWrap>
