@@ -32,7 +32,14 @@ CONSTRUCT {
   ?resource_id gesah:has_object_category_narrower_term ?object_category_narrower_term .
   ?object_category_narrower_term rdfs:label ?object_category_narrower_term_label .
   ?resource_id gesah:object_of_inscription ?object_of_inscription .
+
   ?object_of_inscription rdfs:label ?object_of_inscription_label .
+  ?object_of_inscription gesah:has_inscription_output ?inscription_output . 
+  ?inscription_output gesah:transcription ?inscription_transcription .
+  ?inscription_output gesah:has_inscription_type ?inscription_type .
+  ?inscription_type rdfs:label ?inscription_type_label .
+  ?inscription_output gesah:comment ?output_comment .
+
   ?resource_id gesah:current_inventory_number ?current_inv_number .
   ?resource_id gesah:former_inventory_number ?former_inv_number .
   ?resource_id gesah:has_current_holding_institution ?current_holding_institution .
@@ -90,7 +97,26 @@ WHERE {
   } UNION
   {
     ?resource_id gesah:object_of_inscription ?object_of_inscription .
-    ?object_of_inscription rdfs:label ?object_of_inscription_label .
+    { 
+      ?object_of_inscription rdfs:label ?object_of_inscription_label . 
+    }
+    UNION
+    { 
+      ?object_of_inscription gesah:has_inscription_output ?inscription_output . 
+      {
+        ?inscription_output gesah:transcription ?inscription_transcription .
+      } 
+      UNION
+      {
+        ?inscription_output gesah:has_inscription_type ?inscription_type .
+        ?inscription_type rdfs:label ?inscription_type_label .
+      } 
+      UNION
+      {
+        ?inscription_output gesah:comment ?output_comment .
+      } 
+    }
+    
   } UNION
   {
     ?resource_id gesah:current_inventory_number ?current_inv_number .

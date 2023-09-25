@@ -52,7 +52,7 @@
                 >DE-89/object/<xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" /></lido:objectPublishedID>
 
                 <lido:category>
-					<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00096</lido:conceptID>
+                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00096</lido:conceptID>
                         <lido:term xml:lang="en">Human-made object</lido:term>
                 </lido:category>
 
@@ -62,37 +62,37 @@
                             <lido:objectWorkType lido:type="http://terminology.lido-schema.org/lido00789">
                                 <xsl:choose>
                                     <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Print'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Print']">
-										<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300041273</lido:conceptID>
-										<lido:term xml:lang="en">print (visual works)</lido:term>
-							            <lido:term xml:lang="de">Druckgraphik</lido:term>
+                                        <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300041273</lido:conceptID>
+                                        <lido:term xml:lang="en">print (visual works)</lido:term>
+                                        <lido:term xml:lang="de">Druckgraphik</lido:term>
                                     </xsl:when>
                                     <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Drawing'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Drawing']">
-										<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300033973</lido:conceptID>
+                                        <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300033973</lido:conceptID>
                                         <lido:term xml:lang="en">drawings (visual works)</lido:term>
                                         <lido:term xml:lang="de">Zeichnung</lido:term>
                                     </xsl:when>
                                     <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Manuscript'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Manuscript']">
-										<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300028569</lido:conceptID>
+                                        <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300028569</lido:conceptID>
                                         <lido:term xml:lang="en">manuscripts (documents)</lido:term>
                                         <lido:term xml:lang="de">Handschrift</lido:term>
                                     </xsl:when>
                                     <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Seal'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Seal']">
-										<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300028877</lido:conceptID>
+                                        <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300028877</lido:conceptID>
                                         <lido:term xml:lang="en">seals (artifacts)</lido:term>
                                         <lido:term xml:lang="de">Siegel</lido:term>
                                     </xsl:when>
                                     <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Printed_Materials'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Printed_Materials']">
-										<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300404588</lido:conceptID>
+                                        <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300404588</lido:conceptID>
                                         <lido:term xml:lang="en">printed materials (object genre)</lido:term>
                                         <lido:term xml:lang="de">Druckschrift</lido:term>
                                     </xsl:when>
                                     <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Painting'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Painting']">
-										<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300264522</lido:conceptID>
+                                        <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300264522</lido:conceptID>
                                         <lido:term xml:lang="en">illuminations (paintings)</lido:term>
                                         <lido:term xml:lang="de">Buchmalerei</lido:term>
                                     </xsl:when>
                                     <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Musical_Notation'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Musical_Notation']">
-										<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300417622</lido:conceptID>
+                                        <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300417622</lido:conceptID>
                                         <lido:term xml:lang="en">musical notation</lido:term>
                                         <lido:term xml:lang="de">Notenschrift</lido:term>
                                     </xsl:when>
@@ -104,7 +104,7 @@
 
                         <lido:classificationWrap>
                             <lido:classification lido:type="http://terminology.lido-schema.org/lido00853">
-								 <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+                                 <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
                                     <xsl:choose>
                                         <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Print'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Print']">
                                             <xsl:text>http://vocab.getty.edu/aat/300041273</xsl:text>
@@ -164,7 +164,7 @@
                                     <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00526">
                                         <xsl:if test="@xml:lang">
                                             <xsl:attribute name="xml:lang">
-                                                   <xsl:value-of select="@xml:lang" />
+                                               <xsl:value-of select="@xml:lang" />
                                             </xsl:attribute>
                                         </xsl:if>
                                         <xsl:value-of select="text()"/>
@@ -186,6 +186,35 @@
                             </xsl:for-each>
 
                         </lido:titleWrap>
+                        <xsl:if test="//gesah:object_of_inscription" >
+                            <lido:inscriptionsWrap>
+                                <xsl:for-each select="//gesah:object_of_inscription/*">
+                                    <xsl:variable name="obj_of_inscription" select="current()" />
+                                    <lido:inscriptions lido:type="Inschrift">
+                                        <lido:inscriptionTranscription>    
+                                            <xsl:value-of select="gesah:has_inscription_output//gesah:transcription/text()" />                                        
+                                        </lido:inscriptionTranscription>
+                                        <lido:inscriptionDescription>
+		                                    <xsl:for-each select="distinct-values(gesah:has_inscription_output//gesah:has_inscription_type//rdfs:label/@xml:lang)">
+												<xsl:variable name="lang" select="current()" /> 
+	                                            <lido:descriptiveNoteValue>
+													<xsl:attribute name="xml:lang">
+					                                   <xsl:value-of select="$lang" />
+					                                </xsl:attribute>	
+													<xsl:value-of select="concat('(', string-join($obj_of_inscription/gesah:has_inscription_output//gesah:has_inscription_type//rdfs:label[@xml:lang = $lang], ', ' ), ')' )" />
+													<xsl:if test="$obj_of_inscription/gesah:has_inscription_output//gesah:comment" >
+                                                        <xsl:text>;</xsl:text>
+													</xsl:if>
+													<xsl:for-each select="$obj_of_inscription/gesah:has_inscription_output//gesah:comment" >
+														<xsl:value-of select="concat(' ', text(), '.' )" />
+													</xsl:for-each>
+	                                            </lido:descriptiveNoteValue>
+		                                    </xsl:for-each> 
+                                        </lido:inscriptionDescription>
+                                    </lido:inscriptions>
+                               </xsl:for-each>
+                            </lido:inscriptionsWrap>
+                        </xsl:if>
 
                         <lido:repositoryWrap>
                             <!-- lido type is "current repository" which is equivalent to gesah:has_current_holding_institution, in our case this is always static Technische Informationsbibliothek (TIB) + "Hannover" as it is on the vitro surface, too --> 
@@ -200,8 +229,8 @@
                                 </lido:repositoryName>
                                 <!-- Inventarnummer (lido00113) is dynamic, it is equavalent to gesah:current_inventory_number-->
                                 <lido:workID lido:type="http://terminology.lido-schema.org/lido00113"><xsl:value-of select="//gesah:current_inventory_number[1]/text()[1]"/></lido:workID>
-								<xsl:for-each select="//gesah:former_inventory_number">
-	                                <lido:workID lido:type="http://terminology.lido-schema.org/lido00188"><xsl:value-of select="text()"/></lido:workID>
+                                <xsl:for-each select="//gesah:former_inventory_number">
+                                    <lido:workID lido:type="http://terminology.lido-schema.org/lido00188"><xsl:value-of select="text()"/></lido:workID>
                                 </xsl:for-each>
                                 <!-- this is static , always Hannover-->
                                 <lido:repositoryLocation>
@@ -228,12 +257,12 @@
                                 </lido:repositoryLocation>
                                 
                                 <!-- the URI of the cultural object and current date -->
-								<!-- LIDO 1.1
+                                <!-- LIDO 1.1
                                 <sourceRepositorySet>
                                     <xsl:variable name="today_date" select="current-date()"/>
                                     <xsl:value-of select="concat(string(//*[rdfs:comment/text() = 'target_object']/@rdf:about), ' [', format-date($today_date,'[Y0001].[M01].[D01]'), ']')" />
                                 </sourceRepositorySet>
-								-->
+                                -->
                             </lido:repositorySet>
                         </lido:repositoryWrap>
 
@@ -304,7 +333,7 @@
                                 </xsl:for-each>
                             </lido:objectMeasurementsSet>    
                         </lido:objectMeasurementsWrap> 
-						<!--
+                        <!--
                         <lido:objectMaterialsTechWrap>
                             <lido:objectMaterialsTechSet>
 
@@ -332,10 +361,10 @@
                                 <lido:materialsTech>
                                     <xsl:for-each select="//gesah:has_material/rdf:Description">
                                         <lido:termMaterialsTech lido:type="http://terminology.lido-schema.org/lido00514">
-											<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+                                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
                                                     <xsl:text>http://vocab.getty.edu/page/aat/</xsl:text>
                                                     <xsl:value-of select="./gesah:AAT_ID/text()" />
-											</lido:conceptID>
+                                            </lido:conceptID>
                                             <xsl:for-each select="./rdfs:label">
                                                 <skos:prefLabel>
                                                     <xsl:attribute name="xml:lang">
@@ -359,10 +388,10 @@
 
                                     <xsl:for-each select="//gesah:uses_technique/rdf:Description">
                                         <lido:termMaterialsTech lido:type="http://terminology.lido-schema.org/lido00131">
-											<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+                                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
                                                 <xsl:text>http://vocab.getty.edu/page/aat/</xsl:text>
                                                 <xsl:value-of select="./gesah:AAT_ID/text()" />
-											</lido:conceptID>
+                                            </lido:conceptID>
                                             <xsl:for-each select="./rdfs:label">
                                                 <skos:prefLabel>
                                                     <xsl:attribute name="xml:lang">
@@ -386,7 +415,7 @@
                                 </lido:materialsTech>
                             </lido:objectMaterialsTechSet>
                         </lido:objectMaterialsTechWrap>
-						-->
+                        -->
                     </lido:objectIdentificationWrap>
 
                 </lido:descriptiveMetadata>
@@ -396,12 +425,12 @@
                     <lido:rightsWorkWrap>
                         <lido:rightsWorkSet> <!-- This is for the real physical described object: for all our objects this is true-->
                             <lido:rightsType>
-								<!-- rdf about entfernt, Typattribut bei conceptID ergänzt -->
-								<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">https://creativecommons.org/publicdomain/mark/1.0/</lido:conceptID>
-								<lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="en">Public Domain Mark 1.0</lido:term>
-								<lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="de">Public Domain Mark 1.0</lido:term>
-								<lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="en">No Copyright</lido:term>
-								<lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="de">Kein Urheberrechtsschutz</lido:term>
+                                <!-- rdf about entfernt, Typattribut bei conceptID ergänzt -->
+                                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">https://creativecommons.org/publicdomain/mark/1.0/</lido:conceptID>
+                                <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="en">Public Domain Mark 1.0</lido:term>
+                                <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="de">Public Domain Mark 1.0</lido:term>
+                                <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="en">No Copyright</lido:term>
+                                <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="de">Kein Urheberrechtsschutz</lido:term>
                             </lido:rightsType>
                         </lido:rightsWorkSet>
                     </lido:rightsWorkWrap>
@@ -412,9 +441,9 @@
                             <xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" />
                         </lido:recordID>
                         <lido:recordType>
-							<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00141</lido:conceptID>
-							<lido:term xml:lang="en">Item-level record</lido:term>
-							<lido:term xml:lang="de">Einzelobjekt (Katalogisierungsebene)</lido:term>
+                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00141</lido:conceptID>
+                            <lido:term xml:lang="en">Item-level record</lido:term>
+                            <lido:term xml:lang="de">Einzelobjekt (Katalogisierungsebene)</lido:term>
                         </lido:recordType>
 
                         <lido:recordSource>
@@ -427,11 +456,11 @@
 
                         <lido:recordRights>
                             <lido:rightsType>
-							   <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://creativecommons.org/publicdomain/zero/1.0/</lido:conceptID>
-							   <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="en">CC0 1.0 Universal (CC0 1.0)</lido:term>
-							   <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="de">CC0 1.0 Universal (CC0 1.0)</lido:term>
-							   <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="en">Public Domain Dedication</lido:term>
-							   <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="de">Kein Urheberrechtsschutz</lido:term>
+                               <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://creativecommons.org/publicdomain/zero/1.0/</lido:conceptID>
+                               <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="en">CC0 1.0 Universal (CC0 1.0)</lido:term>
+                               <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="de">CC0 1.0 Universal (CC0 1.0)</lido:term>
+                               <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="en">Public Domain Dedication</lido:term>
+                               <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="de">Kein Urheberrechtsschutz</lido:term>
                             </lido:rightsType>
                         </lido:recordRights>
 
@@ -466,11 +495,11 @@
                               </lido:resourceSource>
                               <lido:rightsResource>
                                 <lido:rightsType>
-									<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">https://creativecommons.org/publicdomain/mark/1.0/deed.de</lido:conceptID>
-									<lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="en">Public Domain Mark 1.0</lido:term>
-									<lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="de">Public Domain Mark 1.0</lido:term>
-									<lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="en">No Copyright</lido:term>
-									<lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="de">Kein Urheberrechtsschutz</lido:term>
+                                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">https://creativecommons.org/publicdomain/mark/1.0/deed.de</lido:conceptID>
+                                    <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="en">Public Domain Mark 1.0</lido:term>
+                                    <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="de">Public Domain Mark 1.0</lido:term>
+                                    <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="en">No Copyright</lido:term>
+                                    <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="de">Kein Urheberrechtsschutz</lido:term>
                                 </lido:rightsType>
                                 <lido:rightsHolder>
                                   <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-MUS-89</lido:legalBodyID>
