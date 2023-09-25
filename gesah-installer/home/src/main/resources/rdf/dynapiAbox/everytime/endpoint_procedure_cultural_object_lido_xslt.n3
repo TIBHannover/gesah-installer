@@ -188,28 +188,53 @@
                         </lido:titleWrap>
                         <xsl:if test="//gesah:object_of_inscription" >
                             <lido:inscriptionsWrap>
-                                <xsl:for-each select="//gesah:object_of_inscription/*">
+                                <xsl:for-each select="//gesah:object_of_inscription/*[gesah:has_inscription_output/*/rdfs:comment/text() = 'http://ontology.tib.eu/gesah/Inscription_on_image']">
                                     <xsl:variable name="obj_of_inscription" select="current()" />
                                     <lido:inscriptions lido:type="Inschrift">
-                                        <lido:inscriptionTranscription>    
+                                        <lido:inscriptionTranscription xml:lang="mul">    
                                             <xsl:value-of select="gesah:has_inscription_output//gesah:transcription/text()" />                                        
                                         </lido:inscriptionTranscription>
                                         <lido:inscriptionDescription>
-		                                    <xsl:for-each select="distinct-values(gesah:has_inscription_output//gesah:has_inscription_type//rdfs:label/@xml:lang)">
-												<xsl:variable name="lang" select="current()" /> 
-	                                            <lido:descriptiveNoteValue>
-													<xsl:attribute name="xml:lang">
-					                                   <xsl:value-of select="$lang" />
-					                                </xsl:attribute>	
-													<xsl:value-of select="concat('(', string-join($obj_of_inscription/gesah:has_inscription_output//gesah:has_inscription_type//rdfs:label[@xml:lang = $lang], ', ' ), ')' )" />
-													<xsl:if test="$obj_of_inscription/gesah:has_inscription_output//gesah:comment" >
+                                            <xsl:for-each select="distinct-values(gesah:has_inscription_output//gesah:has_inscription_type//rdfs:label/@xml:lang)">
+                                                <xsl:variable name="lang" select="current()" /> 
+                                                <lido:descriptiveNoteValue>
+                                                    <xsl:attribute name="xml:lang">
+                                                       <xsl:value-of select="$lang" />
+                                                    </xsl:attribute>    
+                                                    <xsl:value-of select="concat('(', string-join($obj_of_inscription/gesah:has_inscription_output//gesah:has_inscription_type//rdfs:label[@xml:lang = $lang], ', ' ), ')' )" />
+                                                    <xsl:if test="$obj_of_inscription/gesah:has_inscription_output//gesah:comment" >
                                                         <xsl:text>;</xsl:text>
-													</xsl:if>
-													<xsl:for-each select="$obj_of_inscription/gesah:has_inscription_output//gesah:comment" >
-														<xsl:value-of select="concat(' ', text(), '.' )" />
-													</xsl:for-each>
-	                                            </lido:descriptiveNoteValue>
-		                                    </xsl:for-each> 
+                                                    </xsl:if>
+                                                    <xsl:for-each select="$obj_of_inscription/gesah:has_inscription_output//gesah:comment" >
+                                                        <xsl:value-of select="concat(' ', text(), '.' )" />
+                                                    </xsl:for-each>
+                                                </lido:descriptiveNoteValue>
+                                            </xsl:for-each> 
+                                        </lido:inscriptionDescription>
+                                    </lido:inscriptions>
+                               </xsl:for-each>
+                                <xsl:for-each select="//gesah:object_of_inscription/*[gesah:has_inscription_output/*/rdfs:comment/text() = 'http://ontology.tib.eu/gesah/Inscription_on_support']">
+                                    <xsl:variable name="obj_of_inscription" select="current()" />
+                                    <lido:inscriptions lido:type="Inschrift">
+                                        <lido:inscriptionTranscription xml:lang="mul">    
+                                            <xsl:value-of select="gesah:has_inscription_output//gesah:transcription/text()" />                                        
+                                        </lido:inscriptionTranscription>
+                                        <lido:inscriptionDescription>
+                                            <xsl:for-each select="distinct-values(gesah:has_inscription_output//gesah:has_inscription_type//rdfs:label/@xml:lang)">
+                                                <xsl:variable name="lang" select="current()" /> 
+                                                <lido:descriptiveNoteValue>
+                                                    <xsl:attribute name="xml:lang">
+                                                       <xsl:value-of select="$lang" />
+                                                    </xsl:attribute>    
+                                                    <xsl:value-of select="concat('(', string-join($obj_of_inscription/gesah:has_inscription_output//gesah:has_inscription_type//rdfs:label[@xml:lang = $lang], ', ' ), ')' )" />
+                                                    <xsl:if test="$obj_of_inscription/gesah:has_inscription_output//gesah:comment" >
+                                                        <xsl:text>;</xsl:text>
+                                                    </xsl:if>
+                                                    <xsl:for-each select="$obj_of_inscription/gesah:has_inscription_output//gesah:comment" >
+                                                        <xsl:value-of select="concat(' ', text(), '.' )" />
+                                                    </xsl:for-each>
+                                                </lido:descriptiveNoteValue>
+                                            </xsl:for-each> 
                                         </lido:inscriptionDescription>
                                     </lido:inscriptions>
                                </xsl:for-each>

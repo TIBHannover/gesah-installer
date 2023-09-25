@@ -39,6 +39,7 @@ CONSTRUCT {
   ?inscription_output gesah:has_inscription_type ?inscription_type .
   ?inscription_type rdfs:label ?inscription_type_label .
   ?inscription_output gesah:comment ?output_comment .
+  ?inscription_output rdfs:comment ?inscription_output_most_specific_type_literal .
 
   ?resource_id gesah:current_inventory_number ?current_inv_number .
   ?resource_id gesah:former_inventory_number ?former_inv_number .
@@ -114,7 +115,12 @@ WHERE {
       UNION
       {
         ?inscription_output gesah:comment ?output_comment .
-      } 
+      }
+      UNION
+      {
+        ?inscription_output vitro:mostSpecificType ?inscription_output_most_specific_type .
+        BIND (str(?inscription_output_most_specific_type) as ?inscription_output_most_specific_type_literal) 
+      }  
     }
     
   } UNION
