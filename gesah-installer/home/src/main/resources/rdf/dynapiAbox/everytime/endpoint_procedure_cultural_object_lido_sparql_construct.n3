@@ -57,6 +57,8 @@ CONSTRUCT {
   ?measurement_specification rdfs:label ?measurement_specification_label .
   
   ?resource_id ?activity_property ?activity .
+  ?activity vitro:mostSpecificType ?activity_type .
+  ?activity_type rdfs:label ?activity_type_label .
   ?activity gesah:has_material ?material .
   ?material rdfs:label ?label .
   ?material gesah:AAT_ID ?material_aat_id .
@@ -64,9 +66,15 @@ CONSTRUCT {
   ?technique rdfs:label ?label .
   ?technique gesah:AAT_ID ?technique_aat_id .
   ?activity gesah:has_participant ?activity_participant . 
+  ?activity_participant rdfs:label ?activity_participant_type .
   ?activity_participant rdfs:label ?activity_participant_label .
   ?activity gesah:has_type_of_attribution ?activity_type_of_attribution . 
   ?activity_type_of_attribution rdfs:label ?activity_type_of_attribution_label .
+
+  ?activity gesah:has_place ?activity_place . 
+  ?activity_place rdfs:label ?activity_place_label .
+  ?activity_place gesah:TGN_ID ?activity_place_TGN_ID .
+  ?activity_place gesah:GeoNames_ID ?activity_place_GeoNames_ID .
  
   ?resource_id gesah:description ?description .
   ?resource_id gesah:condition_state ?condition_state .
@@ -168,41 +176,64 @@ WHERE {
   UNION
   {
     ?resource_id ?activity_property ?activity .
-
+    
     { ?activity_property rdfs:subPropertyOf gesah:output_of_production  . }
-    UNION
+      UNION
     { ?activity_property rdfs:subPropertyOf gesah:output_of_creation   . }
-     UNION
+      UNION
     { ?activity_property rdfs:subPropertyOf gesah:object_of_edition  . }
 
+    {
+      ?activity vitro:mostSpecificType ?activity_type .
+      ?activity_type rdfs:label ?activity_type_label .
+    }
+      UNION
     {
       ?activity gesah:has_material ?material .
       {
         ?material rdfs:label ?label .
       }
-      UNION
+        UNION
       {
         ?material gesah:AAT_ID ?material_aat_id .
       }
     }
-    UNION
+      UNION
     {
       ?activity gesah:uses_technique ?technique .
       {
         ?technique rdfs:label ?label .
       }
-      UNION
+        UNION
       {
         ?technique gesah:AAT_ID ?technique_aat_id .
       }
-    }  UNION 
+    }  
+      UNION 
     {
-       ?activity gesah:has_participant ?activity_participant . 
-       ?activity_participant rdfs:label ?activity_participant_label .
-    }  UNION 
+      ?activity gesah:has_participant ?activity_participant . 
+      ?activity_participant rdfs:label ?activity_participant_type .
+      ?activity_participant rdfs:label ?activity_participant_label .
+    }
+      UNION 
     {
-       ?activity gesah:has_type_of_attribution ?activity_type_of_attribution . 
-       ?activity_type_of_attribution rdfs:label ?activity_type_of_attribution_label .
+      ?activity gesah:has_type_of_attribution ?activity_type_of_attribution . 
+      ?activity_type_of_attribution rdfs:label ?activity_type_of_attribution_label .
+    }
+      UNION 
+    {
+      ?activity gesah:has_place ?activity_place . 
+      {
+        ?activity_place rdfs:label ?activity_place_label .
+      }
+        UNION
+      {
+        ?activity_place gesah:TGN_ID ?activity_place_TGN_ID .
+      }
+        UNION
+      {
+        ?activity_place gesah:GeoNames_ID ?activity_place_GeoNames_ID .
+      }
     }
   }
   UNION
