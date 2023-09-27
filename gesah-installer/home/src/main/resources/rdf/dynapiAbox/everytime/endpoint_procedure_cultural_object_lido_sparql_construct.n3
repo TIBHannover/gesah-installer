@@ -63,7 +63,11 @@ CONSTRUCT {
   ?activity gesah:uses_technique ?technique .
   ?technique rdfs:label ?label .
   ?technique gesah:AAT_ID ?technique_aat_id .
-
+  ?activity gesah:has_participant ?activity_participant . 
+  ?activity_participant rdfs:label ?activity_participant_label .
+  ?activity gesah:has_type_of_attribution ?activity_type_of_attribution . 
+  ?activity_type_of_attribution rdfs:label ?activity_type_of_attribution_label .
+ 
   ?resource_id gesah:description ?description .
   ?resource_id gesah:condition_state ?condition_state .
 }                
@@ -167,7 +171,7 @@ WHERE {
 
     { ?activity_property rdfs:subPropertyOf gesah:output_of_production  . }
     UNION
-    { ?activity_property rdfs:subPropertyOf gesah:output_of_creation  . }
+    { ?activity_property rdfs:subPropertyOf gesah:output_of_creation   . }
      UNION
     { ?activity_property rdfs:subPropertyOf gesah:object_of_edition  . }
 
@@ -191,7 +195,15 @@ WHERE {
       {
         ?technique gesah:AAT_ID ?technique_aat_id .
       }
-    }  
+    }  UNION 
+    {
+       ?activity gesah:has_participant ?activity_participant . 
+       ?activity_participant rdfs:label ?activity_participant_label .
+    }  UNION 
+    {
+       ?activity gesah:has_type_of_attribution ?activity_type_of_attribution . 
+       ?activity_type_of_attribution rdfs:label ?activity_type_of_attribution_label .
+    }
   }
   UNION
   {
