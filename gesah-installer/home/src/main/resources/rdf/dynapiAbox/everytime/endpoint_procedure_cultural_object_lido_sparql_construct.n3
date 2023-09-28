@@ -8,6 +8,7 @@
 @prefix paramType: <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/> .
 
 :operation_export_cultural_object_to_lido dynapi:sparqlQueryText """
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
 PREFIX vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
 PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -70,6 +71,14 @@ CONSTRUCT {
   ?activity_participant rdfs:label ?activity_participant_label .
   ?activity gesah:has_type_of_attribution ?activity_type_of_attribution . 
   ?activity_type_of_attribution rdfs:label ?activity_type_of_attribution_label .
+  ?activity gesah:literal_date_appellation ?activity_literal_date_appellation .
+  ?activity vivo:dateTimeInterval ?activity_date_time_interval .
+  ?activity_date_time_interval  vivo:start ?activity_date_time_interval_start .
+  ?activity_date_time_interval_start vivo:dateTimePrecision ?activity_date_time_interval_start_precision .
+  ?activity_date_time_interval_start vivo:dateTime ?activity_date_time_interval_start_value .
+  ?activity_date_time_interval  vivo:end ?activity_date_time_interval_end .
+  ?activity_date_time_interval_end vivo:dateTimePrecision ?activity_date_time_interval_end_precision .
+  ?activity_date_time_interval_end vivo:dateTime ?activity_date_time_interval_end_value .
 
   ?activity gesah:has_place ?activity_place . 
   ?activity_place rdfs:label ?activity_place_label .
@@ -234,6 +243,25 @@ WHERE {
       {
         ?activity_place gesah:GeoNames_ID ?activity_place_GeoNames_ID .
       }
+    }
+       UNION 
+    {
+      ?activity gesah:literal_date_appellation ?activity_literal_date_appellation .
+    }
+       UNION 
+    {
+      ?activity vivo:dateTimeInterval ?activity_date_time_interval .
+      {
+         ?activity_date_time_interval  vivo:start ?activity_date_time_interval_start .
+         ?activity_date_time_interval_start vivo:dateTimePrecision ?activity_date_time_interval_start_precision .
+         ?activity_date_time_interval_start vivo:dateTime ?activity_date_time_interval_start_value .
+      }
+        UNION
+     {
+        ?activity_date_time_interval  vivo:end ?activity_date_time_interval_end .
+        ?activity_date_time_interval_end vivo:dateTimePrecision ?activity_date_time_interval_end_precision .
+        ?activity_date_time_interval_end vivo:dateTime ?activity_date_time_interval_end_value .
+     }
     }
   }
   UNION

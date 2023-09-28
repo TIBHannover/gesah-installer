@@ -11,6 +11,7 @@
         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
         xmlns:vitro="http://vitro.mannlib.cornell.edu/ns/vitro/0.7#"
+        xmlns:vivo="http://vivoweb.org/ontology/core#"
         xmlns:owl="http://www.w3.org/2002/07/owl#"
         xmlns:gesah="http://ontology.tib.eu/gesah/"
         xmlns:gml="http://www.opengis.net/gml"
@@ -540,14 +541,67 @@ First check the class of CO, if CO is class:print,class:photomechanical_print, c
                                         </lido:actorInRole>
                                     </lido:eventActor>
 
-                                    <lido:eventDate>
-                                        <!-- BR: this is dynamic and equivalent to our data property literal_date or in case of empty text field diplay the time span of earliest date and latest date or if both are the same display it only once (as below in the example) -->
-                                        <lido:displayDate>1581</lido:displayDate>
-                                        <lido:date>
-                                            <lido:earliestDate>1581</lido:earliestDate>
-                                            <lido:latestDate>1581</lido:latestDate>
-                                        </lido:date>
-                                    </lido:eventDate>
+                                    <!-- BR: this is dynamic and equivalent to our data property literal_date or in case of empty text field diplay the time span of earliest date and latest date or if both are the same display it only once (as below in the example) -->
+                                    <xsl:if test="gesah:literal_date_appellation or vivo:dateTimeInterval">
+										<lido:eventDate>
+		                                    <xsl:choose>
+												<xsl:when test="gesah:literal_date_appellation">
+				                                    <lido:displayDate>
+														<xsl:value-of select="gesah:literal_date_appellation/text()" />
+													</lido:displayDate>
+                                            	</xsl:when>
+												<xsl:when test="vivo:dateTimeInterval//vivo:end//vivo:dateTime/text() = vivo:dateTimeInterval//vivo:start//vivo:dateTime/text() and vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource">
+				                                    <lido:displayDate>
+														<xsl:choose>
+															<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
+																<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 4)" />
+															</xsl:when>
+															<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
+																<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 7)" />
+															</xsl:when>
+															<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
+																<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 10)" />
+															</xsl:when>
+														</xsl:choose>
+													</lido:displayDate>
+                                            	</xsl:when>
+												<xsl:otherwise>
+													<lido:date>
+														<xsl:if test="vivo:dateTimeInterval//vivo:start//vivo:dateTime/text() and vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource">
+							                                <lido:earliestDate>
+																<xsl:choose>
+																	<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
+																		<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 4)" />
+																	</xsl:when>
+																	<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
+																		<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 7)" />
+																	</xsl:when>
+																	<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
+																		<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 10)" />
+																	</xsl:when>
+																</xsl:choose>
+															</lido:earliestDate>
+														</xsl:if>
+														<xsl:if test="vivo:dateTimeInterval//vivo:end//vivo:dateTime/text() and vivo:dateTimeInterval//vivo:end//vivo:dateTimePrecision/@rdf:resource">
+							                                <lido:latestDate>
+																<xsl:choose>
+																	<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
+																		<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:end//vivo:dateTime/text(), 1, 4)" />
+																	</xsl:when>
+																	<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
+																		<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:end//vivo:dateTime/text(), 1, 7)" />
+																	</xsl:when>
+																	<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
+																		<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:end//vivo:dateTime/text(), 1, 10)" />
+																	</xsl:when>
+																</xsl:choose>
+															</lido:latestDate>
+														</xsl:if>
+						                            </lido:date>
+                                            	</xsl:otherwise>
+		                                    </xsl:choose>
+		                                </lido:eventDate>
+                                    </xsl:if>
 
                                     <!-- BR: This is equivalent to gesah:has_place with vivo:geographic_location-->
                                     <xsl:for-each select="./gesah:has_place/*">
