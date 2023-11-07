@@ -27,7 +27,7 @@ CONSTRUCT {
   ?title_type gesah:AAT_ID ?aat_id .
   ?title_ind gesah:title ?title_label .
   ?most_specific_type rdfs:label ?most_specific_type_label .
-  ?most_specific_type rdfs:label ?most_specific_type_label .
+  ?most_specific_type rdfs:seeAlso ?cultural_object_AAT_ID .
   ?resource_id gesah:has_object_category_generic_term ?object_category_generic_term .
   ?object_category_generic_term rdfs:label ?object_category_generic_term_label .
   ?resource_id gesah:has_object_category_narrower_term ?object_category_narrower_term .
@@ -66,11 +66,24 @@ CONSTRUCT {
   ?activity gesah:uses_technique ?technique .
   ?technique rdfs:label ?label .
   ?technique gesah:AAT_ID ?technique_aat_id .
-  ?activity gesah:has_participant ?activity_participant . 
-  ?activity_participant rdfs:label ?activity_participant_type .
+  ?activity gesah:has_participant ?activity_participant .
+  
+  ?activity_participant rdfs:comment ?activity_participant_type_comment .
   ?activity_participant rdfs:label ?activity_participant_label .
+  ?activity_participant gesah:GND_ID ?activity_participant_gnd_id .
+  ?activity_participant gesah:ULAN_ID ?activity_participant_ulan_id .
+  ?activity_participant gesah:has_role ?activity_participant_role .
+  ?activity_participant_role gesah:has_role_type ?activity_participant_role_type .
+  
+  ?activity_participant_role_type rdfs:label ?activity_participant_role_type_label .
+  ?activity_participant_role_type gesah:AAT_ID ?activity_participant_role_type_AAT_ID .
+  
+  
   ?activity gesah:has_type_of_attribution ?activity_type_of_attribution . 
+  
   ?activity_type_of_attribution rdfs:label ?activity_type_of_attribution_label .
+  ?activity_type_of_attribution gesah:AAT_ID ?activity_type_of_attribution_AAT_ID .
+  
   ?activity gesah:literal_date_appellation ?activity_literal_date_appellation .
   ?activity vivo:dateTimeInterval ?activity_date_time_interval .
   ?activity_date_time_interval  vivo:start ?activity_date_time_interval_start .
@@ -93,7 +106,13 @@ WHERE {
   BIND( now() AS ?current_date ) .
   {
     ?resource_id vitro:mostSpecificType ?most_specific_type .
-    ?most_specific_type rdfs:label ?most_specific_type_label .
+    {
+      ?most_specific_type rdfs:label ?most_specific_type_label .
+    }
+      UNION
+    {
+      ?most_specific_type rdfs:seeAlso ?cultural_object_AAT_ID .
+    }
   } UNION
   {
     ?resource_id rdfs:label ?co_label .
@@ -221,13 +240,51 @@ WHERE {
       UNION 
     {
       ?activity gesah:has_participant ?activity_participant . 
-      ?activity_participant rdfs:label ?activity_participant_type .
-      ?activity_participant rdfs:label ?activity_participant_label .
+      ?activity_participant a ?activity_participant_type .
+      BIND( 
+      IF( str(?activity_participant_type) = 'http://xmlns.com/foaf/0.1/Person' , 'person', 
+      IF( str(?activity_participant_type) = 'http://xmlns.com/foaf/0.1/Organization' , 'organization', 
+      '')) as ?activity_participant_type_comment )
+      
+      
+      { 
+        ?activity_participant rdfs:label ?activity_participant_label . 
+      }
+        UNION
+      {
+        ?activity_participant gesah:GND_ID ?activity_participant_gnd_id .
+      }
+        UNION
+      {
+        ?activity_participant gesah:ULAN_ID ?activity_participant_ulan_id .
+      } 
+        UNION
+      {
+        ?activity_participant gesah:has_role ?activity_participant_role .
+        ?activity_participant_role gesah:realized_in ?activity .
+        
+        ?activity_participant_role gesah:has_role_type ?activity_participant_role_type .
+        
+        {
+          ?activity_participant_role_type rdfs:label ?activity_participant_role_type_label .
+        }
+          UNION
+        {
+          ?activity_participant_role_type gesah:AAT_ID ?activity_participant_role_type_AAT_ID .
+        }
+      }
+      
     }
       UNION 
     {
       ?activity gesah:has_type_of_attribution ?activity_type_of_attribution . 
-      ?activity_type_of_attribution rdfs:label ?activity_type_of_attribution_label .
+      {
+        ?activity_type_of_attribution rdfs:label ?activity_type_of_attribution_label .
+      }
+        UNION
+      {
+        ?activity_type_of_attribution gesah:AAT_ID ?activity_type_of_attribution_AAT_ID .
+      }
     }
       UNION 
     {
