@@ -120,6 +120,12 @@ CONSTRUCT {
   ?depicted_object gesah:Wikidata_ID ?depicted_object_Wikidata_ID .
   ?depicted_object gesah:CONA_ID ?depicted_object_CONA_ID .
   
+  ?resource_id gesah:has_Work_Index_Entry ?work_index_entry .
+  ?work_index_entry gesah:is_listed_in ?work_index .
+  ?work_index rdfs:label ?work_index_label .
+  ?work_index_entry gesah:index_number ?work_index_entry_number .
+  
+  ?resource_id gesah:secondary_literature ?secondary_literature .
    
 }                
 WHERE {
@@ -373,7 +379,7 @@ WHERE {
       ?geographic_assignment gesah:AAT_ID ?geographic_assignment_AAT_ID .
     }
   }
-      UNION
+    UNION
   {
     ?resource_id gesah:depicts ?depicted_object .
     ?depicted_object vitro:mostSpecificType ?depicted_object_type . 
@@ -409,5 +415,22 @@ WHERE {
       ?depicted_object gesah:CONA_ID ?depicted_object_CONA_ID .
     }
   }  
+    UNION
+  {
+    ?resource_id gesah:has_Work_Index_Entry ?work_index_entry .
+    ?work_index_entry gesah:is_listed_in ?work_index .
+    {
+      ?work_index rdfs:label ?work_index_label .
+    }
+      UNION
+    {
+      ?work_index_entry gesah:index_number ?work_index_entry_number .
+    }
+  } 
+    UNION
+  {
+    ?resource_id gesah:secondary_literature ?secondary_literature .
+  }    
+  
 }
 """ .

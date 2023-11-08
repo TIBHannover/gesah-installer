@@ -871,6 +871,44 @@ First check the class of CO, if CO is class:print,class:photomechanical_print, c
                     		</lido:subjectSet>
                     	</lido:subjectWrap>
                     	<lido:relatedWorksWrap>
+                    		<!-- BR: This is work index entry-->
+                    		<xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_Work_Index_Entry/*">
+							    <lido:relatedWorkSet>
+							       <lido:relatedWork>
+							          <lido:object> 
+									  <!-- BR: This is equivalent to gesah:has_Work_Index_Entry, object property to class:Work_Index and context node Work_Index_entry. We need the label of instance of class:work_Index and gesah:index_number, data propery to context node Work_Index_entry-->
+							             <lido:objectID lido:type="http://terminology.lido-schema.org/lido00100">
+							             	<xsl:value-of select="concat((./gesah:is_listed_in/*/rdfs:label)[1]/text(), ' ', ./gesah:index_number/text())" />
+							             </lido:objectID>
+							          </lido:object>
+							       </lido:relatedWork>
+							       <lido:relatedWorkRelType>
+							          <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00627</lido:conceptID>
+							          <lido:term xml:lang="en">ist Exemplar von</lido:term>
+							          <lido:term xml:lang="de">is example of</lido:term>
+							       </lido:relatedWorkRelType>
+							    </lido:relatedWorkSet>
+						    </xsl:for-each>
+						    
+							
+						    <!-- GK: Hier ist die Sekundärliteratur gelandet.
+							BR: This is equivalent to our data property of CO gesah:secondary_literature, this is a html field, we sometimes use hyperlinks... cfr. objectDescriptionSet, I guess it is similar-->
+							<xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:secondary_literature">
+							    <lido:relatedWorkSet>
+							       <lido:relatedWork>
+							          <lido:object>
+							            <lido:objectNote>
+											<xsl:value-of select="text()" />
+							            </lido:objectNote>
+							          </lido:object>
+							       </lido:relatedWork>
+							       <lido:relatedWorkRelType>
+							          <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00617</lido:conceptID>
+							          <lido:term xml:lang="en">is documented in</lido:term>
+							          <lido:term xml:lang="de">ist dokumentiert in</lido:term>
+							       </lido:relatedWorkRelType>
+							    </lido:relatedWorkSet>
+						    </xsl:for-each>
                     	</lido:relatedWorksWrap>
                     </lido:objectRelationWrap>
                 </lido:descriptiveMetadata>
