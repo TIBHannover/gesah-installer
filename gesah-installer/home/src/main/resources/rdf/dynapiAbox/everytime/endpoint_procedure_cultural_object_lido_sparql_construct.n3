@@ -108,6 +108,19 @@ CONSTRUCT {
   ?resource_id gesah:has_geographic_assignment ?geographic_assignment .
   ?geographic_assignment rdfs:label ?geographic_assignment_label .
   ?geographic_assignment gesah:AAT_ID ?geographic_assignment_AAT_ID .
+  
+  ?resource_id gesah:depicts ?depicted_object .
+  ?depicted_object vitro:mostSpecificType ?depicted_object_type .
+  ?depicted_object rdfs:label ?depicted_object_label .
+  ?depicted_object gesah:AAT_ID ?depicted_object_AAT_ID .
+  ?depicted_object gesah:TGN_ID ?depicted_object_TGN_ID .
+  ?depicted_object gesah:ULAN_ID ?depicted_object_ULAN_ID .
+  ?depicted_object gesah:GND_ID ?depicted_object_GND_ID .
+  ?depicted_object gesah:Iconclass_ID ?depicted_object_Iconclass_ID .
+  ?depicted_object gesah:Wikidata_ID ?depicted_object_Wikidata_ID .
+  ?depicted_object gesah:CONA_ID ?depicted_object_CONA_ID .
+  
+   
 }                
 WHERE {
   ?resource_id rdf:type ?type .
@@ -359,6 +372,42 @@ WHERE {
     {
       ?geographic_assignment gesah:AAT_ID ?geographic_assignment_AAT_ID .
     }
-  } 
+  }
+      UNION
+  {
+    ?resource_id gesah:depicts ?depicted_object .
+    ?depicted_object vitro:mostSpecificType ?depicted_object_type . 
+    {
+      ?depicted_object rdfs:label ?depicted_object_label .
+    }
+      UNION
+    {
+      ?depicted_object gesah:AAT_ID ?depicted_object_AAT_ID .
+    }
+      UNION
+    {
+      ?depicted_object gesah:TGN_ID ?depicted_object_TGN_ID .
+    }
+      UNION
+    {
+      ?depicted_object gesah:ULAN_ID ?depicted_object_ULAN_ID .
+    }
+      UNION
+    {
+      ?depicted_object gesah:GND_ID ?depicted_object_GND_ID .
+    }
+      UNION
+    {
+      ?depicted_object gesah:Iconclass_ID ?depicted_object_Iconclass_ID .
+    } 
+      UNION
+    {
+      ?depicted_object gesah:Wikidata_ID ?depicted_object_Wikidata_ID .
+    }
+      UNION
+    {
+      ?depicted_object gesah:CONA_ID ?depicted_object_CONA_ID .
+    }
+  }  
 }
 """ .
