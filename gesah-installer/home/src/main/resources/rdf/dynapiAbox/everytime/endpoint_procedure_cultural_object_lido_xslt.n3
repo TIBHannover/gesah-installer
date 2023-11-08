@@ -473,7 +473,12 @@ First check the class of CO, if CO is class:print,class:photomechanical_print, c
 						                </xsl:variable>
 	                                    <lido:eventActor>
 	                                        <lido:displayActorInRole>
-                                				<xsl:value-of select="concat(./rdfs:label[@xml:lang = 'de-DE']/text(), ', ', (./gesah:has_role/*/gesah:has_role_type/*/rdfs:label[@xml:lang = 'de-DE'])[1]/text() )" />
+                                                <xsl:if test="./rdfs:label[@xml:lang = 'de-DE']">
+	                                				<xsl:value-of select="./rdfs:label[@xml:lang = 'de-DE']/text()" />
+                                                </xsl:if>
+                                                <xsl:if test="./gesah:has_role/*/gesah:has_role_type/*/rdfs:label[@xml:lang = 'de-DE']">
+	                                				<xsl:value-of select="concat(', ', (./gesah:has_role/*/gesah:has_role_type/*/rdfs:label[@xml:lang = 'de-DE'])[1]/text() )" />
+                                                </xsl:if>
 	                                        </lido:displayActorInRole>
 	                                        <lido:actorInRole> 
 	                                            <!-- This is dynamic, this can be class person http://terminology.lido-schema.org/lido00163 or organization http://terminology.lido-schema.org/lido00413 -->
