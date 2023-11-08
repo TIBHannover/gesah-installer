@@ -485,12 +485,12 @@ First check the class of CO, if CO is class:print,class:photomechanical_print, c
 	                                                <!--This is dynamic, the GND or ULAN ID stored in GESAH with the individual person/organisation-->
 	                                                <xsl:if test="./gesah:GND_ID">
                                                         <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
-                                     	                   <xsl:value-of select="./gesah:GND_ID/text()" />
+                                     	                   <xsl:value-of select="concat('https://d-nb.info/gnd/', ./gesah:GND_ID/text())" />
                                                         </lido:actorID>
                                                     </xsl:if>
                                                     <xsl:if test="./gesah:ULAN_ID">
                                                         <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
-                                     	                   <xsl:value-of select="./gesah:ULAN_ID/text()" />
+                                     	                   <xsl:value-of select="concat('http://vocab.getty.edu/page/ulan/', ./gesah:ULAN_ID/text())" />
                                                         </lido:actorID>
                                                     </xsl:if>
 							                        <lido:nameActorSet>
