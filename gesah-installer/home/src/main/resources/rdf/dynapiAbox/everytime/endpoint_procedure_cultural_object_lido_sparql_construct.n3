@@ -100,6 +100,14 @@ CONSTRUCT {
  
   ?resource_id gesah:description ?description .
   ?resource_id gesah:condition_state ?condition_state .
+  
+  ?resource_id gesah:has_stylistic_assignment ?stylistic_assignment .
+  ?stylistic_assignment rdfs:label ?stylistic_assignment_label .
+  ?stylistic_assignment gesah:AAT_ID ?stylistic_assignment_AAT_ID .
+  
+  ?resource_id gesah:has_geographic_assignment ?geographic_assignment .
+  ?geographic_assignment rdfs:label ?geographic_assignment_label .
+  ?geographic_assignment gesah:AAT_ID ?geographic_assignment_AAT_ID .
 }                
 WHERE {
   ?resource_id rdf:type ?type .
@@ -329,6 +337,28 @@ WHERE {
   UNION
   {
     ?resource_id gesah:condition_state ?condition_state .
+  } 
+    UNION
+  {
+    ?resource_id gesah:has_stylistic_assignment ?stylistic_assignment .
+    {
+      ?stylistic_assignment rdfs:label ?stylistic_assignment_label .
+    }
+      UNION
+    {
+      ?stylistic_assignment gesah:AAT_ID ?stylistic_assignment_AAT_ID .
+    }
+  } 
+    UNION
+  {
+    ?resource_id gesah:has_geographic_assignment ?geographic_assignment .
+    {
+      ?geographic_assignment rdfs:label ?geographic_assignment_label .
+    }
+      UNION
+    {
+      ?geographic_assignment gesah:AAT_ID ?geographic_assignment_AAT_ID .
+    }
   } 
 }
 """ .
