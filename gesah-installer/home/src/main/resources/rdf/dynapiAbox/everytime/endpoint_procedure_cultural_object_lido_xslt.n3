@@ -74,7 +74,7 @@
                             <xsl:value-of select="'printed-materials'" />
                         </xsl:when>
                         <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Painting'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Painting']">
-                            <xsl:value-of select="'painting'" />
+                            <xsl:value-of select="'book-illumination'" />
                         </xsl:when>
                         <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Musical_Notation'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Musical_Notation']">
                             <xsl:value-of select="'musical-notation'" />
@@ -106,7 +106,8 @@
 	                            </xsl:for-each>
                             </lido:objectWorkType>
                         </lido:objectWorkTypeWrap>
-
+                        
+                        <!-- TO DELETE
                         <lido:classificationWrap>
                             <lido:classification lido:type="http://terminology.lido-schema.org/lido00853">
                                  <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
@@ -135,7 +136,7 @@
                                     </lido:term>
                                 </xsl:for-each>
                             </lido:classification>
-                        </lido:classificationWrap>
+                        </lido:classificationWrap> -->
                     </lido:objectClassificationWrap>
 
                     <lido:objectIdentificationWrap>
@@ -369,7 +370,7 @@
                                         <lido:termMaterialsTech lido:type="http://terminology.lido-schema.org/lido00514">
                                             <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
                                                     <xsl:text>http://vocab.getty.edu/page/aat/</xsl:text>
-                                                    <xsl:value-of select="./gesah:AAT_ID/text()" />
+                                                    <xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
                                             </lido:conceptID>
                                             <xsl:for-each select="./rdfs:label">
                                                 <skos:prefLabel>
@@ -396,7 +397,7 @@
                                         <lido:termMaterialsTech lido:type="http://terminology.lido-schema.org/lido00131">
                                             <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
                                                 <xsl:text>http://vocab.getty.edu/page/aat/</xsl:text>
-                                                <xsl:value-of select="./gesah:AAT_ID/text()" />
+                                                <xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
                                             </lido:conceptID>
                                             <xsl:for-each select="./rdfs:label">
                                                 <skos:prefLabel>
@@ -449,17 +450,12 @@ First check the class of CO, if CO is class:print,class:photomechanical_print, c
                                                     <lido:term xml:lang="en">Publishing</lido:term>
                                                 </xsl:if>
                                             </xsl:when>
-                                            <xsl:when test="$type = 'drawing'">
-                                            </xsl:when>
-                                            <xsl:when test="$type = 'manuscript'">
-                                            </xsl:when>
-                                            <xsl:when test="$type = 'seal'">
-                                            </xsl:when>
-                                            <xsl:when test="$type = 'printed-materials'">
-                                            </xsl:when>
-                                            <xsl:when test="$type = 'painting'">
-                                            </xsl:when>
-                                            <xsl:when test="$type = 'musical-notation'">
+                                            <xsl:when test="$type = 'drawing' or $type = 'manuscript' or $type = 'book-illumination' or $type = 'musical-notation'">
+												<xsl:if test="name(..) = 'gesah:output_of_creation'">
+                                                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00007</lido:conceptID>
+                                                    <lido:term xml:lang="de">Herstellung</lido:term>
+                                                    <lido:term xml:lang="en">Production</lido:term>
+                                                </xsl:if>
                                             </xsl:when>
                                         </xsl:choose>
                                     </lido:eventType>
@@ -511,10 +507,14 @@ First check the class of CO, if CO is class:print,class:photomechanical_print, c
     				                                    </xsl:for-each>
     				                                    
 			                       		             	<!-- this is the gesah:has_type_of_attribution, object property to gesah:creation, in some cases we have AAT IDs for this attribution types, how can we model that? Example: "attributed to", in LIDO attributionQualifier
-														<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300404269</lido:conceptID>
 														<lido:term>attributed to</lido:term>-->
 														
 														<xsl:for-each select="../../gesah:has_type_of_attribution/*">
+															<xsl:if test="./gesah:AAT_ID">
+    															<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+																	<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+																</lido:conceptID>
+		                                                    </xsl:if>
 															<xsl:for-each select="./rdfs:label">
 	                                            				<lido:sourceAppellation>
 		                                                			<xsl:if test="@xml:lang">
@@ -531,9 +531,21 @@ First check the class of CO, if CO is class:print,class:photomechanical_print, c
 	                                            
 	                                            <!--This is dynamic and equivalent to our gesah:role_types, linked to context node role which is connected with the creation activity, there are 21 role types in GESAH mostly with AAT-ID-->
 	                                            <lido:roleActor>
-	                                                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300025845</lido:conceptID>
-	                                                <lido:term xml:lang="de">Inventor_in</lido:term>
-	                                                <lido:term xml:lang="en">inventor</lido:term> <!-- I inserted lang-tag and the English variant-->
+	                                           		<xsl:for-each select="gesah:has_role/*">
+		                                                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+															<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:has_role_type/*/gesah:AAT_ID/text())" />
+														</lido:conceptID>
+														<xsl:for-each select="./gesah:has_role_type/*/rdfs:label">
+	                                        				<lido:term>
+	                                                			<xsl:if test="@xml:lang">
+	                                                    			<xsl:attribute name="xml:lang">
+	                                                    				<xsl:value-of select="@xml:lang" />
+	                                                				</xsl:attribute>
+	                                            				</xsl:if>
+	                                            				<xsl:value-of select="text()" />
+	                                        				</lido:term>
+					                                    </xsl:for-each>
+				                                    </xsl:for-each>
 	                                            </lido:roleActor>
 	                                        </lido:actorInRole>
 	                                    </lido:eventActor>
