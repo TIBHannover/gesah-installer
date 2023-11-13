@@ -771,32 +771,7 @@
 					 				 BR: this is gesah:depicts (object property) with range class gesah:depicted_object, instances can have identifiers from AAT, GND,CONA,ICONCLASS or Wikidata, those should be delivered if existant, in this example we do not have any identifier for the object-->
 					                <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:depicts/*[vitro:mostSpecificType/@rdf:resource = 'http://ontology.tib.eu/gesah/Depicted_Object']">
 						                <lido:subjectObject>
-							                <xsl:if test="./gesah:AAT_ID">
-								                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-													<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
-												</lido:objectID>
-											</xsl:if>
-								    		<xsl:if test="./gesah:GND_ID">
-								                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-													<xsl:value-of select="concat('https://d-nb.info/gnd/', ./gesah:GND_ID/text())" />
-												</lido:objectID>
-											</xsl:if>
-								    		<xsl:if test="./gesah:CONA_ID">
-								                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-													<xsl:value-of select="concat('http://vocab.getty.edu/page/cona/', ./gesah:CONA_ID/text())" />
-												</lido:objectID>
-											</xsl:if>
-								    		<xsl:if test="./gesah:Iconclass_ID">
-								                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-													<xsl:value-of select="concat('https://iconclass.org/', ./gesah:Iconclass_ID/text())" />
-												</lido:objectID>
-											</xsl:if>
-								    		<xsl:if test="./gesah:Wikidata_ID">
-								                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-													<xsl:value-of select="concat('https://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
-												</lido:objectID>
-											</xsl:if>
-											<xsl:for-each select="./rdfs:label">
+						                	<xsl:for-each select="./rdfs:label">
 	                                            <lido:displayObject>
 	                                                <xsl:if test="@xml:lang">
 	                                                    <xsl:attribute name="xml:lang">
@@ -806,6 +781,35 @@
 	                                                <xsl:value-of select="text()" />
 	                                            </lido:displayObject>
 	                                        </xsl:for-each>
+						                	<xsl:if test="./gesah:AAT_ID or ./gesah:GND_ID or ./gesah:CONA_ID or ./gesah:Iconclass_ID or ./gesah:Wikidata_ID">
+						                	    <lido:object>
+									                <xsl:if test="./gesah:AAT_ID">
+										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+															<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+														</lido:objectID>
+													</xsl:if>
+										    		<xsl:if test="./gesah:GND_ID">
+										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+															<xsl:value-of select="concat('https://d-nb.info/gnd/', ./gesah:GND_ID/text())" />
+														</lido:objectID>
+													</xsl:if>
+										    		<xsl:if test="./gesah:CONA_ID">
+										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+															<xsl:value-of select="concat('http://vocab.getty.edu/page/cona/', ./gesah:CONA_ID/text())" />
+														</lido:objectID>
+													</xsl:if>
+										    		<xsl:if test="./gesah:Iconclass_ID">
+										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+															<xsl:value-of select="concat('https://iconclass.org/', ./gesah:Iconclass_ID/text())" />
+														</lido:objectID>
+													</xsl:if>
+										    		<xsl:if test="./gesah:Wikidata_ID">
+										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+															<xsl:value-of select="concat('https://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
+														</lido:objectID>
+													</xsl:if>
+												</lido:object>
+											</xsl:if>
 						                </lido:subjectObject>
 					                </xsl:for-each>
 	
