@@ -11,6 +11,7 @@
         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
         xmlns:vitro="http://vitro.mannlib.cornell.edu/ns/vitro/0.7#"
+        xmlns:vivo="http://vivoweb.org/ontology/core#"
         xmlns:owl="http://www.w3.org/2002/07/owl#"
         xmlns:gesah="http://ontology.tib.eu/gesah/"
         xmlns:gml="http://www.opengis.net/gml"
@@ -24,6 +25,50 @@
         xmlns:smil20lang="http://www.w3.org/2001/SMIL20/Language"
     >
         <xsl:output method="xml" indent="yes"/>
+		
+		<xsl:template name="terms-with-concept-id">
+    		<xsl:if test="./gesah:AAT_ID">
+                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+					<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+				</lido:conceptID>
+			</xsl:if>
+    		<xsl:if test="./gesah:TGN_ID">
+                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+					<xsl:value-of select="concat('http://vocab.getty.edu/tgn/', ./gesah:TGN_ID/text())" />
+				</lido:conceptID>
+			</xsl:if>
+    		<xsl:if test="./gesah:ULAN_ID">
+                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+					<xsl:value-of select="concat('http://vocab.getty.edu/page/ulan/', ./gesah:ULAN_ID/text())" />
+				</lido:conceptID>
+			</xsl:if>
+    		<xsl:if test="./gesah:GND_ID">
+                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+					<xsl:value-of select="concat('https://d-nb.info/gnd/', ./gesah:GND_ID/text())" />
+				</lido:conceptID>
+			</xsl:if>
+    		<xsl:if test="./gesah:Iconclass_ID">
+                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+					<xsl:value-of select="concat('https://iconclass.org/', ./gesah:Iconclass_ID/text())" />
+				</lido:conceptID>
+			</xsl:if>
+    		<xsl:if test="./gesah:Wikidata_ID">
+                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+					<xsl:value-of select="concat('https://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
+				</lido:conceptID>
+			</xsl:if>
+			<xsl:for-each select="./rdfs:label">
+				<lido:term>
+        			<xsl:if test="@xml:lang">
+            			<xsl:attribute name="xml:lang">
+            				<xsl:value-of select="@xml:lang" />
+        				</xsl:attribute>
+    				</xsl:if>
+    				<xsl:value-of select="text()" />
+				</lido:term>
+            </xsl:for-each>
+		</xsl:template>
+	
 
         <xsl:template match="/">
             <lido:lido xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.lido-schema.org"
@@ -52,105 +97,78 @@
                 >DE-89/object/<xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" /></lido:objectPublishedID>
 
                 <lido:category>
-                    <skos:Concept rdf:about="http://terminology.lido-schema.org/lido00096">
-                        <skos:prefLabel xml:lang="en">Human-made object</skos:prefLabel>
-                    </skos:Concept>
+                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00096</lido:conceptID>
+                        <lido:term xml:lang="en">Human-made object</lido:term>
                 </lido:category>
+                <xsl:variable name="type">
+                    <xsl:choose>
+                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Print'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Print']">
+                            <xsl:value-of select="'print'" />
+                        </xsl:when>
+                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Drawing'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Drawing']">
+                            <xsl:value-of select="'drawing'" />
+                        </xsl:when>
+                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Manuscript'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Manuscript']">
+                            <xsl:value-of select="'manuscript'" />
+                        </xsl:when>
+                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Seal'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Seal']">
+                            <xsl:value-of select="'seal'" />
+                        </xsl:when>
+                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Printed_Materials'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Printed_Materials']">
+                            <xsl:value-of select="'printed-materials'" />
+                        </xsl:when>
+                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Painting'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Painting']">
+                            <xsl:value-of select="'book-illumination'" />
+                        </xsl:when>
+                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Musical_Notation'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Musical_Notation']">
+                            <xsl:value-of select="'musical-notation'" />
+                        </xsl:when>
+                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Photomechanical_Print'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Photomechanical_Print']">
+                            <xsl:value-of select="'photomechanical-print'" />
+                        </xsl:when>
+
+ 
+                    </xsl:choose>
+                </xsl:variable>
 
                 <lido:descriptiveMetadata xml:lang="de">
                     <lido:objectClassificationWrap>
                         <lido:objectWorkTypeWrap>
                             <lido:objectWorkType lido:type="http://terminology.lido-schema.org/lido00789">
-                                <xsl:choose>
-                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Print'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Print']">
-                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300041273">
-                                            <skos:prefLabel xml:lang="en">print (visual works)</skos:prefLabel>
-                                            <skos:prefLabel xml:lang="de">Druckgraphik</skos:prefLabel>
-                                        </skos:Concept>
-                                    </xsl:when>
-                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Drawing'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Drawing']">
-                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300033973">
-                                            <skos:prefLabel xml:lang="en">drawings (visual works)</skos:prefLabel>
-                                            <skos:prefLabel xml:lang="de">Zeichnung</skos:prefLabel>
-                                        </skos:Concept>
-                                    </xsl:when>
-                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Manuscript'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Manuscript']">
-                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300028569">
-                                            <skos:prefLabel xml:lang="en">manuscripts (documents)</skos:prefLabel>
-                                            <skos:prefLabel xml:lang="de">Handschrift</skos:prefLabel>
-                                        </skos:Concept>
-                                    </xsl:when>
-                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Seal'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Seal']">
-                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300028877">
-                                            <skos:prefLabel xml:lang="en">seals (artifacts)</skos:prefLabel>
-                                            <skos:prefLabel xml:lang="de">Siegel</skos:prefLabel>
-                                        </skos:Concept>
-                                    </xsl:when>
-                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Printed_Materials'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Printed_Materials']">
-                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300404588">
-                                            <skos:prefLabel xml:lang="en">printed materials (object genre)</skos:prefLabel>
-                                            <skos:prefLabel xml:lang="de">Druckschrift</skos:prefLabel>
-                                        </skos:Concept>
-                                    </xsl:when>
-                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Painting'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Painting']">
-                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300264522">
-                                            <skos:prefLabel xml:lang="en">illuminations (paintings)</skos:prefLabel>
-                                            <skos:prefLabel xml:lang="de">Buchmalerei</skos:prefLabel>
-                                        </skos:Concept>
-                                    </xsl:when>
-                                    <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Musical_Notation'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Musical_Notation']">
-                                        <skos:Concept rdf:about="http://vocab.getty.edu/aat/300417622">
-                                            <skos:prefLabel xml:lang="en">musical notation</skos:prefLabel>
-                                            <skos:prefLabel xml:lang="de">Notenschrift</skos:prefLabel>
-                                        </skos:Concept>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                    </xsl:otherwise>
-                                </xsl:choose>
+                            	<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+	                            	<xsl:value-of select="(//*[rdfs:comment/text() = 'target_object']/vitro:mostSpecificType/rdf:Description/rdfs:seeAlso)[1]/text()" />
+                            	</lido:conceptID>
+	                            <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/vitro:mostSpecificType/rdf:Description/rdfs:label">
+	                                <lido:term>
+	                                    <xsl:if test="@xml:lang">
+	                                        <xsl:attribute name="xml:lang">
+	                                            <xsl:value-of select="@xml:lang" />
+	                                        </xsl:attribute>
+	                                    </xsl:if>
+	                                    <xsl:value-of select="text()" />
+	                                </lido:term>
+	                            </xsl:for-each>
                             </lido:objectWorkType>
                         </lido:objectWorkTypeWrap>
-
+                        
+                        <!-- TO DELETE
                         <lido:classificationWrap>
                             <lido:classification lido:type="http://terminology.lido-schema.org/lido00853">
-                                <skos:Concept>
-                                    <xsl:attribute name="rdf:about">
-                                        <xsl:choose>
-                                            <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Print'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Print']">
-                                                <xsl:text>http://vocab.getty.edu/aat/300041273</xsl:text>
-                                            </xsl:when>
-                                            <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Drawing'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Drawing']">
-                                                <xsl:text>http://vocab.getty.edu/aat/300033973</xsl:text>
-                                            </xsl:when>
-                                            <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Manuscript'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Manuscript']">
-                                                <xsl:text>http://vocab.getty.edu/aat/300028569</xsl:text>
-                                            </xsl:when>
-                                            <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Seal'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Seal']">
-                                                 <xsl:text>http://vocab.getty.edu/aat/300028877</xsl:text>
-                                            </xsl:when>
-                                            <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Printed_Materials'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Printed_Materials']">
-                                                <xsl:text>http://vocab.getty.edu/aat/300404588</xsl:text>
-                                            </xsl:when>
-                                            <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Painting'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Painting']">
-                                               <xsl:text>http://vocab.getty.edu/aat/300264522</xsl:text>
-                                            </xsl:when>
-                                            <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Musical_Notation'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Musical_Notation']">
-                                                <xsl:text>http://vocab.getty.edu/aat/300417622</xsl:text>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                    </xsl:attribute>
-                                    <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/vitro:mostSpecificType/rdf:Description/rdfs:label">
-                                        <skos:prefLabel >
-                                            <xsl:if test="@xml:lang">
-                                                <xsl:attribute name="xml:lang">
-                                                    <xsl:value-of select="@xml:lang" />
-                                                </xsl:attribute>
-                                            </xsl:if>
-                                            <xsl:value-of select="text()" />
-                                        </skos:prefLabel>
-                                    </xsl:for-each>
-                                </skos:Concept>
+                                 <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+	                            	<xsl:value-of select="(//*[rdfs:comment/text() = 'target_object']/vitro:mostSpecificType/rdf:Description/rdfs:seeAlso)[1]/text()" />
+                                </lido:conceptID>
+
+                                <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/vitro:mostSpecificType/rdf:Description/rdfs:label">
+                                    <lido:term>
+                                        <xsl:if test="@xml:lang">
+                                            <xsl:attribute name="xml:lang">
+                                                <xsl:value-of select="@xml:lang" />
+                                            </xsl:attribute>
+                                        </xsl:if>
+                                        <xsl:value-of select="text()" />
+                                    </lido:term>
+                                </xsl:for-each>
+
                                 <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/vitro:mostSpecificType/rdf:Description/rdfs:label">
                                     <lido:term lido:addedSearchTerm="yes">
                                         <xsl:if test="@xml:lang">
@@ -162,17 +180,17 @@
                                     </lido:term>
                                 </xsl:for-each>
                             </lido:classification>
-                        </lido:classificationWrap>
+                        </lido:classificationWrap> -->
                     </lido:objectClassificationWrap>
 
                     <lido:objectIdentificationWrap>
                         <lido:titleWrap>
-                            <lido:titleSet lido:pref="http://vocab.getty.edu/page/aat/300417200">
+                            <lido:titleSet lido:type="http://vocab.getty.edu/page/aat/300417200">
                                 <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/rdfs:label">
                                     <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00526">
                                         <xsl:if test="@xml:lang">
                                             <xsl:attribute name="xml:lang">
-                                                   <xsl:value-of select="@xml:lang" />
+                                               <xsl:value-of select="@xml:lang" />
                                             </xsl:attribute>
                                         </xsl:if>
                                         <xsl:value-of select="text()"/>
@@ -194,11 +212,65 @@
                             </xsl:for-each>
 
                         </lido:titleWrap>
+                        <xsl:if test="//gesah:object_of_inscription" >
+                            <lido:inscriptionsWrap>
+                                <xsl:for-each select="//gesah:object_of_inscription/*[gesah:has_inscription_output/*/rdfs:comment/text() = 'http://ontology.tib.eu/gesah/Inscription_on_image']">
+                                    <xsl:variable name="obj_of_inscription" select="current()" />
+                                    <lido:inscriptions lido:type="Inschrift">
+                                        <lido:inscriptionTranscription xml:lang="mul">    
+                                            <xsl:value-of select="gesah:has_inscription_output//gesah:transcription/text()" />                                        
+                                        </lido:inscriptionTranscription>
+                                        <lido:inscriptionDescription>
+                                            <xsl:for-each select="distinct-values(gesah:has_inscription_output//gesah:has_inscription_type//rdfs:label/@xml:lang)">
+                                                <xsl:variable name="lang" select="current()" /> 
+                                                <lido:descriptiveNoteValue>
+                                                    <xsl:attribute name="xml:lang">
+                                                       <xsl:value-of select="$lang" />
+                                                    </xsl:attribute>    
+                                                    <xsl:value-of select="concat('(', string-join($obj_of_inscription/gesah:has_inscription_output//gesah:has_inscription_type//rdfs:label[@xml:lang = $lang], ', ' ), ')' )" />
+                                                    <xsl:if test="$obj_of_inscription/gesah:has_inscription_output//gesah:comment" >
+                                                        <xsl:text>;</xsl:text>
+                                                    </xsl:if>
+                                                    <xsl:for-each select="$obj_of_inscription/gesah:has_inscription_output//gesah:comment" >
+                                                        <xsl:value-of select="concat(' ', text(), '.' )" />
+                                                    </xsl:for-each>
+                                                </lido:descriptiveNoteValue>
+                                            </xsl:for-each> 
+                                        </lido:inscriptionDescription>
+                                    </lido:inscriptions>
+                               </xsl:for-each>
+                                <xsl:for-each select="//gesah:object_of_inscription/*[gesah:has_inscription_output/*/rdfs:comment/text() = 'http://ontology.tib.eu/gesah/Inscription_on_support']">
+                                    <xsl:variable name="obj_of_inscription" select="current()" />
+                                    <lido:inscriptions lido:type="Inschrift">
+                                        <lido:inscriptionTranscription xml:lang="mul">    
+                                            <xsl:value-of select="gesah:has_inscription_output//gesah:transcription/text()" />                                        
+                                        </lido:inscriptionTranscription>
+                                        <lido:inscriptionDescription>
+                                            <xsl:for-each select="distinct-values(gesah:has_inscription_output//gesah:has_inscription_type//rdfs:label/@xml:lang)">
+                                                <xsl:variable name="lang" select="current()" /> 
+                                                <lido:descriptiveNoteValue>
+                                                    <xsl:attribute name="xml:lang">
+                                                       <xsl:value-of select="$lang" />
+                                                    </xsl:attribute>    
+                                                    <xsl:value-of select="concat('(', string-join($obj_of_inscription/gesah:has_inscription_output//gesah:has_inscription_type//rdfs:label[@xml:lang = $lang], ', ' ), ')' )" />
+                                                    <xsl:if test="$obj_of_inscription/gesah:has_inscription_output//gesah:comment" >
+                                                        <xsl:text>;</xsl:text>
+                                                    </xsl:if>
+                                                    <xsl:for-each select="$obj_of_inscription/gesah:has_inscription_output//gesah:comment" >
+                                                        <xsl:value-of select="concat(' ', text(), '.' )" />
+                                                    </xsl:for-each>
+                                                </lido:descriptiveNoteValue>
+                                            </xsl:for-each> 
+                                        </lido:inscriptionDescription>
+                                    </lido:inscriptions>
+                               </xsl:for-each>
+                            </lido:inscriptionsWrap>
+                        </xsl:if>
 
                         <lido:repositoryWrap>
                             <!-- lido type is "current repository" which is equivalent to gesah:has_current_holding_institution, in our case this is always static Technische Informationsbibliothek (TIB) + "Hannover" as it is on the vitro surface, too --> 
                             <lido:repositorySet lido:type="http://terminology.lido-schema.org/lido01017">
-                                <lido:displayRepository xml:lang="de">Technische Informationsbibliothek (TIB), Hannover</lido:displayRepository>
+                                <!-- LIDO 1.1 <lido:displayRepository xml:lang="de">Technische Informationsbibliothek (TIB), Hannover</lido:displayRepository> -->
                                 <lido:repositoryName>
                                    <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
                                     <lido:legalBodyName>
@@ -208,6 +280,9 @@
                                 </lido:repositoryName>
                                 <!-- Inventarnummer (lido00113) is dynamic, it is equavalent to gesah:current_inventory_number-->
                                 <lido:workID lido:type="http://terminology.lido-schema.org/lido00113"><xsl:value-of select="//gesah:current_inventory_number[1]/text()[1]"/></lido:workID>
+                                <xsl:for-each select="//gesah:former_inventory_number">
+                                    <lido:workID lido:type="http://terminology.lido-schema.org/lido00188"><xsl:value-of select="text()"/></lido:workID>
+                                </xsl:for-each>
                                 <!-- this is static , always Hannover-->
                                 <lido:repositoryLocation>
                                     <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">https://www.wikidata.org/entity/Q1715</lido:placeID>
@@ -233,10 +308,12 @@
                                 </lido:repositoryLocation>
                                 
                                 <!-- the URI of the cultural object and current date -->
+                                <!-- LIDO 1.1
                                 <sourceRepositorySet>
                                     <xsl:variable name="today_date" select="current-date()"/>
                                     <xsl:value-of select="concat(string(//*[rdfs:comment/text() = 'target_object']/@rdf:about), ' [', format-date($today_date,'[Y0001].[M01].[D01]'), ']')" />
                                 </sourceRepositorySet>
+                                -->
                             </lido:repositorySet>
                         </lido:repositoryWrap>
 
@@ -262,7 +339,7 @@
 
                         <lido:objectMeasurementsWrap>
                             <!-- This is dynamic, in Vitro it is object property gesah:has_measurements of CO with gesah:measurement_height, gesah:measurement_width, gesah:measurement_diameter and gesah:has_measurement_specification, there are four types of measurment specification: support, plate, sheet and image in German and English. In the aviarium example plate and image is not existant-->
-                            <lido:objectMeasurementsSet lido:type="http://terminology.lido-schema.org/lido00927">
+                            <lido:objectMeasurementsSet>
                                 <xsl:for-each select="//gesah:has_measurements/rdf:Description">
                                     <xsl:variable name="measurement_height" select="./gesah:measurement_height/text()" />
                                     <xsl:variable name="measurement_width" select="./gesah:measurement_width/text()" />
@@ -307,7 +384,8 @@
                                 </xsl:for-each>
                             </lido:objectMeasurementsSet>    
                         </lido:objectMeasurementsWrap> 
-
+                        
+                        <!--
                         <lido:objectMaterialsTechWrap>
                             <lido:objectMaterialsTechSet>
 
@@ -333,23 +411,22 @@
                                 </xsl:for-each>
 
                                 <lido:materialsTech>
-                                    <!--This is dynamic and is equivalent to gesah:has_material, object property of three activities: creation, publication, edition; there can be more than one material to one activity.-->
                                     <xsl:for-each select="//gesah:has_material/rdf:Description">
                                         <lido:termMaterialsTech lido:type="http://terminology.lido-schema.org/lido00514">
-                                            <skos:Concept>
-                                                <xsl:attribute name="rdf:about">
+                                            <xsl:if test="./gesah:AAT_ID">
+                 	                           <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
                                                     <xsl:text>http://vocab.getty.edu/page/aat/</xsl:text>
-                                                    <xsl:value-of select="./gesah:AAT_ID/text()" />
-                                                </xsl:attribute>
-                                                <xsl:for-each select="./rdfs:label">
-                                                    <skos:prefLabel>
-                                                        <xsl:attribute name="xml:lang">
-                                                            <xsl:value-of select="@xml:lang" />
-                                                        </xsl:attribute>
-                                                        <xsl:value-of select="text()" />
-                                                    </skos:prefLabel>
-                                                </xsl:for-each>
-                                            </skos:Concept>
+                                                    <xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+                    	                        </lido:conceptID>
+                                            </xsl:if>
+                                            <xsl:for-each select="./rdfs:label">
+                                                <skos:prefLabel>
+                                                    <xsl:attribute name="xml:lang">
+                                                        <xsl:value-of select="@xml:lang" />
+                                                    </xsl:attribute>
+                                                    <xsl:value-of select="text()" />
+                                                </skos:prefLabel>
+                                            </xsl:for-each>
                                             <xsl:for-each select="./rdfs:label">
                                                 <lido:term lido:addedSearchTerm="yes">
                                                     <xsl:if test="@xml:lang">
@@ -363,23 +440,22 @@
                                         </lido:termMaterialsTech>
                                     </xsl:for-each>
 
-                                    <!--This is dynamic and is equivalent to gesah:uses_technique, object property of three activities: creation, publication, edition; there can be more than one technique used.-->
                                     <xsl:for-each select="//gesah:uses_technique/rdf:Description">
                                         <lido:termMaterialsTech lido:type="http://terminology.lido-schema.org/lido00131">
-                                            <skos:Concept>
-                                                <xsl:attribute name="rdf:about">
-                                                    <xsl:text>http://vocab.getty.edu/page/aat/</xsl:text>
-                                                    <xsl:value-of select="./gesah:AAT_ID/text()" />
-                                                </xsl:attribute>
-                                                <xsl:for-each select="./rdfs:label">
-                                                    <skos:prefLabel>
-                                                        <xsl:attribute name="xml:lang">
-                                                            <xsl:value-of select="@xml:lang" />
-                                                        </xsl:attribute>
-                                                        <xsl:value-of select="text()" />
-                                                    </skos:prefLabel>
-                                                </xsl:for-each>
-                                            </skos:Concept>
+                                        	<xsl:if test="./gesah:AAT_ID">
+	                                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+	                                                <xsl:text>http://vocab.getty.edu/page/aat/</xsl:text>
+	                                                <xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+	                                            </lido:conceptID>
+                                            </xsl:if>
+                                            <xsl:for-each select="./rdfs:label">
+                                                <skos:prefLabel>
+                                                    <xsl:attribute name="xml:lang">
+                                                        <xsl:value-of select="@xml:lang" />
+                                                    </xsl:attribute>
+                                                    <xsl:value-of select="text()" />
+                                                </skos:prefLabel>
+                                            </xsl:for-each>
                                             <xsl:for-each select="./rdfs:label">
                                                 <lido:term lido:addedSearchTerm="yes">
                                                     <xsl:if test="@xml:lang">
@@ -395,19 +471,472 @@
                                 </lido:materialsTech>
                             </lido:objectMaterialsTechSet>
                         </lido:objectMaterialsTechWrap>
+                        -->
                     </lido:objectIdentificationWrap>
+                    <xsl:if test="//gesah:output_of_creation/*|//gesah:output_of_production/*|//gesah:object_of_edition/*">
+	                    <lido:eventWrap>
+                            <xsl:for-each select="//gesah:output_of_creation/*|//gesah:output_of_production/*|//gesah:object_of_edition/*">
+		                        <lido:eventSet>
+	                                <lido:event>
+	                                    <lido:eventType>
+	<!-- BR: eventType designing (lido00224) is correct only for gesah:creation when connected with prints, printed material and photmechanical prints.
+	First check the class of CO, if CO is class:print,class:photomechanical_print, class:seal or class:printed_material use following pattern with three eventSets -->
+	                                        <xsl:choose>
+	                                            <xsl:when test="$type = 'print' or $type = 'printed-materials' or $type = 'photomechanical-print' or $type = 'seal'">
+	                                                <xsl:if test="name(..) = 'gesah:output_of_creation'">
+	                                                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00224</lido:conceptID>
+	                                                    <lido:term xml:lang="de">Entwurf (Aktivität)</lido:term>
+	                                                    <lido:term xml:lang="en">Designing</lido:term>
+	                                                </xsl:if>
+	                                                <xsl:if test="name(..) = 'gesah:output_of_production'">
+	                                                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido01089</lido:conceptID>
+	                                                    <lido:term xml:lang="de">Herstellung der Druckform</lido:term>
+	                                                    <lido:term xml:lang="en">Production of the printing surface</lido:term>
+	                                                </xsl:if>
+	                                                <xsl:if test="name(..) = 'gesah:object_of_edition'">
+	                                                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00228</lido:conceptID>
+	                                                    <lido:term xml:lang="de">Veröffentlichung (Ereignis)</lido:term>
+	                                                    <lido:term xml:lang="en">Publishing</lido:term>
+	                                                </xsl:if>
+	                                            </xsl:when>
+	                                            <xsl:when test="$type = 'drawing' or $type = 'manuscript' or $type = 'book-illumination' or $type = 'musical-notation'">
+													<xsl:if test="name(..) = 'gesah:output_of_creation'">
+	                                                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00007</lido:conceptID>
+	                                                    <lido:term xml:lang="de">Herstellung</lido:term>
+	                                                    <lido:term xml:lang="en">Production</lido:term>
+	                                                </xsl:if>
+	                                            </xsl:when>
+	                                        </xsl:choose>
+	                                    </lido:eventType>
+	
+	                                    <xsl:for-each select="gesah:has_participant/*">
+	                                        <xsl:variable name="participant_type">
+							                    <xsl:choose>
+							                        <xsl:when test="./rdfs:comment/text() = 'person'">
+							                            <xsl:value-of select="'http://terminology.lido-schema.org/lido00163'" />
+							                        </xsl:when>
+							                        <xsl:when test="./rdfs:comment/text() = 'organization'">
+							                            <xsl:value-of select="'http://terminology.lido-schema.org/lido00413'" />
+							                        </xsl:when>
+							                    </xsl:choose>
+							                </xsl:variable>
+		                                    <lido:eventActor>
+		                                        <lido:displayActorInRole>
+	                                                <xsl:if test="./rdfs:label[@xml:lang = 'de-DE']">
+		                                				<xsl:value-of select="./rdfs:label[@xml:lang = 'de-DE']/text()" />
+	                                                </xsl:if>
+	                                                <xsl:if test="./gesah:has_role/*/gesah:has_role_type/*/rdfs:label[@xml:lang = 'de-DE']">
+		                                				<xsl:value-of select="concat(', ', (./gesah:has_role/*/gesah:has_role_type/*/rdfs:label[@xml:lang = 'de-DE'])[1]/text() )" />
+	                                                </xsl:if>
+		                                        </lido:displayActorInRole>
+		                                        <lido:actorInRole> 
+		                                            <!-- This is dynamic, this can be class person http://terminology.lido-schema.org/lido00163 or organization http://terminology.lido-schema.org/lido00413 -->
+		                                            <lido:actor>
+	                                                    <xsl:attribute name="lido:type">
+	                                                        <xsl:value-of select="$participant_type" />
+	                                                    </xsl:attribute>
+		
+		                                                <!--This is dynamic, the GND or ULAN ID stored in GESAH with the individual person/organisation-->
+		                                                <xsl:if test="./gesah:GND_ID">
+	                                                        <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
+	                                     	                   <xsl:value-of select="concat('https://d-nb.info/gnd/', ./gesah:GND_ID/text())" />
+	                                                        </lido:actorID>
+	                                                    </xsl:if>
+	                                                    <xsl:if test="./gesah:ULAN_ID">
+	                                                        <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
+	                                     	                   <xsl:value-of select="concat('http://vocab.getty.edu/page/ulan/', ./gesah:ULAN_ID/text())" />
+	                                                        </lido:actorID>
+	                                                    </xsl:if>
+								                        <lido:nameActorSet>
+								                            <xsl:for-each select="./rdfs:label">
+	                                            				<lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00169">
+		                                                			<xsl:if test="@xml:lang">
+	                                                        			<xsl:attribute name="xml:lang">
+	                                                        				<xsl:value-of select="@xml:lang" />
+	                                                    				</xsl:attribute>
+	                                                				</xsl:if>
+	                                                				<xsl:value-of select="text()" />
+	                                            				</lido:appellationValue>
+	    				                                    </xsl:for-each>
+	                                                	</lido:nameActorSet>
+		                                            </lido:actor>
+		                                            
+		                                            <!--This is dynamic and equivalent to our gesah:role_types, linked to context node role which is connected with the creation activity, there are 21 role types in GESAH mostly with AAT-ID-->
+		                                            <lido:roleActor>
+		                                           		<xsl:for-each select="./gesah:has_role/*">
+		                                           			<xsl:if test="./gesah:has_role_type/*/gesah:AAT_ID">
+				                                                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+																	<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:has_role_type/*/gesah:AAT_ID/text())" />
+																</lido:conceptID>
+															</xsl:if>
+															<xsl:for-each select="./gesah:has_role_type/*/rdfs:label">
+		                                        				<lido:term>
+		                                                			<xsl:if test="@xml:lang">
+		                                                    			<xsl:attribute name="xml:lang">
+		                                                    				<xsl:value-of select="@xml:lang" />
+		                                                				</xsl:attribute>
+		                                            				</xsl:if>
+		                                            				<xsl:value-of select="text()" />
+		                                        				</lido:term>
+						                                    </xsl:for-each>
+					                                    </xsl:for-each>
+		                                            </lido:roleActor>
+		                                            
+		                       		             	<!-- this is the gesah:has_type_of_attribution, object property to gesah:creation, in some cases we have AAT IDs for this attribution types, how can we model that? Example: "attributed to", in LIDO attributionQualifier
+													<lido:term>attributed to</lido:term>-->
+													<xsl:for-each select="../../gesah:has_type_of_attribution/*">
+			                                            <lido:attributionQualifierActor>
+															<xsl:if test="./gesah:AAT_ID">
+																<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+																	<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+																</lido:conceptID>
+		                                                    </xsl:if>
+															<xsl:for-each select="./rdfs:label">
+	                                            				<lido:sourceAppellation>
+		                                                			<xsl:if test="@xml:lang">
+	                                                        			<xsl:attribute name="xml:lang">
+	                                                        				<xsl:value-of select="@xml:lang" />
+	                                                    				</xsl:attribute>
+	                                                				</xsl:if>
+	                                                				<xsl:value-of select="text()" />
+	                                            				</lido:sourceAppellation>
+					                                    	</xsl:for-each>
+														</lido:attributionQualifierActor>
+				                                    </xsl:for-each>
 
+		                                        </lido:actorInRole>
+		                                    </lido:eventActor>
+	                                    </xsl:for-each>
+		                                    
+	                                    <!-- GK: Element Culture ergänzt BR: This is dynamic and is equivalent to gesah:has_geographic_assignment, object property of CO to class gesah:geographic_classification, we have 14 instances in that class, all with AAT IDs -->
+                                            <xsl:if test="(($type = 'print' or $type = 'printed-materials' or $type = 'photomechanical-print' or $type = 'seal') and name(..) = 'gesah:output_of_production' ) or $type = 'drawing' or $type = 'manuscript' or $type = 'book-illumination' or $type = 'musical-notation'">
+	                                            <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_geographic_assignment/*">
+		                                   			<lido:culture>
+		                               					<xsl:if test="./gesah:AAT_ID">
+				                                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+																<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+															</lido:conceptID>
+														</xsl:if>
+														<xsl:for-each select="./rdfs:label">
+			                                				<lido:term>
+			                                        			<xsl:if test="@xml:lang">
+			                                            			<xsl:attribute name="xml:lang">
+			                                            				<xsl:value-of select="@xml:lang" />
+			                                        				</xsl:attribute>
+			                                    				</xsl:if>
+			                                    				<xsl:value-of select="text()" />
+			                                				</lido:term>
+					                                    </xsl:for-each>
+		    										</lido:culture>
+			                                    </xsl:for-each>
+                                            </xsl:if>
+										
+										
+	                                    <!-- BR: this is dynamic and equivalent to our data property literal_date or in case of empty text field diplay the time span of earliest date and latest date or if both are the same display it only once (as below in the example) -->
+	                                    <xsl:if test="gesah:literal_date_appellation or vivo:dateTimeInterval">
+											<lido:eventDate>
+			                                    <xsl:choose>
+													<xsl:when test="gesah:literal_date_appellation">
+					                                    <lido:displayDate>
+															<xsl:value-of select="gesah:literal_date_appellation/text()" />
+														</lido:displayDate>
+	                                            	</xsl:when>
+													<xsl:when test="vivo:dateTimeInterval//vivo:end//vivo:dateTime/text() = vivo:dateTimeInterval//vivo:start//vivo:dateTime/text() and vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource">
+					                                    <lido:displayDate>
+															<xsl:choose>
+																<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
+																	<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 4)" />
+																</xsl:when>
+																<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
+																	<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 7)" />
+																</xsl:when>
+																<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
+																	<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 10)" />
+																</xsl:when>
+															</xsl:choose>
+														</lido:displayDate>
+	                                            	</xsl:when>
+													<xsl:otherwise>
+														<lido:date>
+															<xsl:if test="vivo:dateTimeInterval//vivo:start//vivo:dateTime/text() and vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource">
+								                                <lido:earliestDate>
+																	<xsl:choose>
+																		<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
+																			<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 4)" />
+																		</xsl:when>
+																		<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
+																			<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 7)" />
+																		</xsl:when>
+																		<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
+																			<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 10)" />
+																		</xsl:when>
+																	</xsl:choose>
+																</lido:earliestDate>
+															</xsl:if>
+															<xsl:if test="vivo:dateTimeInterval//vivo:end//vivo:dateTime/text() and vivo:dateTimeInterval//vivo:end//vivo:dateTimePrecision/@rdf:resource">
+								                                <lido:latestDate>
+																	<xsl:choose>
+																		<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
+																			<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:end//vivo:dateTime/text(), 1, 4)" />
+																		</xsl:when>
+																		<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
+																			<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:end//vivo:dateTime/text(), 1, 7)" />
+																		</xsl:when>
+																		<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
+																			<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:end//vivo:dateTime/text(), 1, 10)" />
+																		</xsl:when>
+																	</xsl:choose>
+																</lido:latestDate>
+															</xsl:if>
+							                            </lido:date>
+	                                            	</xsl:otherwise>
+			                                    </xsl:choose>
+			                                </lido:eventDate>
+	                                    </xsl:if>
+										
+										<xsl:if test="(($type = 'print' or $type = 'printed-materials' or $type = 'photomechanical-print' or $type = 'seal') and name(..) = 'gesah:output_of_production' ) or $type = 'drawing' or $type = 'manuscript' or $type = 'book-illumination' or $type = 'musical-notation'">
+										<!-- GK: Hier habe ich die Renaissance untergebracht. BR: This is dynamic and is equivalent to gesah:has_stylistic_classification, object property to CO to gesah:stylistic_classification, we have 8 instances of that class, all with AAT ID -->
+	                                   		<xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_stylistic_assignment/*">
+	                                   			<lido:periodName>
+	                               					<xsl:if test="./gesah:AAT_ID">
+			                                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+															<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+														</lido:conceptID>
+													</xsl:if>
+													<xsl:for-each select="./rdfs:label">
+		                                				<lido:term>
+		                                        			<xsl:if test="@xml:lang">
+		                                            			<xsl:attribute name="xml:lang">
+		                                            				<xsl:value-of select="@xml:lang" />
+		                                        				</xsl:attribute>
+		                                    				</xsl:if>
+		                                    				<xsl:value-of select="text()" />
+		                                				</lido:term>
+				                                    </xsl:for-each>
+	    										</lido:periodName>
+		                                    </xsl:for-each>
+	                                    </xsl:if>
+	
+	                                    <!-- BR: This is equivalent to gesah:has_place with vivo:geographic_location-->
+	                                    <xsl:for-each select="./gesah:has_place/*">
+	                                        <lido:eventPlace>
+	                                            <lido:place>
+	                                                <!-- BR: our graphic_location should have TGN ID and/or Geonames ID,  maybe we can export both if available-->
+	                                                <xsl:if test="./gesah:TGN_ID">
+	                                                    <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">
+	                                                        <xsl:value-of select="concat('http://vocab.getty.edu/tgn/', ./gesah:TGN_ID/text())" />                                                    
+	                                                    </lido:placeID>
+	                                                </xsl:if>
+	
+	                                                <lido:namePlaceSet> 
+	                                                    <xsl:for-each select="./rdfs:label">
+	                                                        <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00169">
+	                                                            <xsl:if test="@xml:lang">
+	                                                                <xsl:attribute name="xml:lang">
+	                                                                    <xsl:value-of select="@xml:lang" />
+	                                                                </xsl:attribute>
+	                                                            </xsl:if>
+	                                                            <xsl:value-of select="text()" />
+	                                                        </lido:appellationValue>
+	                                                    </xsl:for-each>
+	                                                </lido:namePlaceSet>
+	                                            </lido:place>
+	                                        </lido:eventPlace>
+	                                    </xsl:for-each>
+	                                </lido:event>
+		                        </lido:eventSet>
+	                        </xsl:for-each>
+	                    </lido:eventWrap>
+                    </xsl:if>
+
+                    <lido:objectRelationWrap>
+                     <!-- BR: This is on the represented subjects, we should map here: gesah:has_object_category_generic_term (object property of CO), gesah:has_object_category_narrower_term (object property of CO), gesah:depicts (object property of CO), the instances of the range classes have often Identifiers AAT, GND or ICONCLASS and others, those should be exported too -->
+                    	<lido:subjectWrap>
+                    		<lido:subjectSet>
+                    			<lido:subject>
+	                        		<xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_object_category_generic_term/*">
+		                        		<lido:subjectConcept>
+											<xsl:call-template name="terms-with-concept-id"/>
+						                </lido:subjectConcept>
+	                                </xsl:for-each>
+	                    		
+	                        		<xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_object_category_narrower_term/*">
+		                        		<lido:subjectConcept>
+											<xsl:call-template name="terms-with-concept-id"/>
+						                </lido:subjectConcept>
+	                                </xsl:for-each>
+	                    		
+	                        		<xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:depicts/*[vitro:mostSpecificType/@rdf:resource = 'http://ontology.tib.eu/gesah/Keyword']">
+		                        		<lido:subjectConcept>
+											<xsl:call-template name="terms-with-concept-id"/>
+						                </lido:subjectConcept>
+	                                </xsl:for-each>
+	
+	                                <!-- GK: Dargestelltes Objekt habe ich hier von Hand ergänzt ohne Verweis auf Normdaten. 
+					 				 BR: this is gesah:depicts (object property) with range class gesah:depicted_object, instances can have identifiers from AAT, GND,CONA,ICONCLASS or Wikidata, those should be delivered if existant, in this example we do not have any identifier for the object-->
+					                <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:depicts/*[vitro:mostSpecificType/@rdf:resource = 'http://ontology.tib.eu/gesah/Depicted_Object']">
+						                <lido:subjectObject>
+						                	<xsl:for-each select="./rdfs:label">
+	                                            <lido:displayObject>
+	                                                <xsl:if test="@xml:lang">
+	                                                    <xsl:attribute name="xml:lang">
+	                                                        <xsl:value-of select="@xml:lang" />
+	                                                    </xsl:attribute>
+	                                                </xsl:if>
+	                                                <xsl:value-of select="text()" />
+	                                            </lido:displayObject>
+	                                        </xsl:for-each>
+						                	<xsl:if test="./gesah:AAT_ID or ./gesah:GND_ID or ./gesah:CONA_ID or ./gesah:Iconclass_ID or ./gesah:Wikidata_ID">
+						                	    <lido:object>
+									                <xsl:if test="./gesah:AAT_ID">
+										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+															<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+														</lido:objectID>
+													</xsl:if>
+										    		<xsl:if test="./gesah:GND_ID">
+										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+															<xsl:value-of select="concat('https://d-nb.info/gnd/', ./gesah:GND_ID/text())" />
+														</lido:objectID>
+													</xsl:if>
+										    		<xsl:if test="./gesah:CONA_ID">
+										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+															<xsl:value-of select="concat('http://vocab.getty.edu/page/cona/', ./gesah:CONA_ID/text())" />
+														</lido:objectID>
+													</xsl:if>
+										    		<xsl:if test="./gesah:Iconclass_ID">
+										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+															<xsl:value-of select="concat('https://iconclass.org/', ./gesah:Iconclass_ID/text())" />
+														</lido:objectID>
+													</xsl:if>
+										    		<xsl:if test="./gesah:Wikidata_ID">
+										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+															<xsl:value-of select="concat('https://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
+														</lido:objectID>
+													</xsl:if>
+												</lido:object>
+											</xsl:if>
+						                </lido:subjectObject>
+					                </xsl:for-each>
+	
+								    <!--BR: we have range class gesah:depicted_person which could be mapped too, I guess. This is added by me. We do not have a depicted person in this example, but it should be as follows, with GND, ICONCLASS, ULAN or Wikidata -identifier if existant:-->
+	                        		<xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:depicts/*[vitro:mostSpecificType/@rdf:resource = 'http://ontology.tib.eu/gesah/Depicted_Person']">
+										<lido:subjectActor>
+											<lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
+											    <xsl:choose>
+							                        <xsl:when test="./gesah:GND_ID">
+	    												<xsl:value-of select="concat('https://d-nb.info/gnd/', ./gesah:GND_ID/text())" />
+							                        </xsl:when>
+							                        <xsl:when test="./gesah:Iconclass_ID">
+														<xsl:value-of select="concat('https://iconclass.org/', ./gesah:Iconclass_ID/text())" />
+													</xsl:when>
+							                        <xsl:when test="./gesah:ULAN_ID">
+	    												<xsl:value-of select="concat('http://vocab.getty.edu/page/ulan/', ./gesah:ULAN_ID/text())" />
+							                        </xsl:when>
+							                        <xsl:when test="./gesah:Wikidata_ID">
+	    												<xsl:value-of select="concat('https://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
+							                        </xsl:when>
+											    </xsl:choose>
+											</lido:actorID>
+										    <lido:nameActorSet>
+											    <xsl:for-each select="./rdfs:label">
+		                                            <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00169">
+		                                                <xsl:if test="@xml:lang">
+		                                                    <xsl:attribute name="xml:lang">
+		                                                        <xsl:value-of select="@xml:lang" />
+		                                                    </xsl:attribute>
+		                                                </xsl:if>
+		                                                <xsl:value-of select="text()" />
+		                                            </lido:appellationValue>
+		                                        </xsl:for-each>
+											</lido:nameActorSet>
+						                </lido:subjectActor>
+	                                </xsl:for-each>
+								
+									<!--BR: we have range class gesah:depicted_place which could be mapped here. This is added by me, too. We do not have a depicted place in this example, but it should be as follows, with GND, TGN or Wikidata -identifier if existant:-->
+									<xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:depicts/*[vitro:mostSpecificType/@rdf:resource = 'http://ontology.tib.eu/gesah/Depicted_Place']">
+										<lido:subjectPlace>
+										    <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">
+											    <xsl:choose>
+							                        <xsl:when test="./gesah:GND_ID">
+	    												<xsl:value-of select="concat('https://d-nb.info/gnd/', ./gesah:GND_ID/text())" />
+							                        </xsl:when>
+							                        <xsl:when test="./gesah:TGN_ID">
+	    												<xsl:value-of select="concat('http://vocab.getty.edu/tgn/', ./gesah:TGN_ID/text())" />
+							                        </xsl:when>
+							                        <xsl:when test="./gesah:Wikidata_ID">
+	    												<xsl:value-of select="concat('https://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
+							                        </xsl:when>
+											    </xsl:choose>
+										    </lido:placeID>
+										    <xsl:for-each select="./rdfs:label">
+	                                            <lido:displayPlace>
+	                                                <xsl:if test="@xml:lang">
+	                                                    <xsl:attribute name="xml:lang">
+	                                                        <xsl:value-of select="@xml:lang" />
+	                                                    </xsl:attribute>
+	                                                </xsl:if>
+	                                                <xsl:value-of select="text()" />
+	                                            </lido:displayPlace>
+	                                        </xsl:for-each>
+										</lido:subjectPlace>
+	                                </xsl:for-each>
+                    			</lido:subject>
+                    		</lido:subjectSet>
+                    	</lido:subjectWrap>
+                    	<lido:relatedWorksWrap>
+                    		<!-- BR: This is work index entry-->
+                    		<xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_Work_Index_Entry/*">
+							    <lido:relatedWorkSet>
+							       <lido:relatedWork>
+							          <lido:object> 
+									  <!-- BR: This is equivalent to gesah:has_Work_Index_Entry, object property to class:Work_Index and context node Work_Index_entry. We need the label of instance of class:work_Index and gesah:index_number, data propery to context node Work_Index_entry-->
+							             <lido:objectID lido:type="http://terminology.lido-schema.org/lido00100">
+							             	<xsl:value-of select="concat((./gesah:is_listed_in/*/rdfs:label)[1]/text(), ' ', ./gesah:index_number/text())" />
+							             </lido:objectID>
+							          </lido:object>
+							       </lido:relatedWork>
+							       <lido:relatedWorkRelType>
+							          <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00627</lido:conceptID>
+							          <lido:term xml:lang="en">ist Exemplar von</lido:term>
+							          <lido:term xml:lang="de">is example of</lido:term>
+							       </lido:relatedWorkRelType>
+							    </lido:relatedWorkSet>
+						    </xsl:for-each>
+						    
+							
+						    <!-- GK: Hier ist die Sekundärliteratur gelandet.
+							BR: This is equivalent to our data property of CO gesah:secondary_literature, this is a html field, we sometimes use hyperlinks... cfr. objectDescriptionSet, I guess it is similar-->
+							<xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:secondary_literature">
+							    <lido:relatedWorkSet>
+							       <lido:relatedWork>
+							          <lido:object>
+							            <lido:objectNote>
+											<xsl:value-of select="text()" />
+							            </lido:objectNote>
+							          </lido:object>
+							       </lido:relatedWork>
+							       <lido:relatedWorkRelType>
+							          <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00617</lido:conceptID>
+							          <lido:term xml:lang="en">is documented in</lido:term>
+							          <lido:term xml:lang="de">ist dokumentiert in</lido:term>
+							       </lido:relatedWorkRelType>
+							    </lido:relatedWorkSet>
+						    </xsl:for-each>
+                    	</lido:relatedWorksWrap>
+                    </lido:objectRelationWrap>
                 </lido:descriptiveMetadata>
 
-                <lido:administrativeMetadata xml:lang="en">
+                <lido:administrativeMetadata xml:lang="de">
 
                     <lido:rightsWorkWrap>
                         <lido:rightsWorkSet> <!-- This is for the real physical described object: for all our objects this is true-->
-                             <lido:rightsType lido:type="http://terminology.lido-schema.org/lido00921">
-                                <skos:Concept rdf:about="https://creativecommons.org/publicdomain/mark/1.0/">
-                                    <skos:prefLabel xml:lang="en">Public Domain Mark 1.0</skos:prefLabel>
-                                    <skos:prefLabel xml:lang="de">Kein Urheberrechtsschutz</skos:prefLabel>
-                                </skos:Concept>
+                            <lido:rightsType>
+                                <!-- rdf about entfernt, Typattribut bei conceptID ergänzt -->
+                                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">https://creativecommons.org/publicdomain/mark/1.0/</lido:conceptID>
+                                <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="en">Public Domain Mark 1.0</lido:term>
+                                <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="de">Public Domain Mark 1.0</lido:term>
+                                <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="en">No Copyright</lido:term>
+                                <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="de">Kein Urheberrechtsschutz</lido:term>
                             </lido:rightsType>
                         </lido:rightsWorkSet>
                     </lido:rightsWorkWrap>
@@ -418,10 +947,9 @@
                             <xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" />
                         </lido:recordID>
                         <lido:recordType>
-                            <skos:Concept rdf:about="http://terminology.lido-schema.org/lido00141">
-                                <skos:prefLabel xml:lang="en">Item-level record</skos:prefLabel>
-                                <skos:prefLabel xml:lang="de">Einzelobjekt (Katalogisierungsebene)</skos:prefLabel>
-                            </skos:Concept>
+                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00141</lido:conceptID>
+                            <lido:term xml:lang="en">Item-level record</lido:term>
+                            <lido:term xml:lang="de">Einzelobjekt (Katalogisierungsebene)</lido:term>
                         </lido:recordType>
 
                         <lido:recordSource>
@@ -433,13 +961,12 @@
                         </lido:recordSource>
 
                         <lido:recordRights>
-                            <lido:rightsType lido:type="http://terminology.lido-schema.org/lido00921">
-                                <skos:Concept rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
-                                    <skos:prefLabel xml:lang="en">CC0 1.0 Universal (CC0 1.0)</skos:prefLabel>
-                                    <skos:altLabel xml:lang="en">No Copyright</skos:altLabel>
-                                    <skos:altLabel xml:lang="en">Public Domain Dedication</skos:altLabel>
-                                    <skos:altLabel xml:lang="de">Kein Urheberrechtsschutz</skos:altLabel>
-                                </skos:Concept>
+                            <lido:rightsType>
+                               <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://creativecommons.org/publicdomain/zero/1.0/</lido:conceptID>
+                               <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="en">CC0 1.0 Universal (CC0 1.0)</lido:term>
+                               <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="de">CC0 1.0 Universal (CC0 1.0)</lido:term>
+                               <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="en">Public Domain Dedication</lido:term>
+                               <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="de">Kein Urheberrechtsschutz</lido:term>
                             </lido:rightsType>
                         </lido:recordRights>
 
@@ -466,15 +993,6 @@
                               <lido:resourceRepresentation lido:type="http://terminology.lido-schema.org/lido00464">
                                 <lido:linkResource lido:formatResource="image/tiff">https://sah.tib.eu/iiif/2/<xsl:value-of select="gesah:barcode/text()" />%5Econtent%5Estreams%5E<xsl:value-of select="gesah:image_file_number/text()" />/full/full/0/default.tif</lido:linkResource>
                               </lido:resourceRepresentation>
-                              <lido:resourceType>
-                                <skos:Concept rdf:about="http://vocab.getty.edu/aat/300215302">
-                                  <skos:prefLabel xml:lang="en">digital images</skos:prefLabel>
-                                  <skos:altLabel xml:lang="en">digital image</skos:altLabel>
-                                  <skos:mappingRelation>https://www.wikidata.org/entity/Q1250322</skos:mappingRelation>
-                                </skos:Concept>
-                                <lido:term lido:pref="http://terminology.lido-schema.org/lido00526" xml:lang="de">Digitales Bild</lido:term>
-                                <lido:term xml:lang="de">Digitalbild</lido:term>
-                              </lido:resourceType>
                               <lido:resourceSource>
                                 <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
                                 <lido:legalBodyName>
@@ -482,13 +1000,12 @@
                                 </lido:legalBodyName>
                               </lido:resourceSource>
                               <lido:rightsResource>
-                                <lido:rightsType lido:type="http://terminology.lido-schema.org/lido00921">
-                                  <skos:Concept rdf:about="https://creativecommons.org/publicdomain/mark/1.0/deed.de">
-                                    <skos:prefLabel xml:lang="en">Public Domain Mark 1.0</skos:prefLabel>
-                                    <skos:altLabel xml:lang="en">No Copyright</skos:altLabel>
-                                    <skos:altLabel xml:lang="en">Public Domain Mark 1.0</skos:altLabel>
-                                    <skos:altLabel xml:lang="de">Kein Urheberrechtsschutz</skos:altLabel>
-                                  </skos:Concept>
+                                <lido:rightsType>
+                                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">https://creativecommons.org/publicdomain/mark/1.0/deed.de</lido:conceptID>
+                                    <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="en">Public Domain Mark 1.0</lido:term>
+                                    <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="de">Public Domain Mark 1.0</lido:term>
+                                    <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="en">No Copyright</lido:term>
+                                    <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="de">Kein Urheberrechtsschutz</lido:term>
                                 </lido:rightsType>
                                 <lido:rightsHolder>
                                   <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-MUS-89</lido:legalBodyID>
@@ -497,7 +1014,7 @@
                                   </lido:legalBodyName>
                                   <lido:legalBodyWeblink lido:pref="http://terminology.lido-schema.org/lido00169">https://www.tib.eu/de/</lido:legalBodyWeblink>
                                 </lido:rightsHolder>
-                                <lido:creditLine>Technische Informationsbibliothek (TIB), Public Domain Mark 1.0 </lido:creditLine>
+                                <lido:creditLine>Technische Informationsbibliothek (TIB), Public Domain Mark 1.0</lido:creditLine>
                               </lido:rightsResource>
                             </lido:resourceSet>
                         </xsl:for-each>
