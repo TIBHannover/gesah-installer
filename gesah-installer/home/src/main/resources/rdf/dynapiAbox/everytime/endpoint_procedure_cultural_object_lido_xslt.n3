@@ -569,41 +569,42 @@
 															</xsl:choose>
 														</lido:displayDate>
 	                                            	</xsl:when>
-													<xsl:otherwise>
-														<lido:date>
-															<xsl:if test="vivo:dateTimeInterval//vivo:start//vivo:dateTime/text() and vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource">
-								                                <lido:earliestDate>
-																	<xsl:choose>
-																		<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
-																			<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 4)" />
-																		</xsl:when>
-																		<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
-																			<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 7)" />
-																		</xsl:when>
-																		<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
-																			<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 10)" />
-																		</xsl:when>
-																	</xsl:choose>
-																</lido:earliestDate>
-															</xsl:if>
-															<xsl:if test="vivo:dateTimeInterval//vivo:end//vivo:dateTime/text() and vivo:dateTimeInterval//vivo:end//vivo:dateTimePrecision/@rdf:resource">
-								                                <lido:latestDate>
-																	<xsl:choose>
-																		<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
-																			<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:end//vivo:dateTime/text(), 1, 4)" />
-																		</xsl:when>
-																		<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
-																			<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:end//vivo:dateTime/text(), 1, 7)" />
-																		</xsl:when>
-																		<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
-																			<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:end//vivo:dateTime/text(), 1, 10)" />
-																		</xsl:when>
-																	</xsl:choose>
-																</lido:latestDate>
-															</xsl:if>
-							                            </lido:date>
-	                                            	</xsl:otherwise>
 			                                    </xsl:choose>
+
+												<xsl:if test="(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text() and vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource) or (vivo:dateTimeInterval//vivo:end//vivo:dateTime/text() and vivo:dateTimeInterval//vivo:end//vivo:dateTimePrecision/@rdf:resource)">
+													<lido:date>
+														<xsl:if test="vivo:dateTimeInterval//vivo:start//vivo:dateTime/text() and vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource">
+							                                <lido:earliestDate>
+																<xsl:choose>
+																	<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
+																		<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 4)" />
+																	</xsl:when>
+																	<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
+																		<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 7)" />
+																	</xsl:when>
+																	<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
+																		<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:start//vivo:dateTime/text(), 1, 10)" />
+																	</xsl:when>
+																</xsl:choose>
+															</lido:earliestDate>
+														</xsl:if>
+														<xsl:if test="vivo:dateTimeInterval//vivo:end//vivo:dateTime/text() and vivo:dateTimeInterval//vivo:end//vivo:dateTimePrecision/@rdf:resource">
+							                                <lido:latestDate>
+																<xsl:choose>
+																	<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
+																		<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:end//vivo:dateTime/text(), 1, 4)" />
+																	</xsl:when>
+																	<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
+																		<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:end//vivo:dateTime/text(), 1, 7)" />
+																	</xsl:when>
+																	<xsl:when test="vivo:dateTimeInterval//vivo:start//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
+																		<xsl:value-of select="substring(vivo:dateTimeInterval//vivo:end//vivo:dateTime/text(), 1, 10)" />
+																	</xsl:when>
+																</xsl:choose>
+															</lido:latestDate>
+														</xsl:if>
+						                            </lido:date>
+												</xsl:if>
 			                                </lido:eventDate>
 	                                    </xsl:if>
 										
