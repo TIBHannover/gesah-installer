@@ -97,11 +97,9 @@
                     lido:source="ld.zdb-services.de/resource/organisations/DE-89"
                 >DE-89/lido/<xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" /></lido:lidoRecID>
 
-                <lido:objectPublishedID
-                    lido:pref="http://terminology.lido-schema.org/lido00169"
-                    lido:type="http://terminology.lido-schema.org/lido00099"
-                    lido:source="ld.zdb-services.de/resource/organisations/DE-89"
-                >DE-89/object/<xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" /></lido:objectPublishedID>
+                <lido:objectPublishedID lido:pref="http://terminology.lido-schema.org/lido00169" lido:type="http://terminology.lido-schema.org/lido00099" lido:source="ld.zdb-services.de/resource/organisations/DE-89">
+                    <xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" />
+                </lido:objectPublishedID>
 
                 <lido:category>
                     <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00096</lido:conceptID>
