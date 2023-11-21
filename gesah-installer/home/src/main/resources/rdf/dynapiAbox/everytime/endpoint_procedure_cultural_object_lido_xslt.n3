@@ -54,7 +54,7 @@
 			</xsl:if>
     		<xsl:if test="./gesah:Wikidata_ID">
                 <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-					<xsl:value-of select="concat('https://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
+					<xsl:value-of select="concat('http://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
 				</lido:conceptID>
 			</xsl:if>
 			<xsl:for-each select="./rdfs:label">
@@ -68,9 +68,16 @@
 				</lido:term>
             </xsl:for-each>
 		</xsl:template>
-	
+			
+		<xsl:template match="/">
+			<lido:lidoWrap xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:html="http://www.w3.org/1999/xhtml" 
+						   xmlns:lido="http://www.lido-schema.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+						   xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
+				<xsl:call-template name="lido"/>
+			</lido:lidoWrap>
+		</xsl:template>
 
-        <xsl:template match="/">
+        <xsl:template name="lido">
             <lido:lido xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.lido-schema.org"
                 xmlns:owl="http://www.w3.org/2002/07/owl#"
                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -285,20 +292,20 @@
                                 </xsl:for-each>
                                 <!-- this is static , always Hannover-->
                                 <lido:repositoryLocation>
-                                    <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">https://www.wikidata.org/entity/Q1715</lido:placeID>
+                                    <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">http://www.wikidata.org/entity/Q1715</lido:placeID>
                                     <lido:namePlaceSet>
                                         <lido:appellationValue xml:lang="de">Hannover</lido:appellationValue>
                                     </lido:namePlaceSet>
                                     <!-- Bundesland -->
                                     <lido:partOfPlace>
-                                        <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">https://www.wikidata.org/entity/Q1197</lido:placeID>
+                                        <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">http://www.wikidata.org/entity/Q1197</lido:placeID>
                                         <lido:namePlaceSet>
                                             <lido:appellationValue xml:lang="en">Lower Saxony</lido:appellationValue>
                                             <lido:appellationValue xml:lang="de">Niedersachsen</lido:appellationValue>
                                         </lido:namePlaceSet>
                                         <!-- Land -->
                                         <lido:partOfPlace>
-                                            <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">https://www.wikidata.org/entity/Q183</lido:placeID>
+                                            <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">http://www.wikidata.org/entity/Q183</lido:placeID>
                                             <lido:namePlaceSet>
                                                 <lido:appellationValue xml:lang="en">Germany</lido:appellationValue>
                                                 <lido:appellationValue xml:lang="de">Deutschland</lido:appellationValue>
@@ -793,7 +800,7 @@
 													</xsl:if>
 										    		<xsl:if test="./gesah:Wikidata_ID">
 										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-															<xsl:value-of select="concat('https://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
+															<xsl:value-of select="concat('http://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
 														</lido:objectID>
 													</xsl:if>
 												</lido:object>
@@ -816,7 +823,7 @@
 	    												<xsl:value-of select="concat('http://vocab.getty.edu/page/ulan/', ./gesah:ULAN_ID/text())" />
 							                        </xsl:when>
 							                        <xsl:when test="./gesah:Wikidata_ID">
-	    												<xsl:value-of select="concat('https://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
+	    												<xsl:value-of select="concat('http://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
 							                        </xsl:when>
 											    </xsl:choose>
 											</lido:actorID>
@@ -847,7 +854,7 @@
 	    												<xsl:value-of select="concat('http://vocab.getty.edu/tgn/', ./gesah:TGN_ID/text())" />
 							                        </xsl:when>
 							                        <xsl:when test="./gesah:Wikidata_ID">
-	    												<xsl:value-of select="concat('https://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
+	    												<xsl:value-of select="concat('http://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
 							                        </xsl:when>
 											    </xsl:choose>
 										    </lido:placeID>
@@ -970,11 +977,11 @@
                               <lido:resourceID lido:type="http://terminology.lido-schema.org/lido00099"><xsl:value-of select="@rdf:about" /></lido:resourceID>
                               <!-- Preview image-->
                               <lido:resourceRepresentation lido:type="http://terminology.lido-schema.org/lido00451">
-                                <lido:linkResource lido:formatResource="image/jpeg">https://sah.tib.eu/iiif/2/<xsl:value-of select="gesah:barcode/text()" />%5Econtent%5Estreams%5E<xsl:value-of select="gesah:image_file_number/text()" />/full/300,/0/default.jpg</lido:linkResource>
+                                <lido:linkResource lido:formatResource="image/jpeg">https://sah.tib.eu/iiif/2/<xsl:value-of select="gesah:barcode/text()" />%5Econtent%5Estreams%5E<xsl:value-of select="gesah:image_file_number/text()" />/full/350,/0/default.jpg</lido:linkResource>
                               </lido:resourceRepresentation>
                               <!-- Full size image-->
                               <lido:resourceRepresentation lido:type="http://terminology.lido-schema.org/lido00464">
-                                <lido:linkResource lido:formatResource="image/tiff">https://sah.tib.eu/iiif/2/<xsl:value-of select="gesah:barcode/text()" />%5Econtent%5Estreams%5E<xsl:value-of select="gesah:image_file_number/text()" />/full/full/0/default.tif</lido:linkResource>
+                                <lido:linkResource lido:formatResource="image/jpeg">https://sah.tib.eu/iiif/2/<xsl:value-of select="gesah:barcode/text()" />%5Econtent%5Estreams%5E<xsl:value-of select="gesah:image_file_number/text()" />/full/1200,/0/default.jpg</lido:linkResource>
                               </lido:resourceRepresentation>
                               <lido:resourceSource>
                                 <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
