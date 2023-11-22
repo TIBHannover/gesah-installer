@@ -109,6 +109,9 @@ CONSTRUCT {
   ?resource_id gesah:description ?description .
   ?resource_id gesah:condition_state ?condition_state .
   
+  ?resource_id gesah:has_watermark ?watermark .
+  ?watermark rdfs:label ?watermark_label .
+  
   ?resource_id gesah:has_stylistic_assignment ?stylistic_assignment .
   ?stylistic_assignment rdfs:label ?stylistic_assignment_label .
   ?stylistic_assignment gesah:AAT_ID ?stylistic_assignment_AAT_ID .
@@ -216,7 +219,12 @@ WHERE {
       ?title_type rdfs:label ?title_type_label .
       ?title_type gesah:AAT_ID ?aat_id .
     } 
-  } 
+  }
+    UNION
+  {
+    ?resource_id gesah:has_watermark ?watermark .
+    ?watermark rdfs:label ?watermark_label .
+  }
     UNION
   {
     ?resource_id gesah:has_object_category_generic_term ?object_category_generic_term .

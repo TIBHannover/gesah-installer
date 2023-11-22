@@ -559,7 +559,7 @@
                         </lido:objectMeasurementsWrap> 
                         
                     </lido:objectIdentificationWrap>
-                    <xsl:if test="//gesah:output_of_creation/*|//gesah:output_of_production/*|//gesah:object_of_edition/*">
+                    <xsl:if test="//gesah:output_of_creation|//gesah:output_of_production|//gesah:object_of_edition|//gesah:object_of_event|//gesah:has_watermark">
                         <lido:eventWrap>
                             <xsl:for-each select="//gesah:output_of_creation/*|//gesah:output_of_production/*|//gesah:object_of_edition/*">
                                 <lido:eventSet>
@@ -890,6 +890,34 @@
                                         </xsl:for-each>
                                         <xsl:call-template name="event-date"/>
                                         <xsl:call-template name="event-place"/>
+                                    </lido:event>
+                                </lido:eventSet>
+                            </xsl:for-each>
+                            <!-- watermark-->
+                            <xsl:for-each select="//gesah:has_watermark/*">
+                                <lido:eventSet>
+                                    <lido:event>
+										<lido:eventType>
+											<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido01096</lido:conceptID>
+											<lido:term xml:lang="de">Herstellung des Exemplars</lido:term>
+										</lido:eventType>
+										<lido:eventMaterialsTech>
+											<lido:materialsTech>
+												<lido:termMaterialsTech lido:type="http://terminology.lido-schema.org/lido00427">
+													<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300028749</lido:conceptID>
+										            <xsl:for-each select="./rdfs:label">
+										                <lido:term>
+										                    <xsl:if test="@xml:lang">
+										                        <xsl:attribute name="xml:lang">
+										                            <xsl:value-of select="@xml:lang" />
+										                        </xsl:attribute>
+										                    </xsl:if>
+										                    <xsl:value-of select="text()" />
+										                </lido:term>
+										            </xsl:for-each>
+												</lido:termMaterialsTech>
+											</lido:materialsTech>
+										</lido:eventMaterialsTech>
                                     </lido:event>
                                 </lido:eventSet>
                             </xsl:for-each>
