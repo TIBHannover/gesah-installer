@@ -22,6 +22,11 @@ CONSTRUCT {
   ?resource_id rdfs:label ?co_label .
   ?resource_id vitro:mostSpecificType ?most_specific_type .
   ?resource_id gesah:has_Title ?title_ind .
+  
+  ?resource_id gesah:plate_state ?plate_state .
+  ?resource_id gesah:print_run ?print_run .
+  
+  
   ?title_ind gesah:has_title_type ?title_type .
   ?title_type rdfs:label ?title_type_label .
   ?title_type gesah:AAT_ID ?aat_id .
@@ -124,8 +129,33 @@ CONSTRUCT {
   ?work_index_entry gesah:is_listed_in ?work_index .
   ?work_index rdfs:label ?work_index_label .
   ?work_index_entry gesah:index_number ?work_index_entry_number .
+  ?work_index_entry gesah:index_number_URL ?work_index_entry_number_URL .
+  
   
   ?resource_id gesah:secondary_literature ?secondary_literature .
+  
+  ?resource_id gesah:object_of_event ?object_of_event .
+  ?object_of_event vitro:mostSpecificType ?object_of_event_type .
+  ?object_of_event gesah:related_publication ?object_of_event_related_publication .
+  ?object_of_event gesah:has_organizer ?object_of_event_organizer .
+  
+  ?object_of_event_organizer rdfs:label ?object_of_event_organizer_label .
+  ?object_of_event_organizer gesah:located_in ?object_of_event_organizer_location .
+  ?object_of_event_organizer_location vitro:mostSpecificType ?object_of_event_organizer_location_type .
+  ?object_of_event_organizer_location rdfs:label ?object_of_event_organizer_location_label .
+  ?object_of_event_organizer_location gesah:GeoNames_ID ?object_of_event_organizer_location_GeoNames_ID .
+  ?object_of_event_organizer_location gesah:TGN_ID ?object_of_event_organizer_location_TGN_ID .
+  ?object_of_event_organizer gesah:GND_ID ?object_of_event_organizer_GND_ID .
+  ?object_of_event_organizer gesah:ISIL_ID ?object_of_event_organizer_ISIL_ID .
+  ?object_of_event_organizer gesah:Wikidata_ID ?object_of_event_organizer_Wikidata_ID .
+  ?object_of_event_organizer rdfs:comment ?object_of_event_organizer_type_comment .
+  ?object_of_event vivo:dateTimeInterval ?object_of_event_date_time_interval .
+  ?object_of_event_date_time_interval  vivo:start ?object_of_event_date_time_interval_start .
+  ?object_of_event_date_time_interval_start vivo:dateTimePrecision ?object_of_event_date_time_interval_start_precision .
+  ?object_of_event_date_time_interval_start vivo:dateTime ?object_of_event_date_time_interval_start_value .
+  ?object_of_event_date_time_interval  vivo:end ?object_of_event_date_time_interval_end .
+  ?object_of_event_date_time_interval_end vivo:dateTimePrecision ?object_of_event_date_time_interval_end_precision .
+  ?object_of_event_date_time_interval_end vivo:dateTime ?object_of_event_date_time_interval_end_value .
    
 }                
 WHERE {
@@ -140,10 +170,20 @@ WHERE {
     {
       ?most_specific_type rdfs:seeAlso ?cultural_object_AAT_ID .
     }
-  } UNION
+  } 
+    UNION
   {
     ?resource_id rdfs:label ?co_label .
-  } UNION
+  } 
+    UNION
+  {
+    ?resource_id gesah:plate_state ?plate_state .
+  } 
+    UNION
+  {
+    ?resource_id gesah:print_run ?print_run .
+  } 
+    UNION
   {
     ?resource_id gesah:has_Title ?title_ind .
     {
@@ -269,10 +309,10 @@ WHERE {
       ?activity gesah:has_participant ?activity_participant . 
       ?activity_participant a ?activity_participant_type .
       BIND( 
-      IF( str(?activity_participant_type) = 'http://xmlns.com/foaf/0.1/Person' , 'person', 
-      IF( str(?activity_participant_type) = 'http://xmlns.com/foaf/0.1/Organization' , 'organization', 
-      '')) as ?activity_participant_type_comment )
-      
+	      IF( str(?activity_participant_type) = 'http://xmlns.com/foaf/0.1/Person' , 'person', 
+	      IF( str(?activity_participant_type) = 'http://xmlns.com/foaf/0.1/Organization' , 'organization', 
+	      '')
+      ) as ?activity_participant_type_comment )
       
       { 
         ?activity_participant rdfs:label ?activity_participant_label . 
@@ -341,11 +381,11 @@ WHERE {
          ?activity_date_time_interval_start vivo:dateTime ?activity_date_time_interval_start_value .
       }
         UNION
-     {
+      {
         ?activity_date_time_interval  vivo:end ?activity_date_time_interval_end .
         ?activity_date_time_interval_end vivo:dateTimePrecision ?activity_date_time_interval_end_precision .
         ?activity_date_time_interval_end vivo:dateTime ?activity_date_time_interval_end_value .
-     }
+      }
     }
   }
   UNION
@@ -426,11 +466,81 @@ WHERE {
     {
       ?work_index_entry gesah:index_number ?work_index_entry_number .
     }
+      UNION
+    {
+      ?work_index_entry gesah:index_number_URL ?work_index_entry_number_URL .
+    }
   } 
     UNION
   {
     ?resource_id gesah:secondary_literature ?secondary_literature .
   }    
-  
+    UNION
+  {
+    ?resource_id gesah:object_of_event ?object_of_event .
+    {
+      ?object_of_event vitro:mostSpecificType ?object_of_event_type .
+    }
+      UNION
+    {
+      ?object_of_event gesah:related_publication ?object_of_event_related_publication .
+    }
+      UNION
+    {
+      ?object_of_event vivo:dateTimeInterval ?object_of_event_date_time_interval .
+      {
+         ?object_of_event_date_time_interval  vivo:start ?object_of_event_date_time_interval_start .
+         ?object_of_event_date_time_interval_start vivo:dateTimePrecision ?object_of_event_date_time_interval_start_precision .
+         ?object_of_event_date_time_interval_start vivo:dateTime ?object_of_event_date_time_interval_start_value .
+      }
+        UNION
+      {
+        ?object_of_event_date_time_interval  vivo:end ?object_of_event_date_time_interval_end .
+        ?object_of_event_date_time_interval_end vivo:dateTimePrecision ?object_of_event_date_time_interval_end_precision .
+        ?object_of_event_date_time_interval_end vivo:dateTime ?object_of_event_date_time_interval_end_value .
+      }
+    }
+      UNION
+    {
+      ?object_of_event gesah:has_organizer ?object_of_event_organizer .
+      ?object_of_event_organizer a ?object_of_event_organizer_type .
+      BIND( 
+	      IF( str(?object_of_event_organizer_type) = 'http://xmlns.com/foaf/0.1/Person' , 'person', 
+	      IF( str(?object_of_event_organizer_type) = 'http://xmlns.com/foaf/0.1/Organization' , 'organization', 
+	      '')
+      ) as ?object_of_event_organizer_type_comment )
+      {
+        ?object_of_event_organizer rdfs:label ?object_of_event_organizer_label .
+      }
+        UNION
+      {
+        ?object_of_event_organizer gesah:located_in ?object_of_event_organizer_location .
+        ?object_of_event_organizer_location vitro:mostSpecificType ?object_of_event_organizer_location_type .
+        {
+          ?object_of_event_organizer_location rdfs:label ?object_of_event_organizer_location_label .
+        } 
+          UNION
+        {
+          ?object_of_event_organizer_location gesah:GeoNames_ID ?object_of_event_organizer_location_GeoNames_ID .
+        }
+          UNION
+        {
+          ?object_of_event_organizer_location gesah:TGN_ID ?object_of_event_organizer_location_TGN_ID .
+        }
+      }
+        UNION
+	  {
+	    ?object_of_event_organizer gesah:GND_ID ?object_of_event_organizer_GND_ID .
+	  }
+	    UNION
+	  {
+	    ?object_of_event_organizer gesah:ISIL_ID ?object_of_event_organizer_ISIL_ID .
+	  } 
+	    UNION
+	  {
+	    ?object_of_event_organizer gesah:Wikidata_ID ?object_of_event_organizer_Wikidata_ID .
+	  }
+    }
+  }   
 }
 """ .
