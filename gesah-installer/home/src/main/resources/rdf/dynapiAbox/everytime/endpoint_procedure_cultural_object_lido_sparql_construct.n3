@@ -209,69 +209,80 @@ WHERE {
     ?resource_id gesah:has_Title ?title_ind .
     {
       ?title_ind gesah:title ?title_label .
-    } UNION 
+    } 
+      UNION 
     {
       ?title_ind gesah:has_title_type ?title_type .
       ?title_type rdfs:label ?title_type_label .
       ?title_type gesah:AAT_ID ?aat_id .
     } 
-  } UNION
+  } 
+    UNION
   {
     ?resource_id gesah:has_object_category_generic_term ?object_category_generic_term .
     ?object_category_generic_term rdfs:label ?object_category_generic_term_label .
-  } UNION
+  } 
+    UNION
   {
     ?resource_id gesah:has_object_category_narrower_term ?object_category_narrower_term .
     ?object_category_narrower_term rdfs:label ?object_category_narrower_term_label .
-  } UNION
+  } 
+    UNION
   {
     ?resource_id gesah:object_of_inscription ?object_of_inscription .
     { 
       ?object_of_inscription rdfs:label ?object_of_inscription_label . 
     }
-    UNION
+      UNION
     { 
       ?object_of_inscription gesah:has_inscription_output ?inscription_output . 
       {
         ?inscription_output gesah:transcription ?inscription_transcription .
       } 
-      UNION
+        UNION
       {
         ?inscription_output gesah:has_inscription_type ?inscription_type .
         ?inscription_type rdfs:label ?inscription_type_label .
       } 
-      UNION
+        UNION
       {
         ?inscription_output gesah:comment ?output_comment .
       }
-      UNION
+        UNION
       {
         ?inscription_output vitro:mostSpecificType ?inscription_output_most_specific_type .
         BIND (str(?inscription_output_most_specific_type) as ?inscription_output_most_specific_type_literal) 
       }  
     }
-    
-  } UNION
+  } 
+    UNION
   {
     ?resource_id gesah:current_inventory_number ?current_inv_number .
-  } UNION
+  } 
+    UNION
   {
     ?resource_id gesah:former_inventory_number ?former_inv_number .
-  } UNION
+  } 
+    UNION
   {
     ?resource_id gesah:has_current_holding_institution ?current_holding_institution .
     ?current_holding_institution rdfs:label ?current_holding_institution_label .
-  } UNION {
+  } 
+    UNION 
+  {
     ?resource_id gesah:has_digital_representation ?representation .
     {
       ?representation ?representation_p ?representation_o .
-    } UNION
+    } 
+      UNION
     {
       ?representation gesah:digital_image_right ?digital_image_right .
       ?digital_image_right rdfs:label ?digital_image_right_label .
     } 
-  } UNION {
-    ?resource_id gesah:has_measurements ?measurement .
+  } 
+    UNION 
+    {
+      ?resource_id gesah:has_measurements ?measurement .
     {
       ?measurement gesah:measurement_height ?measurement_height .
     } UNION 
@@ -288,8 +299,8 @@ WHERE {
       ?measurement gesah:has_measurement_specification ?measurement_specification .
       ?measurement_specification rdfs:label ?measurement_specification_label .
     }
-  } 
-  UNION
+  }
+    UNION
   {
     ?resource_id ?activity_property ?activity .
     
@@ -409,12 +420,12 @@ WHERE {
       }
     }
   }
-  UNION
+    UNION
   {
     ?resource_id gesah:description ?description_literal .
     BIND ( str(?description_literal) as ?description )
   } 
-  UNION
+    UNION
   {
     ?resource_id gesah:condition_state ?condition_state .
   } 
