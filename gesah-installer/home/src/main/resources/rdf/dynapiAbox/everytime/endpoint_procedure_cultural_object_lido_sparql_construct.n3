@@ -141,6 +141,12 @@ CONSTRUCT {
   ?object_of_event vitro:mostSpecificType ?object_of_event_type .
   ?object_of_event gesah:related_publication ?object_of_event_related_publication .
   ?object_of_event gesah:has_organizer ?object_of_event_organizer .
+  ?object_of_event rdfs:label ?object_of_event_label .
+  
+  ?object_of_event gesah:has_place ?object_of_event_place .
+  ?object_of_event_place rdfs:label ?object_of_event_place_label .
+  ?object_of_event_place gesah:TGN_ID ?object_of_event_place_TGN_ID .
+  ?object_of_event_place gesah:GeoNames_ID ?object_of_event_place_GeoNames_ID .
   
   ?object_of_event_organizer rdfs:label ?object_of_event_organizer_label .
   ?object_of_event_organizer gesah:located_in ?object_of_event_organizer_location .
@@ -502,6 +508,25 @@ WHERE {
     }
       UNION
     {
+      ?object_of_event rdfs:label ?object_of_event_label .
+    }
+      UNION
+    {
+      ?object_of_event gesah:has_place ?object_of_event_place .
+      {
+	    ?object_of_event_place rdfs:label ?object_of_event_place_label .
+	  }
+ 		UNION
+      {
+        ?object_of_event_place gesah:TGN_ID ?object_of_event_place_TGN_ID .
+      }
+        UNION
+      {
+        ?object_of_event_place gesah:GeoNames_ID ?object_of_event_place_GeoNames_ID .
+      }
+    }
+      UNION
+    {
       ?object_of_event vivo:dateTimeInterval ?object_of_event_date_time_interval .
       {
          ?object_of_event_date_time_interval  vivo:start ?object_of_event_date_time_interval_start .
@@ -524,6 +549,7 @@ WHERE {
 	      IF( str(?object_of_event_organizer_type) = 'http://xmlns.com/foaf/0.1/Organization' , 'organization', 
 	      '')
       ) as ?object_of_event_organizer_type_comment )
+      
       {
         ?object_of_event_organizer rdfs:label ?object_of_event_organizer_label .
       }
