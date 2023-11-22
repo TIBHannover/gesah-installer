@@ -27,36 +27,36 @@
         <xsl:output method="xml" indent="yes"/>
 		
 		<xsl:template name="terms-with-concept-id">
-    		<xsl:if test="./gesah:AAT_ID">
+    		<xsl:for-each select="./gesah:AAT_ID">
                 <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-					<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+					<xsl:call-template name="aat-id"/>
 				</lido:conceptID>
-			</xsl:if>
-    		<xsl:if test="./gesah:TGN_ID">
+			</xsl:for-each>
+    		<xsl:for-each select="./gesah:TGN_ID">
                 <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-					<xsl:value-of select="concat('http://vocab.getty.edu/tgn/', ./gesah:TGN_ID/text())" />
+					<xsl:call-template name="tgn-id"/>
 				</lido:conceptID>
-			</xsl:if>
-    		<xsl:if test="./gesah:ULAN_ID">
+			</xsl:for-each>
+    		<xsl:for-each select="./gesah:ULAN_ID">
                 <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-					<xsl:value-of select="concat('http://vocab.getty.edu/page/ulan/', ./gesah:ULAN_ID/text())" />
+					<xsl:call-template name="ulan-id"/>
 				</lido:conceptID>
-			</xsl:if>
-    		<xsl:if test="./gesah:GND_ID">
+			</xsl:for-each>
+    		<xsl:for-each select="./gesah:GND_ID">
                 <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-					<xsl:value-of select="concat('https://d-nb.info/gnd/', ./gesah:GND_ID/text())" />
+					<xsl:call-template name="gnd-id"/>
 				</lido:conceptID>
-			</xsl:if>
-    		<xsl:if test="./gesah:Iconclass_ID">
+			</xsl:for-each>
+    		<xsl:for-each select="./gesah:Iconclass_ID">
                 <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-					<xsl:value-of select="concat('https://iconclass.org/', ./gesah:Iconclass_ID/text())" />
+					<xsl:call-template name="iconclass-id"/>
 				</lido:conceptID>
-			</xsl:if>
-    		<xsl:if test="./gesah:Wikidata_ID">
+			</xsl:for-each>
+    		<xsl:for-each select="./gesah:Wikidata_ID">
                 <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-					<xsl:value-of select="concat('http://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
+					<xsl:call-template name="wikidata-id"/>
 				</lido:conceptID>
-			</xsl:if>
+			</xsl:for-each>
 			<xsl:for-each select="./rdfs:label">
 				<lido:term>
         			<xsl:if test="@xml:lang">
@@ -67,6 +67,38 @@
     				<xsl:value-of select="text()" />
 				</lido:term>
             </xsl:for-each>
+		</xsl:template>
+		
+		<xsl:template name="gnd-id">
+			<xsl:value-of select="concat('https://d-nb.info/gnd/', text())" />
+		</xsl:template>
+		
+		<xsl:template name="tgn-id">
+			<xsl:value-of select="concat('http://vocab.getty.edu/tgn/', text())" />
+		</xsl:template>
+		
+		<xsl:template name="aat-id">
+			<xsl:value-of select="concat('http://vocab.getty.edu/aat/', text())" />
+		</xsl:template>
+		
+		<xsl:template name="wikidata-id">
+			<xsl:value-of select="concat('http://www.wikidata.org/wiki/', text())" />
+		</xsl:template>
+		
+		<xsl:template name="ulan-id">
+			<xsl:value-of select="concat('http://vocab.getty.edu/page/ulan/', text())" />
+		</xsl:template>
+		
+		<xsl:template name="iconclass-id">
+			<xsl:value-of select="concat('https://iconclass.org/', text())" />
+		</xsl:template>
+		
+		<xsl:template name="geonames-id">
+			<xsl:value-of select="concat('https://www.geonames.org/', text())" />
+		</xsl:template>
+		
+		<xsl:template name="cona-id">
+			<xsl:value-of select="concat('http://vocab.getty.edu/page/cona/', text())" />
 		</xsl:template>
 		
 		<xsl:template name="event-date">
@@ -138,16 +170,16 @@
                 <lido:eventPlace>
                     <lido:place>
                         <!-- BR: our graphic_location should have TGN ID and/or Geonames ID,  maybe we can export both if available-->
-                        <xsl:if test="./gesah:TGN_ID">
+                        <xsl:for-each select="./gesah:TGN_ID">
                             <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">
-                                <xsl:value-of select="concat('http://vocab.getty.edu/tgn/', ./gesah:TGN_ID/text())" />                                                    
+                                <xsl:call-template name="tgn-id"/>                                                    
                             </lido:placeID>
-                        </xsl:if>
-                        <xsl:if test="./gesah:GeoNames_ID">
+                        </xsl:for-each>
+                        <xsl:for-each select="./gesah:GeoNames_ID">
                             <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">
-                                <xsl:value-of select="concat('https://www.geonames.org/', ./gesah:GeoNames_ID/text())" />                                                    
+                                <xsl:call-template name="geonames-id"/>
                             </lido:placeID>
-                        </xsl:if>
+                        </xsl:for-each>
 
                         <lido:namePlaceSet> 
                             <xsl:for-each select="./rdfs:label">
@@ -197,6 +229,24 @@
                 <lido:objectPublishedID lido:pref="http://terminology.lido-schema.org/lido00169" lido:type="http://terminology.lido-schema.org/lido00099" lido:source="ld.zdb-services.de/resource/organisations/DE-89">
                     <xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" />
                 </lido:objectPublishedID>
+                
+                <xsl:for-each select="./gesah:GND_ID">
+	                <lido:objectPublishedID lido:pref="http://terminology.lido-schema.org/lido00169" lido:type="http://terminology.lido-schema.org/lido00099">
+						<xsl:call-template name="gnd-id"/>
+					</lido:objectPublishedID>
+				</xsl:for-each>
+				
+	    		<xsl:for-each select="./gesah:CONA_ID">
+	                <lido:objectPublishedID lido:pref="http://terminology.lido-schema.org/lido00169" lido:type="http://terminology.lido-schema.org/lido00099">
+						<xsl:call-template name="cona-id"/>
+					</lido:objectPublishedID>
+				</xsl:for-each>
+				
+	    		<xsl:for-each select="./gesah:Wikidata_ID">
+	                <lido:objectPublishedID lido:pref="http://terminology.lido-schema.org/lido00169" lido:type="http://terminology.lido-schema.org/lido00099">
+						<xsl:call-template name="wikidata-id"/>
+					</lido:objectPublishedID>
+				</xsl:for-each>
 
                 <lido:category>
                     <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00096</lido:conceptID>
@@ -304,7 +354,9 @@
                                 <lido:titleSet>
                                     <xsl:if test="gesah:has_title_type/rdf:Description/gesah:AAT_ID/text()">
                                         <xsl:attribute name="lido:type">
-                                               <xsl:value-of select="concat('http://vocab.getty.edu/aat/', gesah:has_title_type/rdf:Description/gesah:AAT_ID/text())" />
+		                                    <xsl:for-each select="gesah:has_title_type/rdf:Description/gesah:AAT_ID[1]">
+												<xsl:call-template name="aat-id"/>
+											</xsl:for-each>
                                         </xsl:attribute>
                                     </xsl:if>
                                     <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00170">
@@ -567,16 +619,16 @@
 	                                                    </xsl:attribute>
 		
 		                                                <!--This is dynamic, the GND or ULAN ID stored in GESAH with the individual person/organisation-->
-		                                                <xsl:if test="./gesah:GND_ID">
+		                                                <xsl:for-each select="./gesah:GND_ID">
 	                                                        <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
-	                                     	                   <xsl:value-of select="concat('https://d-nb.info/gnd/', ./gesah:GND_ID/text())" />
+	                                     	                   <xsl:call-template name="gnd-id"/>
 	                                                        </lido:actorID>
-	                                                    </xsl:if>
-	                                                    <xsl:if test="./gesah:ULAN_ID">
+	                                                    </xsl:for-each>
+	                                                    <xsl:for-each select="./gesah:ULAN_ID">
 	                                                        <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
-	                                     	                   <xsl:value-of select="concat('http://vocab.getty.edu/page/ulan/', ./gesah:ULAN_ID/text())" />
+	                                     	                   <xsl:call-template name="ulan-id"/>
 	                                                        </lido:actorID>
-	                                                    </xsl:if>
+	                                                    </xsl:for-each>
 								                        <lido:nameActorSet>
 								                            <xsl:for-each select="./rdfs:label">
 	                                            				<lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00169">
@@ -594,11 +646,11 @@
 		                                            <!--This is dynamic and equivalent to our gesah:role_types, linked to context node role which is connected with the creation activity, there are 21 role types in GESAH mostly with AAT-ID-->
 		                                            <lido:roleActor>
 		                                           		<xsl:for-each select="./gesah:has_role/*">
-		                                           			<xsl:if test="./gesah:has_role_type/*/gesah:AAT_ID">
+		                                           			<xsl:for-each select="./gesah:has_role_type/*/gesah:AAT_ID">
 				                                                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-																	<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:has_role_type/*/gesah:AAT_ID/text())" />
+																	<xsl:call-template name="aat-id"/>
 																</lido:conceptID>
-															</xsl:if>
+															</xsl:for-each>
 															<xsl:for-each select="./gesah:has_role_type/*/rdfs:label">
 		                                        				<lido:term>
 		                                                			<xsl:if test="@xml:lang">
@@ -616,11 +668,11 @@
 													<lido:term>attributed to</lido:term>-->
 													<xsl:for-each select="../../gesah:has_type_of_attribution/*">
 			                                            <lido:attributionQualifierActor>
-															<xsl:if test="./gesah:AAT_ID">
+															<xsl:for-each select="./gesah:AAT_ID">
 																<lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-																	<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+																	<xsl:call-template name="aat-id"/>
 																</lido:conceptID>
-		                                                    </xsl:if>
+		                                                    </xsl:for-each>
 															<xsl:for-each select="./rdfs:label">
 	                                            				<lido:sourceAppellation>
 		                                                			<xsl:if test="@xml:lang">
@@ -642,11 +694,11 @@
                                             <xsl:if test="(($type = 'print' or $type = 'printed-materials' or $type = 'photomechanical-print' or $type = 'seal') and name(..) = 'gesah:output_of_production' ) or $type = 'drawing' or $type = 'manuscript' or $type = 'book-illumination' or $type = 'musical-notation'">
 	                                            <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_geographic_assignment/*">
 		                                   			<lido:culture>
-		                               					<xsl:if test="./gesah:AAT_ID">
+		                               					<xsl:for-each select="./gesah:AAT_ID">
 				                                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-																<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+																<xsl:call-template name="aat-id"/>
 															</lido:conceptID>
-														</xsl:if>
+														</xsl:for-each>
 														<xsl:for-each select="./rdfs:label">
 			                                				<lido:term>
 			                                        			<xsl:if test="@xml:lang">
@@ -669,11 +721,11 @@
 										<!-- GK: Hier habe ich die Renaissance untergebracht. BR: This is dynamic and is equivalent to gesah:has_stylistic_classification, object property to CO to gesah:stylistic_classification, we have 8 instances of that class, all with AAT ID -->
 	                                   		<xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_stylistic_assignment/*">
 	                                   			<lido:periodName>
-	                               					<xsl:if test="./gesah:AAT_ID">
+	                               					<xsl:for-each select="./gesah:AAT_ID">
 			                                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-															<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+															<xsl:call-template name="aat-id"/>
 														</lido:conceptID>
-													</xsl:if>
+													</xsl:for-each>
 													<xsl:for-each select="./rdfs:label">
 		                                				<lido:term>
 		                                        			<xsl:if test="@xml:lang">
@@ -716,11 +768,11 @@
 				                                <lido:materialsTech>
 				                                    <xsl:for-each select="./gesah:has_material/rdf:Description">
 				                                        <lido:termMaterialsTech lido:type="http://terminology.lido-schema.org/lido00514">
-				                                            <xsl:if test="./gesah:AAT_ID">
+				                                            <xsl:for-each select="./gesah:AAT_ID">
 				                 	                           <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-				                                                    <xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+				                                                    <xsl:call-template name="aat-id"/>
 				                    	                        </lido:conceptID>
-				                                            </xsl:if>
+				                                            </xsl:for-each>
 				                                            <xsl:for-each select="./rdfs:label">
 				                                                <lido:term>
 				                                                    <xsl:if test="@xml:lang">
@@ -736,11 +788,11 @@
 				
 				                                    <xsl:for-each select="./gesah:uses_technique/*">
 				                                        <lido:termMaterialsTech lido:type="http://terminology.lido-schema.org/lido00131">
-				                                        	<xsl:if test="./gesah:AAT_ID">
+				                                        	<xsl:for-each select="./gesah:AAT_ID">
 					                                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-					                                                <xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+					                                                <xsl:call-template name="aat-id"/>
 					                                            </lido:conceptID>
-				                                            </xsl:if>
+				                                            </xsl:for-each>
 				                                            <xsl:for-each select="./rdfs:label">
 				                                                <lido:term>
 				                                                    <xsl:if test="@xml:lang">
@@ -871,31 +923,31 @@
 	                                        </xsl:for-each>
 						                	<xsl:if test="./gesah:AAT_ID or ./gesah:GND_ID or ./gesah:CONA_ID or ./gesah:Iconclass_ID or ./gesah:Wikidata_ID">
 						                	    <lido:object>
-									                <xsl:if test="./gesah:AAT_ID">
+									                <xsl:for-each select="./gesah:AAT_ID">
 										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-															<xsl:value-of select="concat('http://vocab.getty.edu/aat/', ./gesah:AAT_ID/text())" />
+															<xsl:call-template name="aat-id"/>
 														</lido:objectID>
-													</xsl:if>
-										    		<xsl:if test="./gesah:GND_ID">
+													</xsl:for-each>
+										    		<xsl:for-each select="./gesah:GND_ID">
 										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-															<xsl:value-of select="concat('https://d-nb.info/gnd/', ./gesah:GND_ID/text())" />
+															<xsl:call-template name="gnd-id"/>
 														</lido:objectID>
-													</xsl:if>
-										    		<xsl:if test="./gesah:CONA_ID">
+													</xsl:for-each>
+										    		<xsl:for-each select="./gesah:CONA_ID">
 										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-															<xsl:value-of select="concat('http://vocab.getty.edu/page/cona/', ./gesah:CONA_ID/text())" />
+															<xsl:call-template name="cona-id"/>
 														</lido:objectID>
-													</xsl:if>
-										    		<xsl:if test="./gesah:Iconclass_ID">
+													</xsl:for-each>
+										    		<xsl:for-each select="./gesah:Iconclass_ID">
 										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-															<xsl:value-of select="concat('https://iconclass.org/', ./gesah:Iconclass_ID/text())" />
+															<xsl:call-template name="iconclass-id"/>
 														</lido:objectID>
-													</xsl:if>
-										    		<xsl:if test="./gesah:Wikidata_ID">
+													</xsl:for-each>
+										    		<xsl:for-each select="./gesah:Wikidata_ID">
 										                <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-															<xsl:value-of select="concat('http://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
+															<xsl:call-template name="wikidata-id"/>
 														</lido:objectID>
-													</xsl:if>
+													</xsl:for-each>
 												</lido:object>
 											</xsl:if>
 						                </lido:subjectObject>
@@ -907,16 +959,24 @@
 											<lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
 											    <xsl:choose>
 							                        <xsl:when test="./gesah:GND_ID">
-	    												<xsl:value-of select="concat('https://d-nb.info/gnd/', ./gesah:GND_ID/text())" />
+	    												<xsl:for-each select="./gesah:GND_ID[1]">
+	    													<xsl:call-template name="gnd-id"/>
+	    												</xsl:for-each>
 							                        </xsl:when>
 							                        <xsl:when test="./gesah:Iconclass_ID">
-														<xsl:value-of select="concat('https://iconclass.org/', ./gesah:Iconclass_ID/text())" />
+	    												<xsl:for-each select="./gesah:Iconclass_ID[1]">
+	    													<xsl:call-template name="iconclass-id"/>
+	    												</xsl:for-each>
 													</xsl:when>
 							                        <xsl:when test="./gesah:ULAN_ID">
-	    												<xsl:value-of select="concat('http://vocab.getty.edu/page/ulan/', ./gesah:ULAN_ID/text())" />
+	    												<xsl:for-each select="./gesah:ULAN_ID[1]">
+	    													<xsl:call-template name="ulan-id"/>
+	    												</xsl:for-each>
 							                        </xsl:when>
 							                        <xsl:when test="./gesah:Wikidata_ID">
-	    												<xsl:value-of select="concat('http://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
+	    												<xsl:for-each select="./gesah:Wikidata_ID[1]">
+	    													<xsl:call-template name="wikidata-id"/>
+	    												</xsl:for-each>
 							                        </xsl:when>
 											    </xsl:choose>
 											</lido:actorID>
@@ -941,13 +1001,19 @@
 										    <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">
 											    <xsl:choose>
 							                        <xsl:when test="./gesah:GND_ID">
-	    												<xsl:value-of select="concat('https://d-nb.info/gnd/', ./gesah:GND_ID/text())" />
+							                        	<xsl:for-each select="./gesah:GND_ID[1]">
+	    													<xsl:call-template name="gnd-id"/>
+	    												</xsl:for-each>
 							                        </xsl:when>
 							                        <xsl:when test="./gesah:TGN_ID">
-	    												<xsl:value-of select="concat('http://vocab.getty.edu/tgn/', ./gesah:TGN_ID/text())" />
+							                        	<xsl:for-each select="./gesah:TGN_ID[1]">
+							                        		<xsl:call-template name="tgn-id"/>
+	    												</xsl:for-each>
 							                        </xsl:when>
 							                        <xsl:when test="./gesah:Wikidata_ID">
-	    												<xsl:value-of select="concat('http://www.wikidata.org/wiki/', ./gesah:Wikidata_ID/text())" />
+							                        	<xsl:for-each select="./gesah:Wikidata_ID[1]">
+	    													<xsl:call-template name="wikidata-id"/>
+	    												</xsl:for-each>
 							                        </xsl:when>
 											    </xsl:choose>
 										    </lido:placeID>

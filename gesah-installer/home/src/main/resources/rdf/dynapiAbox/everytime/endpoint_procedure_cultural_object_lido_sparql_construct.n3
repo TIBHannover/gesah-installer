@@ -26,6 +26,9 @@ CONSTRUCT {
   ?resource_id gesah:plate_state ?plate_state .
   ?resource_id gesah:print_run ?print_run .
   
+  ?resource_id gesah:Wikidata_ID ?resource_id_Wikidata_ID .
+  ?resource_id gesah:CONA_ID ?resource_id_CONA_ID .
+  ?resource_id gesah:GND_ID ?resource_id_gnd_id .
   
   ?title_ind gesah:has_title_type ?title_type .
   ?title_type rdfs:label ?title_type_label .
@@ -182,7 +185,19 @@ WHERE {
     UNION
   {
     ?resource_id gesah:print_run ?print_run .
-  } 
+  }
+    UNION
+  {
+    ?resource_id gesah:Wikidata_ID ?resource_id_Wikidata_ID .
+  }
+    UNION
+  {
+    ?resource_id gesah:CONA_ID ?resource_id_CONA_ID .
+  }
+    UNION
+  {
+    ?resource_id gesah:GND_ID ?resource_id_gnd_id .
+  }
     UNION
   {
     ?resource_id gesah:has_Title ?title_ind .
