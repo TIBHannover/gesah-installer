@@ -55,7 +55,8 @@ CONSTRUCT {
   ?resource_id gesah:has_current_holding_institution ?current_holding_institution .
   ?current_holding_institution rdfs:label ?current_holding_institution_label .
   ?resource_id gesah:has_digital_representation ?representation .
-  ?representation ?representation_p ?representation_o .
+  ?representation gesah:barcode ?barcode .
+  ?representation gesah:image_file_number ?image_file_number .
   ?representation gesah:digital_image_right_label ?digital_image_right_label .
   ?resource_id gesah:has_measurements ?measurement .
   ?measurement gesah:measurement_height ?measurement_height .
@@ -278,9 +279,13 @@ WHERE {
   } 
     UNION 
   {
-    ?resource_id gesah:has_digital_representation ?representation .
+    ?resource_id gesah:has_main_image ?representation .
     {
-      ?representation ?representation_p ?representation_o .
+      ?representation gesah:barcode ?barcode .
+    } 
+      UNION
+    {
+      ?representation gesah:image_file_number ?image_file_number .
     } 
       UNION
     {
