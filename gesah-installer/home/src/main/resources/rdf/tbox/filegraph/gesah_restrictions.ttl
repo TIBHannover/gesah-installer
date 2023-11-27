@@ -198,6 +198,13 @@ gesah:Measurement_Specification
                                              owl:allValuesFrom xsd:string
                                            ]  .			
 
+gesah:Preservation_Measure_Specifics
+                           rdfs:subClassOf 
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty gesah:AAT_ID ;
+                                             owl:allValuesFrom xsd:string
+                                           ] .
+
 gesah:Edition 
          rdfs:subClassOf 
                             [ rdf:type owl:Restriction ;
