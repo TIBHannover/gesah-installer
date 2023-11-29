@@ -365,13 +365,17 @@
                 xmlns:xlink="http://www.w3.org/1999/xlink"
                 xmlns:smil20lang="http://www.w3.org/2001/SMIL20/Language"
             >
+                <xsl:variable name="uri">
+                    <xsl:value-of select="//*[rdfs:comment/text() = 'target_object']/@rdf:about" />
+                </xsl:variable>
+                
                 <lido:lidoRecID
                     lido:type="http://terminology.lido-schema.org/lido00099"
                     lido:source="ld.zdb-services.de/resource/organisations/DE-89"
-                >DE-89/lido/<xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" /></lido:lidoRecID>
+                ><xsl:value-of select="concat('DE-89/sah/lido/' , tokenize($uri,'/')[last()])" /></lido:lidoRecID>
 
                 <lido:objectPublishedID lido:pref="http://terminology.lido-schema.org/lido00169" lido:type="http://terminology.lido-schema.org/lido00099" lido:source="ld.zdb-services.de/resource/organisations/DE-89">
-                    <xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" />
+                    <xsl:value-of select="$uri" />
                 </lido:objectPublishedID>
 
                 <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:GND_ID">
