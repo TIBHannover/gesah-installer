@@ -170,148 +170,148 @@
         </xsl:template>
         
         <xsl:template name="activity-participant">
-        	<xsl:variable name="participant_type">
-	            <xsl:choose>
-	                <xsl:when test="./rdfs:comment/text() = 'person'">
-	                    <xsl:value-of select="'http://terminology.lido-schema.org/lido00163'" />
-	                </xsl:when>
-	                <xsl:when test="./rdfs:comment/text() = 'organization'">
-	                    <xsl:value-of select="'http://terminology.lido-schema.org/lido00413'" />
-	                </xsl:when>
-	            </xsl:choose>
-	        </xsl:variable>
-	        <lido:eventActor>
-	            <lido:displayActorInRole>
-	                <xsl:for-each select="./rdfs:label">
-	                    <xsl:variable name="text_value" select="text()" />
-	                    <xsl:if test="$text_value != ''">
-	                    	<xsl:variable name="lang" select="@xml:lang" />
-		                	<xsl:if test="$lang != ''">
-			                	<xsl:attribute name="xml:lang">
-			                       <xsl:value-of select="$lang" />
-			                    </xsl:attribute>
-		                	</xsl:if>
-		                	<xsl:value-of select="text()" />
-		                	<xsl:choose>
-		                		<xsl:when test="./gesah:has_role/*/gesah:has_role_type/*/rdfs:label[@xml:lang = $lang]">
-			                    	<xsl:value-of select="concat(', ', (./gesah:has_role/*/gesah:has_role_type/*/rdfs:label[@xml:lang = $lang])[1]/text() )" />
-		                		</xsl:when>
-		                		<xsl:when test="./gesah:has_role/*/gesah:has_role_type/*/rdfs:label">
-		                    		<xsl:value-of select="concat(', ', (./gesah:has_role/*/gesah:has_role_type/*/rdfs:label)[1]/text() )" />
-		                		</xsl:when>
-		            		</xsl:choose>
-	                    </xsl:if>
-	                </xsl:for-each>
-	            </lido:displayActorInRole>
-	            <lido:actorInRole>
-	                <!-- This is dynamic, this can be class person http://terminology.lido-schema.org/lido00163 or organization http://terminology.lido-schema.org/lido00413 -->
-	                <lido:actor>
-	                    <xsl:attribute name="lido:type">
-	                        <xsl:value-of select="$participant_type" />
-	                    </xsl:attribute>
-	
-	                    <!--This is dynamic, the GND or ULAN ID stored in GESAH with the individual person/organisation-->
-	                    <xsl:for-each select="./gesah:GND_ID">
-	                        <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
-	                            <xsl:call-template name="gnd-id"/>
-	                        </lido:actorID>
-	                    </xsl:for-each>
-	                    <xsl:for-each select="./gesah:ULAN_ID">
-	                        <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
-	                            <xsl:call-template name="ulan-id"/>
-	                        </lido:actorID>
-	                    </xsl:for-each>
-	                    <lido:nameActorSet>
-	                        <xsl:for-each select="./rdfs:label">
-	                            <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00169">
-	                                <xsl:if test="@xml:lang">
-	                                    <xsl:attribute name="xml:lang">
-	                                        <xsl:value-of select="@xml:lang" />
-	                                    </xsl:attribute>
-	                                </xsl:if>
-	                                <xsl:value-of select="text()" />
-	                            </lido:appellationValue>
-	                        </xsl:for-each>
-	                    </lido:nameActorSet>
-	                </lido:actor>
-	
-	                <!--This is dynamic and equivalent to our gesah:role_types, linked to context node role which is connected with the creation activity, there are 21 role types in GESAH mostly with AAT-ID-->
-	                <lido:roleActor>
-	                       <xsl:for-each select="./gesah:has_role/*">
-	                           <xsl:for-each select="./gesah:has_role_type/*/gesah:AAT_ID">
-	                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-	                                <xsl:call-template name="aat-id"/>
-	                            </lido:conceptID>
-	                        </xsl:for-each>
-	                        <xsl:for-each select="./gesah:has_role_type/*/rdfs:label">
-	                            <lido:term>
-	                                <xsl:if test="@xml:lang">
-	                                    <xsl:attribute name="xml:lang">
-	                                        <xsl:value-of select="@xml:lang" />
-	                                    </xsl:attribute>
-	                                </xsl:if>
-	                                <xsl:value-of select="text()" />
-	                            </lido:term>
-	                        </xsl:for-each>
-	                    </xsl:for-each>
-	                </lido:roleActor>
-	
-	                    <!-- this is the gesah:has_type_of_attribution, object property to gesah:creation, in some cases we have AAT IDs for this attribution types, how can we model that? Example: "attributed to", in LIDO attributionQualifier
-	                <lido:term>attributed to</lido:term>-->
-	                <xsl:for-each select="../../gesah:has_type_of_attribution/*">
-	                    <lido:attributionQualifierActor>
-	                        <xsl:for-each select="./gesah:AAT_ID">
-	                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-	                                <xsl:call-template name="aat-id"/>
-	                            </lido:conceptID>
-	                        </xsl:for-each>
-	                        <xsl:for-each select="./rdfs:label">
-	                            <lido:sourceAppellation>
-	                                <xsl:if test="@xml:lang">
-	                                    <xsl:attribute name="xml:lang">
-	                                        <xsl:value-of select="@xml:lang" />
-	                                    </xsl:attribute>
-	                                </xsl:if>
-	                                <xsl:value-of select="text()" />
-	                            </lido:sourceAppellation>
-	                        </xsl:for-each>
-	                    </lido:attributionQualifierActor>
-	                </xsl:for-each>
-	
-	            </lido:actorInRole>
-	        </lido:eventActor>
+            <xsl:variable name="participant_type">
+                <xsl:choose>
+                    <xsl:when test="./rdfs:comment/text() = 'person'">
+                        <xsl:value-of select="'http://terminology.lido-schema.org/lido00163'" />
+                    </xsl:when>
+                    <xsl:when test="./rdfs:comment/text() = 'organization'">
+                        <xsl:value-of select="'http://terminology.lido-schema.org/lido00413'" />
+                    </xsl:when>
+                </xsl:choose>
+            </xsl:variable>
+            <lido:eventActor>
+                <lido:displayActorInRole>
+                    <xsl:for-each select="./rdfs:label">
+                        <xsl:variable name="text_value" select="text()" />
+                        <xsl:if test="$text_value != ''">
+                            <xsl:variable name="lang" select="@xml:lang" />
+                            <xsl:if test="$lang != ''">
+                                <xsl:attribute name="xml:lang">
+                                   <xsl:value-of select="$lang" />
+                                </xsl:attribute>
+                            </xsl:if>
+                            <xsl:value-of select="text()" />
+                            <xsl:choose>
+                                <xsl:when test="./gesah:has_role/*/gesah:has_role_type/*/rdfs:label[@xml:lang = $lang]">
+                                    <xsl:value-of select="concat(', ', (./gesah:has_role/*/gesah:has_role_type/*/rdfs:label[@xml:lang = $lang])[1]/text() )" />
+                                </xsl:when>
+                                <xsl:when test="./gesah:has_role/*/gesah:has_role_type/*/rdfs:label">
+                                    <xsl:value-of select="concat(', ', (./gesah:has_role/*/gesah:has_role_type/*/rdfs:label)[1]/text() )" />
+                                </xsl:when>
+                            </xsl:choose>
+                        </xsl:if>
+                    </xsl:for-each>
+                </lido:displayActorInRole>
+                <lido:actorInRole>
+                    <!-- This is dynamic, this can be class person http://terminology.lido-schema.org/lido00163 or organization http://terminology.lido-schema.org/lido00413 -->
+                    <lido:actor>
+                        <xsl:attribute name="lido:type">
+                            <xsl:value-of select="$participant_type" />
+                        </xsl:attribute>
+    
+                        <!--This is dynamic, the GND or ULAN ID stored in GESAH with the individual person/organisation-->
+                        <xsl:for-each select="./gesah:GND_ID">
+                            <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
+                                <xsl:call-template name="gnd-id"/>
+                            </lido:actorID>
+                        </xsl:for-each>
+                        <xsl:for-each select="./gesah:ULAN_ID">
+                            <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
+                                <xsl:call-template name="ulan-id"/>
+                            </lido:actorID>
+                        </xsl:for-each>
+                        <lido:nameActorSet>
+                            <xsl:for-each select="./rdfs:label">
+                                <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00169">
+                                    <xsl:if test="@xml:lang">
+                                        <xsl:attribute name="xml:lang">
+                                            <xsl:value-of select="@xml:lang" />
+                                        </xsl:attribute>
+                                    </xsl:if>
+                                    <xsl:value-of select="text()" />
+                                </lido:appellationValue>
+                            </xsl:for-each>
+                        </lido:nameActorSet>
+                    </lido:actor>
+    
+                    <!--This is dynamic and equivalent to our gesah:role_types, linked to context node role which is connected with the creation activity, there are 21 role types in GESAH mostly with AAT-ID-->
+                    <lido:roleActor>
+                           <xsl:for-each select="./gesah:has_role/*">
+                               <xsl:for-each select="./gesah:has_role_type/*/gesah:AAT_ID">
+                                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+                                    <xsl:call-template name="aat-id"/>
+                                </lido:conceptID>
+                            </xsl:for-each>
+                            <xsl:for-each select="./gesah:has_role_type/*/rdfs:label">
+                                <lido:term>
+                                    <xsl:if test="@xml:lang">
+                                        <xsl:attribute name="xml:lang">
+                                            <xsl:value-of select="@xml:lang" />
+                                        </xsl:attribute>
+                                    </xsl:if>
+                                    <xsl:value-of select="text()" />
+                                </lido:term>
+                            </xsl:for-each>
+                        </xsl:for-each>
+                    </lido:roleActor>
+    
+                        <!-- this is the gesah:has_type_of_attribution, object property to gesah:creation, in some cases we have AAT IDs for this attribution types, how can we model that? Example: "attributed to", in LIDO attributionQualifier
+                    <lido:term>attributed to</lido:term>-->
+                    <xsl:for-each select="../../gesah:has_type_of_attribution/*">
+                        <lido:attributionQualifierActor>
+                            <xsl:for-each select="./gesah:AAT_ID">
+                                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+                                    <xsl:call-template name="aat-id"/>
+                                </lido:conceptID>
+                            </xsl:for-each>
+                            <xsl:for-each select="./rdfs:label">
+                                <lido:sourceAppellation>
+                                    <xsl:if test="@xml:lang">
+                                        <xsl:attribute name="xml:lang">
+                                            <xsl:value-of select="@xml:lang" />
+                                        </xsl:attribute>
+                                    </xsl:if>
+                                    <xsl:value-of select="text()" />
+                                </lido:sourceAppellation>
+                            </xsl:for-each>
+                        </lido:attributionQualifierActor>
+                    </xsl:for-each>
+    
+                </lido:actorInRole>
+            </lido:eventActor>
         </xsl:template>
 
         <xsl:template name="event-places">
             <xsl:for-each select="gesah:has_place">
-            	<xsl:for-each select="*">
-            	    <xsl:call-template name="event-place"/>
-            	</xsl:for-each>
-            	<xsl:if test="@rdf:resource">
-					<xsl:variable name="resource_uri" select="@rdf:resource" />            	
-            	    <xsl:for-each select="//rdf:Description[@rdf:about = $resource_uri]">
-            	    	<xsl:call-template name="event-place"/>
-            	</xsl:for-each>
-            	</xsl:if>
+                <xsl:for-each select="*">
+                    <xsl:call-template name="event-place"/>
+                </xsl:for-each>
+                <xsl:if test="@rdf:resource">
+                    <xsl:variable name="resource_uri" select="@rdf:resource" />                
+                    <xsl:for-each select="//rdf:Description[@rdf:about = $resource_uri]">
+                        <xsl:call-template name="event-place"/>
+                </xsl:for-each>
+                </xsl:if>
             </xsl:for-each>
         </xsl:template>
         
          <xsl:template name="activity-participants">
             <xsl:for-each select="gesah:has_participant">
-            	<xsl:for-each select="*">
-            	    <xsl:call-template name="activity-participant"/>
-            	</xsl:for-each>
-            	<xsl:if test="@rdf:resource">
-					<xsl:variable name="resource_uri" select="@rdf:resource" />            	
-            	    <xsl:for-each select="//rdf:Description[@rdf:about = $resource_uri]">
-            	    	<xsl:call-template name="activity-participant"/>
-            	</xsl:for-each>
-            	</xsl:if>
+                <xsl:for-each select="*">
+                    <xsl:call-template name="activity-participant"/>
+                </xsl:for-each>
+                <xsl:if test="@rdf:resource">
+                    <xsl:variable name="resource_uri" select="@rdf:resource" />                
+                    <xsl:for-each select="//rdf:Description[@rdf:about = $resource_uri]">
+                        <xsl:call-template name="activity-participant"/>
+                </xsl:for-each>
+                </xsl:if>
             </xsl:for-each>
         </xsl:template>
         
         <xsl:template name="event-place">
-    		<lido:eventPlace>
+            <lido:eventPlace>
                 <lido:place>
                     <!-- BR: our graphic_location should have TGN ID and/or Geonames ID,  maybe we can export both if available-->
                     <xsl:for-each select="./gesah:TGN_ID">
@@ -703,7 +703,7 @@
                         </lido:objectMeasurementsWrap>
 
                     </lido:objectIdentificationWrap>
-                    <xsl:if test="//gesah:output_of_creation|//gesah:output_of_production|//gesah:object_of_edition|//gesah:object_of_event|//gesah:has_watermark|//gesah:object_of_preservation">
+                    <xsl:if test="//gesah:output_of_creation|//gesah:output_of_production|//gesah:object_of_edition|//gesah:object_of_event|//gesah:has_watermark|//gesah:object_of_preservation|//gesah:object_of_provenance">
                         <lido:eventWrap>
                             <xsl:for-each select="//gesah:output_of_creation/*|//gesah:output_of_production/*|//gesah:object_of_edition/*">
                                 <lido:eventSet>
@@ -974,33 +974,33 @@
                                         <!-- This is dynamic in GESAH: subclasses of preservation/collection care are "preventive conservation", "conservation" and "restoration", if an activity is of classes "preventive conservation" or "conservation" it is type http://terminology.lido-schema.org/lido00402, if an activity is of class "restoration" it is type http://terminology.lido-schema.org/lido00034-->
                                         <lido:eventType>
                                              <xsl:variable name="gesah:object_of_preservation_type" select="rdfs:comment/text()" />
-	                                         <xsl:choose>
+                                             <xsl:choose>
                                                 <xsl:when test="$gesah:object_of_preservation_type = 'conservation' or $gesah:object_of_preservation_type = 'preventive conservation'">
-								                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00402</lido:conceptID>
-								                    <lido:term xml:lang="en">Conservation</lido:term>
-								                    <lido:term xml:lang="de">Konservierung</lido:term>
+                                                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00402</lido:conceptID>
+                                                    <lido:term xml:lang="en">Conservation</lido:term>
+                                                    <lido:term xml:lang="de">Konservierung</lido:term>
                                                 </xsl:when>
                                                 <xsl:when test="$gesah:object_of_preservation_type = 'restoration'">
-								                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00034</lido:conceptID>
-								                    <lido:term xml:lang="en">Restoration</lido:term>
-								                    <lido:term xml:lang="de">Restaurierung</lido:term>
+                                                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00034</lido:conceptID>
+                                                    <lido:term xml:lang="en">Restoration</lido:term>
+                                                    <lido:term xml:lang="de">Restaurierung</lido:term>
                                                 </xsl:when>
-	                                         </xsl:choose>
+                                             </xsl:choose>
                                         </lido:eventType>
                                         <xsl:call-template name="activity-participants" />
                                         <xsl:call-template name="event-date"/>
                                         <xsl:call-template name="event-places"/>
                                         <!-- This is object property gesah:has_measure_specifics-->
                                         <xsl:for-each select="gesah:has_measure_specifics/*">
-	                                        <lido:eventDescriptionSet>
-				                                <!-- This is the label of instances of class gesah:treatment_specifics, we have it in German and English and if available with AAT-identifier - I hope that my LIDO-modelling will fit here-->
-				                                <!--conservation description-->
-				                                <xsl:for-each select="./gesah:AAT_ID">
-									                <descriptiveNoteID lido:type="http://terminology.lido-schema.org/lido00099">
-									                    <xsl:call-template name="aat-id"/>
-									                </descriptiveNoteID>
-									            </xsl:for-each>
-									            <xsl:for-each select="./rdfs:label">
+                                            <lido:eventDescriptionSet>
+                                                <!-- This is the label of instances of class gesah:treatment_specifics, we have it in German and English and if available with AAT-identifier - I hope that my LIDO-modelling will fit here-->
+                                                <!--conservation description-->
+                                                <xsl:for-each select="./gesah:AAT_ID">
+                                                    <descriptiveNoteID lido:type="http://terminology.lido-schema.org/lido00099">
+                                                        <xsl:call-template name="aat-id"/>
+                                                    </descriptiveNoteID>
+                                                </xsl:for-each>
+                                                <xsl:for-each select="./rdfs:label">
                                                     <lido:descriptiveNoteValue>
                                                         <xsl:if test="@xml:lang">
                                                             <xsl:attribute name="xml:lang">
@@ -1010,8 +1010,24 @@
                                                         <xsl:value-of select="text()" />
                                                     </lido:descriptiveNoteValue>
                                                 </xsl:for-each>
-	                                        </lido:eventDescriptionSet>
+                                            </lido:eventDescriptionSet>
                                         </xsl:for-each>
+                                    </lido:event>
+                                </lido:eventSet>
+                            </xsl:for-each>
+                            
+                            <xsl:for-each select="//gesah:object_of_provenance/*">
+                                <lido:eventSet>
+                                    <lido:event>
+                                        <lido:eventType>
+                                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00227</lido:conceptID>
+                                            <lido:term xml:lang="de">Provenienzereignis</lido:term>
+                                            <lido:term xml:lang="en">Provenance event</lido:term>
+                                        </lido:eventType>
+                                        <xsl:call-template name="activity-participants" />
+                                        <xsl:call-template name="event-date"/>
+                                        <xsl:call-template name="event-places"/>
+                                        
                                     </lido:event>
                                 </lido:eventSet>
                             </xsl:for-each>

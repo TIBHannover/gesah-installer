@@ -197,6 +197,30 @@ CONSTRUCT {
   ?object_of_preservation_date_time_interval  vivo:end ?object_of_preservation_date_time_interval_end .
   ?object_of_preservation_date_time_interval_end vivo:dateTimePrecision ?object_of_preservation_date_time_interval_end_precision .
   ?object_of_preservation_date_time_interval_end vivo:dateTime ?object_of_preservation_date_time_interval_end_value .
+  
+  ?resource_id gesah:object_of_provenance ?object_of_provenance .
+  ?object_of_provenance gesah:literal_date_appellation ?object_of_provenance_literal_date_appellation .
+  ?object_of_provenance vivo:dateTimeInterval ?object_of_provenance_date_time_interval .
+  ?object_of_provenance_date_time_interval vivo:start ?object_of_provenance_date_time_interval_start .
+  ?object_of_provenance_date_time_interval_start vivo:dateTimePrecision ?object_of_provenance_date_time_interval_start_precision .
+  ?object_of_provenance_date_time_interval_start vivo:dateTime ?object_of_provenance_date_time_interval_start_value .
+  ?object_of_provenance_date_time_interval  vivo:end ?object_of_provenance_date_time_interval_end .
+  ?object_of_provenance_date_time_interval_end vivo:dateTimePrecision ?object_of_provenance_date_time_interval_end_precision .
+  ?object_of_provenance_date_time_interval_end vivo:dateTime ?object_of_provenance_date_time_interval_end_value .
+  ?object_of_provenance gesah:has_place ?object_of_provenance_place . 
+  ?object_of_provenance_place rdfs:label ?object_of_provenance_place_label .
+  ?object_of_provenance_place gesah:TGN_ID ?object_of_provenance_place_TGN_ID .
+  ?object_of_provenance_place gesah:GeoNames_ID ?object_of_provenance_place_GeoNames_ID .
+  ?object_of_provenance gesah:has_participant ?object_of_provenance_participant . 
+  ?object_of_provenance rdfs:comment ?object_of_provenance_participant_type_comment .
+  ?object_of_provenance_participant rdfs:label ?object_of_provenance_participant_label . 
+  ?object_of_provenance_participant gesah:GND_ID ?object_of_provenance_participant_gnd_id .
+  ?object_of_provenance_participant gesah:ULAN_ID ?object_of_provenance_participant_ulan_id .
+  ?object_of_provenance_participant gesah:has_role ?object_of_provenance_participant_role .
+  ?object_of_provenance_participant_role gesah:realized_in ?object_of_provenance .
+  ?object_of_provenance_participant_role gesah:has_role_type ?object_of_provenance_participant_role_type .
+  ?object_of_provenance_participant_role_type rdfs:label ?object_of_provenance_participant_role_type_label .
+  ?object_of_provenance_participant_role_type gesah:AAT_ID ?object_of_provenance_participant_role_type_AAT_ID .
 }                
 WHERE {
   ?resource_id rdf:type ?type .
@@ -722,6 +746,78 @@ WHERE {
         ?object_of_preservation_date_time_interval_end vivo:dateTime ?object_of_preservation_date_time_interval_end_value .
       }
     }
-  }     
+  }
+    UNION
+  {
+    ?resource_id gesah:object_of_provenance ?object_of_provenance .
+    {
+      ?object_of_provenance gesah:literal_date_appellation ?object_of_provenance_literal_date_appellation .
+    }
+      UNION
+    {
+      ?object_of_provenance vivo:dateTimeInterval ?object_of_provenance_date_time_interval .
+      {
+         ?object_of_provenance_date_time_interval  vivo:start ?object_of_provenance_date_time_interval_start .
+         ?object_of_provenance_date_time_interval_start vivo:dateTimePrecision ?object_of_provenance_date_time_interval_start_precision .
+         ?object_of_provenance_date_time_interval_start vivo:dateTime ?object_of_provenance_date_time_interval_start_value .
+      }
+        UNION
+      {
+        ?object_of_provenance_date_time_interval  vivo:end ?object_of_provenance_date_time_interval_end .
+        ?object_of_provenance_date_time_interval_end vivo:dateTimePrecision ?object_of_provenance_date_time_interval_end_precision .
+        ?object_of_provenance_date_time_interval_end vivo:dateTime ?object_of_provenance_date_time_interval_end_value .
+      }
+    }
+      UNION
+    {
+      ?object_of_provenance gesah:has_place ?object_of_provenance_place . 
+      {
+        ?object_of_provenance_place rdfs:label ?object_of_provenance_place_label .
+      }
+        UNION
+      {
+        ?object_of_provenance_place gesah:TGN_ID ?object_of_provenance_place_TGN_ID .
+      }
+        UNION
+      {
+        ?object_of_provenance_place gesah:GeoNames_ID ?object_of_provenance_place_GeoNames_ID .
+      }
+    }
+      UNION
+    {
+      ?object_of_provenance gesah:has_participant ?object_of_provenance_participant . 
+      BIND( 
+          IF( exists {?object_of_provenance_participant rdf:type <http://xmlns.com/foaf/0.1/Person> } , 'person', 
+	      IF( exists {?object_of_provenance_participant rdf:type <http://xmlns.com/foaf/0.1/Organization> } , 'organization', 
+	      '')
+      ) as ?object_of_provenance_participant_type_comment )
+      
+      { 
+        ?object_of_provenance_participant rdfs:label ?object_of_provenance_participant_label . 
+      }
+        UNION
+      {
+        ?object_of_provenance_participant gesah:GND_ID ?object_of_provenance_participant_gnd_id .
+      }
+        UNION
+      {
+        ?object_of_provenance_participant gesah:ULAN_ID ?object_of_provenance_participant_ulan_id .
+      } 
+        UNION
+      {
+        ?object_of_provenance_participant gesah:has_role ?object_of_provenance_participant_role .
+        ?object_of_provenance_participant_role gesah:realized_in ?object_of_provenance .
+        ?object_of_provenance_participant_role gesah:has_role_type ?object_of_provenance_participant_role_type .
+        {
+          ?object_of_provenance_participant_role_type rdfs:label ?object_of_provenance_participant_role_type_label .
+        }
+          UNION
+        {
+          ?object_of_provenance_participant_role_type gesah:AAT_ID ?object_of_provenance_participant_role_type_AAT_ID .
+        }
+      }
+      
+    }
+  }   
 }
 """ .
