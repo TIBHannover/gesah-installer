@@ -197,6 +197,109 @@ CONSTRUCT {
   ?object_of_preservation_date_time_interval  vivo:end ?object_of_preservation_date_time_interval_end .
   ?object_of_preservation_date_time_interval_end vivo:dateTimePrecision ?object_of_preservation_date_time_interval_end_precision .
   ?object_of_preservation_date_time_interval_end vivo:dateTime ?object_of_preservation_date_time_interval_end_value .
+  
+  ?resource_id gesah:object_of_provenance ?object_of_provenance .
+  ?object_of_provenance gesah:literal_date_appellation ?object_of_provenance_literal_date_appellation .
+  ?object_of_provenance vivo:dateTimeInterval ?object_of_provenance_date_time_interval .
+  ?object_of_provenance_date_time_interval vivo:start ?object_of_provenance_date_time_interval_start .
+  ?object_of_provenance_date_time_interval_start vivo:dateTimePrecision ?object_of_provenance_date_time_interval_start_precision .
+  ?object_of_provenance_date_time_interval_start vivo:dateTime ?object_of_provenance_date_time_interval_start_value .
+  ?object_of_provenance_date_time_interval  vivo:end ?object_of_provenance_date_time_interval_end .
+  ?object_of_provenance_date_time_interval_end vivo:dateTimePrecision ?object_of_provenance_date_time_interval_end_precision .
+  ?object_of_provenance_date_time_interval_end vivo:dateTime ?object_of_provenance_date_time_interval_end_value .
+  ?object_of_provenance gesah:has_place ?object_of_provenance_place . 
+  ?object_of_provenance_place rdfs:label ?object_of_provenance_place_label .
+  ?object_of_provenance_place gesah:TGN_ID ?object_of_provenance_place_TGN_ID .
+  ?object_of_provenance_place gesah:GeoNames_ID ?object_of_provenance_place_GeoNames_ID .
+  ?object_of_provenance gesah:has_participant ?object_of_provenance_participant .
+  ?object_of_provenance gesah:comment ?object_of_provenance_comment .
+  
+  ?object_of_provenance_participant rdfs:comment ?object_of_provenance_participant_type_comment .
+  ?object_of_provenance_participant rdfs:label ?object_of_provenance_participant_label . 
+  ?object_of_provenance_participant gesah:GND_ID ?object_of_provenance_participant_gnd_id .
+  ?object_of_provenance_participant gesah:ULAN_ID ?object_of_provenance_participant_ulan_id .
+  ?object_of_provenance_participant gesah:has_role ?object_of_provenance_participant_role .
+  ?object_of_provenance_participant_role gesah:realized_in ?object_of_provenance .
+  ?object_of_provenance_participant_role gesah:has_role_type ?object_of_provenance_participant_role_type .
+  ?object_of_provenance_participant_role_type rdfs:label ?object_of_provenance_participant_role_type_label .
+  ?object_of_provenance_participant_role_type gesah:AAT_ID ?object_of_provenance_participant_role_type_AAT_ID .
+  
+  ?resource_id gesah:is_preparatory_for ?is_preparatory_for .
+  ?is_preparatory_for rdfs:label ?is_preparatory_for_label .
+  gesah:is_preparatory_for rdfs:seeAlso ?is_preparatory_for_see_also .
+  gesah:is_preparatory_for rdfs:label ?is_preparatory_for_see_also_label .
+  
+  ?resource_id gesah:is_based_on ?is_based_on .
+  ?is_based_on rdfs:label ?is_based_on_label .
+  gesah:is_based_on rdfs:seeAlso ?is_based_on_see_also .
+  gesah:is_based_on rdfs:label ?is_based_on_see_also_label .
+  
+  ?resource_id gesah:is_derived_from_on ?is_derived_from_on .
+  ?is_derived_from_on rdfs:label ?is_derived_from_on_label .
+  gesah:is_derived_from_on rdfs:seeAlso ?is_based_on_see_also .
+  gesah:is_derived_from_on rdfs:label ?is_based_on_see_also_label .
+  
+  ?resource_id gesah:is_source_for ?is_source_for .
+  ?is_source_for rdfs:label ?is_source_for_label .
+  gesah:is_source_for rdfs:seeAlso ?is_source_for_see_also .
+  gesah:is_source_for rdfs:label ?is_source_for_see_also_label .
+  
+  ?resource_id gesah:has_copy ?has_copy .
+  ?has_copy rdfs:label ?has_copy_label .
+  gesah:has_copy rdfs:seeAlso ?has_copy_see_also .
+  gesah:has_copy rdfs:label ?has_copy_see_also_label .
+  
+  ?resource_id gesah:is_copy_of ?is_copy_of .
+  ?is_copy_of rdfs:label ?is_copy_of_label .
+  gesah:is_copy_of rdfs:seeAlso ?is_copy_of_see_also .
+  gesah:is_copy_of rdfs:label ?is_copy_of_see_also_label .
+  
+  ?resource_id gesah:cites ?cites .
+  ?cites rdfs:label ?cites_label .
+  gesah:cites rdfs:seeAlso ?cites_see_also .
+  gesah:cites rdfs:label ?cites_see_also_label .
+  
+  ?resource_id gesah:cited ?cited .
+  ?cited rdfs:label ?cited_label .
+  gesah:cited rdfs:seeAlso ?cited_see_also .
+  gesah:cited rdfs:label ?cited_see_also_label .
+  
+  ?resource_id gesah:has_counterproof ?has_counterproof .
+  ?has_counterproof rdfs:label ?has_counterproof_label .
+  gesah:has_counterproof rdfs:seeAlso ?has_counterproof_see_also .
+  gesah:has_counterproof rdfs:label ?has_counterproof_see_also_label .
+  
+  ?resource_id gesah:is_counterproof_from ?is_counterproof_from .
+  ?is_counterproof_from rdfs:label ?is_counterproof_from_label .
+  gesah:is_counterproof_from rdfs:seeAlso ?is_counterproof_from_see_also .
+  gesah:is_counterproof_from rdfs:label ?is_counterproof_from_see_also_label .
+  
+  ?resource_id gesah:is_recto_of ?is_recto_of .
+  ?is_recto_of rdfs:label ?is_recto_of_label .
+  gesah:is_recto_of rdfs:seeAlso ?is_recto_of_see_also .
+  gesah:is_recto_of rdfs:label ?is_recto_of_see_also_label .
+  
+  ?resource_id gesah:is_verso_of ?is_verso_of .
+  ?is_verso_of rdfs:label ?is_verso_of_label .
+  gesah:is_verso_of rdfs:seeAlso ?is_verso_of_see_also .
+  gesah:is_verso_of rdfs:label ?is_verso_of_see_also_label .
+  
+  ?resource_id gesah:has_part ?has_part .
+  ?has_part rdfs:label ?has_part_label .
+  gesah:has_part rdfs:seeAlso ?has_part_see_also .
+  gesah:has_part rdfs:label ?has_part_see_also_label .
+  
+  ?resource_id gesah:is_part_of ?is_part_of .
+  ?is_part_of rdfs:label ?is_part_of_label .
+  gesah:is_part_of rdfs:seeAlso ?is_part_of_see_also .
+  gesah:is_part_of rdfs:label ?is_part_of_see_also_label .
+  
+  #use is_part_of instead of is_part_of_series to treat part of series as part_of
+  ?resource_id gesah:is_part_of ?is_part_of_series .
+  ?is_part_of_series rdfs:label ?is_part_of_series_label .
+  gesah:is_part_of rdfs:seeAlso ?is_part_of_series_see_also .
+  gesah:is_part_of rdfs:label ?is_part_of_series_see_also_label .
+      
 }                
 WHERE {
   ?resource_id rdf:type ?type .
@@ -722,6 +825,264 @@ WHERE {
         ?object_of_preservation_date_time_interval_end vivo:dateTime ?object_of_preservation_date_time_interval_end_value .
       }
     }
-  }     
+  }
+    UNION
+  {
+    ?resource_id gesah:object_of_provenance ?object_of_provenance .
+    {
+      ?object_of_provenance gesah:literal_date_appellation ?object_of_provenance_literal_date_appellation .
+    }
+      UNION
+    {
+      ?object_of_provenance gesah:comment ?object_of_provenance_comment .
+    }
+      UNION
+    {
+      ?object_of_provenance vivo:dateTimeInterval ?object_of_provenance_date_time_interval .
+      {
+         ?object_of_provenance_date_time_interval  vivo:start ?object_of_provenance_date_time_interval_start .
+         ?object_of_provenance_date_time_interval_start vivo:dateTimePrecision ?object_of_provenance_date_time_interval_start_precision .
+         ?object_of_provenance_date_time_interval_start vivo:dateTime ?object_of_provenance_date_time_interval_start_value .
+      }
+        UNION
+      {
+        ?object_of_provenance_date_time_interval  vivo:end ?object_of_provenance_date_time_interval_end .
+        ?object_of_provenance_date_time_interval_end vivo:dateTimePrecision ?object_of_provenance_date_time_interval_end_precision .
+        ?object_of_provenance_date_time_interval_end vivo:dateTime ?object_of_provenance_date_time_interval_end_value .
+      }
+    }
+      UNION
+    {
+      ?object_of_provenance gesah:has_place ?object_of_provenance_place . 
+      {
+        ?object_of_provenance_place rdfs:label ?object_of_provenance_place_label .
+      }
+        UNION
+      {
+        ?object_of_provenance_place gesah:TGN_ID ?object_of_provenance_place_TGN_ID .
+      }
+        UNION
+      {
+        ?object_of_provenance_place gesah:GeoNames_ID ?object_of_provenance_place_GeoNames_ID .
+      }
+    }
+      UNION
+    {
+      ?object_of_provenance gesah:has_participant ?object_of_provenance_participant . 
+      BIND( 
+          IF( exists {?object_of_provenance_participant rdf:type <http://xmlns.com/foaf/0.1/Person> } , 'person', 
+	      IF( exists {?object_of_provenance_participant rdf:type <http://xmlns.com/foaf/0.1/Organization> } , 'organization', 
+	      '')
+      ) as ?object_of_provenance_participant_type_comment )
+      
+      { 
+        ?object_of_provenance_participant rdfs:label ?object_of_provenance_participant_label . 
+      }
+        UNION
+      {
+        ?object_of_provenance_participant gesah:GND_ID ?object_of_provenance_participant_gnd_id .
+      }
+        UNION
+      {
+        ?object_of_provenance_participant gesah:ULAN_ID ?object_of_provenance_participant_ulan_id .
+      } 
+        UNION
+      {
+        ?object_of_provenance_participant gesah:has_role ?object_of_provenance_participant_role .
+        ?object_of_provenance_participant_role gesah:realized_in ?object_of_provenance .
+        ?object_of_provenance_participant_role gesah:has_role_type ?object_of_provenance_participant_role_type .
+        {
+          ?object_of_provenance_participant_role_type rdfs:label ?object_of_provenance_participant_role_type_label .
+        }
+          UNION
+        {
+          ?object_of_provenance_participant_role_type gesah:AAT_ID ?object_of_provenance_participant_role_type_AAT_ID .
+        }
+      }
+      
+    }
+  }  
+    UNION
+  {
+    ?resource_id gesah:is_preparatory_for ?is_preparatory_for .
+    {
+      ?is_preparatory_for rdfs:label ?is_preparatory_for_label .
+    }
+      UNION
+    {
+      gesah:is_preparatory_for rdfs:seeAlso ?is_preparatory_for_see_also .
+      gesah:is_preparatory_for rdfs:label ?is_preparatory_for_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:is_based_on ?is_based_on .
+    {
+      ?is_based_on rdfs:label ?is_based_on_label .
+    }
+      UNION
+    {
+      gesah:is_based_on rdfs:seeAlso ?is_based_on_see_also .
+      gesah:is_based_on rdfs:label ?is_based_on_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:is_derived_from_on ?is_derived_from_on .
+    {
+      ?is_derived_from_on rdfs:label ?is_derived_from_on_label .
+    }
+      UNION
+    {
+      gesah:is_derived_from_on rdfs:seeAlso ?is_based_on_see_also .
+      gesah:is_derived_from_on rdfs:label ?is_based_on_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:is_source_for ?is_source_for .
+    {
+      ?is_source_for rdfs:label ?is_source_for_label .
+    }
+      UNION
+    {
+      gesah:is_source_for rdfs:seeAlso ?is_source_for_see_also .
+      gesah:is_source_for rdfs:label ?is_source_for_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:has_copy ?has_copy .
+    {
+      ?has_copy rdfs:label ?has_copy_label .
+    }
+      UNION
+    {
+      gesah:has_copy rdfs:seeAlso ?has_copy_see_also .
+      gesah:has_copy rdfs:label ?has_copy_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:is_copy_of ?is_copy_of .
+    {
+      ?is_copy_of rdfs:label ?is_copy_of_label .
+    }
+      UNION
+    {
+      gesah:is_copy_of rdfs:seeAlso ?is_copy_of_see_also .
+      gesah:is_copy_of rdfs:label ?is_copy_of_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:cites ?cites .
+    {
+      ?cites rdfs:label ?cites_label .
+    }
+      UNION
+    {
+      gesah:cites rdfs:seeAlso ?cites_see_also .
+      gesah:cites rdfs:label ?cites_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:cited ?cited .
+    {
+      ?cited rdfs:label ?cited_label .
+    }
+      UNION
+    {
+      gesah:cited rdfs:seeAlso ?cited_see_also .
+      gesah:cited rdfs:label ?cited_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:has_counterproof ?has_counterproof .
+    {
+      ?has_counterproof rdfs:label ?has_counterproof_label .
+    }
+      UNION
+    {
+      gesah:has_counterproof rdfs:seeAlso ?has_counterproof_see_also .
+      gesah:has_counterproof rdfs:label ?has_counterproof_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:is_counterproof_from ?is_counterproof_from .
+    {
+      ?is_counterproof_from rdfs:label ?is_counterproof_from_label .
+    }
+      UNION
+    {
+      gesah:is_counterproof_from rdfs:seeAlso ?is_counterproof_from_see_also .
+      gesah:is_counterproof_from rdfs:label ?is_counterproof_from_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:is_recto_of ?is_recto_of .
+    {
+      ?is_recto_of rdfs:label ?is_recto_of_label .
+    }
+      UNION
+    {
+      gesah:is_recto_of rdfs:seeAlso ?is_recto_of_see_also .
+      gesah:is_recto_of rdfs:label ?is_recto_of_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:is_verso_of ?is_verso_of .
+    {
+      ?is_verso_of rdfs:label ?is_verso_of_label .
+    }
+      UNION
+    {
+      gesah:is_verso_of rdfs:seeAlso ?is_verso_of_see_also .
+      gesah:is_verso_of rdfs:label ?is_verso_of_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:has_part ?has_part .
+    {
+      ?has_part rdfs:label ?has_part_label .
+    }
+      UNION
+    {
+      gesah:has_part rdfs:seeAlso ?has_part_see_also .
+      gesah:has_part rdfs:label ?has_part_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:is_part_of ?is_part_of .
+    {
+      ?is_part_of rdfs:label ?is_part_of_label .
+    }
+      UNION
+    {
+      gesah:is_part_of rdfs:seeAlso ?is_part_of_see_also .
+      gesah:is_part_of rdfs:label ?is_part_of_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:is_part_of_series ?is_part_of_series .
+    {
+      ?is_part_of_series rdfs:label ?is_part_of_series_label .
+    }
+      UNION
+    {
+      #use is_part_of instead of is_part_of_series to treat part of series as part_of
+      gesah:is_part_of rdfs:seeAlso ?is_part_of_series_see_also .
+      gesah:is_part_of rdfs:label ?is_part_of_series_see_also_label .
+    }
+  }
+  
 }
 """ .
