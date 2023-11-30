@@ -181,8 +181,8 @@
                 </xsl:choose>
             </xsl:variable>
             <lido:eventActor>
-                <lido:displayActorInRole>
-                    <xsl:for-each select="./rdfs:label">
+                <xsl:for-each select="./rdfs:label">
+                    <lido:displayActorInRole>
                         <xsl:variable name="text_value" select="text()" />
                         <xsl:if test="$text_value != ''">
                             <xsl:variable name="lang" select="@xml:lang" />
@@ -201,8 +201,8 @@
                                 </xsl:when>
                             </xsl:choose>
                         </xsl:if>
-                    </xsl:for-each>
-                </lido:displayActorInRole>
+                    </lido:displayActorInRole>
+                </xsl:for-each>
                 <lido:actorInRole>
                     <!-- This is dynamic, this can be class person http://terminology.lido-schema.org/lido00163 or organization http://terminology.lido-schema.org/lido00413 -->
                     <lido:actor>
@@ -296,7 +296,7 @@
             </xsl:for-each>
         </xsl:template>
         
-         <xsl:template name="activity-participants">
+        <xsl:template name="activity-participants">
             <xsl:for-each select="gesah:has_participant">
                 <xsl:for-each select="*">
                     <xsl:call-template name="activity-participant"/>
@@ -305,8 +305,45 @@
                     <xsl:variable name="resource_uri" select="@rdf:resource" />                
                     <xsl:for-each select="//rdf:Description[@rdf:about = $resource_uri]">
                         <xsl:call-template name="activity-participant"/>
-                </xsl:for-each>
+                    </xsl:for-each>
                 </xsl:if>
+            </xsl:for-each>
+        </xsl:template>
+
+        <xsl:template name="relationship-related-type">
+            <xsl:variable name="rdf_name" select="concat( namespace-uri(), local-name() )" />
+            <xsl:for-each select="//rdf:Description[@rdf:about = $rdf_name]">
+                <xsl:for-each select="./rdfs:seeAlso">
+                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+                        <xsl:value-of select="text()" />
+                    </lido:conceptID>
+                </xsl:for-each>
+                <xsl:for-each select="./rdfs:label">
+                    <lido:term>
+                        <xsl:if test="@xml:lang">
+                            <xsl:attribute name="xml:lang">
+                                <xsl:value-of select="@xml:lang" />
+                            </xsl:attribute>
+                        </xsl:if>
+                        <xsl:value-of select="text()" />
+                    </lido:term>
+                </xsl:for-each>
+            </xsl:for-each>
+        </xsl:template>
+
+        <xsl:template name="relationship-event">
+            <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+                <xsl:value-of select="@rdf:about" />
+            </lido:objectID>
+            <xsl:for-each select="./rdfs:label">
+                <lido:objectNote>
+                    <xsl:if test="@xml:lang">
+                        <xsl:attribute name="xml:lang">
+                            <xsl:value-of select="@xml:lang" />
+                        </xsl:attribute>
+                    </xsl:if>
+                    <xsl:value-of select="text()" />
+                </lido:objectNote>
             </xsl:for-each>
         </xsl:template>
         
@@ -1234,6 +1271,34 @@
                                    </lido:relatedWorkRelType>
                                 </lido:relatedWorkSet>
                             </xsl:for-each>
+                            
+                            <xsl:for-each select="//gesah:is_preparatory_for | //gesah:is_based_on | //gesah:is_derived_from_on | //gesah:is_source_for | 
+                            //gesah:has_copy | //gesah:is_copy_of | //gesah:cites | //gesah:cited | //gesah:has_counterproof | //gesah:is_counterproof_from | 
+                            //gesah:is_recto_of | //gesah:is_verso_of | //gesah:has_part | //gesah:is_part_of">
+                                <lido:relatedWorkSet>
+                                    <lido:relatedWork>
+                                        <lido:object>
+                                            <xsl:choose>
+                                                <xsl:when test="./@rdf:resource">
+                                                    <xsl:variable name="resource_uri" select="./@rdf:resource" />                
+                                                    <xsl:for-each select="rdf:Description[@rdf:about = $resource_uri]">
+                                                        <xsl:call-template name="relationship-event"/>
+                                                    </xsl:for-each>
+                                                </xsl:when>
+                                                <xsl:when test="./rdf:Description">
+                                                    <xsl:for-each select="./rdf:Description">
+                                                        <xsl:call-template name="relationship-event"/>
+                                                    </xsl:for-each>
+                                                </xsl:when>
+                                            </xsl:choose>
+                                        </lido:object>
+                                    </lido:relatedWork>
+                                    <lido:relatedWorkRelType>
+                                        <xsl:call-template name="relationship-related-type"/>
+                                    </lido:relatedWorkRelType>
+                                </lido:relatedWorkSet>
+                            </xsl:for-each>
+                            
                         </lido:relatedWorksWrap>
                     </lido:objectRelationWrap>
                 </lido:descriptiveMetadata>
