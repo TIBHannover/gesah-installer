@@ -226,58 +226,77 @@ CONSTRUCT {
   ?is_preparatory_for rdfs:label ?is_preparatory_for_label .
   gesah:is_preparatory_for rdfs:seeAlso ?is_preparatory_for_see_also .
   gesah:is_preparatory_for rdfs:label ?is_preparatory_for_see_also_label .
+  
   ?resource_id gesah:is_based_on ?is_based_on .
   ?is_based_on rdfs:label ?is_based_on_label .
   gesah:is_based_on rdfs:seeAlso ?is_based_on_see_also .
   gesah:is_based_on rdfs:label ?is_based_on_see_also_label .
+  
   ?resource_id gesah:is_derived_from_on ?is_derived_from_on .
   ?is_derived_from_on rdfs:label ?is_derived_from_on_label .
   gesah:is_derived_from_on rdfs:seeAlso ?is_based_on_see_also .
   gesah:is_derived_from_on rdfs:label ?is_based_on_see_also_label .
+  
   ?resource_id gesah:is_source_for ?is_source_for .
   ?is_source_for rdfs:label ?is_source_for_label .
   gesah:is_source_for rdfs:seeAlso ?is_source_for_see_also .
   gesah:is_source_for rdfs:label ?is_source_for_see_also_label .
+  
   ?resource_id gesah:has_copy ?has_copy .
   ?has_copy rdfs:label ?has_copy_label .
   gesah:has_copy rdfs:seeAlso ?has_copy_see_also .
   gesah:has_copy rdfs:label ?has_copy_see_also_label .
+  
   ?resource_id gesah:is_copy_of ?is_copy_of .
   ?is_copy_of rdfs:label ?is_copy_of_label .
   gesah:is_copy_of rdfs:seeAlso ?is_copy_of_see_also .
   gesah:is_copy_of rdfs:label ?is_copy_of_see_also_label .
+  
   ?resource_id gesah:cites ?cites .
   ?cites rdfs:label ?cites_label .
   gesah:cites rdfs:seeAlso ?cites_see_also .
   gesah:cites rdfs:label ?cites_see_also_label .
+  
   ?resource_id gesah:cited ?cited .
   ?cited rdfs:label ?cited_label .
   gesah:cited rdfs:seeAlso ?cited_see_also .
   gesah:cited rdfs:label ?cited_see_also_label .
+  
   ?resource_id gesah:has_counterproof ?has_counterproof .
   ?has_counterproof rdfs:label ?has_counterproof_label .
   gesah:has_counterproof rdfs:seeAlso ?has_counterproof_see_also .
   gesah:has_counterproof rdfs:label ?has_counterproof_see_also_label .
+  
   ?resource_id gesah:is_counterproof_from ?is_counterproof_from .
   ?is_counterproof_from rdfs:label ?is_counterproof_from_label .
   gesah:is_counterproof_from rdfs:seeAlso ?is_counterproof_from_see_also .
   gesah:is_counterproof_from rdfs:label ?is_counterproof_from_see_also_label .
+  
   ?resource_id gesah:is_recto_of ?is_recto_of .
   ?is_recto_of rdfs:label ?is_recto_of_label .
   gesah:is_recto_of rdfs:seeAlso ?is_recto_of_see_also .
   gesah:is_recto_of rdfs:label ?is_recto_of_see_also_label .
+  
   ?resource_id gesah:is_verso_of ?is_verso_of .
   ?is_verso_of rdfs:label ?is_verso_of_label .
   gesah:is_verso_of rdfs:seeAlso ?is_verso_of_see_also .
   gesah:is_verso_of rdfs:label ?is_verso_of_see_also_label .
+  
   ?resource_id gesah:has_part ?has_part .
   ?has_part rdfs:label ?has_part_label .
   gesah:has_part rdfs:seeAlso ?has_part_see_also .
   gesah:has_part rdfs:label ?has_part_see_also_label .
+  
   ?resource_id gesah:is_part_of ?is_part_of .
   ?is_part_of rdfs:label ?is_part_of_label .
   gesah:is_part_of rdfs:seeAlso ?is_part_of_see_also .
   gesah:is_part_of rdfs:label ?is_part_of_see_also_label .
+  
+  #use is_part_of instead of is_part_of_series to treat part of series as part_of
+  ?resource_id gesah:is_part_of ?is_part_of_series .
+  ?is_part_of_series rdfs:label ?is_part_of_series_label .
+  gesah:is_part_of rdfs:seeAlso ?is_part_of_series_see_also .
+  gesah:is_part_of rdfs:label ?is_part_of_series_see_also_label .
       
 }                
 WHERE {
@@ -1045,5 +1064,19 @@ WHERE {
       gesah:is_part_of rdfs:label ?is_part_of_see_also_label .
     }
   }
+    UNION
+  {
+    ?resource_id gesah:is_part_of_series ?is_part_of_series .
+    {
+      ?is_part_of_series rdfs:label ?is_part_of_series_label .
+    }
+      UNION
+    {
+      #use is_part_of instead of is_part_of_series to treat part of series as part_of
+      gesah:is_part_of rdfs:seeAlso ?is_part_of_series_see_also .
+      gesah:is_part_of rdfs:label ?is_part_of_series_see_also_label .
+    }
+  }
+  
 }
 """ .

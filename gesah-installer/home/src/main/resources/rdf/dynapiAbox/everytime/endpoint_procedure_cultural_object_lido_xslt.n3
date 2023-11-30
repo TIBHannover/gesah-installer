@@ -1274,7 +1274,7 @@
                             
                             <xsl:for-each select="//gesah:is_preparatory_for | //gesah:is_based_on | //gesah:is_derived_from_on | //gesah:is_source_for | 
                             //gesah:has_copy | //gesah:is_copy_of | //gesah:cites | //gesah:cited | //gesah:has_counterproof | //gesah:is_counterproof_from | 
-                            //gesah:is_recto_of | //gesah:is_verso_of | //gesah:has_part | //gesah:is_part_of">
+                            //gesah:is_recto_of | //gesah:is_verso_of | //gesah:has_part | //gesah:is_part_of | //gesah:is_part_of_series">
                                 <lido:relatedWorkSet>
                                     <lido:relatedWork>
                                         <lido:object>
