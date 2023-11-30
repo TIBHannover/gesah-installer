@@ -211,8 +211,10 @@ CONSTRUCT {
   ?object_of_provenance_place rdfs:label ?object_of_provenance_place_label .
   ?object_of_provenance_place gesah:TGN_ID ?object_of_provenance_place_TGN_ID .
   ?object_of_provenance_place gesah:GeoNames_ID ?object_of_provenance_place_GeoNames_ID .
-  ?object_of_provenance gesah:has_participant ?object_of_provenance_participant . 
-  ?object_of_provenance rdfs:comment ?object_of_provenance_participant_type_comment .
+  ?object_of_provenance gesah:has_participant ?object_of_provenance_participant .
+  ?object_of_provenance gesah:comment ?object_of_provenance_comment .
+  
+  ?object_of_provenance_participant rdfs:comment ?object_of_provenance_participant_type_comment .
   ?object_of_provenance_participant rdfs:label ?object_of_provenance_participant_label . 
   ?object_of_provenance_participant gesah:GND_ID ?object_of_provenance_participant_gnd_id .
   ?object_of_provenance_participant gesah:ULAN_ID ?object_of_provenance_participant_ulan_id .
@@ -829,6 +831,10 @@ WHERE {
     ?resource_id gesah:object_of_provenance ?object_of_provenance .
     {
       ?object_of_provenance gesah:literal_date_appellation ?object_of_provenance_literal_date_appellation .
+    }
+      UNION
+    {
+      ?object_of_provenance gesah:comment ?object_of_provenance_comment .
     }
       UNION
     {

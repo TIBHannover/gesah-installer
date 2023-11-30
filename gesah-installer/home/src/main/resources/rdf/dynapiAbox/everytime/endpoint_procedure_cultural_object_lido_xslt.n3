@@ -23,6 +23,7 @@
         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         xmlns:smil20lang="http://www.w3.org/2001/SMIL20/Language"
+        xmlns:local="my:local" exclude-result-prefixes="local"
     >
         <xsl:output method="xml" indent="yes"/>
 
@@ -346,6 +347,110 @@
                 </lido:objectNote>
             </xsl:for-each>
         </xsl:template>
+        
+        <xsl:function name="local:individual-first-de-or-other-label">
+		    <xsl:param name="cur_element"/>
+		    <xsl:param name="main_root"/>
+		    <xsl:param name="local_prefix"/>
+		    <xsl:param name="local_suffix"/>
+	         <xsl:choose>
+ 	            <xsl:when test="$cur_element/rdfs:label">
+ 	                <xsl:choose>
+ 	            		<xsl:when test="$cur_element/rdfs:label[@xml:lang = 'de-DE']">
+	                		<xsl:value-of select="concat( $local_prefix, normalize-space(($cur_element/rdfs:label[@xml:lang = 'de-DE'])[1]/text()), $local_suffix )" />
+ 	                    </xsl:when>
+ 	            		<xsl:when test="$cur_element/rdfs:label[@xml:lang = 'de']">
+	                		<xsl:value-of select="concat( $local_prefix, normalize-space(($cur_element/rdfs:label[@xml:lang = 'de'])[1]/text()), $local_suffix )" />
+ 	                    </xsl:when>
+ 	            		<xsl:when test="$cur_element/rdfs:label">
+	                		<xsl:value-of select="concat( $local_prefix, normalize-space(($cur_element/rdfs:label)[1]/text()), $local_suffix )" />
+ 	                    </xsl:when>
+ 	                </xsl:choose>
+	            </xsl:when>
+	            <!-- participant xml defined elsewhere-->
+	            <xsl:when test="$cur_element/@rdf:resource">
+	                <xsl:variable name="resource_uri" select="$cur_element/@rdf:resource" />                
+	                <xsl:value-of select="local:individual-first-de-or-other-label($main_root//rdf:Description[@rdf:about = $resource_uri], $main_root, $local_prefix, $local_suffix)" />
+	            </xsl:when>
+	            <!-- go to inner element-->
+	            <xsl:when test="$cur_element/rdf:Description">
+	                <xsl:value-of select="local:individual-first-de-or-other-label($cur_element/rdf:Description, $main_root, $local_prefix, $local_suffix)" />
+	            </xsl:when>
+	        </xsl:choose>
+		</xsl:function>
+        
+        <xsl:function name="local:participant-roletype-first-de-or-other-label">
+		    <xsl:param name="cur_element"/>
+		    <xsl:param name="main_root"/>
+		    <xsl:param name="local_prefix"/>
+		    <xsl:param name="local_suffix"/>
+	        <xsl:choose>
+ 	            <xsl:when test="$cur_element/gesah:has_role">
+            		<xsl:value-of select="local:role-roletype-first-de-or-other-label(($cur_element/gesah:has_role)[1], $main_root, $local_prefix, $local_suffix)" />
+	            </xsl:when>
+	            <!-- participant xml defined elsewhere-->
+	            <xsl:when test="$cur_element/@rdf:resource">
+	                <xsl:variable name="resource_uri" select="$cur_element/@rdf:resource" />                
+	                <xsl:value-of select="local:participant-roletype-first-de-or-other-label($main_root//rdf:Description[@rdf:about = $resource_uri], $main_root, $local_prefix, $local_suffix)" />
+	            </xsl:when>
+	            <!-- go to inner element-->
+	            <xsl:when test="$cur_element/rdf:Description">
+	                <xsl:value-of select="local:participant-roletype-first-de-or-other-label($cur_element/rdf:Description, $main_root, $local_prefix, $local_suffix)" />
+	            </xsl:when>
+	        </xsl:choose>
+		</xsl:function>
+		
+		<xsl:function name="local:role-roletype-first-de-or-other-label">
+		    <xsl:param name="cur_element"/>
+		    <xsl:param name="main_root"/>
+		    <xsl:param name="local_prefix"/>
+		    <xsl:param name="local_suffix"/>
+	         <xsl:choose>
+                <xsl:when test="$cur_element/gesah:has_role_type">
+            		<xsl:value-of select="local:role-first-de-or-other-label(($cur_element/gesah:has_role_type)[1], $main_root, $local_prefix, $local_suffix)" />
+	            </xsl:when>
+	            <!-- participant xml defined elsewhere-->
+	            <xsl:when test="$cur_element/@rdf:resource">
+	                <xsl:variable name="resource_uri" select="$cur_element/@rdf:resource" />                
+	                <xsl:value-of select="local:role-roletype-first-de-or-other-label($main_root//rdf:Description[@rdf:about = $resource_uri], $main_root, $local_prefix, $local_suffix)" />
+	            </xsl:when>
+	            <!-- go to inner element-->
+	            <xsl:when test="$cur_element/rdf:Description">
+	                <xsl:value-of select="local:role-roletype-first-de-or-other-label($cur_element/rdf:Description, $main_root, $local_prefix, $local_suffix)" />
+	            </xsl:when>
+	        </xsl:choose>
+		</xsl:function>
+		
+		<xsl:function name="local:role-first-de-or-other-label">
+		    <xsl:param name="cur_element"/>
+		    <xsl:param name="main_root"/>
+		    <xsl:param name="local_prefix"/>
+		    <xsl:param name="local_suffix"/>
+	         <xsl:choose>
+ 	            <xsl:when test="$cur_element/rdfs:label">
+ 	                <xsl:choose>
+ 	            		<xsl:when test="$cur_element/rdfs:label[@xml:lang = 'de-DE']">
+	                		<xsl:value-of select="concat( $local_prefix, ($cur_element/rdfs:label[@xml:lang = 'de-DE'])[1]/text(), $local_suffix )" />
+ 	                    </xsl:when>
+ 	            		<xsl:when test="$cur_element/rdfs:label[@xml:lang = 'de']">
+	                		<xsl:value-of select="concat( $local_prefix, ($cur_element/rdfs:label[@xml:lang = 'de'])[1]/text(), $local_suffix )" />
+ 	                    </xsl:when>
+ 	            		<xsl:when test="$cur_element/rdfs:label">
+	                		<xsl:value-of select="concat( $local_prefix, ($cur_element/rdfs:label)[1]/text(), $local_suffix )" />
+ 	                    </xsl:when>
+ 	                </xsl:choose>
+	            </xsl:when>
+	            <!-- participant xml defined elsewhere-->
+	            <xsl:when test="$cur_element/@rdf:resource">
+	                <xsl:variable name="resource_uri" select="$cur_element/@rdf:resource" />                
+	                <xsl:value-of select="local:role-first-de-or-other-label($main_root//rdf:Description[@rdf:about = $resource_uri], $main_root, $local_prefix, $local_suffix)" />
+	            </xsl:when>
+	            <!-- go to inner element-->
+	            <xsl:when test="$cur_element/rdf:Description">
+	                <xsl:value-of select="local:role-first-de-or-other-label($cur_element/rdf:Description, $main_root, $local_prefix, $local_suffix)" />
+	            </xsl:when>
+	        </xsl:choose>
+		</xsl:function>
         
         <xsl:template name="event-place">
             <lido:eventPlace>
@@ -1064,7 +1169,20 @@
                                         <xsl:call-template name="activity-participants" />
                                         <xsl:call-template name="event-date"/>
                                         <xsl:call-template name="event-places"/>
-                                        
+										<lido:eventDescriptionSet>
+											<lido:descriptiveNoteValue> 
+											    <!-- here we map participant label, roletype label , place label, literal date and comment in the following pattern -->
+                                                <xsl:value-of select="local:individual-first-de-or-other-label(./gesah:has_participant[1], /, '', '')" />
+                                                <xsl:value-of select="local:participant-roletype-first-de-or-other-label(./gesah:has_participant[1], /, ' (', ')')" />
+                                                <xsl:value-of select="local:individual-first-de-or-other-label(./gesah:has_place[1], /, ', ', '')" />
+                                                <xsl:if test="./gesah:literal_date_appellation">
+					                                <xsl:value-of select="concat( ', ', ./gesah:literal_date_appellation/text())" />
+						                        </xsl:if>
+                                                <xsl:if test="./gesah:comment">
+					                                <xsl:value-of select="concat( ', [', ./gesah:comment/text(), ']')" />
+						                        </xsl:if>
+											</lido:descriptiveNoteValue>
+										</lido:eventDescriptionSet>                                        
                                     </lido:event>
                                 </lido:eventSet>
                             </xsl:for-each>
