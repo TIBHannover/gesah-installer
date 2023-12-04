@@ -483,8 +483,54 @@
             </lido:eventPlace>
         </xsl:template>
         
+		<xsl:function name="local:type">
+		    <xsl:param name="cur_element"/>
+		    <xsl:variable name="resource_uri">
+			    <xsl:choose>
+		            <xsl:when test="$cur_element/@rdf:resource">
+		                <xsl:value-of select="$cur_element/@rdf:resource" />                
+		            </xsl:when>
+		            <xsl:when test="$cur_element/*/@rdf:about">
+		                <xsl:value-of select="($cur_element/*/@rdf:about)[1]" />                
+		            </xsl:when>
+		            <xsl:otherwise>
+		                <xsl:value-of select="''" />                
+		            </xsl:otherwise>
+		        </xsl:choose>
+	        </xsl:variable>
+	        
+            <xsl:choose>
+                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Print'">
+                    <xsl:value-of select="'print'" />
+                </xsl:when>
+                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Drawing'">
+                    <xsl:value-of select="'drawing'" />
+                </xsl:when>
+                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Manuscript'">
+                    <xsl:value-of select="'manuscript'" />
+                </xsl:when>
+                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Seal'">
+                    <xsl:value-of select="'seal'" />
+                </xsl:when>
+                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Printed_Materials'">
+                    <xsl:value-of select="'printed-materials'" />
+                </xsl:when>
+                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Painting'">
+                    <xsl:value-of select="'book-illumination'" />
+                </xsl:when>
+                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Musical_Notation'">
+                    <xsl:value-of select="'musical-notation'" />
+                </xsl:when>
+                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Photomechanical_Print'">
+                    <xsl:value-of select="'photomechanical-print'" />
+                </xsl:when>
+	            <xsl:otherwise>
+	                <xsl:value-of select="''" />                
+	            </xsl:otherwise>
+            </xsl:choose>
+		</xsl:function>
 
-        <xsl:template match="/">
+        <xsl:template match="//*[rdfs:comment/text() = 'target_object']">
             <lido:lidoWrap xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:html="http://www.w3.org/1999/xhtml"
                            xmlns:lido="http://www.lido-schema.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                            xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
@@ -508,7 +554,11 @@
                 xmlns:smil20lang="http://www.w3.org/2001/SMIL20/Language"
             >
                 <xsl:variable name="uri">
-                    <xsl:value-of select="//*[rdfs:comment/text() = 'target_object']/@rdf:about" />
+                    <xsl:value-of select="@rdf:about" />
+                </xsl:variable>
+                
+                <xsl:variable name="cultural_object">
+                    <xsl:value-of select="current()" />
                 </xsl:variable>
                 
                 <lido:lidoRecID
@@ -520,19 +570,19 @@
                     <xsl:value-of select="$uri" />
                 </lido:objectPublishedID>
 
-                <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:GND_ID">
+                <xsl:for-each select="gesah:GND_ID">
                     <lido:objectPublishedID lido:pref="http://terminology.lido-schema.org/lido00169" lido:type="http://terminology.lido-schema.org/lido00099">
                         <xsl:call-template name="gnd-id"/>
                     </lido:objectPublishedID>
                 </xsl:for-each>
 
-                <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:CONA_ID">
+                <xsl:for-each select="gesah:CONA_ID">
                     <lido:objectPublishedID lido:pref="http://terminology.lido-schema.org/lido00169" lido:type="http://terminology.lido-schema.org/lido00099">
                         <xsl:call-template name="cona-id"/>
                     </lido:objectPublishedID>
                 </xsl:for-each>
 
-                <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:Wikidata_ID">
+                <xsl:for-each select="gesah:Wikidata_ID">
                     <lido:objectPublishedID lido:pref="http://terminology.lido-schema.org/lido00169" lido:type="http://terminology.lido-schema.org/lido00099">
                         <xsl:call-template name="wikidata-id"/>
                     </lido:objectPublishedID>
@@ -542,35 +592,9 @@
                     <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00096</lido:conceptID>
                         <lido:term xml:lang="en">Human-made object</lido:term>
                 </lido:category>
+                
                 <xsl:variable name="type">
-                    <xsl:choose>
-                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Print'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Print']">
-                            <xsl:value-of select="'print'" />
-                        </xsl:when>
-                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Drawing'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Drawing']">
-                            <xsl:value-of select="'drawing'" />
-                        </xsl:when>
-                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Manuscript'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Manuscript']">
-                            <xsl:value-of select="'manuscript'" />
-                        </xsl:when>
-                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Seal'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Seal']">
-                            <xsl:value-of select="'seal'" />
-                        </xsl:when>
-                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Printed_Materials'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Printed_Materials']">
-                            <xsl:value-of select="'printed-materials'" />
-                        </xsl:when>
-                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Painting'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Painting']">
-                            <xsl:value-of select="'book-illumination'" />
-                        </xsl:when>
-                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Musical_Notation'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Musical_Notation']">
-                            <xsl:value-of select="'musical-notation'" />
-                        </xsl:when>
-                        <xsl:when test="//rdf:type[@rdf:resource = 'http://ontology.tib.eu/gesah/Photomechanical_Print'] or //rdf:Description[@rdf:about = 'http://ontology.tib.eu/gesah/Photomechanical_Print']">
-                            <xsl:value-of select="'photomechanical-print'" />
-                        </xsl:when>
-
-
-                    </xsl:choose>
+                    <xsl:value-of select="local:type(./rdf:type)" />
                 </xsl:variable>
 
                 <lido:descriptiveMetadata xml:lang="de">
@@ -578,9 +602,9 @@
                         <lido:objectWorkTypeWrap>
                             <lido:objectWorkType lido:type="http://terminology.lido-schema.org/lido00789">
                                 <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-                                    <xsl:value-of select="(//*[rdfs:comment/text() = 'target_object']/vitro:mostSpecificType/rdf:Description/rdfs:seeAlso)[1]/text()" />
+                                    <xsl:value-of select="(./vitro:mostSpecificType/rdf:Description/rdfs:seeAlso)[1]/text()" />
                                 </lido:conceptID>
-                                <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/vitro:mostSpecificType/rdf:Description/rdfs:label">
+                                <xsl:for-each select="./vitro:mostSpecificType/rdf:Description/rdfs:label">
                                     <lido:term>
                                         <xsl:if test="@xml:lang">
                                             <xsl:attribute name="xml:lang">
@@ -597,10 +621,10 @@
                         <lido:classificationWrap>
                             <lido:classification lido:type="http://terminology.lido-schema.org/lido00853">
                                  <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-                                    <xsl:value-of select="(//*[rdfs:comment/text() = 'target_object']/vitro:mostSpecificType/rdf:Description/rdfs:seeAlso)[1]/text()" />
+                                    <xsl:value-of select="(./vitro:mostSpecificType/rdf:Description/rdfs:seeAlso)[1]/text()" />
                                 </lido:conceptID>
 
-                                <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/vitro:mostSpecificType/rdf:Description/rdfs:label">
+                                <xsl:for-each select="./vitro:mostSpecificType/rdf:Description/rdfs:label">
                                     <lido:term>
                                         <xsl:if test="@xml:lang">
                                             <xsl:attribute name="xml:lang">
@@ -611,7 +635,7 @@
                                     </lido:term>
                                 </xsl:for-each>
 
-                                <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/vitro:mostSpecificType/rdf:Description/rdfs:label">
+                                <xsl:for-each select="./vitro:mostSpecificType/rdf:Description/rdfs:label">
                                     <lido:term lido:addedSearchTerm="yes">
                                         <xsl:if test="@xml:lang">
                                             <xsl:attribute name="xml:lang">
@@ -628,7 +652,7 @@
                     <lido:objectIdentificationWrap>
                         <lido:titleWrap>
                             <lido:titleSet lido:type="http://vocab.getty.edu/page/aat/300417200">
-                                <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/rdfs:label">
+                                <xsl:for-each select="./rdfs:label">
                                     <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00526">
                                         <xsl:if test="@xml:lang">
                                             <xsl:attribute name="xml:lang">
@@ -640,7 +664,7 @@
                                 </xsl:for-each>
                             </lido:titleSet>
 
-                            <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_Title/rdf:Description">
+                            <xsl:for-each select="./gesah:has_Title/rdf:Description">
                                 <lido:titleSet>
                                     <xsl:if test="gesah:has_title_type/rdf:Description/gesah:AAT_ID/text()">
                                         <xsl:attribute name="lido:type">
@@ -755,7 +779,7 @@
                                 <!-- LIDO 1.1
                                 <sourceRepositorySet>
                                     <xsl:variable name="today_date" select="current-date()"/>
-                                    <xsl:value-of select="concat(string(//*[rdfs:comment/text() = 'target_object']/@rdf:about), ' [', format-date($today_date,'[Y0001].[M01].[D01]'), ']')" />
+                                    <xsl:value-of select="concat($uri, ' [', format-date($today_date,'[Y0001].[M01].[D01]'), ']')" />
                                 </sourceRepositorySet>
                                 -->
                             </lido:repositorySet>
@@ -885,7 +909,7 @@
 
                                         <!-- GK: Element Culture ergänzt BR: This is dynamic and is equivalent to gesah:has_geographic_assignment, object property of CO to class gesah:geographic_classification, we have 14 instances in that class, all with AAT IDs -->
                                             <xsl:if test="(($type = 'print' or $type = 'printed-materials' or $type = 'photomechanical-print' or $type = 'seal') and name(..) = 'gesah:output_of_production' ) or $type = 'drawing' or $type = 'manuscript' or $type = 'book-illumination' or $type = 'musical-notation'">
-                                                <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_geographic_assignment/*">
+                                                <xsl:for-each select="$cultural_object/gesah:has_geographic_assignment/*">
                                                        <lido:culture>
                                                            <xsl:for-each select="./gesah:AAT_ID">
                                                             <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
@@ -912,7 +936,7 @@
 
                                         <xsl:if test="(($type = 'print' or $type = 'printed-materials' or $type = 'photomechanical-print' or $type = 'seal') and name(..) = 'gesah:output_of_production' ) or $type = 'drawing' or $type = 'manuscript' or $type = 'book-illumination' or $type = 'musical-notation'">
                                         <!-- GK: Hier habe ich die Renaissance untergebracht. BR: This is dynamic and is equivalent to gesah:has_stylistic_classification, object property to CO to gesah:stylistic_classification, we have 8 instances of that class, all with AAT ID -->
-                                               <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_stylistic_assignment/*">
+                                               <xsl:for-each select="$cultural_object/gesah:has_stylistic_assignment/*">
                                                    <lido:periodName>
                                                        <xsl:for-each select="./gesah:AAT_ID">
                                                         <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
@@ -1194,19 +1218,19 @@
                         <lido:subjectWrap>
                             <lido:subjectSet>
                                 <lido:subject>
-                                    <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_object_category_generic_term/*">
+                                    <xsl:for-each select="$cultural_object/gesah:has_object_category_generic_term/*">
                                         <lido:subjectConcept>
                                             <xsl:call-template name="terms-with-concept-id"/>
                                         </lido:subjectConcept>
                                     </xsl:for-each>
 
-                                    <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_object_category_narrower_term/*">
+                                    <xsl:for-each select="$cultural_object/gesah:has_object_category_narrower_term/*">
                                         <lido:subjectConcept>
                                             <xsl:call-template name="terms-with-concept-id"/>
                                         </lido:subjectConcept>
                                     </xsl:for-each>
 
-                                    <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:depicts/*[vitro:mostSpecificType/@rdf:resource = 'http://ontology.tib.eu/gesah/Keyword']">
+                                    <xsl:for-each select="$cultural_object/gesah:depicts/*[vitro:mostSpecificType/@rdf:resource = 'http://ontology.tib.eu/gesah/Keyword']">
                                         <lido:subjectConcept>
                                             <xsl:call-template name="terms-with-concept-id"/>
                                         </lido:subjectConcept>
@@ -1214,7 +1238,7 @@
 
                                     <!-- GK: Dargestelltes Objekt habe ich hier von Hand ergänzt ohne Verweis auf Normdaten.
                                       BR: this is gesah:depicts (object property) with range class gesah:depicted_object, instances can have identifiers from AAT, GND,CONA,ICONCLASS or Wikidata, those should be delivered if existant, in this example we do not have any identifier for the object-->
-                                    <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:depicts/*[vitro:mostSpecificType/@rdf:resource = 'http://ontology.tib.eu/gesah/Depicted_Object']">
+                                    <xsl:for-each select="$cultural_object/gesah:depicts/*[vitro:mostSpecificType/@rdf:resource = 'http://ontology.tib.eu/gesah/Depicted_Object']">
                                         <lido:subjectObject>
                                             <xsl:for-each select="./rdfs:label">
                                                 <lido:displayObject>
@@ -1259,7 +1283,7 @@
                                     </xsl:for-each>
 
                                     <!--BR: we have range class gesah:depicted_person which could be mapped too, I guess. This is added by me. We do not have a depicted person in this example, but it should be as follows, with GND, ICONCLASS, ULAN or Wikidata -identifier if existant:-->
-                                    <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:depicts/*[vitro:mostSpecificType/@rdf:resource = 'http://ontology.tib.eu/gesah/Depicted_Person']">
+                                    <xsl:for-each select="$cultural_object/gesah:depicts/*[vitro:mostSpecificType/@rdf:resource = 'http://ontology.tib.eu/gesah/Depicted_Person']">
                                         <lido:subjectActor>
                                             <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
                                                 <xsl:choose>
@@ -1301,7 +1325,7 @@
                                     </xsl:for-each>
 
                                     <!--BR: we have range class gesah:depicted_place which could be mapped here. This is added by me, too. We do not have a depicted place in this example, but it should be as follows, with GND, TGN or Wikidata -identifier if existant:-->
-                                    <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:depicts/*[vitro:mostSpecificType/@rdf:resource = 'http://ontology.tib.eu/gesah/Depicted_Place']">
+                                    <xsl:for-each select="$cultural_object/gesah:depicts/*[vitro:mostSpecificType/@rdf:resource = 'http://ontology.tib.eu/gesah/Depicted_Place']">
                                         <lido:subjectPlace>
                                             <xsl:for-each select="./rdfs:label">
                                                 <lido:displayPlace>
@@ -1347,7 +1371,7 @@
                         </lido:subjectWrap>
                         <lido:relatedWorksWrap>
                             <!-- BR: This is work index entry-->
-                            <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:has_Work_Index_Entry/*">
+                            <xsl:for-each select="$cultural_object/gesah:has_Work_Index_Entry/*">
                                 <lido:relatedWorkSet>
                                    <lido:relatedWork>
                                       <lido:object>
@@ -1373,7 +1397,7 @@
 
                             <!-- GK: Hier ist die Sekundärliteratur gelandet.
                             BR: This is equivalent to our data property of CO gesah:secondary_literature, this is a html field, we sometimes use hyperlinks... cfr. objectDescriptionSet, I guess it is similar-->
-                            <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']/gesah:secondary_literature">
+                            <xsl:for-each select="$cultural_object/gesah:secondary_literature">
                                 <lido:relatedWorkSet>
                                    <lido:relatedWork>
                                       <lido:object>
@@ -1439,7 +1463,7 @@
                     <lido:recordWrap>
                     <!-- This is for the Cultural Object record: for all our Cultural Objects records this is true, the URI/record ID is dynamic the rest should be always the same-->
                         <lido:recordID lido:type="http://terminology.lido-schema.org/lido00099">
-                            <xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" />
+                            <xsl:value-of select="$uri" />
                         </lido:recordID>
                         <lido:recordType>
                             <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00141</lido:conceptID>
@@ -1467,10 +1491,10 @@
 
                         <lido:recordInfoSet>
                             <lido:recordInfoLink>
-                                <xsl:value-of select="string(//*[rdfs:comment/text() = 'target_object']/@rdf:about)" />
+                                <xsl:value-of select="$uri" />
                             </lido:recordInfoLink>
                             <lido:recordMetadataDate lido:type="http://terminology.lido-schema.org/lido00472">
-                                <xsl:value-of select="//*[rdfs:comment/text() = 'target_object']/xsd:date/text()" />
+                                <xsl:value-of select="$cultural_object/xsd:date/text()" />
                             </lido:recordMetadataDate>
                         </lido:recordInfoSet>
                     </lido:recordWrap>
