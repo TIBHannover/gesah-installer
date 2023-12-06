@@ -21,7 +21,6 @@ CONSTRUCT {
   ?resource_id xsd:date ?current_date .
   ?resource_id rdfs:label ?co_label .
   ?resource_id vitro:mostSpecificType ?most_specific_type .
-  ?resource_id gesah:has_Title ?title_ind .
   
   ?resource_id gesah:plate_state ?plate_state .
   ?resource_id gesah:print_run ?print_run .
@@ -30,10 +29,13 @@ CONSTRUCT {
   ?resource_id gesah:CONA_ID ?resource_id_CONA_ID .
   ?resource_id gesah:GND_ID ?resource_id_gnd_id .
   
+  ?resource_id gesah:has_Title ?title_ind .
+  
+  ?title_ind gesah:title ?title_label .
   ?title_ind gesah:has_title_type ?title_type .
   ?title_type rdfs:label ?title_type_label .
   ?title_type gesah:AAT_ID ?aat_id .
-  ?title_ind gesah:title ?title_label .
+  
   ?most_specific_type rdfs:label ?most_specific_type_label .
   ?most_specific_type rdfs:seeAlso ?cultural_object_AAT_ID .
   ?resource_id gesah:has_object_category_generic_term ?object_category_generic_term .
@@ -234,10 +236,10 @@ CONSTRUCT {
   gesah:is_based_on rdfs:seeAlso ?is_based_on_see_also .
   gesah:is_based_on rdfs:label ?is_based_on_see_also_label .
   
-  ?resource_id gesah:is_derived_from_on ?is_derived_from_on .
+  ?resource_id gesah:is_derived_from ?is_derived_from_on .
   ?is_derived_from_on rdfs:label ?is_derived_from_on_label .
-  gesah:is_derived_from_on rdfs:seeAlso ?is_based_on_see_also .
-  gesah:is_derived_from_on rdfs:label ?is_based_on_see_also_label .
+  gesah:is_derived_from rdfs:seeAlso ?is_based_on_see_also .
+  gesah:is_derived_from rdfs:label ?is_based_on_see_also_label .
   
   ?resource_id gesah:is_source_for ?is_source_for .
   ?is_source_for rdfs:label ?is_source_for_label .
@@ -928,14 +930,14 @@ WHERE {
   }
     UNION
   {
-    ?resource_id gesah:is_derived_from_on ?is_derived_from_on .
+    ?resource_id gesah:is_derived_from ?is_derived_from_on .
     {
       ?is_derived_from_on rdfs:label ?is_derived_from_on_label .
     }
       UNION
     {
-      gesah:is_derived_from_on rdfs:seeAlso ?is_based_on_see_also .
-      gesah:is_derived_from_on rdfs:label ?is_based_on_see_also_label .
+      gesah:is_derived_from rdfs:seeAlso ?is_based_on_see_also .
+      gesah:is_derived_from rdfs:label ?is_based_on_see_also_label .
     }
   }
     UNION

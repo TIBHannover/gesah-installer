@@ -311,25 +311,29 @@
             </xsl:for-each>
         </xsl:template>
 
-        <xsl:template name="relationship-related-type">
-            <xsl:variable name="rdf_name" select="concat( namespace-uri(), local-name() )" />
-            <xsl:for-each select="//rdf:Description[@rdf:about = $rdf_name]">
-                <xsl:for-each select="./rdfs:seeAlso">
-                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-                        <xsl:value-of select="text()" />
-                    </lido:conceptID>
-                </xsl:for-each>
-                <xsl:for-each select="./rdfs:label">
-                    <lido:term>
-                        <xsl:if test="@xml:lang">
-                            <xsl:attribute name="xml:lang">
-                                <xsl:value-of select="@xml:lang" />
-                            </xsl:attribute>
-                        </xsl:if>
-                        <xsl:value-of select="text()" />
-                    </lido:term>
-                </xsl:for-each>
-            </xsl:for-each>
+        <xsl:template name="relationship-event-related-work-set">
+        	<lido:relatedWorkSet>
+	            <lido:relatedWork>
+	                <lido:object>
+                        <xsl:choose>
+			 	            <xsl:when test="./@rdf:resource">
+			                    <xsl:variable name="resource_uri" select="./@rdf:resource" />                
+			                    <xsl:for-each select="*[@rdf:about = $resource_uri]">
+			                        <xsl:call-template name="relationship-event"/>
+			                    </xsl:for-each>
+			                </xsl:when>
+				            <xsl:when test="./*">
+				            	<xsl:for-each select="./*">
+				                    <xsl:call-template name="relationship-event"/>
+				                </xsl:for-each>
+				            </xsl:when>
+				        </xsl:choose>
+	                </lido:object>
+	            </lido:relatedWork>
+	            <lido:relatedWorkRelType>
+	                <xsl:call-template name="relationship-related-type"/>
+	            </lido:relatedWorkRelType>
+	        </lido:relatedWorkSet>
         </xsl:template>
 
         <xsl:template name="relationship-event">
@@ -345,6 +349,27 @@
                     </xsl:if>
                     <xsl:value-of select="text()" />
                 </lido:objectNote>
+            </xsl:for-each>
+        </xsl:template>
+        
+        <xsl:template name="relationship-related-type">
+            <xsl:variable name="resource_uri" select="concat( namespace-uri(), local-name() )" />
+            <xsl:for-each select="//*[@rdf:about = $resource_uri]">
+                <xsl:for-each select="./rdfs:seeAlso">
+                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+                        <xsl:value-of select="text()" />
+                    </lido:conceptID>
+                </xsl:for-each>
+                <xsl:for-each select="./rdfs:label">
+                    <lido:term>
+                        <xsl:if test="@xml:lang">
+                            <xsl:attribute name="xml:lang">
+                                <xsl:value-of select="@xml:lang" />
+                            </xsl:attribute>
+                        </xsl:if>
+                        <xsl:value-of select="text()" />
+                    </lido:term>
+                </xsl:for-each>
             </xsl:for-each>
         </xsl:template>
         
@@ -530,11 +555,13 @@
             </xsl:choose>
 		</xsl:function>
 
-        <xsl:template match="//*[rdfs:comment/text() = 'target_object']">
+        <xsl:template match="/">
             <lido:lidoWrap xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:html="http://www.w3.org/1999/xhtml"
                            xmlns:lido="http://www.lido-schema.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                            xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
-                <xsl:call-template name="lido"/>
+                <xsl:for-each select="//*[rdfs:comment/text() = 'target_object']">
+                    <xsl:call-template name="lido"/>
+                </xsl:for-each>
             </lido:lidoWrap>
         </xsl:template>
 
@@ -1414,33 +1441,11 @@
                                 </lido:relatedWorkSet>
                             </xsl:for-each>
                             
-                            <xsl:for-each select="//gesah:is_preparatory_for | //gesah:is_based_on | //gesah:is_derived_from_on | //gesah:is_source_for | 
+                            <xsl:for-each select="//gesah:is_preparatory_for | //gesah:is_based_on | //gesah:is_derived_from | //gesah:is_source_for | 
                             //gesah:has_copy | //gesah:is_copy_of | //gesah:cites | //gesah:cited | //gesah:has_counterproof | //gesah:is_counterproof_from | 
                             //gesah:is_recto_of | //gesah:is_verso_of | //gesah:has_part | //gesah:is_part_of | //gesah:is_part_of_series">
-                                <lido:relatedWorkSet>
-                                    <lido:relatedWork>
-                                        <lido:object>
-                                            <xsl:choose>
-                                                <xsl:when test="./@rdf:resource">
-                                                    <xsl:variable name="resource_uri" select="./@rdf:resource" />                
-                                                    <xsl:for-each select="rdf:Description[@rdf:about = $resource_uri]">
-                                                        <xsl:call-template name="relationship-event"/>
-                                                    </xsl:for-each>
-                                                </xsl:when>
-                                                <xsl:when test="./rdf:Description">
-                                                    <xsl:for-each select="./rdf:Description">
-                                                        <xsl:call-template name="relationship-event"/>
-                                                    </xsl:for-each>
-                                                </xsl:when>
-                                            </xsl:choose>
-                                        </lido:object>
-                                    </lido:relatedWork>
-                                    <lido:relatedWorkRelType>
-                                        <xsl:call-template name="relationship-related-type"/>
-                                    </lido:relatedWorkRelType>
-                                </lido:relatedWorkSet>
+	                            <xsl:call-template name="relationship-event-related-work-set"/>
                             </xsl:for-each>
-                            
                         </lido:relatedWorksWrap>
                     </lido:objectRelationWrap>
                 </lido:descriptiveMetadata>
