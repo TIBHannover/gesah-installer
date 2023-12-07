@@ -508,6 +508,51 @@
             </lido:eventPlace>
         </xsl:template>
         
+        <xsl:template name="object-of-provenance-property">
+			<xsl:choose>
+ 	            <xsl:when test="./@rdf:resource">
+                    <xsl:variable name="resource_uri" select="./@rdf:resource" />             
+                    <xsl:for-each select="*[@rdf:about = $resource_uri]">
+                        <xsl:call-template name="object-of-provenance-individual"/>
+                    </xsl:for-each>
+                </xsl:when>
+	            <xsl:when test="./*">
+	            	<xsl:for-each select="./*">
+	                    <xsl:call-template name="object-of-provenance-individual"/>
+	                </xsl:for-each>
+	            </xsl:when>
+	        </xsl:choose>
+        </xsl:template>
+        
+        <xsl:template name="object-of-provenance-individual">
+        	<lido:eventSet>
+                <lido:event>
+                    <lido:eventType>
+                        <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00227</lido:conceptID>
+                        <lido:term xml:lang="de">Provenienzereignis</lido:term>
+                        <lido:term xml:lang="en">Provenance event</lido:term>
+                    </lido:eventType>
+                    <xsl:call-template name="activity-participants" />
+                    <xsl:call-template name="event-date"/>
+                    <xsl:call-template name="event-places"/>
+					<lido:eventDescriptionSet>
+						<lido:descriptiveNoteValue> 
+						    <!-- here we map participant label, roletype label , place label, literal date and comment in the following pattern -->
+                            <xsl:value-of select="local:individual-first-de-or-other-label(./gesah:has_participant[1], /, '', '')" />
+                            <xsl:value-of select="local:participant-roletype-first-de-or-other-label(./gesah:has_participant[1], /, ' (', ')')" />
+                            <xsl:value-of select="local:individual-first-de-or-other-label(./gesah:has_place[1], /, ', ', '')" />
+                            <xsl:if test="./gesah:literal_date_appellation">
+                                <xsl:value-of select="concat( ', ', ./gesah:literal_date_appellation/text())" />
+	                        </xsl:if>
+                            <xsl:if test="./gesah:comment">
+                                <xsl:value-of select="concat( ', [', ./gesah:comment/text(), ']')" />
+	                        </xsl:if>
+						</lido:descriptiveNoteValue>
+					</lido:eventDescriptionSet>                                        
+                </lido:event>
+            </lido:eventSet>
+        </xsl:template>
+        
 		<xsl:function name="local:type">
 		    <xsl:param name="cur_element"/>
 		    <xsl:variable name="resource_uri">
@@ -1209,33 +1254,8 @@
                                 </lido:eventSet>
                             </xsl:for-each>
                             
-                            <xsl:for-each select="//gesah:object_of_provenance/*">
-                                <lido:eventSet>
-                                    <lido:event>
-                                        <lido:eventType>
-                                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00227</lido:conceptID>
-                                            <lido:term xml:lang="de">Provenienzereignis</lido:term>
-                                            <lido:term xml:lang="en">Provenance event</lido:term>
-                                        </lido:eventType>
-                                        <xsl:call-template name="activity-participants" />
-                                        <xsl:call-template name="event-date"/>
-                                        <xsl:call-template name="event-places"/>
-										<lido:eventDescriptionSet>
-											<lido:descriptiveNoteValue> 
-											    <!-- here we map participant label, roletype label , place label, literal date and comment in the following pattern -->
-                                                <xsl:value-of select="local:individual-first-de-or-other-label(./gesah:has_participant[1], /, '', '')" />
-                                                <xsl:value-of select="local:participant-roletype-first-de-or-other-label(./gesah:has_participant[1], /, ' (', ')')" />
-                                                <xsl:value-of select="local:individual-first-de-or-other-label(./gesah:has_place[1], /, ', ', '')" />
-                                                <xsl:if test="./gesah:literal_date_appellation">
-					                                <xsl:value-of select="concat( ', ', ./gesah:literal_date_appellation/text())" />
-						                        </xsl:if>
-                                                <xsl:if test="./gesah:comment">
-					                                <xsl:value-of select="concat( ', [', ./gesah:comment/text(), ']')" />
-						                        </xsl:if>
-											</lido:descriptiveNoteValue>
-										</lido:eventDescriptionSet>                                        
-                                    </lido:event>
-                                </lido:eventSet>
+                            <xsl:for-each select="//gesah:object_of_provenance">
+                            	<xsl:call-template name="object-of-provenance-property"/>
                             </xsl:for-each>
                         </lido:eventWrap>
                     </xsl:if>

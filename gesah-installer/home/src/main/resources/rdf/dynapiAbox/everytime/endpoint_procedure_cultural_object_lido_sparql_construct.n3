@@ -19,15 +19,9 @@ CONSTRUCT {
   ?resource_id rdf:type ?type .
   ?resource_id rdfs:comment "target_object" .
   ?resource_id xsd:date ?current_date .
-  ?resource_id rdfs:label ?co_label .
   ?resource_id vitro:mostSpecificType ?most_specific_type .
   
-  ?resource_id gesah:plate_state ?plate_state .
-  ?resource_id gesah:print_run ?print_run .
-  
-  ?resource_id gesah:Wikidata_ID ?resource_id_Wikidata_ID .
-  ?resource_id gesah:CONA_ID ?resource_id_CONA_ID .
-  ?resource_id gesah:GND_ID ?resource_id_gnd_id .
+  ?resource_id ?co_property ?co_property_object .
   
   ?resource_id gesah:has_Title ?title_ind .
   
@@ -52,8 +46,7 @@ CONSTRUCT {
   ?inscription_output gesah:comment ?output_comment .
   ?inscription_output rdfs:comment ?inscription_output_most_specific_type_literal .
 
-  ?resource_id gesah:current_inventory_number ?current_inv_number .
-  ?resource_id gesah:former_inventory_number ?former_inv_number .
+  
   ?resource_id gesah:has_current_holding_institution ?current_holding_institution .
   ?current_holding_institution rdfs:label ?current_holding_institution_label .
   ?resource_id gesah:has_digital_representation ?representation .
@@ -89,7 +82,6 @@ CONSTRUCT {
   ?activity_participant_role_type rdfs:label ?activity_participant_role_type_label .
   ?activity_participant_role_type gesah:AAT_ID ?activity_participant_role_type_AAT_ID .
   
-  
   ?activity gesah:has_type_of_attribution ?activity_type_of_attribution . 
   
   ?activity_type_of_attribution rdfs:label ?activity_type_of_attribution_label .
@@ -110,7 +102,6 @@ CONSTRUCT {
   ?activity_place gesah:GeoNames_ID ?activity_place_GeoNames_ID .
  
   ?resource_id gesah:description ?description .
-  ?resource_id gesah:condition_state ?condition_state .
   
   ?resource_id gesah:has_watermark ?watermark .
   ?watermark rdfs:label ?watermark_label .
@@ -125,14 +116,7 @@ CONSTRUCT {
   
   ?resource_id gesah:depicts ?depicted_object .
   ?depicted_object vitro:mostSpecificType ?depicted_object_type .
-  ?depicted_object rdfs:label ?depicted_object_label .
-  ?depicted_object gesah:AAT_ID ?depicted_object_AAT_ID .
-  ?depicted_object gesah:TGN_ID ?depicted_object_TGN_ID .
-  ?depicted_object gesah:ULAN_ID ?depicted_object_ULAN_ID .
-  ?depicted_object gesah:GND_ID ?depicted_object_GND_ID .
-  ?depicted_object gesah:Iconclass_ID ?depicted_object_Iconclass_ID .
-  ?depicted_object gesah:Wikidata_ID ?depicted_object_Wikidata_ID .
-  ?depicted_object gesah:CONA_ID ?depicted_object_CONA_ID .
+  ?depicted_object ?depicted_object_property ?depicted_object_id .
   
   ?resource_id gesah:has_Work_Index_Entry ?work_index_entry .
   ?work_index_entry gesah:is_listed_in ?work_index .
@@ -226,86 +210,36 @@ CONSTRUCT {
   ?object_of_provenance_participant_role_type rdfs:label ?object_of_provenance_participant_role_type_label .
   ?object_of_provenance_participant_role_type gesah:AAT_ID ?object_of_provenance_participant_role_type_AAT_ID .
   
-  ?resource_id gesah:is_preparatory_for ?is_preparatory_for .
-  ?is_preparatory_for rdfs:label ?is_preparatory_for_label .
-  gesah:is_preparatory_for rdfs:seeAlso ?is_preparatory_for_see_also .
-  gesah:is_preparatory_for rdfs:label ?is_preparatory_for_see_also_label .
+  ?resource_id ?co_relation_property ?related_co .
+  ?related_co rdfs:label ?related_co_label .
+  ?co_relation_property rdfs:seeAlso ?co_relation_property_see_also .
+  ?co_relation_property rdfs:label ?co_relation_property_label .
   
-  ?resource_id gesah:is_based_on ?is_based_on .
-  ?is_based_on rdfs:label ?is_based_on_label .
-  gesah:is_based_on rdfs:seeAlso ?is_based_on_see_also .
-  gesah:is_based_on rdfs:label ?is_based_on_see_also_label .
-  
-  ?resource_id gesah:is_derived_from ?is_derived_from_on .
-  ?is_derived_from_on rdfs:label ?is_derived_from_on_label .
-  gesah:is_derived_from rdfs:seeAlso ?is_based_on_see_also .
-  gesah:is_derived_from rdfs:label ?is_based_on_see_also_label .
-  
-  ?resource_id gesah:is_source_for ?is_source_for .
-  ?is_source_for rdfs:label ?is_source_for_label .
-  gesah:is_source_for rdfs:seeAlso ?is_source_for_see_also .
-  gesah:is_source_for rdfs:label ?is_source_for_see_also_label .
-  
-  ?resource_id gesah:has_copy ?has_copy .
-  ?has_copy rdfs:label ?has_copy_label .
-  gesah:has_copy rdfs:seeAlso ?has_copy_see_also .
-  gesah:has_copy rdfs:label ?has_copy_see_also_label .
-  
-  ?resource_id gesah:is_copy_of ?is_copy_of .
-  ?is_copy_of rdfs:label ?is_copy_of_label .
-  gesah:is_copy_of rdfs:seeAlso ?is_copy_of_see_also .
-  gesah:is_copy_of rdfs:label ?is_copy_of_see_also_label .
-  
-  ?resource_id gesah:cites ?cites .
-  ?cites rdfs:label ?cites_label .
-  gesah:cites rdfs:seeAlso ?cites_see_also .
-  gesah:cites rdfs:label ?cites_see_also_label .
-  
-  ?resource_id gesah:cited ?cited .
-  ?cited rdfs:label ?cited_label .
-  gesah:cited rdfs:seeAlso ?cited_see_also .
-  gesah:cited rdfs:label ?cited_see_also_label .
-  
-  ?resource_id gesah:has_counterproof ?has_counterproof .
-  ?has_counterproof rdfs:label ?has_counterproof_label .
-  gesah:has_counterproof rdfs:seeAlso ?has_counterproof_see_also .
-  gesah:has_counterproof rdfs:label ?has_counterproof_see_also_label .
-  
-  ?resource_id gesah:is_counterproof_from ?is_counterproof_from .
-  ?is_counterproof_from rdfs:label ?is_counterproof_from_label .
-  gesah:is_counterproof_from rdfs:seeAlso ?is_counterproof_from_see_also .
-  gesah:is_counterproof_from rdfs:label ?is_counterproof_from_see_also_label .
-  
-  ?resource_id gesah:is_recto_of ?is_recto_of .
-  ?is_recto_of rdfs:label ?is_recto_of_label .
-  gesah:is_recto_of rdfs:seeAlso ?is_recto_of_see_also .
-  gesah:is_recto_of rdfs:label ?is_recto_of_see_also_label .
-  
-  ?resource_id gesah:is_verso_of ?is_verso_of .
-  ?is_verso_of rdfs:label ?is_verso_of_label .
-  gesah:is_verso_of rdfs:seeAlso ?is_verso_of_see_also .
-  gesah:is_verso_of rdfs:label ?is_verso_of_see_also_label .
-  
-  ?resource_id gesah:has_part ?has_part .
-  ?has_part rdfs:label ?has_part_label .
-  gesah:has_part rdfs:seeAlso ?has_part_see_also .
-  gesah:has_part rdfs:label ?has_part_see_also_label .
-  
-  ?resource_id gesah:is_part_of ?is_part_of .
-  ?is_part_of rdfs:label ?is_part_of_label .
-  gesah:is_part_of rdfs:seeAlso ?is_part_of_see_also .
-  gesah:is_part_of rdfs:label ?is_part_of_see_also_label .
-  
-  #use is_part_of instead of is_part_of_series to treat part of series as part_of
   ?resource_id gesah:is_part_of ?is_part_of_series .
   ?is_part_of_series rdfs:label ?is_part_of_series_label .
   gesah:is_part_of rdfs:seeAlso ?is_part_of_series_see_also .
   gesah:is_part_of rdfs:label ?is_part_of_series_see_also_label .
-      
 }                
 WHERE {
   ?resource_id rdf:type ?type .
   BIND( now() AS ?current_date ) .
+  
+  {
+    VALUES ?co_property {
+	rdfs:label
+	gesah:plate_state
+	gesah:print_run
+	gesah:Wikidata_ID
+	gesah:CONA_ID
+	gesah:GND_ID
+	gesah:current_inventory_number
+	gesah:former_inventory_number
+	gesah:condition_state
+	gesah:secondary_literature
+    }
+    ?resource_id ?co_property ?co_property_object .  
+  }
+    UNION
   {
     ?resource_id vitro:mostSpecificType ?most_specific_type .
     {
@@ -316,30 +250,6 @@ WHERE {
       ?most_specific_type rdfs:seeAlso ?cultural_object_AAT_ID .
     }
   } 
-    UNION
-  {
-    ?resource_id rdfs:label ?co_label .
-  } 
-    UNION
-  {
-    ?resource_id gesah:plate_state ?plate_state .
-  } 
-    UNION
-  {
-    ?resource_id gesah:print_run ?print_run .
-  }
-    UNION
-  {
-    ?resource_id gesah:Wikidata_ID ?resource_id_Wikidata_ID .
-  }
-    UNION
-  {
-    ?resource_id gesah:CONA_ID ?resource_id_CONA_ID .
-  }
-    UNION
-  {
-    ?resource_id gesah:GND_ID ?resource_id_gnd_id .
-  }
     UNION
   {
     ?resource_id gesah:has_Title ?title_ind .
@@ -398,14 +308,6 @@ WHERE {
   } 
     UNION
   {
-    ?resource_id gesah:current_inventory_number ?current_inv_number .
-  } 
-    UNION
-  {
-    ?resource_id gesah:former_inventory_number ?former_inv_number .
-  } 
-    UNION
-  {
     ?resource_id gesah:has_current_holding_institution ?current_holding_institution .
     ?current_holding_institution rdfs:label ?current_holding_institution_label .
   }
@@ -426,8 +328,8 @@ WHERE {
     } 
   } 
     UNION 
-    {
-      ?resource_id gesah:has_measurements ?measurement .
+  {
+    ?resource_id gesah:has_measurements ?measurement .
     {
       ?measurement gesah:measurement_height ?measurement_height .
     } UNION 
@@ -448,12 +350,7 @@ WHERE {
     UNION
   {
     ?resource_id ?activity_property ?activity .
-    
-    { ?activity_property rdfs:subPropertyOf gesah:output_of_production  . }
-      UNION
-    { ?activity_property rdfs:subPropertyOf gesah:output_of_creation   . }
-      UNION
-    { ?activity_property rdfs:subPropertyOf gesah:object_of_edition  . }
+    VALUES ?activity_property { gesah:output_of_production gesah:output_of_creation gesah:object_of_edition }
 
     {
       ?activity vitro:mostSpecificType ?activity_type .
@@ -552,13 +449,13 @@ WHERE {
     {
       ?activity vivo:dateTimeInterval ?activity_date_time_interval .
       {
-         ?activity_date_time_interval  vivo:start ?activity_date_time_interval_start .
+         ?activity_date_time_interval vivo:start ?activity_date_time_interval_start .
          ?activity_date_time_interval_start vivo:dateTimePrecision ?activity_date_time_interval_start_precision .
          ?activity_date_time_interval_start vivo:dateTime ?activity_date_time_interval_start_value .
       }
         UNION
       {
-        ?activity_date_time_interval  vivo:end ?activity_date_time_interval_end .
+        ?activity_date_time_interval vivo:end ?activity_date_time_interval_end .
         ?activity_date_time_interval_end vivo:dateTimePrecision ?activity_date_time_interval_end_precision .
         ?activity_date_time_interval_end vivo:dateTime ?activity_date_time_interval_end_value .
       }
@@ -568,10 +465,6 @@ WHERE {
   {
     ?resource_id gesah:description ?description_literal .
     BIND ( str(?description_literal) as ?description )
-  } 
-    UNION
-  {
-    ?resource_id gesah:condition_state ?condition_state .
   } 
     UNION
   {
@@ -598,37 +491,17 @@ WHERE {
     UNION
   {
     ?resource_id gesah:depicts ?depicted_object .
-    ?depicted_object vitro:mostSpecificType ?depicted_object_type . 
-    {
-      ?depicted_object rdfs:label ?depicted_object_label .
-    }
-      UNION
-    {
-      ?depicted_object gesah:AAT_ID ?depicted_object_AAT_ID .
-    }
-      UNION
-    {
-      ?depicted_object gesah:TGN_ID ?depicted_object_TGN_ID .
-    }
-      UNION
-    {
-      ?depicted_object gesah:ULAN_ID ?depicted_object_ULAN_ID .
-    }
-      UNION
-    {
-      ?depicted_object gesah:GND_ID ?depicted_object_GND_ID .
-    }
-      UNION
-    {
-      ?depicted_object gesah:Iconclass_ID ?depicted_object_Iconclass_ID .
-    } 
-      UNION
-    {
-      ?depicted_object gesah:Wikidata_ID ?depicted_object_Wikidata_ID .
-    }
-      UNION
-    {
-      ?depicted_object gesah:CONA_ID ?depicted_object_CONA_ID .
+    ?depicted_object vitro:mostSpecificType ?depicted_object_type .
+    ?depicted_object ?depicted_object_property ?depicted_object_id .
+  	VALUES ?depicted_object_property {
+  	    rdfs:label
+    	gesah:AAT_ID 
+    	gesah:TGN_ID 
+    	gesah:ULAN_ID
+    	gesah:GND_ID
+    	gesah:Iconclass_ID
+    	gesah:Wikidata_ID
+    	gesah:CONA_ID
     }
   }  
     UNION
@@ -647,10 +520,7 @@ WHERE {
       ?work_index_entry gesah:index_number_URL ?work_index_entry_number_URL .
     }
   } 
-    UNION
-  {
-    ?resource_id gesah:secondary_literature ?secondary_literature .
-  }    
+   
     UNION
   {
     ?resource_id gesah:object_of_event ?object_of_event .
@@ -769,7 +639,6 @@ WHERE {
       {
         ?object_of_preservation_participant gesah:has_role ?object_of_preservation_participant_role .
         ?object_of_preservation_participant_role gesah:realized_in ?object_of_preservation .
-        
         ?object_of_preservation_participant_role gesah:has_role_type ?object_of_preservation_participant_role_type .
         
         {
@@ -906,170 +775,30 @@ WHERE {
   }  
     UNION
   {
-    ?resource_id gesah:is_preparatory_for ?is_preparatory_for .
+    ?resource_id ?co_relation_property ?related_co .
+    VALUES ?co_relation_property { 
+    	gesah:is_preparatory_for 
+    	gesah:is_based_on 
+    	gesah:is_derived_from
+    	gesah:is_source_for
+    	gesah:has_copy
+    	gesah:is_copy_of
+    	gesah:cites
+    	gesah:cited
+    	gesah:has_counterproof
+    	gesah:is_counterproof_from
+    	gesah:is_recto_of
+    	gesah:is_verso_of
+    	gesah:has_part
+    	gesah:is_part_of
+    	}
     {
-      ?is_preparatory_for rdfs:label ?is_preparatory_for_label .
+      ?related_co rdfs:label ?related_co_label .
     }
       UNION
     {
-      gesah:is_preparatory_for rdfs:seeAlso ?is_preparatory_for_see_also .
-      gesah:is_preparatory_for rdfs:label ?is_preparatory_for_see_also_label .
-    }
-  }
-    UNION
-  {
-    ?resource_id gesah:is_based_on ?is_based_on .
-    {
-      ?is_based_on rdfs:label ?is_based_on_label .
-    }
-      UNION
-    {
-      gesah:is_based_on rdfs:seeAlso ?is_based_on_see_also .
-      gesah:is_based_on rdfs:label ?is_based_on_see_also_label .
-    }
-  }
-    UNION
-  {
-    ?resource_id gesah:is_derived_from ?is_derived_from_on .
-    {
-      ?is_derived_from_on rdfs:label ?is_derived_from_on_label .
-    }
-      UNION
-    {
-      gesah:is_derived_from rdfs:seeAlso ?is_based_on_see_also .
-      gesah:is_derived_from rdfs:label ?is_based_on_see_also_label .
-    }
-  }
-    UNION
-  {
-    ?resource_id gesah:is_source_for ?is_source_for .
-    {
-      ?is_source_for rdfs:label ?is_source_for_label .
-    }
-      UNION
-    {
-      gesah:is_source_for rdfs:seeAlso ?is_source_for_see_also .
-      gesah:is_source_for rdfs:label ?is_source_for_see_also_label .
-    }
-  }
-    UNION
-  {
-    ?resource_id gesah:has_copy ?has_copy .
-    {
-      ?has_copy rdfs:label ?has_copy_label .
-    }
-      UNION
-    {
-      gesah:has_copy rdfs:seeAlso ?has_copy_see_also .
-      gesah:has_copy rdfs:label ?has_copy_see_also_label .
-    }
-  }
-    UNION
-  {
-    ?resource_id gesah:is_copy_of ?is_copy_of .
-    {
-      ?is_copy_of rdfs:label ?is_copy_of_label .
-    }
-      UNION
-    {
-      gesah:is_copy_of rdfs:seeAlso ?is_copy_of_see_also .
-      gesah:is_copy_of rdfs:label ?is_copy_of_see_also_label .
-    }
-  }
-    UNION
-  {
-    ?resource_id gesah:cites ?cites .
-    {
-      ?cites rdfs:label ?cites_label .
-    }
-      UNION
-    {
-      gesah:cites rdfs:seeAlso ?cites_see_also .
-      gesah:cites rdfs:label ?cites_see_also_label .
-    }
-  }
-    UNION
-  {
-    ?resource_id gesah:cited ?cited .
-    {
-      ?cited rdfs:label ?cited_label .
-    }
-      UNION
-    {
-      gesah:cited rdfs:seeAlso ?cited_see_also .
-      gesah:cited rdfs:label ?cited_see_also_label .
-    }
-  }
-    UNION
-  {
-    ?resource_id gesah:has_counterproof ?has_counterproof .
-    {
-      ?has_counterproof rdfs:label ?has_counterproof_label .
-    }
-      UNION
-    {
-      gesah:has_counterproof rdfs:seeAlso ?has_counterproof_see_also .
-      gesah:has_counterproof rdfs:label ?has_counterproof_see_also_label .
-    }
-  }
-    UNION
-  {
-    ?resource_id gesah:is_counterproof_from ?is_counterproof_from .
-    {
-      ?is_counterproof_from rdfs:label ?is_counterproof_from_label .
-    }
-      UNION
-    {
-      gesah:is_counterproof_from rdfs:seeAlso ?is_counterproof_from_see_also .
-      gesah:is_counterproof_from rdfs:label ?is_counterproof_from_see_also_label .
-    }
-  }
-    UNION
-  {
-    ?resource_id gesah:is_recto_of ?is_recto_of .
-    {
-      ?is_recto_of rdfs:label ?is_recto_of_label .
-    }
-      UNION
-    {
-      gesah:is_recto_of rdfs:seeAlso ?is_recto_of_see_also .
-      gesah:is_recto_of rdfs:label ?is_recto_of_see_also_label .
-    }
-  }
-    UNION
-  {
-    ?resource_id gesah:is_verso_of ?is_verso_of .
-    {
-      ?is_verso_of rdfs:label ?is_verso_of_label .
-    }
-      UNION
-    {
-      gesah:is_verso_of rdfs:seeAlso ?is_verso_of_see_also .
-      gesah:is_verso_of rdfs:label ?is_verso_of_see_also_label .
-    }
-  }
-    UNION
-  {
-    ?resource_id gesah:has_part ?has_part .
-    {
-      ?has_part rdfs:label ?has_part_label .
-    }
-      UNION
-    {
-      gesah:has_part rdfs:seeAlso ?has_part_see_also .
-      gesah:has_part rdfs:label ?has_part_see_also_label .
-    }
-  }
-    UNION
-  {
-    ?resource_id gesah:is_part_of ?is_part_of .
-    {
-      ?is_part_of rdfs:label ?is_part_of_label .
-    }
-      UNION
-    {
-      gesah:is_part_of rdfs:seeAlso ?is_part_of_see_also .
-      gesah:is_part_of rdfs:label ?is_part_of_see_also_label .
+      ?co_relation_property rdfs:seeAlso ?co_relation_property_see_also .
+      ?co_relation_property rdfs:label ?co_relation_property_label .
     }
   }
     UNION
@@ -1085,6 +814,5 @@ WHERE {
       gesah:is_part_of rdfs:label ?is_part_of_series_see_also_label .
     }
   }
-  
 }
 """ .
