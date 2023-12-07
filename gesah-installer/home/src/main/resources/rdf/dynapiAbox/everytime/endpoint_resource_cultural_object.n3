@@ -11,6 +11,7 @@
         dynapi:name                         "cultural_object" ;
         dynapi:minAPIVersion                "0.1.0" ;
         dynapi:hasCustomRESTAction          <https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/export_cultural_object_to_lido> ;
+        dynapi:hasCustomRESTAction          <https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/export_cultural_object_graph> ;
         dynapi:onGetAll                     <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/get_cultural_objects> .
 
 <https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/export_cultural_object_to_lido>
@@ -19,5 +20,12 @@
         dynapi:name                         "lido_export" ;
         dynapi:hasDefaultMethod             <https://vivoweb.org/ontology/vitro-dynamic-api/http_method/post> ;
         dynapi:forwardsTo                   <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/export_cultural_object_to_lido/procedure> .
+
+<https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/export_cultural_object_graph>
+        a                                   dynapi:CustomRESTAction ;
+        rdfs:label                          "Export cultural object graph"@en-US ;
+        dynapi:name                         "graph_export" ;
+        dynapi:hasDefaultMethod             <https://vivoweb.org/ontology/vitro-dynamic-api/http_method/post> ;
+        dynapi:forwardsTo                   <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/export_cultural_graph/procedure> .
 
 

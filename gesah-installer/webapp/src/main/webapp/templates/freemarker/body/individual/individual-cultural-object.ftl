@@ -33,7 +33,10 @@
             <!-- Download button -->
             <div onclick="downloadImage()" style="float: right; margin-right: 5px;"><img title="${i18n().download_image}" src="${urls.images}/icons/down-arrow.svg?v=2" width="30"></div>
         </#if>
-        <div onclick="exportLIDO()" style="float: right; margin-right: 5px;"><img alt="LIDO" width="30"></div>
+        <#if user.loggedIn>
+        	<div onclick="exportLIDO()" style="float: right; margin-right: 5px;"><img alt="LIDO" width="30"></div>
+        	<div onclick="exportRDF()" style="float: right; margin-right: 5px;"><img alt="RDF/XML" width="30"></div>
+		</#if>
         <header style="float: left">
             <#if relatedSubject??>
                 <h2>${relatedSubject.relatingPredicateDomainPublic} for ${relatedSubject.name}</h2>
@@ -105,7 +108,7 @@
 			    resource_id: "${individual.uri}"
 			};
 			var body = JSON.stringify( payload );
-			fetch("../api/rest/1/cultural_object/lido_export",
+			fetch("${urls.base}/api/rest/1/cultural_object/lido_export",
 			{
 			    method: "POST",
 				headers: {
@@ -124,7 +127,30 @@
             })
 
         }
-        
+        function exportRDF() {
+			var payload = {
+			    resource_id: "${individual.uri}"
+			};
+			var body = JSON.stringify( payload );
+			fetch("${urls.base}/api/rest/1/cultural_object/graph_export",
+			{
+			    method: "POST",
+				headers: {
+					'Accept': '*/*',
+					'Content-Type': 'application/json;charset=UTF-8'
+				},
+			    body: body
+			})
+			.then(function(res){ return res.json(); })
+            .then(function(data){ var dialog = document.createElement("dialog");
+                document.body.appendChild(dialog)
+                var text = document.createTextNode(data.cultural_object_graph);
+                dialog.style.setProperty('white-space', 'pre');
+                dialog.appendChild(text);
+                dialog.showModal();
+            })
+
+        }
     </script>
 <#else>
     <#include "individual-property-group-tabs.ftl">
