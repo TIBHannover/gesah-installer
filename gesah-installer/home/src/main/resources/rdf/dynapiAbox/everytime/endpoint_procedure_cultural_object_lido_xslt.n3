@@ -310,19 +310,9 @@
         	<lido:relatedWorkSet>
 	            <lido:relatedWork>
 	                <lido:object>
-                        <xsl:choose>
-			 	            <xsl:when test="./@rdf:resource">
-			                    <xsl:variable name="resource_uri" select="./@rdf:resource" />                
-			                    <xsl:for-each select="*[@rdf:about = $resource_uri]">
-			                        <xsl:call-template name="relationship-event"/>
-			                    </xsl:for-each>
-			                </xsl:when>
-				            <xsl:when test="./*">
-				            	<xsl:for-each select="./*">
-				                    <xsl:call-template name="relationship-event"/>
-				                </xsl:for-each>
-				            </xsl:when>
-				        </xsl:choose>
+		            	<xsl:for-each select="local:get(current())">
+		                    <xsl:call-template name="relationship-event"/>
+		                </xsl:for-each>
 	                </lido:object>
 	            </lido:relatedWork>
 	            <lido:relatedWorkRelType>
@@ -349,7 +339,7 @@
         
         <xsl:template name="relationship-related-type">
             <xsl:variable name="resource_uri" select="concat( namespace-uri(), local-name() )" />
-            <xsl:for-each select="*[@rdf:about = $resource_uri]">
+            <xsl:for-each select="fn:root(current())//*[@rdf:about = $resource_uri]">
                 <xsl:for-each select="./rdfs:seeAlso">
                     <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
                         <xsl:value-of select="text()" />

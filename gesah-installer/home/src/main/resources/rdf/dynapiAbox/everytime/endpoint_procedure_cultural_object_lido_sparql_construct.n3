@@ -808,6 +808,9 @@ WHERE {
       UNION
     {
       ?co_relation_property rdfs:seeAlso ?co_relation_property_see_also .
+    }
+      UNION
+    {
       ?co_relation_property rdfs:label ?co_relation_property_label .
     }
   }
