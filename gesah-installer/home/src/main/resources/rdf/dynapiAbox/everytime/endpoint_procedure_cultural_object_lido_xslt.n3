@@ -108,66 +108,65 @@
         </xsl:template>
 
         <xsl:template name="event-date">
-            <xsl:if test="gesah:literal_date_appellation or vivo:dateTimeInterval">
+            <xsl:if test="./gesah:literal_date_appellation or ./vivo:dateTimeInterval">
                 <lido:eventDate>
                     <xsl:choose>
-                        <xsl:when test="gesah:literal_date_appellation">
+                        <xsl:when test="./gesah:literal_date_appellation">
                             <lido:displayDate>
-                                <xsl:value-of select="gesah:literal_date_appellation/text()" />
+                                <xsl:value-of select="./gesah:literal_date_appellation/text()" />
                             </lido:displayDate>
                         </xsl:when>
-                        <xsl:when test="local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTime)/text() = 
-                        local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime)/text() and 
-                        local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision)/@rdf:resource">
+                        <xsl:when test="local:get(local:get(./vivo:dateTimeInterval)/vivo:end)/vivo:dateTime/text() = local:get(local:get(./vivo:dateTimeInterval)/vivo:start)/vivo:dateTime/text() and 
+                                        local:get(local:get(./vivo:dateTimeInterval)/vivo:start)/vivo:dateTimePrecision/@rdf:resource" >
                             <lido:displayDate>
                                 <xsl:choose>
-                                    <xsl:when test="local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision)/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
-                                        <xsl:value-of select="substring(local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime)/text(), 1, 4)" />
+                                    <xsl:when test="local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
+                                        <xsl:value-of select="substring(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime/text(), 1, 4)" />
                                     </xsl:when>
-                                    <xsl:when test="local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision)/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
-                                        <xsl:value-of select="substring(local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime)/text(), 1, 7)" />
+                                    <xsl:when test="local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
+                                        <xsl:value-of select="substring(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime/text(), 1, 7)" />
                                     </xsl:when>
-                                    <xsl:when test="local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision)/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
-                                        <xsl:value-of select="substring(local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime)/text(), 1, 10)" />
+                                    <xsl:when test="local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
+                                        <xsl:value-of select="substring(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime/text(), 1, 10)" />
                                     </xsl:when>
                                 </xsl:choose>
                             </lido:displayDate>
                         </xsl:when>
                     </xsl:choose>
 
-                    <xsl:if test="(local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime)/text() and 
-                    local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision)/@rdf:resource) or (
-                    local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTime)/text() and 
-                    local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTimePrecision)/@rdf:resource)">
+                    <xsl:if test="(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime/text() and 
+                    local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision/@rdf:resource) or (
+                    local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTime/text() and 
+                    local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTimePrecision/@rdf:resource)">
                         <lido:date>
-                            <xsl:if test="local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime)/text() and 
-                            local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision)/@rdf:resource">
+                            <xsl:if test="local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime/text() and 
+                            local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision/@rdf:resource">
                                 <lido:earliestDate>
                                     <xsl:choose>
-                                        <xsl:when test="local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision)/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
-                                            <xsl:value-of select="substring(local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime)/text(), 1, 4)" />
+                                        <xsl:when test="local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
+                                            <xsl:value-of select="substring(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime/text(), 1, 4)" />
                                         </xsl:when>
-                                        <xsl:when test="local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision)/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
-                                            <xsl:value-of select="substring(local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime)/text(), 1, 7)" />
+                                        <xsl:when test="local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
+                                            <xsl:value-of select="substring(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime/text(), 1, 7)" />
                                         </xsl:when>
-                                        <xsl:when test="local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision)/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
-                                            <xsl:value-of select="substring(local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime)/text(), 1, 10)" />
+                                        <xsl:when test="local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
+                                            <xsl:value-of select="substring(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTime/text(), 1, 10)" />
                                         </xsl:when>
                                     </xsl:choose>
                                 </lido:earliestDate>
                             </xsl:if>
-                            <xsl:if test="local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTime)/text() and 
-                            local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTimePrecision)/@rdf:resource">
+                            <xsl:if test="local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTime/text() and 
+                            local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTimePrecision/@rdf:resource">
                                 <lido:latestDate>
                                     <xsl:choose>
-                                        <xsl:when test="local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision)/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
-                                            <xsl:value-of select="substring(local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTime)/text(), 1, 4)" />
+                                        <xsl:when test="local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearPrecision'">
+                                            <xsl:value-of select="substring(local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTime/text(), 1, 4)" />
                                         </xsl:when>
-                                        <xsl:when test="local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision)/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
-                                            <xsl:value-of select="substring(local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTime)/text(), 1, 7)" />
+                                        <xsl:when test="local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthPrecision'">
+                                            <xsl:value-of select="substring(local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTime/text(), 1, 7)" />
                                         </xsl:when>
-                                        <xsl:when test="local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision)/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
-                                            <xsl:value-of select="substring(local:get(local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTime)/text(), 1, 10)" />
+                                        <xsl:when test="local:get(local:get(vivo:dateTimeInterval)//vivo:start)//vivo:dateTimePrecision/@rdf:resource = 'http://vivoweb.org/ontology/core#yearMonthDayPrecision'">
+                                            <xsl:value-of select="substring(local:get(local:get(vivo:dateTimeInterval)//vivo:end)//vivo:dateTime/text(), 1, 10)" />
                                         </xsl:when>
                                     </xsl:choose>
                                 </lido:latestDate>
@@ -247,7 +246,7 @@
     
                     <!--This is dynamic and equivalent to our gesah:role_types, linked to context node role which is connected with the creation activity, there are 21 role types in GESAH mostly with AAT-ID-->
                     <lido:roleActor>
-                        <xsl:for-each select="local:get(./gesah:has_role)">
+                        <xsl:for-each select="local:get(./gesah:has_role)[local:get(gesah:realized_in) = $activity_individual ]">
                             <xsl:for-each select="local:get(./gesah:has_role_type)/gesah:AAT_ID">
                                 <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
                                     <xsl:call-template name="aat-id"/>
@@ -350,7 +349,7 @@
         
         <xsl:template name="relationship-related-type">
             <xsl:variable name="resource_uri" select="concat( namespace-uri(), local-name() )" />
-            <xsl:for-each select="//*[@rdf:about = $resource_uri]">
+            <xsl:for-each select="*[@rdf:about = $resource_uri]">
                 <xsl:for-each select="./rdfs:seeAlso">
                     <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
                         <xsl:value-of select="text()" />
@@ -552,13 +551,13 @@
             </lido:eventActor>
         </xsl:template>
 
-        <xsl:function name="local:get">
-        	<xsl:param name="cur_elements"/>
-        	<xsl:for-each select="$cur_elements">
+        <xsl:function name="local:get" as="node()*" >
+        	<xsl:param name="cur_elements" as="node()*" />
+        	<xsl:for-each select="$cur_elements[self::*]">
                 <xsl:choose>
 					<xsl:when test="./@rdf:resource">
 	                    <xsl:variable name="resource_uri" select="./@rdf:resource" /> 
-	                    <xsl:sequence select="fn:root(current())/*[@rdf:about = $resource_uri]"/>            
+	                    <xsl:sequence select="fn:root(current())//*[@rdf:about = $resource_uri]"/>            
 	                </xsl:when>
 		            <xsl:otherwise>
 	                	<xsl:sequence select="./*"/>
@@ -566,7 +565,7 @@
 		        </xsl:choose>
             </xsl:for-each>
 		</xsl:function>
-		
+
         <xsl:function name="local:id">
         	<xsl:param name="cur_elements"/>
         	<xsl:for-each select="$cur_elements">
@@ -839,7 +838,7 @@
                                     <xsl:variable name="obj_of_inscription" select="current()" />
                                     <lido:inscriptions lido:type="Inschrift">
                                         <lido:inscriptionTranscription xml:lang="mul">
-                                            <xsl:value-of select="local:get(local:get(gesah:has_inscription_output)/gesah:transcription)/text()" />
+                                            <xsl:value-of select="local:get(gesah:has_inscription_output)/gesah:transcription/text()" />
                                         </lido:inscriptionTranscription>
                                         <lido:inscriptionDescription>
                                             <xsl:for-each select="distinct-values(local:get(local:get(gesah:has_inscription_output)/gesah:has_inscription_type)/rdfs:label/@xml:lang)">

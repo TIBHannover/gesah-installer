@@ -77,7 +77,9 @@ CONSTRUCT {
   ?activity_participant gesah:GND_ID ?activity_participant_gnd_id .
   ?activity_participant gesah:ULAN_ID ?activity_participant_ulan_id .
   ?activity_participant gesah:has_role ?activity_participant_role .
+  
   ?activity_participant_role gesah:has_role_type ?activity_participant_role_type .
+  ?activity_participant_role gesah:realized_in ?activity .
   
   ?activity_participant_role_type rdfs:label ?activity_participant_role_type_label .
   ?activity_participant_role_type gesah:AAT_ID ?activity_participant_role_type_AAT_ID .
