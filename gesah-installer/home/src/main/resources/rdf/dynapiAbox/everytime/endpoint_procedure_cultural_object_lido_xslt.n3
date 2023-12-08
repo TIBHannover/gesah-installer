@@ -859,7 +859,7 @@
                                             </xsl:for-each>
                                         </lido:inscriptionDescription>
                                     </lido:inscriptions>
-                               </xsl:for-each>
+                                </xsl:for-each>
                                 <xsl:for-each select="local:get(//gesah:object_of_inscription)[local:get(gesah:has_inscription_output)/rdfs:comment/text() = 'http://ontology.tib.eu/gesah/Inscription_on_support']">
                                     <xsl:variable name="obj_of_inscription" select="current()" />
                                     <lido:inscriptions lido:type="Inschrift">
@@ -884,7 +884,37 @@
                                             </xsl:for-each>
                                         </lido:inscriptionDescription>
                                     </lido:inscriptions>
-                               </xsl:for-each>
+                                </xsl:for-each>
+                                <xsl:for-each select="local:get(//gesah:has_mark_designation)">
+                                    <xsl:variable name="mark-designation" select="current()" />
+                                    <xsl:for-each select="local:get(./gesah:uses_mark)">
+	                                    <xsl:variable name="mark" select="current()" />
+	                                    <lido:inscriptions lido:type="Marke">
+	                                    	<lido:inscriptionDescription>
+												<!-- This is gesah:mark_URL with gesah:mark_ID, both data properties of class gesah:collector's mark-->
+                                                <xsl:if test="$mark/gesah:mark_ID and $mark/gesah:mark_URL" >
+													<lido:descriptiveNoteID lido:type="http://terminology.lido-schema.org/lido00099">
+		                                                <xsl:attribute name="lido:source">
+		                                                   <xsl:value-of select="$mark/gesah:mark_URL" />
+		                                                </xsl:attribute>
+														<xsl:value-of select="$mark/gesah:mark_ID" />
+													</lido:descriptiveNoteID>
+                                                </xsl:if>
+												<!--Here we should export label of instances of colletor's mark and gesah:mark_location which is data property of conext node 
+												mark_designation and gesah:comment which is data property of class gesah:collector's mark in the following pattern -->
+												<lido:descriptiveNoteValue>
+												<xsl:value-of select="local:individual-first-de-or-other-label($mark, '', '')"/>
+												<xsl:if test="$mark-designation/gesah:mark_location" >
+													<xsl:value-of select="concat(', ', $mark-designation/gesah:mark_location)"/>
+												</xsl:if>
+												<xsl:if test="$mark/gesah:comment" >
+													<xsl:value-of select="concat(', ', $mark/gesah:comment)"/>
+												</xsl:if>
+												</lido:descriptiveNoteValue>
+											</lido:inscriptionDescription>
+	                                    </lido:inscriptions>
+                                	</xsl:for-each>    
+                                </xsl:for-each>
                             </lido:inscriptionsWrap>
                         </xsl:if>
 

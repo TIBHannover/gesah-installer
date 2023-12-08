@@ -219,6 +219,14 @@ CONSTRUCT {
   ?is_part_of_series rdfs:label ?is_part_of_series_label .
   gesah:is_part_of rdfs:seeAlso ?is_part_of_series_see_also .
   gesah:is_part_of rdfs:label ?is_part_of_series_see_also_label .
+  
+  ?resource_id gesah:has_mark_designation ?mark_designation .
+  ?mark_designation gesah:uses_mark ?mark .
+  ?mark gesah:mark_ID ?mark_id .
+  ?mark gesah:mark_URL ?mark_url .
+  ?mark gesah:comment ?mark_comment .
+  ?mark rdfs:label ?mark_label .
+  ?mark_designation gesah:mark_location ?mark_location .
 }                
 WHERE {
   ?resource_id rdf:type ?type .
@@ -812,6 +820,32 @@ WHERE {
       #use is_part_of instead of is_part_of_series to treat part of series as part_of
       gesah:is_part_of rdfs:seeAlso ?is_part_of_series_see_also .
       gesah:is_part_of rdfs:label ?is_part_of_series_see_also_label .
+    }
+  }
+    UNION
+  {
+    ?resource_id gesah:has_mark_designation ?mark_designation .
+    {
+      ?mark_designation gesah:uses_mark ?mark .
+      { 
+        ?mark gesah:mark_ID ?mark_id .
+      } 
+        UNION
+      {
+        ?mark gesah:mark_URL ?mark_url .
+      }
+        UNION
+      {
+        ?mark gesah:comment ?mark_comment .
+      }
+       UNION
+      {
+        ?mark rdfs:label ?mark_label .
+      }
+    }
+      UNION
+    {
+      ?mark_designation gesah:mark_location ?mark_location .
     }
   }
 }
