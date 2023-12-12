@@ -15,10 +15,10 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX gesah: <http://ontology.tib.eu/gesah/>
-PREFIX xml-export: <http://vivoweb.org/ontology/xml-export#>
+PREFIX rdf-xml-export: <http://vivoweb.org/ontology/xml-export#>
 CONSTRUCT {
-  ?resource_id xml-export:type ?type .
-  ?resource_id xml-export:root "1" .
+  ?resource_id rdf-xml-export:type ?type .
+  ?resource_id rdf-xml-export:root "1" .
   ?resource_id xsd:date ?current_date .
   ?resource_id vitro:mostSpecificType ?most_specific_type .
   
@@ -45,7 +45,7 @@ CONSTRUCT {
   ?inscription_output gesah:has_inscription_type ?inscription_type .
   ?inscription_type rdfs:label ?inscription_type_label .
   ?inscription_output gesah:comment ?output_comment .
-  ?inscription_output xml-export:string_type ?inscription_output_most_specific_type_literal .
+  ?inscription_output rdf-xml-export:string_type ?inscription_output_most_specific_type_literal .
 
   
   ?resource_id gesah:has_current_holding_institution ?current_holding_institution .
@@ -73,7 +73,7 @@ CONSTRUCT {
   ?technique gesah:AAT_ID ?technique_aat_id .
   ?activity gesah:has_participant ?activity_participant .
   
-  ?activity_participant xml-export:string_type ?activity_participant_type_comment .
+  ?activity_participant rdf-xml-export:string_type ?activity_participant_type_comment .
   ?activity_participant rdfs:label ?activity_participant_label .
   ?activity_participant gesah:GND_ID ?activity_participant_gnd_id .
   ?activity_participant gesah:ULAN_ID ?activity_participant_ulan_id .
@@ -150,7 +150,7 @@ CONSTRUCT {
   ?object_of_event_organizer gesah:GND_ID ?object_of_event_organizer_GND_ID .
   ?object_of_event_organizer gesah:ISIL_ID ?object_of_event_organizer_ISIL_ID .
   ?object_of_event_organizer gesah:Wikidata_ID ?object_of_event_organizer_Wikidata_ID .
-  ?object_of_event_organizer xml-export:string_type ?object_of_event_organizer_type_comment .
+  ?object_of_event_organizer rdf-xml-export:string_type ?object_of_event_organizer_type_comment .
   ?object_of_event vivo:dateTimeInterval ?object_of_event_date_time_interval .
   ?object_of_event_date_time_interval  vivo:start ?object_of_event_date_time_interval_start .
   ?object_of_event_date_time_interval_start vivo:dateTimePrecision ?object_of_event_date_time_interval_start_precision .
@@ -203,7 +203,7 @@ CONSTRUCT {
   ?object_of_provenance gesah:has_participant ?object_of_provenance_participant .
   ?object_of_provenance gesah:comment ?object_of_provenance_comment .
   
-  ?object_of_provenance_participant xml-export:string_type ?object_of_provenance_participant_type_comment .
+  ?object_of_provenance_participant rdf-xml-export:string_type ?object_of_provenance_participant_type_comment .
   ?object_of_provenance_participant rdfs:label ?object_of_provenance_participant_label . 
   ?object_of_provenance_participant gesah:GND_ID ?object_of_provenance_participant_gnd_id .
   ?object_of_provenance_participant gesah:ULAN_ID ?object_of_provenance_participant_ulan_id .
