@@ -24,8 +24,8 @@
         xmlns:xlink="http://www.w3.org/1999/xlink"
         xmlns:smil20lang="http://www.w3.org/2001/SMIL20/Language"
         xmlns:fn="http://www.w3.org/2005/xpath-functions"
-        xmlns:xml-export="http://vivoweb.org/ontology/xml-export#"
-        xmlns:local="sah:local" exclude-result-prefixes="local xml-export"
+        xmlns:rdf-xml-export="http://vivoweb.org/ontology/xml-export#"
+        xmlns:local="sah:local" exclude-result-prefixes="local rdf-xml-export"
     >
         <xsl:output method="xml" indent="yes"/>
 
@@ -182,10 +182,10 @@
             <xsl:param name="activity_individual" />
             <xsl:variable name="participant_type">
                 <xsl:choose>
-                    <xsl:when test="./xml-export:string_type/text() = 'person'">
+                    <xsl:when test="./rdf-xml-export:string_type/text() = 'person'">
                         <xsl:value-of select="'http://terminology.lido-schema.org/lido00163'" />
                     </xsl:when>
-                    <xsl:when test="./xml-export:string_type/text() = 'organization'">
+                    <xsl:when test="./rdf-xml-export:string_type/text() = 'organization'">
                         <xsl:value-of select="'http://terminology.lido-schema.org/lido00413'" />
                     </xsl:when>
                 </xsl:choose>
@@ -203,11 +203,11 @@
                             </xsl:if>
                             <xsl:value-of select="text()" />
                             <xsl:choose>
-                                <xsl:when test="local:get(local:get(./gesah:has_role)/gesah:has_role_type)/rdfs:label[@xml:lang = $lang]">
-                                    <xsl:value-of select="concat(', ', (local:get(local:get(./gesah:has_role)/gesah:has_role_type)/rdfs:label[@xml:lang = $lang])[1]/text() )" />
+                                <xsl:when test="local:get(local:get(../gesah:has_role)/gesah:has_role_type)/rdfs:label[@xml:lang = $lang]">
+                                    <xsl:value-of select="concat(', ', (local:get(local:get(../gesah:has_role)/gesah:has_role_type)/rdfs:label[@xml:lang = $lang])[1]/text() )" />
                                 </xsl:when>
-                                <xsl:when test="local:get(local:get(./gesah:has_role)/gesah:has_role_type)/rdfs:label">
-                                    <xsl:value-of select="concat(', ', (local:get(local:get(./gesah:has_role)/gesah:has_role_type)/rdfs:label)[1]/text() )" />
+                                <xsl:when test="local:get(local:get(../gesah:has_role)/gesah:has_role_type)/rdfs:label">
+                                    <xsl:value-of select="concat(', ', (local:get(local:get(../gesah:has_role)/gesah:has_role_type)/rdfs:label)[1]/text() )" />
                                 </xsl:when>
                             </xsl:choose>
                         </xsl:if>
@@ -438,7 +438,7 @@
                 <lido:event>
                     <!-- This is dynamic in GESAH: subclasses of preservation/collection care are "preventive conservation", "conservation" and "restoration", if an activity is of classes "preventive conservation" or "conservation" it is type http://terminology.lido-schema.org/lido00402, if an activity is of class "restoration" it is type http://terminology.lido-schema.org/lido00034-->
                     <lido:eventType>
-                         <xsl:variable name="object_of_preservation_type" select="xml-export:string_type/text()" />
+                         <xsl:variable name="object_of_preservation_type" select="rdf-xml-export:string_type/text()" />
                          <xsl:choose>
                             <xsl:when test="$object_of_preservation_type = 'conservation' or $object_of_preservation_type = 'preventive conservation'">
                                 <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00402</lido:conceptID>
@@ -558,14 +558,14 @@
 		</xsl:function>
 
         <xsl:function name="local:id">
-        	<xsl:param name="cur_elements"/>
-        	<xsl:for-each select="$cur_elements">
+        	<xsl:param name="cur_elements" as="node()*" />
+        	<xsl:for-each select="$cur_elements[self::*]">
                 <xsl:choose>
 					<xsl:when test="./@rdf:resource">
 	                    <xsl:sequence select="./@rdf:resource"/>            
 	                </xsl:when>
 		            <xsl:otherwise>
-	                	<xsl:sequence select="./@rdf:about"/>
+	                	<xsl:sequence select="./*/@rdf:about"/>
 		            </xsl:otherwise>
 		        </xsl:choose>
             </xsl:for-each>
@@ -628,56 +628,45 @@
 
 		<xsl:function name="local:type">
 		    <xsl:param name="cur_element"/>
-		    <xsl:variable name="resource_uri">
-			    <xsl:choose>
-		            <xsl:when test="$cur_element/@rdf:resource">
-		                <xsl:value-of select="$cur_element/@rdf:resource" />                
-		            </xsl:when>
-		            <xsl:when test="$cur_element/*/@rdf:about">
-		                <xsl:value-of select="($cur_element/*/@rdf:about)[1]" />                
-		            </xsl:when>
-		            <xsl:otherwise>
-		                <xsl:value-of select="''" />                
-		            </xsl:otherwise>
-		        </xsl:choose>
-	        </xsl:variable>
-	        
-            <xsl:choose>
-                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Print'">
-                    <xsl:value-of select="'print'" />
-                </xsl:when>
-                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Drawing'">
-                    <xsl:value-of select="'drawing'" />
-                </xsl:when>
-                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Manuscript'">
-                    <xsl:value-of select="'manuscript'" />
-                </xsl:when>
-                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Seal'">
-                    <xsl:value-of select="'seal'" />
-                </xsl:when>
-                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Printed_Materials'">
-                    <xsl:value-of select="'printed-materials'" />
-                </xsl:when>
-                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Painting'">
-                    <xsl:value-of select="'book-illumination'" />
-                </xsl:when>
-                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Musical_Notation'">
-                    <xsl:value-of select="'musical-notation'" />
-                </xsl:when>
-                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Photomechanical_Print'">
-                    <xsl:value-of select="'photomechanical-print'" />
-                </xsl:when>
-	            <xsl:otherwise>
-	                <xsl:value-of select="''" />                
-	            </xsl:otherwise>
-            </xsl:choose>
+		    
+		    <xsl:for-each select="$cur_element/rdf-xml-export:type">
+			    <xsl:variable name="resource_uri">
+	                <xsl:value-of select="local:id(current())" />                
+		        </xsl:variable>
+	            <xsl:choose>
+	                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Print'">
+	                    <xsl:value-of select="'print'" />
+	                </xsl:when>
+	                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Drawing'">
+	                    <xsl:value-of select="'drawing'" />
+	                </xsl:when>
+	                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Manuscript'">
+	                    <xsl:value-of select="'manuscript'" />
+	                </xsl:when>
+	                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Seal'">
+	                    <xsl:value-of select="'seal'" />
+	                </xsl:when>
+	                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Printed_Materials'">
+	                    <xsl:value-of select="'printed-materials'" />
+	                </xsl:when>
+	                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Painting'">
+	                    <xsl:value-of select="'book-illumination'" />
+	                </xsl:when>
+	                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Musical_Notation'">
+	                    <xsl:value-of select="'musical-notation'" />
+	                </xsl:when>
+	                <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Photomechanical_Print'">
+	                    <xsl:value-of select="'photomechanical-print'" />
+	                </xsl:when>
+	            </xsl:choose>
+            </xsl:for-each>
 		</xsl:function>
-
+		
         <xsl:template match="/">
             <lido:lidoWrap xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:html="http://www.w3.org/1999/xhtml"
                            xmlns:lido="http://www.lido-schema.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                            xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
-                <xsl:for-each select="//*[xml-export:root/text() = '1']">
+                <xsl:for-each select="//*[rdf-xml-export:root/text() = '1']">
                     <xsl:call-template name="lido"/>
                 </xsl:for-each>
             </lido:lidoWrap>
@@ -737,7 +726,7 @@
                 </lido:category>
                 
                 <xsl:variable name="type">
-                    <xsl:value-of select="local:type(./xml-export:type)" />
+                    <xsl:value-of select="local:type(current())" />
                 </xsl:variable>
 
                 <lido:descriptiveMetadata xml:lang="de">
@@ -825,7 +814,7 @@
                         </lido:titleWrap>
                         <xsl:if test="//gesah:object_of_inscription" >
                             <lido:inscriptionsWrap>
-                                <xsl:for-each select="local:get(//gesah:object_of_inscription)[local:get(gesah:has_inscription_output)/xml-export:string_type/text() = 'http://ontology.tib.eu/gesah/Inscription_on_image']">
+                                <xsl:for-each select="local:get(//gesah:object_of_inscription)[local:get(gesah:has_inscription_output)/rdf-xml-export:string_type/text() = 'http://ontology.tib.eu/gesah/Inscription_on_image']">
                                     <xsl:variable name="obj_of_inscription" select="current()" />
                                     <lido:inscriptions lido:type="Inschrift">
                                         <lido:inscriptionTranscription xml:lang="mul">
