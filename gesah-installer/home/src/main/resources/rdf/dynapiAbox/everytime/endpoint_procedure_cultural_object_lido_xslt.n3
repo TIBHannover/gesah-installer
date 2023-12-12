@@ -203,11 +203,11 @@
                             </xsl:if>
                             <xsl:value-of select="text()" />
                             <xsl:choose>
-                                <xsl:when test="local:get(local:get(../gesah:has_role)/gesah:has_role_type)/rdfs:label[@xml:lang = $lang]">
-                                    <xsl:value-of select="concat(', ', (local:get(local:get(../gesah:has_role)/gesah:has_role_type)/rdfs:label[@xml:lang = $lang])[1]/text() )" />
+                                <xsl:when test="local:get(local:get(../gesah:has_role)[local:get(gesah:realized_in) = $activity_individual]/gesah:has_role_type)/rdfs:label[@xml:lang = $lang]">
+                                    <xsl:value-of select="concat(', ', (local:get(local:get(../gesah:has_role)[local:get(gesah:realized_in) = $activity_individual]/gesah:has_role_type)/rdfs:label[@xml:lang = $lang])[1]/text() )" />
                                 </xsl:when>
-                                <xsl:when test="local:get(local:get(../gesah:has_role)/gesah:has_role_type)/rdfs:label">
-                                    <xsl:value-of select="concat(', ', (local:get(local:get(../gesah:has_role)/gesah:has_role_type)/rdfs:label)[1]/text() )" />
+                                <xsl:when test="local:get(local:get(../gesah:has_role)[local:get(gesah:realized_in) = $activity_individual]/gesah:has_role_type)/rdfs:label">
+                                    <xsl:value-of select="concat(', ', (local:get(local:get(../gesah:has_role)[local:get(gesah:realized_in) = $activity_individual]/gesah:has_role_type)/rdfs:label)[1]/text() )" />
                                 </xsl:when>
                             </xsl:choose>
                         </xsl:if>
