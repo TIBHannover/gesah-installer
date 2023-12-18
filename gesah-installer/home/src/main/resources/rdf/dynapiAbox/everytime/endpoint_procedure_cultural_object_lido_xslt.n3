@@ -1077,8 +1077,8 @@
 	                                        <!-- GK: Element Culture ergänzt BR: This is dynamic and is equivalent to gesah:has_geographic_assignment, object property of CO to class gesah:geographic_classification, we have 14 instances in that class, all with AAT IDs -->
 	                                            <xsl:if test="(($type = 'print' or $type = 'printed-materials' or $type = 'photomechanical-print' or $type = 'seal') and $activity_property_name = 'gesah:output_of_production' ) or $type = 'drawing' or $type = 'manuscript' or $type = 'book-illumination' or $type = 'musical-notation'">
 	                                                <xsl:for-each select="local:get($cultural_object/gesah:has_geographic_assignment)">
-	                                                       <lido:culture>
-	                                                           <xsl:for-each select="./gesah:AAT_ID">
+	                                                    <lido:culture>
+	                                                        <xsl:for-each select="./gesah:AAT_ID">
 	                                                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
 	                                                                <xsl:call-template name="aat-id"/>
 	                                                            </lido:conceptID>

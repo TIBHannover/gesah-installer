@@ -66,13 +66,13 @@ public class SearchFiltering {
 			+ "         OPTIONAL {?filter search:hasKnownValue ?value . \n"
 			+ "         	?value rdfs:label ?value_label .\n"
 			+ "         	?value search:id ?value_id .\n"
-			+ "            OPTIONAL {"
+            + "            OPTIONAL {"
 			+ "      			?value search:order ?v_order .\n"
 			+ "              	bind(?v_order as ?value_order_found).\n"
-			+ "    	       }"
-			+ "	           OPTIONAL {"
+            + "    	       }"
+            + "	           OPTIONAL {"
 			+ "	                ?value search:defaultPublic ?public_default ."
-			+ "			   }"
+            + "			   }"
 			+ "	           OPTIONAL {"
 			+ "	                ?value search:public ?value_public ."
 			+ "			   }"
@@ -125,29 +125,33 @@ public class SearchFiltering {
 			+ "		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 			+ "		PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>\n"
 			+ "    	PREFIX gesah:    <http://ontology.tib.eu/gesah/>\n"
-			+ "		Prefix search: <https://osl.tib.eu/vitro-searchOntology#> \n"
-			+ "        SELECT ( STR(?sort_label) as ?label ) ?id ?searchField ?multilingual ?isAsc ?sort_order \n"
+			+ "		PREFIX search: <https://osl.tib.eu/vitro-searchOntology#> \n"
+			+ "     SELECT ( STR(?sort_label) as ?label ) ?id ?searchField ?multilingual ?isAsc ?sort_order \n"
 			+ "		WHERE {\n"
-			+ "  			?sort rdf:type search:Sort . \n"
-			+ "  			?sort rdfs:label ?sort_label .\n"
-			+ "  			?sort search:sortField ?field .\n"
-			+ "  			?sort search:id ?id .\n"
-			+ "  			?field search:indexField ?searchField  .\n"
-			+ "  			OPTIONAL {\n"
-			+ "    			  ?field search:isLanguageSpecific ?f_multilingual  .\n"
-			+ "				  BIND(?f_multilingual as ?bind_multilingual) .\n"
-			+ "				}\n"
-			+ "				OPTIONAL {\n"
-			+ "    			 ?sort search:isAscending ?f_ord  .\n"
-			+ "    			 BIND(?f_ord as ?f_order) .\n"
-			+ "  			}\n"
-			+ "             OPTIONAL{ "
-			+ "				  ?sort search:order ?s_order .\n"
-			+ "               bind(?s_order as ?sort_order_found).\n"
-			+ "  	        }\n"
-			+ "             BIND(coalesce(?sort_order_found, 0) as ?sort_order)\n"
-			+ "   			BIND(COALESCE(?f_order, false) as ?isAsc)\n"
-			+ "  			BIND(COALESCE(?bind_multilingual, false) as ?multilingual)\n"
+            + "         ?sort rdf:type search:Sort . \n"
+            + "         ?sort rdfs:label ?sort_label .\n"
+            + "         OPTIONAL {\n"
+            + "             ?sort search:sortField ?field .\n"
+            + "             ?field search:indexField ?searchField  .\n"
+            + "             OPTIONAL {\n"
+            + "                 ?field search:isLanguageSpecific ?f_multilingual  .\n"
+            + "                 BIND(?f_multilingual as ?bind_multilingual) .\n"
+            + "             }\n"
+            + "         }\n"
+            + "         OPTIONAL {\n"
+            + "             ?sort search:id ?id .\n"
+            + "         }\n"
+            + "        OPTIONAL {\n"
+            + "            ?sort search:isAscending ?f_ord  .\n"
+            + "            BIND(?f_ord as ?f_order) .\n"
+            + "        }\n"
+            + "        OPTIONAL{ "
+            + "            ?sort search:order ?s_order .\n"
+            + "            BIND(?s_order as ?sort_order_found).\n"
+            + "        }\n"
+			+ "        BIND(coalesce(?sort_order_found, 0) as ?sort_order)\n"
+			+ "   	   BIND(COALESCE(?f_order, false) as ?isAsc)\n"
+			+ "  	   BIND(COALESCE(?bind_multilingual, false) as ?multilingual)\n"
 			+ "		} ORDER BY ?sort_order ?label ";
 
 	static void addFiltersToQuery(VitroRequest vreq, SearchQuery query, Map<String, SearchFilter> filterById) {
@@ -390,14 +394,13 @@ public class SearchFiltering {
 			ResultSet results = qexec.execSelect();
 			while (results.hasNext()) {
 				QuerySolution solution = results.nextSolution();
-				if (solution.get("label") == null || 
-					solution.get("id") == null	|| 
-					solution.get("searchField") == null) {
+                if (solution.get("label") == null) {
 					continue;
 				}
-				
-				String field = solution.get("searchField").toString();
-				String id = solution.get("id").toString();
+                RDFNode searchFieldNode = solution.get("searchField");
+				String field = searchFieldNode == null ? "" : searchFieldNode.toString();
+                RDFNode idNode = solution.get("id");
+				String id = idNode == null ? "" : idNode.toString();
 				String label = solution.get("label").toString();
 
 				SortConfiguration config = null;
