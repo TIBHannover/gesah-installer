@@ -1243,9 +1243,9 @@
                     </lido:objectIdentificationWrap>
                     <xsl:if test="//gesah:output_of_creation|//gesah:output_of_production|//gesah:object_of_edition|//gesah:object_of_event|//gesah:has_watermark|//gesah:object_of_preservation|//gesah:object_of_provenance">
                         <lido:eventWrap>
-                            <xsl:for-each select="//gesah:output_of_creation[local:is-initialization-of-object(current(), $type) = true()]|
-                                                  //gesah:output_of_production[local:is-initialization-of-object(current(), $type) = true()]|
-                                                  //gesah:object_of_edition[local:is-initialization-of-object(current(), $type) = true()]">
+                            <xsl:for-each select="//gesah:output_of_creation[local:is-initialization-of-object( . , $type) = true()]|
+                                                  //gesah:output_of_production[local:is-initialization-of-object( . , $type) = true()]|
+                                                  //gesah:object_of_edition[local:is-initialization-of-object( . , $type) = true()]">
 								<xsl:choose>
 	                                <xsl:when test="position() = 1">
 			                            <xsl:call-template name="creation-production-edition">
@@ -1263,9 +1263,9 @@
                                     </xsl:otherwise>
                                 </xsl:choose>
                             </xsl:for-each>
-                            <xsl:for-each select="//gesah:output_of_creation[local:is-initialization-of-object(current(), $type) = false()]|
-                                                  //gesah:output_of_production[local:is-initialization-of-object(current(), $type) = false()]|
-                                                  //gesah:object_of_edition[local:is-initialization-of-object(current(), $type) = false()]">
+                            <xsl:for-each select="//gesah:output_of_creation[local:is-initialization-of-object( . , $type) = false()]|
+                                                  //gesah:output_of_production[local:is-initialization-of-object( . , $type) = false()]|
+                                                  //gesah:object_of_edition[local:is-initialization-of-object( . , $type) = false()]">
 	                            <xsl:call-template name="creation-production-edition">
 							        <xsl:with-param name="cultural_object" select="$cultural_object" />
 							        <xsl:with-param name="type" select="$type" />
