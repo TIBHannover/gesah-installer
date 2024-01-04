@@ -15,75 +15,16 @@
 @prefix vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 
-
-ecrm:E35_Title rdfs:subClassOf 
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty gesah:CONA_ID ;
-                                 owl:allValuesFrom xsd:string
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty gesah:GND_ID ;
-                                 owl:allValuesFrom xsd:string
-                               ] ,
-                               [ rdf:type owl:Restriction ;
-                                 owl:onProperty gesah:comment ;
-                                 owl:allValuesFrom rdf:XMLLiteral
-                               ] .
-							   
-							   
-gesah:Attribution_Type rdfs:subClassOf
-                                  [ rdf:type owl:Restriction ;
-                                    owl:onProperty gesah:AAT_ID ;
-                                    owl:allValuesFrom xsd:string
-                                  ] .							   
-							   
-gesah:Collection rdfs:subClassOf 
-                            [ rdf:type owl:Restriction ;
-                              owl:onProperty gesah:comment ;
-                              owl:allValuesFrom rdf:XMLLiteral
-                            ]  .		
-
-
-gesah:Creation rdfs:subClassOf 
-                          [ rdf:type owl:Restriction ;
-                            owl:onProperty gesah:has_material ;
-                            owl:allValuesFrom gesah:Material
-                          ] ,
-                          [ rdf:type owl:Restriction ;
-                            owl:onProperty gesah:has_type_of_attribution ;
-                            owl:allValuesFrom gesah:Attribution_Type
-                          ] ,
-                          [ rdf:type owl:Restriction ;
-                            owl:onProperty gesah:uses_technique ;
-                            owl:allValuesFrom gesah:Technique
-                          ]  .	
-
-
+	   
+						   
 gesah:Cultural_Object 
                  rdfs:subClassOf 
-                                 [ rdf:type owl:Restriction ;
-                                   owl:onProperty gesah:CONA_ID ;
-                                   owl:allValuesFrom xsd:string
-                                 ] ,
-                                 [ rdf:type owl:Restriction ;
-                                   owl:onProperty gesah:GND_ID ;
-                                   owl:allValuesFrom xsd:string
-                                 ] ,
-                                 [ rdf:type owl:Restriction ;
-                                   owl:onProperty gesah:Wikidata_ID ;
-                                   owl:allValuesFrom xsd:string
-                                 ] ,
+                                 
                                  [ rdf:type owl:Restriction ;
                                    owl:onProperty gesah:description ;
                                    owl:allValuesFrom rdf:XMLLiteral
                                  ] .					
 
-gesah:Depicted_Object 
-                 rdfs:subClassOf 
-                                 [ rdf:type owl:Restriction ;
-                                   owl:onProperty gesah:AAT_ID ;
-                                   owl:allValuesFrom xsd:string
-                                 ]  .	
 
 
 gesah:Depicted_Person 
@@ -102,225 +43,38 @@ gesah:Depicted_Place
                                 ]  .	
 
 
-gesah:Depiction_Type 
-                rdfs:subClassOf 
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty gesah:AAT_ID ;
-                                  owl:allValuesFrom xsd:string
-                                ]  .		
-
-
-gesah:Feature 
-         rdfs:subClassOf 
-                         [ rdf:type owl:Restriction ;
-                           owl:onProperty gesah:comment ;
-                           owl:allValuesFrom rdf:XMLLiteral
-                         ] .		
-
-
-vivo:Exhibit 
-         rdfs:subClassOf 
-                         [ rdf:type owl:Restriction ;
-                           owl:onProperty gesah:comment ;
-                           owl:allValuesFrom rdf:XMLLiteral
-                         ] .	
-
-
-gesah:Genre 
-       rdfs:subClassOf 
-                       [ rdf:type owl:Restriction ;
-                         owl:onProperty gesah:AAT_ID ;
-                         owl:allValuesFrom xsd:string
-                       ]  .		
-
-
-gesah:Geographic_Assingment 
-                       rdfs:subClassOf 
-                                       [ rdf:type owl:Restriction ;
-                                         owl:onProperty gesah:AAT_ID ;
-                                         owl:allValuesFrom xsd:string
-                                       ]  .		
-
-
 gesah:Iconography 
              rdfs:subClassOf 
                              skos:Concept ,
-                             [ rdf:type owl:Restriction ;
-                               owl:onProperty gesah:GND_ID ;
-                               owl:allValuesFrom xsd:string
-                             ] ,
+                            
                              [ rdf:type owl:Restriction ;
                                owl:onProperty gesah:Iconclass_ID ;
                                owl:allValuesFrom xsd:string
-                             ] ,
-                             [ rdf:type owl:Restriction ;
-                               owl:onProperty gesah:Wikidata_ID ;
-                               owl:allValuesFrom xsd:string
-                             ]  .		
+                             ]   .		
 
 
-gesah:Inscription 
-             rdfs:subClassOf 
-                             [ rdf:type owl:Restriction ;
-                               owl:onProperty gesah:comment ;
-                               owl:allValuesFrom rdf:XMLLiteral
-                             ] .				
 
 
-gesah:Inscription_Type 
-                  rdfs:subClassOf 
-                                  [ rdf:type owl:Restriction ;
-                                    owl:onProperty gesah:AAT_ID ;
-                                    owl:allValuesFrom xsd:string
-                                  ]  .		
-
-
-gesah:Mark 
-      rdfs:subClassOf 
-                      [ rdf:type owl:Restriction ;
-                        owl:onProperty gesah:comment ;
-                        owl:allValuesFrom rdf:XMLLiteral
-                      ]  .		
-
-
-gesah:Material 
-          rdfs:subClassOf 
-                          [ rdf:type owl:Restriction ;
-                            owl:onProperty gesah:AAT_ID ;
-                            owl:allValuesFrom xsd:string
-                          ]  .	
-
-
-gesah:Measurement_Specification 
-                           rdfs:subClassOf 
-                                           [ rdf:type owl:Restriction ;
-                                             owl:onProperty gesah:AAT_ID ;
-                                             owl:allValuesFrom xsd:string
-                                           ]  .			
-
-gesah:Preservation_Measure_Specifics
-                           rdfs:subClassOf 
-                                           [ rdf:type owl:Restriction ;
-                                             owl:onProperty gesah:AAT_ID ;
-                                             owl:allValuesFrom xsd:string
-                                           ] .
-
-gesah:Edition 
-         rdfs:subClassOf 
-                            [ rdf:type owl:Restriction ;
-                              owl:onProperty gesah:has_material ;
-                              owl:allValuesFrom gesah:Material
-                            ] ,
-                            [ rdf:type owl:Restriction ;
-                              owl:onProperty gesah:has_type_of_attribution ;
-                              owl:allValuesFrom gesah:Attribution_Type
-                            ] ,
-                            [ rdf:type owl:Restriction ;
-                              owl:onProperty gesah:uses_technique ;
-                              owl:allValuesFrom gesah:Technique
-                            ]  .
-
-gesah:Production 
-            rdfs:subClassOf 
-                            [ rdf:type owl:Restriction ;
-                              owl:onProperty gesah:has_material ;
-                              owl:allValuesFrom gesah:Material
-                            ] ,
-                            [ rdf:type owl:Restriction ;
-                              owl:onProperty gesah:has_type_of_attribution ;
-                              owl:allValuesFrom gesah:Attribution_Type
-                            ] ,
-                            [ rdf:type owl:Restriction ;
-                              owl:onProperty gesah:uses_technique ;
-                              owl:allValuesFrom gesah:Technique
-                            ]  .		
-
-
-gesah:Role_Type 
-           rdfs:subClassOf 
-                           [ rdf:type owl:Restriction ;
-                             owl:onProperty gesah:AAT_ID ;
-                             owl:allValuesFrom xsd:string
-                           ] .		
-
-
-gesah:Series 
-        rdfs:subClassOf 
-                        [ rdf:type owl:Restriction ;
-                          owl:onProperty gesah:comment ;
-                          owl:allValuesFrom rdf:XMLLiteral
-                        ] .				
-
-
-gesah:Stylistic_Assignment 
-                      rdfs:subClassOf 
-                                      [ rdf:type owl:Restriction ;
-                                        owl:onProperty gesah:AAT_ID ;
-                                        owl:allValuesFrom xsd:string
-                                      ]  .		
-
-
-gesah:Technique 
-           rdfs:subClassOf 
-                           [ rdf:type owl:Restriction ;
-                             owl:onProperty gesah:AAT_ID ;
-                             owl:allValuesFrom xsd:string
-                           ]  .					
-
-
-gesah:Title_Type 
-            rdfs:subClassOf 
-                            [ rdf:type owl:Restriction ;
-                              owl:onProperty gesah:AAT_ID ;
-                              owl:allValuesFrom xsd:string
-                            ]  .			
-
-
-gesah:Watermark 
-           rdfs:subClassOf 
-                           [ rdf:type owl:Restriction ;
-                             owl:onProperty gesah:comment ;
-                             owl:allValuesFrom rdf:XMLLiteral
-                           ]  .
-						   
 
 obo:BFO_0000015 
                 rdfs:subClassOf [ rdf:type owl:Restriction ;
                                   owl:onProperty vivo:dateTimeInterval ;
                                   owl:allValuesFrom vivo:DateTimeInterval
-                                ] ,
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty gesah:comment ;
-                                  owl:allValuesFrom rdf:XMLLiteral
                                 ] .		
 
+						   
 
-foaf:Agent 
-           rdfs:subClassOf 
-                           [ rdf:type owl:Restriction ;
-                             owl:onProperty gesah:GND_ID ;
-                             owl:allValuesFrom xsd:string
-                           ] ,
-                           [ rdf:type owl:Restriction ;
-                             owl:onProperty gesah:Wikidata_ID ;
-                             owl:allValuesFrom xsd:string
-                           ] .								
+gesah:Wikidata_ID rdfs:domain [ a owl:Class; owl:unionOf (gesah:Cultural_Object foaf:Agent gesah:Iconography gesah:Object_Category_Narrower_Term gesah:Object_Category_Generic_Term)] .
 
+gesah:has_material rdfs:domain [ a owl:Class; owl:unionOf (gesah:Creation gesah:Edition gesah:Production )] .
 
-gesah:Object_Category_Narrower_Term 
-	   rdfs:subClassOf
-	   		   [ rdf:type owl:Restriction ;
-                             owl:onProperty gesah:GND_ID ;
-                             owl:allValuesFrom xsd:string
-                           ] ,
-                           [ rdf:type owl:Restriction ;
-                             owl:onProperty gesah:Wikidata_ID ;
-                             owl:allValuesFrom xsd:string
-                           ] ,								
-                           [ rdf:type owl:Restriction ;
-                             owl:onProperty gesah:AAT_ID ;
-                             owl:allValuesFrom xsd:string
-                           ] .							   
+gesah:has_type_of_attribution rdfs:domain [ a owl:Class; owl:unionOf (gesah:Creation gesah:Edition gesah:Production )] .
 
-gesah:comment rdfs:domain [ a owl:Class; owl:unionOf (gesah:Watermark gesah:Collection gesah:Feature gesah:Inscription gesah:Mark gesah:Series gesah:Watermark ecrm:E35_Title obo:BFO_0000015 gesah:Object_Category_Generic_Term gesah:Object_Category_Narrower_Term )] .	   
+gesah:CONA_ID rdfs:domain [ a owl:Class; owl:unionOf (ecrm:E35_Title gesah:Cultural_Object )] .
+
+gesah:GND_ID rdfs:domain [ a owl:Class; owl:unionOf (ecrm:E35_Title gesah:Cultural_Object gesah:Iconography foaf:Agent gesah:Object_Category_Narrower_Term gesah:Object_Category_Generic_Term )] .
+
+gesah:AAT_ID rdfs:domain [ a owl:Class; owl:unionOf (gesah:Attribution_Type gesah:Depicted_Object gesah:Depiction_Type gesah:Geographic_Assingment gesah:Inscription_Type gesah:Material gesah:Measurement_Specification gesah:Preservation_Measure_Specifics gesah:Role_Type gesah:Stylistic_Assignment gesah:Technique gesah:Title_Type gesah:Object_Category_Generic_Term gesah:Object_Category_Narrower_Term )] .
+
+gesah:comment rdfs:domain [ a owl:Class; owl:unionOf (gesah:Watermark gesah:Collection gesah:Feature gesah:Inscription gesah:Mark gesah:Series vivo:Exhibit gesah:Watermark ecrm:E35_Title obo:BFO_0000015 gesah:Object_Category_Generic_Term gesah:Object_Category_Narrower_Term )] .	   
 gesah:uses_technique rdfs:domain [ a owl:Class; owl:unionOf (gesah:Creation gesah:Edition gesah:Production )] .	   
