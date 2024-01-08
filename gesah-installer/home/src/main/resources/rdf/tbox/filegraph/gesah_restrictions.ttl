@@ -27,12 +27,7 @@ gesah:Cultural_Object
 
 
 
-gesah:Depicted_Person 
-                 rdfs:subClassOf 
-                                 [ rdf:type owl:Restriction ;
-                                   owl:onProperty gesah:ULAN_ID ;
-                                   owl:allValuesFrom xsd:string
-                                 ]  .								 
+						 
 
 
 gesah:Depicted_Place 
@@ -71,6 +66,8 @@ gesah:has_material rdfs:domain [ a owl:Class; owl:unionOf (gesah:Creation gesah:
 gesah:has_type_of_attribution rdfs:domain [ a owl:Class; owl:unionOf (gesah:Creation gesah:Edition gesah:Production )] .
 
 gesah:CONA_ID rdfs:domain [ a owl:Class; owl:unionOf (ecrm:E35_Title gesah:Cultural_Object )] .
+
+gesah:ULAN_ID rdfs:domain [ a owl:Class; owl:unionOf (foaf:Person gesah:Depicted_Person )] .
 
 gesah:GND_ID rdfs:domain [ a owl:Class; owl:unionOf (ecrm:E35_Title gesah:Cultural_Object gesah:Iconography foaf:Agent gesah:Object_Category_Narrower_Term gesah:Object_Category_Generic_Term )] .
 
