@@ -1,0 +1,43 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> .
+@prefix dynapi: <https://vivoweb.org/ontology/vitro-dynamic-api#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/get-valid-objects/> .
+
+:procedure
+        a                                   dynapi:Procedure ;
+        rdfs:label                          "get cultural objects"@en-US ;
+        dynapi:publicAccess                 "true"^^xsd:boolean ;
+        dynapi:hasFirstStep                 :step1 ;
+        dynapi:providesParameter            :cultural_objects .
+
+:step1
+        a                                   dynapi:OperationalStep ;
+        rdfs:label                          "Step 1"@en-US ;
+        dynapi:hasOperation                 :get_cultural_objects .
+        
+:get_cultural_objects
+        a                                   dynapi:SparqlSelectQuery ;
+        rdfs:label                          "Get cultural objects operation"@en-US ;
+        dynapi:hasModel                     <https://vivoweb.org/ontology/vitro-dynamic-api/model/full_union> ;
+        dynapi:sparqlQueryText              """
+        PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+        PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        SELECT DISTINCT ?cultural_object WHERE {
+          ?cultural_object rdf:type <http://ontology.tib.eu/gesah/Cultural_Object> .
+          ?cultural_object gesah:output_of_production|gesah:output_of_creation|gesah:object_of_edition ?activity .
+        } ORDER BY ?cultural_object
+        """ ;
+        dynapi:providesParameter            :cultural_objects .
+
+        
+:cultural_objects
+        a                                   dynapi:Parameter ;
+        rdfs:label                          "cultural objects array"@en-US ;
+        dynapi:name                         "cultural_object" ;
+        dynapi:hasType                      <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/JsonContainerArray> .
+
