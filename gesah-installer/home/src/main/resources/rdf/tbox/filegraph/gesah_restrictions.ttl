@@ -15,27 +15,6 @@
 @prefix vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 
-	   
-						   
-gesah:Cultural_Object 
-                 rdfs:subClassOf 
-                                 
-                                 [ rdf:type owl:Restriction ;
-                                   owl:onProperty gesah:description ;
-                                   owl:allValuesFrom rdf:XMLLiteral
-                                 ] .					
-
-
-
-						 
-
-
-gesah:Depicted_Place 
-                rdfs:subClassOf 
-                                [ rdf:type owl:Restriction ;
-                                  owl:onProperty gesah:TGN_ID ;
-                                  owl:allValuesFrom xsd:string
-                                ]  .	
 
 
 gesah:Iconography 
@@ -68,6 +47,8 @@ gesah:has_type_of_attribution rdfs:domain [ a owl:Class; owl:unionOf (gesah:Crea
 gesah:CONA_ID rdfs:domain [ a owl:Class; owl:unionOf (ecrm:E35_Title gesah:Cultural_Object )] .
 
 gesah:ULAN_ID rdfs:domain [ a owl:Class; owl:unionOf (foaf:Person gesah:Depicted_Person )] .
+
+gesah:TGN_ID rdfs:domain [ a owl:Class; owl:unionOf (gesah:Depicted_Place vivo:GeographicLocation )] .
 
 gesah:GND_ID rdfs:domain [ a owl:Class; owl:unionOf (ecrm:E35_Title gesah:Cultural_Object gesah:Iconography foaf:Agent gesah:Object_Category_Narrower_Term gesah:Object_Category_Generic_Term )] .
 
