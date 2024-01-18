@@ -270,23 +270,16 @@
                     <!-- this is the gesah:has_type_of_attribution, object property to gesah:creation, in some cases we have AAT IDs for this attribution types, how can we model that? Example: "attributed to", in LIDO attributionQualifier
                     <lido:term>attributed to</lido:term>-->
                     <xsl:for-each select="local:get($activity_individual/gesah:has_type_of_attribution)">
-                        <lido:attributionQualifierActor>
-                            <xsl:for-each select="./gesah:AAT_ID">
-                                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
-                                    <xsl:call-template name="aat-id"/>
-                                </lido:conceptID>
-                            </xsl:for-each>
-                            <xsl:for-each select="./rdfs:label">
-                                <lido:sourceAppellation>
-                                    <xsl:if test="@xml:lang">
-                                        <xsl:attribute name="xml:lang">
-                                            <xsl:value-of select="@xml:lang" />
-                                        </xsl:attribute>
-                                    </xsl:if>
-                                    <xsl:value-of select="text()" />
-                                </lido:sourceAppellation>
-                            </xsl:for-each>
-                        </lido:attributionQualifierActor>
+                        <xsl:for-each select="./rdfs:label">
+                        	<lido:attributionQualifierActor>
+                                <xsl:if test="@xml:lang">
+                                    <xsl:attribute name="xml:lang">
+                                        <xsl:value-of select="@xml:lang" />
+                                    </xsl:attribute>
+                                </xsl:if>
+                                <xsl:value-of select="text()" />
+                            </lido:attributionQualifierActor>
+                        </xsl:for-each>
                     </xsl:for-each>
     
                 </lido:actorInRole>
