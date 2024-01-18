@@ -136,7 +136,7 @@
 					</xsd:complexContent>
 				</xsd:complexType>
 			</xsd:element>
-			<xsd:element name="attributionQualifierActor" minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="attributionQualifierActor" type="lido:textComplexType" minOccurs="0" maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation>Definition: A qualifier used when the attribution is uncertain, is in dispute, when there is more than one actor, when there is a former attribution, or when the attribution otherwise requires explanation.</xsd:documentation>
 					<xsd:documentation>How to record: Example values: attributed to, studio of, workshop of, atelier of, office of, assistant of, associate of, pupil of, follower of, school of, circle of, style of, after copyist of, manner of...</xsd:documentation>
