@@ -59,7 +59,7 @@ public class ObjectOfPreservation extends AbstractCulturalObjectGenerator implem
     }
 
 	private void addPreservationType(EditConfigurationVTwo conf) {
-    conf.addUrisOnForm( Arrays.asList( PRESERVATION_TYPE ));
+    conf.addUrisOnForm( Arrays.asList( PRESERVATION_TYPE, PRESERVATION_CURRENT_TYPE ));
     
     conf.addSparqlForExistingUris(PRESERVATION_TYPE, preservationTypesQuery);
     conf.addSparqlForExistingUris(PRESERVATION_CURRENT_TYPE, existingPreservationTypeQuery);
@@ -79,12 +79,15 @@ public class ObjectOfPreservation extends AbstractCulturalObjectGenerator implem
   private final static String existingPreservationTypeQuery = 
   		  SELECT + SPACE + VAR + PRESERVATION_TYPE + " WHERE {" + SPACE   
   		+ VAR + CULT_OBJECT + " " + "<" + GESAH_OBJECT_OF_PRESERVATION + "> " + VAR + ACTIVITY_OBJ + " ."
-  		+ VAR + ACTIVITY_OBJ + SPACE + "<" + MOST_SPECIFIC_TYPE + ">" + SPACE + VAR + PRESERVATION_TYPE + " . }"
+  		+ VAR + ACTIVITY_OBJ + SPACE + "a" + SPACE + VAR + PRESERVATION_TYPE + " .\n"
+        + VAR + PRESERVATION_TYPE + " <http://www.w3.org/2000/01/rdf-schema#subClassOf>* " + "<" + GESAH_PRESERVATION + "> ."
+        + "FILTER (?preservationType != <http://ontology.tib.eu/gesah/Preservation_Activity>) "
+        + "}"
   		+ "LIMIT 1";
   
   private final static String n3ForNewPreservationCreation =
         VAR + CULT_OBJECT + " " + "<" + GESAH_OBJECT_OF_PRESERVATION + "> " + VAR + ACTIVITY_OBJ + " ." +
-        VAR + ACTIVITY_OBJ + " a " + VAR + PRESERVATION_TYPE + " . " +
+        VAR + ACTIVITY_OBJ + " a " + VAR + PRESERVATION_CURRENT_TYPE + " . " +
         VAR + ACTIVITY_OBJ + " <" + GESAH_HAS_PRESERVATION_OBJECT + "> " +  VAR + CULT_OBJECT + " .";
 
 	
