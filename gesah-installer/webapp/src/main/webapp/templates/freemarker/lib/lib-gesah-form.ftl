@@ -134,8 +134,8 @@
     <#assign preservationTypes = editConfiguration.pageData.preservationType />
 
 	<p class="inline">
-        <label for="preservationType">${i18n().preservation_type} ${requiredHint}</label>
-        <select name="preservationType">
+        <label for="preservationCurrentType">${i18n().preservation_type} ${requiredHint}</label>
+        <select name="preservationCurrentType">
             <option value="" selected="selected">${i18n().select_one}</option>
             <#list preservationTypes?keys as key>
             	<#if preservationCurrentType = key>
