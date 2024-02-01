@@ -15,7 +15,7 @@
 	<#elseif elementInfo?has_content && elementInfo[0].formNumber?has_content>
 		<@printFormInventoryNumber elementInfo[0].formNumber />
 	</#if>
-	<@printParticipations />
+	<@printParticipations individual />
   </div>
 
 </div>
