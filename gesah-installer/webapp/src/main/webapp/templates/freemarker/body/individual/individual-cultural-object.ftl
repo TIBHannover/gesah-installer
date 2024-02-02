@@ -1,4 +1,5 @@
 <#include "individual-setup.ftl">
+<#import "lib-gesah-view.ftl" as lgv>
 <#-- $This file is distributed under the terms of the license in LICENSE$ -->
 <#import "lib-microformats.ftl" as mf>
 <#assign iiifSlash="%5E" /> 
@@ -67,7 +68,9 @@
     <div id="property-and-image">
         <div class="row">
             <div class="col-md-4">
-                <#include "cultural-object-short-description.ftl">
+	            <div class="co-short-description">
+					<@lgv.printParticipations individual />
+				</div>
                 <div style="overflow: auto; overflow-x: hidden; height: 65vh">
                 <#include "individual-property-group-notabs.ftl">
             	</div>
