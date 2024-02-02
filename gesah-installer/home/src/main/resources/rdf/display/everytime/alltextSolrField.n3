@@ -290,7 +290,7 @@
 		  	?place rdfs:label ?label .
 		  }
 		  UNION {
-		  	?edition gesah:has_participant ?participant .
+		  	?edition gesah:realizes/gesah:is_role_of ?participant .
 		  	?participant rdfs:label ?label .
 		  }
 		  UNION {
