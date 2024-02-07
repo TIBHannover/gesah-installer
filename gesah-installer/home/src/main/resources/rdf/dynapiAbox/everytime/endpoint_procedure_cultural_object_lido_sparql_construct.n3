@@ -391,7 +391,7 @@ WHERE {
     }  
       UNION 
     {
-      ?activity gesah:has_participant ?activity_participant . 
+      ?activity gesah:realizes/gesah:is_role_of ?activity_participant . 
       BIND( 
           IF( exists {?activity_participant rdf:type <http://xmlns.com/foaf/0.1/Person> } , 'person', 
 	      IF( exists {?activity_participant rdf:type <http://xmlns.com/foaf/0.1/Organization> } , 'organization', 
@@ -628,7 +628,7 @@ WHERE {
 	      '')
       )) as ?object_of_preservation_type_comment )
     {
-      ?object_of_preservation gesah:has_participant ?object_of_preservation_participant . 
+      ?object_of_preservation gesah:realizes/gesah:is_role_of ?object_of_preservation_participant . 
       BIND( 
 	      IF( exists {?object_of_preservation_participant rdf:type <http://xmlns.com/foaf/0.1/Person> } , 'person', 
 	      IF( exists {?object_of_preservation_participant rdf:type <http://xmlns.com/foaf/0.1/Organization> } , 'organization', 
@@ -750,7 +750,7 @@ WHERE {
     }
       UNION
     {
-      ?object_of_provenance gesah:has_participant ?object_of_provenance_participant . 
+      ?object_of_provenance gesah:realizes/gesah:is_role_of ?object_of_provenance_participant . 
       BIND( 
           IF( exists {?object_of_provenance_participant rdf:type <http://xmlns.com/foaf/0.1/Person> } , 'person', 
 	      IF( exists {?object_of_provenance_participant rdf:type <http://xmlns.com/foaf/0.1/Organization> } , 'organization', 

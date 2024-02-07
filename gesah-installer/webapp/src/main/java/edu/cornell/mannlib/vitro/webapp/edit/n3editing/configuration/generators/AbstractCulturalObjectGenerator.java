@@ -17,7 +17,6 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	public static final String AGENT = "Agent";
 	public final static String ACTOR_CLASS = FOAF + AGENT;
 	private static final String ACTOR_LABEL = "agentLabel";
-
 	private static final String ACTOR_LABEL_DISPLAY = "agentLabelDisplay";
 	private static final String ACTOR_TYPE = "agentType";
 	private static final String ATTR_TYPE_LABEL = "attrTypeLabel";
@@ -72,7 +71,6 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	public static final String GESAH_EDITION = GESAH + "Edition";
 	public static final String GESAH_HAS_EDITION_OBJECT = GESAH + "has_edition_object";
 	public static final String GESAH_HAS_MATERIAL = GESAH + "has_material";
-	public static final String GESAH_HAS_PARTICIPANT = GESAH + "has_participant";
 	public static final String GESAH_HAS_PLACE = GESAH + "has_place";
 	public static final String GESAH_HAS_ROLE = GESAH + "has_role";
 	public static final String GESAH_HAS_ROLE_TYPE = GESAH + "has_role_type";
@@ -84,7 +82,6 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	public static final String GESAH_LITERAL_DATE_APPELATION = GESAH + "literal_date_appellation";
 	public static final String GESAH_MATERIAL = GESAH + "Material";
 	public static final String GESAH_OBJECT_OF_PUBLICATION = GESAH + "object_of_publication";
-	public static final String GESAH_PARTICIPATES_IN = GESAH + "participates_in";
 	public static final String GESAH_REALIZED_IN = GESAH + "realized_in";
 	public static final String GESAH_REALIZES = GESAH + "realizes";
 	public static final String GESAH_ROLE_TYPE = GESAH + "Role_Type";
@@ -348,8 +345,8 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
   private static String actorTypeQuery  =
       "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
       "SELECT" + SPACE + VAR + ACTOR_TYPE + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_ACTOR + " . " + "\n" +
-      VAR + EXISTING_ACTOR + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ACTOR_ROLE + " . " + "\n" +
+      VAR + EXISTING_ACTOR_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " . " + "\n" +
       VAR + EXISTING_ACTOR + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + EXISTING_ACTOR_ROLE + " ." + "\n" +
       VAR + EXISTING_ACTOR_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " ." + "\n" +
       VAR + EXISTING_ACTOR + " a" + SPACE + VAR + ACTOR_TYPE + " ." + "\n" +
@@ -359,8 +356,8 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
   private static String actorLabelQuery  =
       "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
       "SELECT Distinct" + SPACE + VAR + EXISTING_AGENT_LABEL + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_ACTOR + " . " + "\n" +
-      VAR + EXISTING_ACTOR + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ACTOR_ROLE + " . " + "\n" +
+      VAR + EXISTING_ACTOR_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " . " + "\n" +
       VAR + EXISTING_ACTOR + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_AGENT_LABEL + " ." + "\n" +
       VAR + EXISTING_ACTOR + " a" + SPACE + VAR + ACTOR_TYPE + " . \n " +
       VAR + ACTOR_TYPE + " rdfs:subClassOf" + SPACE + "<" + ACTOR_CLASS + ">" + " . }" ;
@@ -368,8 +365,6 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
   //Should work only if participant wasn't selected
   private final static String n3ForNewActor  =
 	  "@prefix rdfs:" + SPACE + "<" + RDFS + ">" + " ." + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + NEW_ACTOR + " . " + "\n" +
-      VAR + NEW_ACTOR + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ACTOR_ROLE + " . " + "\n" +
       VAR + NEW_ACTOR + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + NEW_ACTOR_ROLE + " . " + "\n" +
       VAR + NEW_ACTOR_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + NEW_ACTOR + " . " + "\n" +
@@ -391,8 +386,8 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	public static String existingActorQuery  =
       "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
       "SELECT" + SPACE + VAR + EXISTING_ACTOR + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_ACTOR + " . " + "\n" +
-      VAR + EXISTING_ACTOR + SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ACTOR_ROLE + " . " + "\n" +
+      VAR + EXISTING_ACTOR_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " . " + "\n" +
       VAR + EXISTING_ACTOR + SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + EXISTING_ACTOR_ROLE + " ." + "\n" +
       VAR + EXISTING_ACTOR_ROLE + SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " ." + "\n" +
       VAR + EXISTING_ACTOR + " a" + SPACE + VAR + ACTOR_TYPE + " . \n " +
@@ -400,9 +395,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	
   private static String n3ForExistingActor  =
   		"@prefix rdfs:" + SPACE + "<" + RDFS +">" + SPACE + " . \n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PARTICIPANT + ">" + SPACE + VAR + EXISTING_ACTOR + " . \n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + NEW_ACTOR_ROLE + " . \n" +
-      VAR + EXISTING_ACTOR +SPACE + "<" + GESAH_PARTICIPATES_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . \n" +
       VAR + EXISTING_ACTOR +SPACE + "<" + GESAH_HAS_ROLE + ">" + SPACE + VAR + NEW_ACTOR_ROLE + " . \n" +
       VAR + NEW_ACTOR_ROLE +SPACE + "<" + GESAH_REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . \n" +
       VAR + NEW_ACTOR_ROLE +SPACE + "<" + GESAH_IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " . " ;

@@ -105,7 +105,7 @@ SELECT ?participant
 WHERE
 {
   ?uri gesah:output_of_production ?production .
-  ?production gesah:has_participant ?participant .
+  ?production gesah:realizes/gesah:is_role_of ?participant .
 }
         """ .
 
@@ -444,9 +444,9 @@ WHERE
 		SELECT ?participant
 		WHERE
 		{
-			?uri gesah:output_of_production|gesah:output_of_creation|gesah:object_of_edition|gesah:object_of_inscription|gesah:object_of_preservation|gesah:object_of_event|gesah:object_of_provenance ?intermediate_object .
-                        { ?intermediate_object gesah:has_participant ?participant . } UNION
-                        { ?intermediate_object gesah:has_organizer ?participant . } 
+			?uri gesah:output_of_production|gesah:output_of_creation|gesah:object_of_edition|gesah:object_of_inscription|gesah:object_of_preservation|gesah:object_of_event|gesah:object_of_provenance ?activity .
+                        { ?activity gesah:realizes/gesah:is_role_of ?participant . } UNION
+                        { ?activity gesah:has_organizer ?participant . } 
 		}
 """ .
 
