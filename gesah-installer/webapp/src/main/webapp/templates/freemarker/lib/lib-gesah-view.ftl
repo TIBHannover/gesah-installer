@@ -89,7 +89,7 @@
 	<@dataGetter uri = "http://gesah-short-view#Participants" var = "parts" parameters = {"cultural_object": individual.uri} />
 	<#if parts?has_content>
 		<#list parts as participant>
-			<p>${participant.label}
+			<p><a href="${profileUrl(participant.uri)}">${participant.label}</a>
 				<@dataGetter uri = "http://gesah-short-view#Attributions" parameters = {"cultural_object": individual.uri, "participant": participant.uri} />
 				<#if attributions?has_content>
 					<#list attributions as attribution>
@@ -161,8 +161,8 @@
 
 <#macro printPlaceAndDate place_date>
 	<#assign place_printed = false />
-	<#if place_date.place?has_content>
-	    <br>${place_date.place}<#rt>
+	<#if place_date.place?has_content && place_date.place_label?has_content>
+	    <br><a href="${profileUrl(place_date.place)}">${place_date.place_label}</a><#rt>
 		<#assign place_printed = true />
 	</#if>
 	<#if place_date.literalDate?has_content>
@@ -191,4 +191,66 @@
 	</#if>
 </#macro>
 
-<#--  end new marco -->
+<#macro showActivityDescription statement>
+	<div class="listViewCard">
+		<@dataGetter uri = "http://gesah-short-view#Participants" var = "participants" parameters = {"participation": statement.activity } />
+		<#if participants?has_content>
+			<#list participants as participant>
+				<p><a href="${profileUrl(participant.uri)}">${participant.label}</a>
+					<@dataGetter uri = "http://gesah-short-view#Attributions" parameters = {"participation": statement.activity, "participant": participant.uri} />
+					<#if attributions?has_content>
+						<#list attributions as attribution>
+						    <@dataGetter uri = "http://gesah-short-view#Roles" parameters = {"participation": statement.activity, "participant": participant.uri , "attribution": attribution.uri} />
+						    <br>
+						    <@printRoles roles />
+							<span class="titleTypeListItem">${attribution.label}</span>
+							<@dataGetter uri = "http://gesah-short-view#PlacesDates" parameters = {"participation": statement.activity, "participant": participant.uri , "attribution": attribution.uri} />
+							<#if place_dates?has_content>
+								<#list place_dates as place_date>
+									<@printPlaceAndDate place_date />
+								</#list>
+							</#if>
+						</#list>
+					</#if>
+					<@dataGetter uri = "http://gesah-short-view#RolesNoAttribution" parameters = {"participation": statement.activity, "participant": participant.uri} />
+				    <@printRoles roles />
+					<@dataGetter uri = "http://gesah-short-view#PlacesDatesNoAttribution" parameters = {"participation": statement.activity, "participant": participant.uri} />
+					<#if place_dates?has_content>
+						<#list place_dates as place_date>
+							<@printPlaceAndDate place_date />
+						</#list>
+					</#if>
+				</p>
+			</#list>
+			<@dataGetter uri = "http://gesah-short-view#TechniquesMaterials" parameters = {"_participation": statement.activity} />
+			<#if techniques_materials?has_content>
+			    <#assign previousParticipation = "" />
+			    <#assign previousMaterial = "" />
+				<#list techniques_materials as technique_on_material>
+					<#if previousParticipation != technique_on_material.participation || previousMaterial != technique_on_material.material_label>
+						<p> <@printTechniques technique_on_material.participation technique_on_material.material_label techniques_materials /> ${i18n().gesah_made_on} ${technique_on_material.material_label}</p>
+						<#assign previousParticipation = technique_on_material.participation />
+						<#assign previousMaterial = technique_on_material.material_label />
+					</#if>
+				</#list>
+			</#if>
+		</#if>
+		<@dataGetter uri = "http://gesah-short-view#Comments" parameters = {"participation": statement.activity} />
+		<#if comments?has_content>
+			${i18n().comment_capitalized}:
+			<#assign commentStarted = false />
+			<#list comments as comment>
+				<#if commentStarted>
+			        ,<#lt>
+				</#if>
+				${comment}<#rt>
+				<#assign commentStarted = true />
+			</#list>
+			<br />
+		</#if>
+		<#-- If user can edit individual, show a link to the context object -->
+		<#if individual?has_content && individual.showAdminPanel>
+			<div class="contextLink"><a href="${profileUrl(statement.activity)}">${statement.activity?keep_after_last("/")}</a></div>
+		</#if>
+	</div>
+</#macro>

@@ -9,6 +9,7 @@ sw:Attributions
     display:saveToVar "attributions" ;
     display:uri "cultural_object" ;
     display:uri "participant" ;
+    display:uri "participation" ;
     display:query """
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
         PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
@@ -16,8 +17,8 @@ sw:Attributions
         WHERE {
             ?cultural_object gesah:output_of_creation|gesah:output_of_production|gesah:object_of_edition ?participation .
             ?participation gesah:realizes ?participationRole .
-            ?participationRole  gesah:is_role_of ?participant .
-            ?participation gesah:has_type_of_attribution ?uri .
+            ?participationRole gesah:is_role_of ?participant .
+            ?participationRole gesah:has_type_of_attribution ?uri .
             ?uri rdfs:label ?label .
         } ORDER BY STR(?label)
      """ .
@@ -28,6 +29,7 @@ sw:Roles
     display:uri "cultural_object" ;
     display:uri "participant" ;
     display:uri "attribution" ;
+    display:uri "participation" ;
     display:query """
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
         PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
@@ -38,7 +40,7 @@ sw:Roles
             ?participationRole gesah:is_role_of ?participant .
             ?participationRole gesah:has_role_type ?role_type .
             ?role_type rdfs:label ?label .
-            ?participation gesah:has_type_of_attribution ?attribution .
+            ?participationRole gesah:has_type_of_attribution ?attribution .
         } ORDER BY STR(?label)
      """ .
 
@@ -47,6 +49,7 @@ sw:RolesNoAttribution
     display:saveToVar "roles" ;
     display:uri "cultural_object" ;
     display:uri "participant" ;
+    display:uri "participation" ;
     display:query """
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
         PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
@@ -58,7 +61,7 @@ sw:RolesNoAttribution
             ?participationRole gesah:has_role_type ?role_type .
             ?role_type rdfs:label ?label .
             FILTER NOT EXISTS {
-            	?participation gesah:has_type_of_attribution ?attribution .
+            	?participationRole gesah:has_type_of_attribution ?attribution .
             }
         } ORDER BY STR(?label)
      """ .
@@ -68,6 +71,7 @@ sw:Participants
     a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
     display:saveToVar "participants" ;
     display:uri "cultural_object" ;
+    display:uri "participation" ;
     display:query """
 	    PREFIX gesah:    <http://ontology.tib.eu/gesah/>
 	    PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
@@ -88,17 +92,18 @@ sw:PlacesDates
     display:saveToVar "place_dates" ;
     display:uri "cultural_object" ;
     display:uri "participant" ;
+    display:uri "participation" ;
     display:uri "attribution" ;
     display:query """
 		PREFIX vivo: <http://vivoweb.org/ontology/core#>
 		PREFIX gesah:    <http://ontology.tib.eu/gesah/>
 		PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
-		SELECT DISTINCT (year(?dateStart) as ?yearStart) (year(?dateEnd) as ?yearEnd) ?literalDate ?place
+		SELECT DISTINCT (year(?dateStart) as ?yearStart) (year(?dateEnd) as ?yearEnd) ?literalDate ?place ?place_label
 		WHERE {
 			?cultural_object gesah:output_of_creation|gesah:output_of_production|gesah:object_of_edition ?participation .
 			?participation gesah:realizes ?participationRole .
 			?participationRole gesah:is_role_of ?participant .
-			?participation gesah:has_type_of_attribution ?attribution .
+			?participationRole gesah:has_type_of_attribution ?attribution .
 			OPTIONAL {
 			    ?participation vivo:dateTimeInterval ?dateTimeInterval .
 			    ?dateTimeInterval vivo:end ?dateTimeEnd .
@@ -110,7 +115,8 @@ sw:PlacesDates
 			    ?participation gesah:literal_date_appellation ?literalDate .
 			}
 			OPTIONAL {
-			    ?participation gesah:has_place/rdfs:label ?place .
+			    ?participation gesah:has_place ?place .
+			    ?place rdfs:label ?place_label .
 			}
 		}
      """ .
@@ -119,18 +125,19 @@ sw:PlacesDatesNoAttribution
     a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
     display:saveToVar "place_dates" ;
     display:uri "cultural_object" ;
+    display:uri "participation" ;
     display:uri "participant" ;
     display:query """
 		PREFIX vivo: <http://vivoweb.org/ontology/core#>
 		PREFIX gesah:    <http://ontology.tib.eu/gesah/>
 		PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
-		SELECT DISTINCT (year(?dateStart) as ?yearStart) (year(?dateEnd) as ?yearEnd) ?literalDate ?place
+		SELECT DISTINCT (year(?dateStart) as ?yearStart) (year(?dateEnd) as ?yearEnd) ?literalDate ?place ?place_label
 		WHERE {
 			?cultural_object gesah:output_of_creation|gesah:output_of_production|gesah:object_of_edition ?participation .
 			?participation gesah:realizes ?participationRole .
 			?participationRole gesah:is_role_of ?participant .
 			FILTER NOT EXISTS {
-				?participation gesah:has_type_of_attribution ?attribution .
+				?participationRole gesah:has_type_of_attribution ?attribution .
 			}
 			OPTIONAL {
 			    ?participation vivo:dateTimeInterval ?dateTimeInterval .
@@ -143,7 +150,8 @@ sw:PlacesDatesNoAttribution
 			    ?participation gesah:literal_date_appellation ?literalDate .
 			}
 			OPTIONAL {
-			    ?participation gesah:has_place/rdfs:label ?place .
+			    ?participation gesah:has_place ?place .
+			    ?place rdfs:label ?place_label .
 			}
 		}
      """ .
@@ -152,13 +160,28 @@ sw:TechniquesMaterials
     a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
     display:saveToVar "techniques_materials" ;
     display:uri "cultural_object" ;
+    display:uri "_participation" ;
     display:query """
    	    PREFIX gesah:    <http://ontology.tib.eu/gesah/>
 	    PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
 	    SELECT DISTINCT ?technique_label ?material_label ?participation
 	    WHERE {
-            ?cultural_object gesah:output_of_creation|gesah:output_of_production|gesah:object_of_edition ?participation .
-            ?participation gesah:uses_technique/rdfs:label ?technique_label .
-            ?participation gesah:has_material/rdfs:label ?material_label .
+            ?cultural_object gesah:output_of_creation|gesah:output_of_production|gesah:object_of_edition ?_participation .
+            BIND(?_participation as ?participation)
+            ?_participation gesah:uses_technique/rdfs:label ?technique_label .
+            ?_participation gesah:has_material/rdfs:label ?material_label .
 		} ORDER BY ?participation STR(?technique_label) STR(?material_label)
+     """ .
+     
+sw:Comments
+    a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
+    display:saveToVar "comments" ;
+    display:uri "participation" ;
+    display:query """
+   	    PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+	    PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+	    SELECT DISTINCT ?comment
+	    WHERE {
+            ?participation gesah:comment ?comment .
+		} ORDER BY ?comment
      """ .
