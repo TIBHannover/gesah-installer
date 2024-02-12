@@ -897,10 +897,10 @@
                 
                 <lido:lidoRecID
                     lido:type="http://terminology.lido-schema.org/lido00099"
-                    lido:source="ld.zdb-services.de/resource/organisations/DE-89"
+                    lido:source="http://ld.zdb-services.de/resource/organisations/DE-89"
                 ><xsl:value-of select="concat('DE-89/sah/lido/' , tokenize($uri,'/')[last()])" /></lido:lidoRecID>
 
-                <lido:objectPublishedID lido:pref="http://terminology.lido-schema.org/lido00169" lido:type="http://terminology.lido-schema.org/lido00099" lido:source="ld.zdb-services.de/resource/organisations/DE-89">
+                <lido:objectPublishedID lido:pref="http://terminology.lido-schema.org/lido00169" lido:type="http://terminology.lido-schema.org/lido00099" lido:source="http://ld.zdb-services.de/resource/organisations/DE-89">
                     <xsl:value-of select="$uri" />
                 </lido:objectPublishedID>
 
@@ -1104,7 +1104,7 @@
                             <lido:repositorySet lido:type="http://terminology.lido-schema.org/lido01017">
                                 <!-- LIDO 1.1 <lido:displayRepository xml:lang="de">Technische Informationsbibliothek (TIB), Hannover</lido:displayRepository> -->
                                 <lido:repositoryName>
-                                   <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
+                                   <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">http://ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
                                     <lido:legalBodyName>
                                         <lido:appellationValue>Technische Informationsbibliothek (TIB) / Leibniz-Informationszentrum Technik und Naturwissenschaften und Universitätsbibliothek</lido:appellationValue>
                                     </lido:legalBodyName>
@@ -1545,7 +1545,7 @@
                         </lido:recordType>
 
                         <lido:recordSource>
-                            <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
+                            <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">http://ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
                             <lido:legalBodyName>
                                 <lido:appellationValue>Technische Informationsbibliothek (TIB)</lido:appellationValue>
                             </lido:legalBodyName>
@@ -1586,7 +1586,7 @@
                                 <lido:linkResource lido:formatResource="image/jpeg">https://sah.tib.eu/iiif/2/<xsl:value-of select="gesah:barcode/text()" />%5Econtent%5Estreams%5E<xsl:value-of select="gesah:image_file_number/text()" />/full/1200,/0/default.jpg</lido:linkResource>
                               </lido:resourceRepresentation>
                               <lido:resourceSource>
-                                <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
+                                <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">http://ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
                                 <lido:legalBodyName>
                                   <lido:appellationValue>Technische Informationsbibliothek (TIB)</lido:appellationValue>
                                 </lido:legalBodyName>
@@ -1600,7 +1600,7 @@
                                     <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="de">Kein Urheberrechtsschutz</lido:term>
                                 </lido:rightsType>
                                 <lido:rightsHolder>
-                                  <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-MUS-89</lido:legalBodyID>
+                                  <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">http://ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
                                   <lido:legalBodyName>
                                     <lido:appellationValue>Technische Informationsbibliothek (TIB)</lido:appellationValue>
                                   </lido:legalBodyName>
