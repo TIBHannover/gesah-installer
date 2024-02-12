@@ -143,4 +143,4 @@
     display:listViewConfigFile "listViewConfig-over-activity-information_with_image.xml"^^xsd:string .
 
 <http://ontology.tib.eu/gesah/is_attribution_type_of>
-    display:listViewConfigFile "listViewConfig-over-activity-information_with_image.xml"^^xsd:string .
+    display:listViewConfigFile "listViewConfig-over-role-information_with_image.xml"^^xsd:string .

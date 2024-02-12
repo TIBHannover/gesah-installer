@@ -422,20 +422,20 @@ WHERE {
           UNION
         {
           ?activity_participant_role_type gesah:AAT_ID ?activity_participant_role_type_AAT_ID .
+        } 
+          UNION 
+        {
+          ?activity_participant_role gesah:has_type_of_attribution ?activity_type_of_attribution . 
+          {
+            ?activity_type_of_attribution rdfs:label ?activity_type_of_attribution_label .
+          }
+            UNION
+          {
+            ?activity_type_of_attribution gesah:AAT_ID ?activity_type_of_attribution_AAT_ID .
+          }
         }
       }
       
-    }
-      UNION 
-    {
-      ?activity gesah:has_type_of_attribution ?activity_type_of_attribution . 
-      {
-        ?activity_type_of_attribution rdfs:label ?activity_type_of_attribution_label .
-      }
-        UNION
-      {
-        ?activity_type_of_attribution gesah:AAT_ID ?activity_type_of_attribution_AAT_ID .
-      }
     }
       UNION 
     {

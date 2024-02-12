@@ -219,7 +219,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
   
 
 	protected void addAttributeType(EditConfigurationVTwo conf) throws Exception{
-		conf.addN3Optional(Arrays.asList(n3ForNewAttrType));
+		conf.addN3Optional(Arrays.asList(n3ForNewAttrTypeNewActorRole));
 		conf.addNewResource(NEW_ATTR_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
     conf.addLiteralsOnForm( Arrays.asList(EXISTING_ATTR_TYPE_LABEL));
 		conf.addSparqlForExistingLiteral(EXISTING_ATTR_TYPE_LABEL, existingAttrTypeLabelQuery);
@@ -227,8 +227,9 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
         setName(EXISTING_ATTR_TYPE_LABEL).
         setRangeDatatypeUri(XSD.xstring.toString() ).
         setValidators( list(DATATYPE + XSD.xstring.toString())));
-		conf.addN3Optional(Arrays.asList(n3ForExistingAttrType));
-		conf.addUrisOnForm(Arrays.asList(EXISTING_ATTR_TYPE));        
+		conf.addN3Optional(Arrays.asList(n3ForExistingActorRoleExistingAttrType, n3ForNewActorRoleExistingAttrType));
+		conf.addUrisOnForm(Arrays.asList(EXISTING_ATTR_TYPE));
+		
     conf.addSparqlForExistingUris(EXISTING_ATTR_TYPE, existingAttrTypeQuery);
 		conf.addField( new FieldVTwo().
 		        setName(EXISTING_ATTR_TYPE).
@@ -238,22 +239,29 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 	
 	private final static String existingAttrTypeQuery =
       "SELECT" + SPACE + VAR + EXISTING_ATTR_TYPE + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . }" + "\n";
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ACTOR_ROLE + " . " + "\n" +
+      VAR + EXISTING_ACTOR_ROLE + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . }" + "\n";
 
-  private final static String n3ForExistingAttrType  =
+  private final static String n3ForExistingActorRoleExistingAttrType  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
-      VAR + EXISTING_ATTR_TYPE + SPACE + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + ACTIVITY_OBJ + " . ";	
+      VAR + EXISTING_ACTOR_ROLE + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
+      VAR + EXISTING_ATTR_TYPE + SPACE + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + EXISTING_ACTOR_ROLE + " . ";
 
+  private final static String n3ForNewActorRoleExistingAttrType  =
+      "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
+      VAR + NEW_ACTOR_ROLE + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
+      VAR + EXISTING_ATTR_TYPE + SPACE + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + NEW_ACTOR_ROLE + " . ";
+  
   private final static String existingAttrTypeLabelQuery =
       "SELECT Distinct" + SPACE + VAR + EXISTING_ATTR_TYPE_LABEL + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_REALIZES + ">" + SPACE + VAR + EXISTING_ACTOR_ROLE + " . " + "\n" +
+      VAR + EXISTING_ACTOR_ROLE + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
       VAR + EXISTING_ATTR_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_ATTR_TYPE_LABEL + " .}";
 	
-  private final static String n3ForNewAttrType  =
+  private final static String n3ForNewAttrTypeNewActorRole  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + NEW_ATTR_TYPE + " . " + "\n" +
-      VAR + NEW_ATTR_TYPE + SPACE + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
+      VAR + NEW_ACTOR_ROLE + SPACE + "<" + GESAH_HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + NEW_ATTR_TYPE + " . " + "\n" +
+      VAR + NEW_ATTR_TYPE + SPACE + "<" + GESAH_IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + NEW_ACTOR_ROLE + " . " + "\n" +
       VAR + NEW_ATTR_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + ATTR_TYPE_LABEL + " . " + "\n" +
       VAR + NEW_ATTR_TYPE + " a " + "<" + GESAH_ATTRIBUTION_TYPE + "> .";
 	
