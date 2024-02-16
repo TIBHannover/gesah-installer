@@ -1914,15 +1914,15 @@
 
                         <lido:objectMeasurementsWrap>
                             <!-- This is dynamic, in Vitro it is object property gesah:has_measurements of CO with gesah:measurement_height, gesah:measurement_width, gesah:measurement_diameter and gesah:has_measurement_specification, there are four types of measurment specification: support, plate, sheet and image in German and English. In the aviarium example plate and image is not existant-->
-                            <lido:objectMeasurementsSet>
-                                <xsl:for-each select="local:get(//gesah:has_measurements)">
-                                    <xsl:variable name="measurement_height" select="./gesah:measurement_height/text()" />
-                                    <xsl:variable name="measurement_width" select="./gesah:measurement_width/text()" />
-                                    <xsl:variable name="measurement_diameter" select="./gesah:measurement_diameter/text()" />
-                                    <xsl:variable name="measurement_depth" select="./gesah:measurement_depth/text()" />
+                            <xsl:for-each select="local:get(//gesah:has_measurements)">
+                                <xsl:variable name="measurement_height" select="./gesah:measurement_height/text()" />
+                                <xsl:variable name="measurement_width" select="./gesah:measurement_width/text()" />
+                                <xsl:variable name="measurement_diameter" select="./gesah:measurement_diameter/text()" />
+                                <xsl:variable name="measurement_depth" select="./gesah:measurement_depth/text()" />
 
-                                    <xsl:for-each select="local:get(gesah:has_measurement_specification)/rdfs:label">
-                                        <xsl:value-of select="local:get(./gesah:has_measurement_specification)/rdfs:label" />
+                                <xsl:for-each select="local:get(gesah:has_measurement_specification)/rdfs:label">
+                                    <xsl:value-of select="local:get(./gesah:has_measurement_specification)/rdfs:label" />
+                                    <lido:objectMeasurementsSet>
                                         <lido:displayObjectMeasurements>
                                             <xsl:variable name="lang" select="@xml:lang" />
                                             <xsl:attribute name="xml:lang">
@@ -1955,9 +1955,9 @@
                                                 <xsl:value-of select="$measurement_depth" />
                                             </xsl:if>
                                         </lido:displayObjectMeasurements>
-                                    </xsl:for-each>
+                                    </lido:objectMeasurementsSet>
                                 </xsl:for-each>
-                            </lido:objectMeasurementsSet>
+                            </xsl:for-each>
                         </lido:objectMeasurementsWrap>
 
                     </lido:objectIdentificationWrap>
