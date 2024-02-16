@@ -54,7 +54,7 @@ public class ObjectOfProvenance extends AbstractCulturalObjectGenerator implemen
     }
 
 	private void addProvinenceType(EditConfigurationVTwo conf) {
-    conf.addUrisOnForm( Arrays.asList( PROVENANCE_TYPE ));
+    conf.addUrisOnForm( Arrays.asList( PROVENANCE_TYPE, PROVENANCE_CURRENT_TYPE ));
     conf.addSparqlForExistingUris(PROVENANCE_TYPE, provenanceTypesQuery);
     conf.addSparqlForExistingUris(PROVENANCE_CURRENT_TYPE, existingProvenanceTypeQuery);
 
@@ -72,8 +72,11 @@ public class ObjectOfProvenance extends AbstractCulturalObjectGenerator implemen
 	
 	private final static String existingProvenanceTypeQuery = 
 			  SELECT + SPACE + VAR + PROVENANCE_TYPE + " WHERE {" + SPACE   
-			+ VAR + CULT_OBJECT + " " + "<" + GESAH_OBJECT_OF_PROVENANCE + "> " + VAR + ACTIVITY_OBJ + " ."
-			+ VAR + ACTIVITY_OBJ + SPACE + "<" + MOST_SPECIFIC_TYPE + ">" + SPACE + VAR + PROVENANCE_TYPE + " . }"
+			+ VAR + CULT_OBJECT + " " + "<" + GESAH_OBJECT_OF_PROVENANCE + "> " + VAR + ACTIVITY_OBJ + " .\n"
+			+ VAR + ACTIVITY_OBJ + SPACE + "a" + SPACE + VAR + PROVENANCE_TYPE + " .\n"
+	        + VAR + PROVENANCE_TYPE + " <http://www.w3.org/2000/01/rdf-schema#subClassOf>* " + "<" + GESAH_PROVENANCE + "> .\n"
+	        + "FILTER (?provenanceType != <http://ontology.tib.eu/gesah/Provenance>) \n"
+	        + "}\n"
 			+ "LIMIT 1";
 
 	/* N3 assertions for creation of a provenance object
@@ -82,7 +85,7 @@ public class ObjectOfProvenance extends AbstractCulturalObjectGenerator implemen
 
     final static String n3ForNewProvenanceCreation =
         VAR + CULT_OBJECT + " " + "<" + GESAH_OBJECT_OF_PROVENANCE + "> " + VAR + ACTIVITY_OBJ + " .\n" +
-        VAR + ACTIVITY_OBJ + " a " + VAR + PROVENANCE_TYPE + " . \n" +
+        VAR + ACTIVITY_OBJ + " a " + VAR + PROVENANCE_CURRENT_TYPE + " . \n" +
         VAR + ACTIVITY_OBJ + " <" + GESAH_HAS_PROVENANCE_OBJECT + "> " +  VAR + CULT_OBJECT + " .";
 		
     //VAR + ACTIVITY_OBJ + " <" + GESAH_REALIZES + "> " + VAR + NEW_ACTOR_ROLE + " . \n" +
