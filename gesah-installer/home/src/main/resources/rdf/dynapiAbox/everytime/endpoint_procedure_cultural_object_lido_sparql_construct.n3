@@ -160,9 +160,9 @@ CONSTRUCT {
   ?object_of_event_date_time_interval_end vivo:dateTime ?object_of_event_date_time_interval_end_value .
  
   ?resource_id gesah:object_of_preservation ?object_of_preservation .
-  ?object_of_preservation rdfs:comment ?object_of_preservation_type_comment .
+  ?object_of_preservation rdf-xml-export:string_type ?object_of_preservation_type_comment .
   ?object_of_preservation gesah:has_participant ?object_of_preservation_participant . 
-  ?object_of_preservation_participant rdfs:comment ?object_of_preservation_participant_type_comment .
+  ?object_of_preservation_participant rdf-xml-export:string_type ?object_of_preservation_participant_type_comment .
   ?object_of_preservation_participant rdfs:label ?object_of_preservation_participant_label . 
   ?object_of_preservation_participant gesah:GND_ID ?object_of_preservation_participant_gnd_id .
   ?object_of_preservation_participant gesah:ULAN_ID ?object_of_preservation_participant_ulan_id .
