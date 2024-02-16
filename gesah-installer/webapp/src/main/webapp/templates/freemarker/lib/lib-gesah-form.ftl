@@ -96,8 +96,8 @@
     <#assign provenanceTypes = editConfiguration.pageData.provenanceType />
 
 	<p class="inline">
-        <label for="provenanceType">${i18n().provenance_type} ${requiredHint}</label>
-        <select name="provenanceType">
+        <label for="provenanceCurrentType">${i18n().provenance_type} ${requiredHint}</label>
+        <select name="provenanceCurrentType">
             <option value="" selected="selected">${i18n().select_one}</option>
             <#list provenanceTypes?keys as key>
             	<#if provenanceCurrentType = key>
