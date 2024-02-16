@@ -1759,7 +1759,7 @@
                                         </lido:inscriptionDescription>
                                     </lido:inscriptions>
                                 </xsl:for-each>
-                                <xsl:for-each select="local:get(//gesah:object_of_inscription)[local:get(gesah:has_inscription_output)/rdfs:comment/text() = 'http://ontology.tib.eu/gesah/Inscription_on_support']">
+                                <xsl:for-each select="local:get(//gesah:object_of_inscription)[local:get(gesah:has_inscription_output)/rdf-xml-export:string_type/text() = 'http://ontology.tib.eu/gesah/Inscription_on_support']">
                                     <xsl:variable name="obj_of_inscription" select="current()" />
                                     <lido:inscriptions lido:type="Inschrift">
                                         <lido:inscriptionTranscription xml:lang="mul">
