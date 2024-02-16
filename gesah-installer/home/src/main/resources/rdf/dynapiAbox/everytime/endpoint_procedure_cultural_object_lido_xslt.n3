@@ -683,6 +683,7 @@
                     <lido:eventDescriptionSet>
                         <lido:descriptiveNoteValue> 
                             <!-- here we map participant label, roletype label , place label, literal date and comment in the following pattern -->
+                            <!--
                             <xsl:value-of select="local:individual-first-de-or-other-label(local:get(./gesah:has_participant)[1], '', '')" />
                             <xsl:value-of select="local:role-first-de-or-other-label( local:get(local:get(local:get(./gesah:has_participant)[1]/gesah:has_role)[1]/gesah:has_role_type)[1] , ' (', ')')" />
                             <xsl:value-of select="local:individual-first-de-or-other-label(local:get(./gesah:has_place)[1], ', ', '')" />
@@ -691,6 +692,10 @@
                             </xsl:if>
                             <xsl:for-each select="./gesah:comment">
                                 <xsl:value-of select="concat( ', [', local:html-decode(text()), ']')" />
+                            </xsl:for-each>
+                            -->
+                            <xsl:for-each select="./gesah:comment">
+                                <xsl:value-of select="local:html-decode(text())" />
                             </xsl:for-each>
                         </lido:descriptiveNoteValue>
                     </lido:eventDescriptionSet>                                        
