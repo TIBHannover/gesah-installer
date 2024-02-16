@@ -627,8 +627,29 @@
                                     </xsl:for-each>
 
                                 </lido:materialsTech>
-
                             </lido:eventMaterialsTech>
+                            <!-- watermark-->
+                            <xsl:if test="$activity_property_name = 'gesah:output_of_creation' and ($type = 'drawing' or $type = 'manuscript' or $type = 'book-illumination' or $type = 'musical-notation')">
+                                <xsl:for-each select="local:get(//gesah:has_watermark)">
+                                    <lido:eventMaterialsTech>
+                                        <lido:materialsTech>
+                                            <lido:termMaterialsTech lido:type="http://terminology.lido-schema.org/lido00427">
+                                                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300028749</lido:conceptID>
+                                                <xsl:for-each select="./rdfs:label">
+                                                    <lido:term>
+                                                        <xsl:if test="@xml:lang">
+                                                            <xsl:attribute name="xml:lang">
+                                                                <xsl:value-of select="@xml:lang" />
+                                                            </xsl:attribute>
+                                                        </xsl:if>
+                                                        <xsl:value-of select="text()" />
+                                                    </lido:term>
+                                                </xsl:for-each>
+                                            </lido:termMaterialsTech>
+                                        </lido:materialsTech>
+                                    </lido:eventMaterialsTech>
+                                </xsl:for-each>
+                            </xsl:if>
                         </xsl:if>
                     </lido:event>
                 </lido:eventSet>
@@ -1997,33 +2018,35 @@
                                 <xsl:call-template name="object-of-event-individual"/>
                             </xsl:for-each>
                             <!-- watermark-->
-                            <xsl:for-each select="local:get(//gesah:has_watermark)">
-                                <lido:eventSet>
-                                    <lido:event>
-                                        <lido:eventType>
-                                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido01096</lido:conceptID>
-                                            <lido:term xml:lang="de">Herstellung des Exemplars</lido:term>
-                                        </lido:eventType>
-                                        <lido:eventMaterialsTech>
-                                            <lido:materialsTech>
-                                                <lido:termMaterialsTech lido:type="http://terminology.lido-schema.org/lido00427">
-                                                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300028749</lido:conceptID>
-                                                    <xsl:for-each select="./rdfs:label">
-                                                        <lido:term>
-                                                            <xsl:if test="@xml:lang">
-                                                                <xsl:attribute name="xml:lang">
-                                                                    <xsl:value-of select="@xml:lang" />
-                                                                </xsl:attribute>
-                                                            </xsl:if>
-                                                            <xsl:value-of select="text()" />
-                                                        </lido:term>
-                                                    </xsl:for-each>
-                                                </lido:termMaterialsTech>
-                                            </lido:materialsTech>
-                                        </lido:eventMaterialsTech>
-                                    </lido:event>
-                                </lido:eventSet>
-                            </xsl:for-each>
+                            <xsl:if test="$type = 'print' or $type = 'printed-materials' or $type = 'photomechanical-print' or $type = 'seal'">
+                                <xsl:for-each select="local:get(//gesah:has_watermark)">
+                                    <lido:eventSet>
+                                        <lido:event>
+                                            <lido:eventType>
+                                                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido01096</lido:conceptID>
+                                                <lido:term xml:lang="de">Herstellung des Exemplars</lido:term>
+                                            </lido:eventType>
+                                            <lido:eventMaterialsTech>
+                                                <lido:materialsTech>
+                                                    <lido:termMaterialsTech lido:type="http://terminology.lido-schema.org/lido00427">
+                                                        <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300028749</lido:conceptID>
+                                                        <xsl:for-each select="./rdfs:label">
+                                                            <lido:term>
+                                                                <xsl:if test="@xml:lang">
+                                                                    <xsl:attribute name="xml:lang">
+                                                                        <xsl:value-of select="@xml:lang" />
+                                                                    </xsl:attribute>
+                                                                </xsl:if>
+                                                                <xsl:value-of select="text()" />
+                                                            </lido:term>
+                                                        </xsl:for-each>
+                                                    </lido:termMaterialsTech>
+                                                </lido:materialsTech>
+                                            </lido:eventMaterialsTech>
+                                        </lido:event>
+                                    </lido:eventSet>
+                                </xsl:for-each>
+                            </xsl:if>
                             <xsl:for-each select="local:get(//gesah:object_of_preservation)">
                                 <xsl:call-template name="object-of-preservation-individual"/>
                             </xsl:for-each>
