@@ -308,7 +308,8 @@ WHERE {
       } 
         UNION
       {
-        ?inscription_output gesah:comment ?output_comment .
+        ?inscription_output gesah:comment ?output_comment_lit .
+        BIND(REPLACE(STR(?output_comment_lit), "<[^>]*>", "" ) as ?output_comment )
       }
         UNION
       {
@@ -475,7 +476,8 @@ WHERE {
     UNION
   {
     ?resource_id gesah:description ?description_literal .
-    BIND ( str(?description_literal) as ?description )
+    BIND(REPLACE(STR(?description_literal), "<[^>]*>", "" ) as ?description )
+    
   } 
     UNION
   {
@@ -716,7 +718,9 @@ WHERE {
     }
       UNION
     {
-      ?object_of_provenance gesah:comment ?object_of_provenance_comment .
+      ?object_of_provenance gesah:comment ?object_of_provenance_comment_lit .
+      BIND(REPLACE(STR(?object_of_provenance_comment_lit), "<[^>]*>", "" ) as ?object_of_provenance_comment )
+      
     }
       UNION
     {
@@ -842,7 +846,9 @@ WHERE {
       }
         UNION
       {
-        ?mark gesah:comment ?mark_comment .
+        ?mark gesah:comment ?mark_comment_lit .
+        BIND(REPLACE(STR(?mark_comment_lit), "<[^>]*>", "" ) as ?mark_comment )
+        
       }
        UNION
       {

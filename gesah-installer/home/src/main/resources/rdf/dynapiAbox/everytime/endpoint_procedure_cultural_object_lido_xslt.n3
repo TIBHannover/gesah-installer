@@ -28,7 +28,7 @@
         xmlns:rdf-xml-export="http://vivoweb.org/ontology/xml-export#"
         xmlns:local="sah:local" exclude-result-prefixes="local rdf-xml-export"
     >
-        <xsl:output method="xml" indent="yes"/>
+        <xsl:output method="xml" indent="yes" encoding="UTF-8" />
 
         <xsl:template name="terms-with-concept-id">
             <xsl:for-each select="./gesah:AAT_ID">
@@ -689,9 +689,9 @@
                             <xsl:if test="./gesah:literal_date_appellation">
                                 <xsl:value-of select="concat( ', ', ./gesah:literal_date_appellation/text())" />
                             </xsl:if>
-                            <xsl:if test="./gesah:comment">
-                                <xsl:value-of select="concat( ', [', ./gesah:comment/text(), ']')" />
-                            </xsl:if>
+                            <xsl:for-each select="./gesah:comment">
+                                <xsl:value-of select="concat( ', [', local:html-decode(text()), ']')" />
+                            </xsl:for-each>
                         </lido:descriptiveNoteValue>
                     </lido:eventDescriptionSet>                                        
                 </lido:event>
@@ -864,6 +864,724 @@
             </xsl:for-each>
         </xsl:function>
         
+        <xsl:function name="local:html-decode">
+            <xsl:param name="encoded"/>
+            <xsl:choose>
+                <xsl:when test="not(contains($encoded, '&amp;'))">
+                     <xsl:value-of select="$encoded" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;quot;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;quot;', '&quot;'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;amp;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;amp;', '&amp;'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;lt;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;lt;', '&lt;'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;gt;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;gt;', '&gt;'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;sol;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;sol;', '/'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;sbquo;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;sbquo;', '‚'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;bdquo;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;bdquo;', '„'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;dagger;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;dagger;', '†'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Dagger;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Dagger;', '‡'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;permil;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;permil;', '‰'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;lsaquo;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;lsaquo;', '‹'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;lsquo;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;lsquo;', '‘'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;rsquo;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;rsquo;', '’'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ldquo;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ldquo;', '“'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;rdquo;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;rdquo;', '”'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;trade;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;trade;', '™'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;rsaquo;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;rsaquo;', '›'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;nbsp;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;nbsp;', ' '))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;iexcl;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;iexcl;', '¡'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;cent;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;cent;', '¢'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;pound;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;pound;', '£'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;curren;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;curren;', '¤'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;yen;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;yen;', '¥'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;brvbar;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;brvbar;', '¦'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;sect;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;sect;', '§'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;uml;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;uml;', '¨'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;copy;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;copy;', '©'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ordf;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ordf;', 'ª'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;laquo;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;laquo;', '«'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;not;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;not;', '¬'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;shy;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;shy;', '­'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;reg;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;reg;', '®'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;macr;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;macr;', '¯'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;deg;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;deg;', '°'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;plusmn;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;plusmn;', '±'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;sup2;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;sup2;', '²'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;sup3;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;sup3;', '³'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;acute;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;acute;', '´'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;micro;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;micro;', 'µ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;para;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;para;', '¶'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;middot;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;middot;', '·'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;cedil;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;cedil;', '¸'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;sup1;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;sup1;', '¹'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ordm;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ordm;', 'º'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;raquo;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;raquo;', '»'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;frac14;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;frac14;', '¼'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;frac12;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;frac12;', '½'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;frac34;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;frac34;', '¾'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;iquest;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;iquest;', '¿'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Agrave;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Agrave;', 'À'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Aacute;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Aacute;', 'Á'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Acirc;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Acirc;', 'Â'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Atilde;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Atilde;', 'Ã'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Auml;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Auml;', 'Ä'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Aring;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Aring;', 'Å'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;AElig;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;AElig;', 'Æ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Ccedil;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Ccedil;', 'Ç'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Egrave;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Egrave;', 'È'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Eacute;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Eacute;', 'É'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Ecirc;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Ecirc;', 'Ê'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Euml;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Euml;', 'Ë'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Igrave;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Igrave;', 'Ì'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Iacute;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Iacute;', 'Í'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Icirc;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Icirc;', 'Î'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Iuml;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Iuml;', 'Ï'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ETH;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ETH;', 'Ð'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Ntilde;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Ntilde;', 'Ñ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Ograve;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Ograve;', 'Ò'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Oacute;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Oacute;', 'Ó'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Ocirc;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Ocirc;', 'Ô'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Otilde;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Otilde;', 'Õ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Ouml;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Ouml;', 'Ö'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;times;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;times;', '×'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Oslash;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Oslash;', 'Ø'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Ugrave;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Ugrave;', 'Ù'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Uacute;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Uacute;', 'Ú'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Ucirc;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Ucirc;', 'Û'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Uuml;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Uuml;', 'Ü'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Yacute;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Yacute;', 'Ý'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;THORN;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;THORN;', 'Þ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;szlig;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;szlig;', 'ß'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;agrave;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;agrave;', 'à'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;aacute;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;aacute;', 'á'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;acirc;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;acirc;', 'â'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;atilde;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;atilde;', 'ã'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;auml;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;auml;', 'ä'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;aring;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;aring;', 'å'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;aelig;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;aelig;', 'æ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ccedil;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ccedil;', 'ç'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;egrave;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;egrave;', 'è'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;eacute;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;eacute;', 'é'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ecirc;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ecirc;', 'ê'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;euml;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;euml;', 'ë'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;igrave;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;igrave;', 'ì'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;iacute;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;iacute;', 'í'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;icirc;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;icirc;', 'î'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;iuml;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;iuml;', 'ï'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;eth;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;eth;', 'ð'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ntilde;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ntilde;', 'ñ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ograve;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ograve;', 'ò'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;oacute;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;oacute;', 'ó'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ocirc;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ocirc;', 'ô'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;otilde;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;otilde;', 'õ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ouml;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ouml;', 'ö'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;divide;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;divide;', '÷'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;oslash;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;oslash;', 'ø'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ugrave;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ugrave;', 'ù'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;uacute;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;uacute;', 'ú'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ucirc;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ucirc;', 'û'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;uuml;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;uuml;', 'ü'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;yacute;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;yacute;', 'ý'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;thorn;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;thorn;', 'þ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;yuml;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;yuml;', 'ÿ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;fnof;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;fnof;', 'ƒ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Alpha;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Alpha;', 'Α'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Beta;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Beta;', 'Β'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Gamma;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Gamma;', 'Γ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Delta;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Delta;', 'Δ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Epsilon;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Epsilon;', 'Ε'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Zeta;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Zeta;', 'Ζ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Eta;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Eta;', 'Η'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Theta;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Theta;', 'Θ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Iota;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Iota;', 'Ι'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Kappa;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Kappa;', 'Κ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Lambda;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Lambda;', 'Λ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Mu;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Mu;', 'Μ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Nu;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Nu;', 'Ν'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Xi;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Xi;', 'Ξ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Omicron;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Omicron;', 'Ο'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Pi;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Pi;', 'Π'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Rho;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Rho;', 'Ρ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Sigma;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Sigma;', 'Σ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Tau;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Tau;', 'Τ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Upsilon;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Upsilon;', 'Υ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Phi;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Phi;', 'Φ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Chi;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Chi;', 'Χ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Psi;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Psi;', 'Ψ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Omega;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Omega;', 'Ω'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;alpha;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;alpha;', 'α'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;beta;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;beta;', 'β'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;gamma;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;gamma;', 'γ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;delta;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;delta;', 'δ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;epsilon;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;epsilon;', 'ε'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;zeta;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;zeta;', 'ζ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;eta;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;eta;', 'η'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;theta;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;theta;', 'θ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;iota;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;iota;', 'ι'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;kappa;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;kappa;', 'κ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;lambda;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;lambda;', 'λ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;mu;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;mu;', 'μ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;nu;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;nu;', 'ν'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;xi;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;xi;', 'ξ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;omicron;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;omicron;', 'ο'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;pi;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;pi;', 'π'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;rho;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;rho;', 'ρ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;sigmaf;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;sigmaf;', 'ς'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;sigma;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;sigma;', 'σ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;tau;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;tau;', 'τ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;upsilon;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;upsilon;', 'υ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;phi;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;phi;', 'φ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;chi;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;chi;', 'χ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;psi;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;psi;', 'ψ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;omega;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;omega;', 'ω'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;thetasym;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;thetasym;', 'ϑ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;upsih;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;upsih;', 'ϒ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;piv;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;piv;', 'ϖ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;bull;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;bull;', '•'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;hellip;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;hellip;', '…'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;prime;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;prime;', '′'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;Prime;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;Prime;', '″'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;oline;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;oline;', '‾'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;image;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;image;', 'ℑ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;weierp;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;weierp;', '℘'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;real;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;real;', 'ℜ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;alefsym;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;alefsym;', 'ℵ'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;larr;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;larr;', '←'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;uarr;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;uarr;', '↑'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;rarr;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;rarr;', '→'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;darr;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;darr;', '↓'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;harr;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;harr;', '↔'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;crarr;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;crarr;', '↵'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;lArr;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;lArr;', '⇐'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;uArr;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;uArr;', '⇑'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;rArr;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;rArr;', '⇒'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;dArr;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;dArr;', '⇓'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;hArr;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;hArr;', '⇔'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;forall;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;forall;', '∀'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;part;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;part;', '∂'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;exist;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;exist;', '∃'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;empty;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;empty;', '∅'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;nabla;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;nabla;', '∇'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;isin;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;isin;', '∈'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;notin;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;notin;', '∉'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ni;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ni;', '∋'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;prod;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;prod;', '∏'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;sum;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;sum;', '∑'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;minus;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;minus;', '−'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;lowast;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;lowast;', '∗'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;radic;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;radic;', '√'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;prop;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;prop;', '∝'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;infin;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;infin;', '∞'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ang;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ang;', '∠'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;and;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;and;', '∧'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;or;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;or;', '∨'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;cap;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;cap;', '∩'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;cup;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;cup;', '∪'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;int;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;int;', '∫'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;there4;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;there4;', '∴'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;sim;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;sim;', '∼'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;cong;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;cong;', '≅'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;asymp;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;asymp;', '≈'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ne;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ne;', '≠'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;equiv;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;equiv;', '≡'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;le;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;le;', '≤'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;ge;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;ge;', '≥'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;sub;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;sub;', '⊂'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;sup;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;sup;', '⊃'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;nsub;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;nsub;', '⊄'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;sube;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;sube;', '⊆'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;supe;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;supe;', '⊇'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;oplus;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;oplus;', '⊕'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;otimes;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;otimes;', '⊗'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;perp;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;perp;', '⊥'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;sdot;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;sdot;', '⋅'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;lceil;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;lceil;', '⌈'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;rceil;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;rceil;', '⌉'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;lfloor;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;lfloor;', '⌊'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;rfloor;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;rfloor;', '⌋'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;lang;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;lang;', '〈'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;rang;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;rang;', '〉'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;loz;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;loz;', '◊'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;spades;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;spades;', '♠'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;clubs;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;clubs;', '♣'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;hearts;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;hearts;', '♥'))" />
+                </xsl:when>
+                <xsl:when test="contains($encoded, '&amp;diams;')">
+                     <xsl:value-of select="local:html-decode(replace($encoded, '&amp;diams;', '♦'))" />
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$encoded" />
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:function>
+        
+        
         <xsl:template match="/">
             <lido:lidoWrap xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:html="http://www.w3.org/1999/xhtml"
                            xmlns:lido="http://www.lido-schema.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -897,10 +1615,10 @@
                 
                 <lido:lidoRecID
                     lido:type="http://terminology.lido-schema.org/lido00099"
-                    lido:source="ld.zdb-services.de/resource/organisations/DE-89"
+                    lido:source="http://ld.zdb-services.de/resource/organisations/DE-89"
                 ><xsl:value-of select="concat('DE-89/sah/lido/' , tokenize($uri,'/')[last()])" /></lido:lidoRecID>
 
-                <lido:objectPublishedID lido:pref="http://terminology.lido-schema.org/lido00169" lido:type="http://terminology.lido-schema.org/lido00099" lido:source="ld.zdb-services.de/resource/organisations/DE-89">
+                <lido:objectPublishedID lido:pref="http://terminology.lido-schema.org/lido00169" lido:type="http://terminology.lido-schema.org/lido00099" lido:source="http://ld.zdb-services.de/resource/organisations/DE-89">
                     <xsl:value-of select="$uri" />
                 </lido:objectPublishedID>
 
@@ -1034,7 +1752,7 @@
                                                         <xsl:text>;</xsl:text>
                                                     </xsl:if>
                                                     <xsl:for-each select="local:get($obj_of_inscription/gesah:has_inscription_output)/gesah:comment" >
-                                                        <xsl:value-of select="concat(' ', text(), '.' )" />
+                                                        <xsl:value-of select="concat(' ', local:html-decode(text()), '.' )" />
                                                     </xsl:for-each>
                                                 </lido:descriptiveNoteValue>
                                             </xsl:for-each>
@@ -1059,7 +1777,7 @@
                                                         <xsl:text>;</xsl:text>
                                                     </xsl:if>
                                                     <xsl:for-each select="local:get($obj_of_inscription/gesah:has_inscription_output)/gesah:comment" >
-                                                        <xsl:value-of select="concat(' ', text(), '.' )" />
+                                                        <xsl:value-of select="concat(' ', local:html-decode(text()), '.' )" />
                                                     </xsl:for-each>
                                                 </lido:descriptiveNoteValue>
                                             </xsl:for-each>
@@ -1088,9 +1806,9 @@
                                                 <xsl:if test="$mark-designation/gesah:mark_location" >
                                                     <xsl:value-of select="concat(', ', $mark-designation/gesah:mark_location)"/>
                                                 </xsl:if>
-                                                <xsl:if test="$mark/gesah:comment" >
-                                                    <xsl:value-of select="concat(', ', $mark/gesah:comment)"/>
-                                                </xsl:if>
+                                                <xsl:for-each select="$mark/gesah:comment" >
+                                                    <xsl:value-of select="concat(', ', local:html-decode(text()))"/>
+                                                </xsl:for-each>
                                                 </lido:descriptiveNoteValue>
                                             </lido:inscriptionDescription>
                                         </lido:inscriptions>
@@ -1104,7 +1822,7 @@
                             <lido:repositorySet lido:type="http://terminology.lido-schema.org/lido01017">
                                 <!-- LIDO 1.1 <lido:displayRepository xml:lang="de">Technische Informationsbibliothek (TIB), Hannover</lido:displayRepository> -->
                                 <lido:repositoryName>
-                                   <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
+                                   <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">http://ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
                                     <lido:legalBodyName>
                                         <lido:appellationValue>Technische Informationsbibliothek (TIB) / Leibniz-Informationszentrum Technik und Naturwissenschaften und Universitätsbibliothek</lido:appellationValue>
                                     </lido:legalBodyName>
@@ -1169,7 +1887,12 @@
                             <xsl:if test="//gesah:description">
                                 <lido:objectDescriptionSet>
                                     <lido:descriptiveNoteValue xml:lang="de">
-                                        <xsl:value-of select="//gesah:description/text()" />
+                                           <xsl:for-each select="//gesah:description">
+                                            <xsl:value-of select="local:html-decode(text())"/>
+                                            <xsl:if test="not(position() = last())">
+                                                <xsl:text>&#10;</xsl:text>
+                                            </xsl:if> 
+                                        </xsl:for-each>
                                     </lido:descriptiveNoteValue>
                                 </lido:objectDescriptionSet>
                             </xsl:if>
@@ -1329,52 +2052,6 @@
                                         </lido:subjectConcept>
                                     </xsl:for-each>
 
-                                    <!-- GK: Dargestelltes Objekt habe ich hier von Hand ergänzt ohne Verweis auf Normdaten.
-                                      BR: this is gesah:depicts (object property) with range class gesah:depicted_object, instances can have identifiers from AAT, GND,CONA,ICONCLASS or Wikidata, those should be delivered if existant, in this example we do not have any identifier for the object-->
-                                    <xsl:for-each select="local:get($cultural_object/gesah:depicts)[local:id(vitro:mostSpecificType) = 'http://ontology.tib.eu/gesah/Depicted_Object']">
-                                        <lido:subjectObject>
-                                            <xsl:for-each select="./rdfs:label">
-                                                <lido:displayObject>
-                                                    <xsl:if test="@xml:lang">
-                                                        <xsl:attribute name="xml:lang">
-                                                            <xsl:value-of select="@xml:lang" />
-                                                        </xsl:attribute>
-                                                    </xsl:if>
-                                                    <xsl:value-of select="text()" />
-                                                </lido:displayObject>
-                                            </xsl:for-each>
-                                            <xsl:if test="./gesah:AAT_ID or ./gesah:GND_ID or ./gesah:CONA_ID or ./gesah:Iconclass_ID or ./gesah:Wikidata_ID">
-                                                <lido:object>
-                                                    <xsl:for-each select="./gesah:AAT_ID">
-                                                        <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-                                                            <xsl:call-template name="aat-id"/>
-                                                        </lido:objectID>
-                                                    </xsl:for-each>
-                                                    <xsl:for-each select="./gesah:GND_ID">
-                                                        <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-                                                            <xsl:call-template name="gnd-id"/>
-                                                        </lido:objectID>
-                                                    </xsl:for-each>
-                                                    <xsl:for-each select="./gesah:CONA_ID">
-                                                        <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-                                                            <xsl:call-template name="cona-id"/>
-                                                        </lido:objectID>
-                                                    </xsl:for-each>
-                                                    <xsl:for-each select="./gesah:Iconclass_ID">
-                                                        <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-                                                            <xsl:call-template name="iconclass-id"/>
-                                                        </lido:objectID>
-                                                    </xsl:for-each>
-                                                    <xsl:for-each select="./gesah:Wikidata_ID">
-                                                        <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
-                                                            <xsl:call-template name="wikidata-id"/>
-                                                        </lido:objectID>
-                                                    </xsl:for-each>
-                                                </lido:object>
-                                            </xsl:if>
-                                        </lido:subjectObject>
-                                    </xsl:for-each>
-
                                     <!--BR: we have range class gesah:depicted_person which could be mapped too, I guess. This is added by me. We do not have a depicted person in this example, but it should be as follows, with GND, ICONCLASS, ULAN or Wikidata -identifier if existant:-->
                                     <xsl:for-each select="local:get($cultural_object/gesah:depicts)[local:id(vitro:mostSpecificType) = 'http://ontology.tib.eu/gesah/Depicted_Person']">
                                         <lido:subjectActor>
@@ -1461,6 +2138,52 @@
                                             </lido:place>
                                         </lido:subjectPlace>
                                     </xsl:for-each>
+                                    
+                                    <!-- GK: Dargestelltes Objekt habe ich hier von Hand ergänzt ohne Verweis auf Normdaten.
+                                      BR: this is gesah:depicts (object property) with range class gesah:depicted_object, instances can have identifiers from AAT, GND,CONA,ICONCLASS or Wikidata, those should be delivered if existant, in this example we do not have any identifier for the object-->
+                                    <xsl:for-each select="local:get($cultural_object/gesah:depicts)[local:id(vitro:mostSpecificType) = 'http://ontology.tib.eu/gesah/Depicted_Object']">
+                                        <lido:subjectObject>
+                                            <xsl:for-each select="./rdfs:label">
+                                                <lido:displayObject>
+                                                    <xsl:if test="@xml:lang">
+                                                        <xsl:attribute name="xml:lang">
+                                                            <xsl:value-of select="@xml:lang" />
+                                                        </xsl:attribute>
+                                                    </xsl:if>
+                                                    <xsl:value-of select="text()" />
+                                                </lido:displayObject>
+                                            </xsl:for-each>
+                                            <xsl:if test="./gesah:AAT_ID or ./gesah:GND_ID or ./gesah:CONA_ID or ./gesah:Iconclass_ID or ./gesah:Wikidata_ID">
+                                                <lido:object>
+                                                    <xsl:for-each select="./gesah:AAT_ID">
+                                                        <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+                                                            <xsl:call-template name="aat-id"/>
+                                                        </lido:objectID>
+                                                    </xsl:for-each>
+                                                    <xsl:for-each select="./gesah:GND_ID">
+                                                        <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+                                                            <xsl:call-template name="gnd-id"/>
+                                                        </lido:objectID>
+                                                    </xsl:for-each>
+                                                    <xsl:for-each select="./gesah:CONA_ID">
+                                                        <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+                                                            <xsl:call-template name="cona-id"/>
+                                                        </lido:objectID>
+                                                    </xsl:for-each>
+                                                    <xsl:for-each select="./gesah:Iconclass_ID">
+                                                        <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+                                                            <xsl:call-template name="iconclass-id"/>
+                                                        </lido:objectID>
+                                                    </xsl:for-each>
+                                                    <xsl:for-each select="./gesah:Wikidata_ID">
+                                                        <lido:objectID lido:type="http://terminology.lido-schema.org/lido00099">
+                                                            <xsl:call-template name="wikidata-id"/>
+                                                        </lido:objectID>
+                                                    </xsl:for-each>
+                                                </lido:object>
+                                            </xsl:if>
+                                        </lido:subjectObject>
+                                    </xsl:for-each>
                                 </lido:subject>
                             </lido:subjectSet>
                         </lido:subjectWrap>
@@ -1545,7 +2268,7 @@
                         </lido:recordType>
 
                         <lido:recordSource>
-                            <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
+                            <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">http://ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
                             <lido:legalBodyName>
                                 <lido:appellationValue>Technische Informationsbibliothek (TIB)</lido:appellationValue>
                             </lido:legalBodyName>
@@ -1586,7 +2309,7 @@
                                 <lido:linkResource lido:formatResource="image/jpeg">https://sah.tib.eu/iiif/2/<xsl:value-of select="gesah:barcode/text()" />%5Econtent%5Estreams%5E<xsl:value-of select="gesah:image_file_number/text()" />/full/1200,/0/default.jpg</lido:linkResource>
                               </lido:resourceRepresentation>
                               <lido:resourceSource>
-                                <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
+                                <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">http://ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
                                 <lido:legalBodyName>
                                   <lido:appellationValue>Technische Informationsbibliothek (TIB)</lido:appellationValue>
                                 </lido:legalBodyName>
@@ -1600,7 +2323,7 @@
                                     <lido:term lido:pref="http://terminology.lido-schema.org/lido00170" xml:lang="de">Kein Urheberrechtsschutz</lido:term>
                                 </lido:rightsType>
                                 <lido:rightsHolder>
-                                  <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">ld.zdb-services.de/resource/organisations/DE-MUS-89</lido:legalBodyID>
+                                  <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">http://ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
                                   <lido:legalBodyName>
                                     <lido:appellationValue>Technische Informationsbibliothek (TIB)</lido:appellationValue>
                                   </lido:legalBodyName>

@@ -243,7 +243,7 @@
 				<#if commentStarted>
 			        ,<#lt>
 				</#if>
-				${comment}<#rt>
+				${comment.comment}<#rt>
 				<#assign commentStarted = true />
 			</#list>
 			<br />
