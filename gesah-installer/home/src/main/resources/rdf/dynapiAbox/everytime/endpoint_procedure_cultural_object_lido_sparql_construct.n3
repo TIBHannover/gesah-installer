@@ -107,6 +107,7 @@ CONSTRUCT {
   
   ?resource_id gesah:has_watermark ?watermark .
   ?watermark rdfs:label ?watermark_label .
+  ?watermark gesah:watermark_URL ?watermark_url .
   
   ?resource_id gesah:has_stylistic_assignment ?stylistic_assignment .
   ?stylistic_assignment rdfs:label ?stylistic_assignment_label .
@@ -276,7 +277,10 @@ WHERE {
     UNION
   {
     ?resource_id gesah:has_watermark ?watermark .
-    ?watermark rdfs:label ?watermark_label .
+    
+    { ?watermark rdfs:label ?watermark_label . }
+      UNION
+    { ?watermark gesah:watermark_URL ?watermark_url . }
   }
     UNION
   {

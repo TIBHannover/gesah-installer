@@ -212,14 +212,14 @@
                                 </xsl:when>
                             </xsl:choose>
                             <xsl:for-each select="local:get(local:get(../gesah:has_role)[local:get(gesah:realized_in) = $activity_individual]/gesah:has_type_of_attribution)">
-	                            <xsl:choose>
-	                                <xsl:when test="rdfs:label[@xml:lang = $lang]">
-	                                    <xsl:value-of select="concat(', ', (rdfs:label[@xml:lang = $lang])[1]/text() )" />
-	                                </xsl:when>
-	                                <xsl:when test="rdfs:label">
-	                                    <xsl:value-of select="concat(', ', (rdfs:label)[1]/text() )" />
-	                                </xsl:when>
-	                            </xsl:choose>
+                                <xsl:choose>
+                                    <xsl:when test="rdfs:label[@xml:lang = $lang]">
+                                        <xsl:value-of select="concat(', ', (rdfs:label[@xml:lang = $lang])[1]/text() )" />
+                                    </xsl:when>
+                                    <xsl:when test="rdfs:label">
+                                        <xsl:value-of select="concat(', ', (rdfs:label)[1]/text() )" />
+                                    </xsl:when>
+                                </xsl:choose>
                             </xsl:for-each>
                         </xsl:if>
                     </lido:displayActorInRole>
@@ -644,7 +644,11 @@
                                     <lido:eventMaterialsTech>
                                         <lido:materialsTech>
                                             <lido:termMaterialsTech lido:type="http://terminology.lido-schema.org/lido00427">
-                                                <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300028749</lido:conceptID>
+                                                <xsl:if test="gesah:watermark_URL">
+                                                    <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+                                                         <xsl:value-of select="gesah:watermark_URL/text()[1]" /> 
+                                                    </lido:conceptID>
+                                                </xsl:if>
                                                 <xsl:for-each select="./rdfs:label">
                                                     <lido:term>
                                                         <xsl:if test="@xml:lang">
@@ -2039,7 +2043,11 @@
                                             <lido:eventMaterialsTech>
                                                 <lido:materialsTech>
                                                     <lido:termMaterialsTech lido:type="http://terminology.lido-schema.org/lido00427">
-                                                        <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://vocab.getty.edu/aat/300028749</lido:conceptID>
+                                                        <xsl:if test="gesah:watermark_URL">
+                                                            <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">
+                                                                 <xsl:value-of select="gesah:watermark_URL/text()[1]" /> 
+                                                            </lido:conceptID>
+                                                        </xsl:if>
                                                         <xsl:for-each select="./rdfs:label">
                                                             <lido:term>
                                                                 <xsl:if test="@xml:lang">
