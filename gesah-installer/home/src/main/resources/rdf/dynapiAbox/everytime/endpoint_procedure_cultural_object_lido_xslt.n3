@@ -211,6 +211,16 @@
                                     <xsl:value-of select="concat(', ', (local:get(local:get(../gesah:has_role)[local:get(gesah:realized_in) = $activity_individual]/gesah:has_role_type)/rdfs:label)[1]/text() )" />
                                 </xsl:when>
                             </xsl:choose>
+                            <xsl:for-each select="local:get(local:get(../gesah:has_role)[local:get(gesah:realized_in) = $activity_individual]/gesah:has_type_of_attribution)">
+	                            <xsl:choose>
+	                                <xsl:when test="rdfs:label[@xml:lang = $lang]">
+	                                    <xsl:value-of select="concat(', ', (rdfs:label[@xml:lang = $lang])[1]/text() )" />
+	                                </xsl:when>
+	                                <xsl:when test="rdfs:label">
+	                                    <xsl:value-of select="concat(', ', (rdfs:label)[1]/text() )" />
+	                                </xsl:when>
+	                            </xsl:choose>
+                            </xsl:for-each>
                         </xsl:if>
                     </lido:displayActorInRole>
                 </xsl:for-each>
@@ -269,7 +279,7 @@
     
                     <!-- this is the gesah:has_type_of_attribution, object property to gesah:creation, in some cases we have AAT IDs for this attribution types, how can we model that? Example: "attributed to", in LIDO attributionQualifier
                     <lido:term>attributed to</lido:term>-->
-                    <xsl:for-each select="local:get($activity_individual/gesah:has_type_of_attribution)">
+                    <xsl:for-each select="local:get(local:get(local:get($activity_individual/gesah:has_participant)/gesah:has_role)/gesah:has_type_of_attribution)">
                         <xsl:for-each select="./rdfs:label">
                             <lido:attributionQualifierActor>
                                 <xsl:if test="@xml:lang">
