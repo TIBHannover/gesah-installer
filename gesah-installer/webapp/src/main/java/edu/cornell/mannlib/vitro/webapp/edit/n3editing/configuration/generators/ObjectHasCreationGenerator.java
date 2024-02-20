@@ -84,8 +84,8 @@ public class ObjectHasCreationGenerator extends AbstractCulturalObjectGenerator 
     final static String n3ForNewObCreation =
         VAR + CULT_OBJECT + " " + "<" + GESAH_OUTPUT_OF_CREATION + "> " + VAR + ACTIVITY_OBJ + " .\n" +
         VAR + ACTIVITY_OBJ + " a <" + GESAH_CREATION + "> ; \n" +
-        "	<" + GESAH_REALIZES + "> " + VAR + NEW_ACTOR_ROLE + " . \n" +
-        VAR + NEW_ACTOR_ROLE + " <" + GESAH + "realized_in> " + VAR + ACTIVITY_OBJ + " . \n" +
+        "	<" + REALIZES + "> " + VAR + NEW_ROLE + " . \n" +
+        VAR + NEW_ROLE + " <" + GESAH + "realized_in> " + VAR + ACTIVITY_OBJ + " . \n" +
         VAR + ACTIVITY_OBJ + " <" + GESAH + "has_creation_output> ?cultObject .";
 		
     //Query for inverse property

@@ -68,7 +68,7 @@
 <#macro print_role_type>
 	<#assign existingRoleTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingRoleType") />
     <div class="entry">
-        <label for="roleType">${i18n().role_type} </label>
+        <label for="roleType">${i18n().role_type} ${requiredHint}</label>
         <#assign existingRoleTypeOpts = editConfiguration.pageData.existingRoleType />
         <select name="existingRoleType" style="margin-top:-2px" >
             <option value="" <#if existingRoleTypeValue == "">selected</#if>>${i18n().select_one}</option>
@@ -155,7 +155,7 @@
 		<#assign existingAgentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingAgent") />
 
 		<p class="inline">
-            <label for="agentType">${i18n().agent_type_capitalized}</label>
+            <label for="agentType">${i18n().agent_type_capitalized} ${requiredHint}</label>
             <#assign agentTypeOpts = editConfiguration.pageData.agentType />
             <select id="typeSelector" name="agentType" acGroupName="agent">
                 <option value="" selected="selected">${i18n().select_one}</option>
@@ -169,7 +169,7 @@
             </select>
         </p>
         <p>
-            <label for="relatedIndLabel">${i18n().agent_capitalized} ${i18n().name_capitalized}</label>
+            <label for="relatedIndLabel">${i18n().agent_capitalized} ${i18n().name_capitalized} ${requiredHint}</label>
             <input class="acSelector" size="50"  type="text" id="relatedIndLabel" name="agentLabel" acGroupName="agent" value="${agentLabelValue}"  />
             <input class="display" type="hidden" id="agentDisplay" acGroupName="agent" name="agentLabelDisplay" value="${agentLabelDisplayValue}">
         </p>

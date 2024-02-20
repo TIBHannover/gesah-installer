@@ -12,7 +12,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 
 <section id="objectOfProvenance" role="region">
 	<form id="objectOfProvenance" class="customForm noIE67" action="${submitUrl}"  role="add/edit provenance">
-		<#assign existingEvent = lvf.getFormFieldValue(editSubmission, editConfiguration, "cultObjectVarName") />
+		<#assign existingEvent = lvf.getFormFieldValue(editSubmission, editConfiguration, "activityVar") />
 		<#if !existingEvent?has_content>
 			<@print_event />
 		<#else>

@@ -84,8 +84,8 @@ public class ObjectHasProductionGenerator extends AbstractCulturalObjectGenerato
     final static String n3ForNewObProduction =
         "?cultObject" + " " + "<" + GESAH + "output_of_production> " + " " + VAR + ACTIVITY_OBJ + " .\n" +
         VAR + ACTIVITY_OBJ + "  a" + " " + "<" + GESAH + "Production> ; \n" +
-        "	<" + GESAH_REALIZES + ">" + " " + VAR + NEW_ACTOR_ROLE + " . \n" +
-        VAR + NEW_ACTOR_ROLE +" " + "<" + GESAH + "realized_in" + ">" + " " + VAR + ACTIVITY_OBJ + " . \n" +
+        "	<" + REALIZES + ">" + " " + VAR + NEW_ROLE + " . \n" +
+        VAR + NEW_ROLE +" " + "<" + GESAH + "realized_in" + ">" + " " + VAR + ACTIVITY_OBJ + " . \n" +
         VAR + ACTIVITY_OBJ +" " + "<" + GESAH + "has_production_output> ?cultObject .";
 
     //Query for inverse property

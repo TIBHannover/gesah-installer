@@ -86,15 +86,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 				<option value="${key}"  <#if existingRoleTypeValue == key>selected</#if>><#if existingRoleTypeOpts[key] == "Other">${i18n().or_other}<#else>${existingRoleTypeOpts[key]}</#if></option>
 			</#list>
 		</select>
-<#--
-      <#if editMode == "edit" || editMode == "repair">
-            <input type="hidden" id="newRoleTypeLabel" name="roleTypeLabel" value=""/>
-            <input type="hidden" id="roleTypeLabel" name="existingRoleTypeLabel" value="${existingRoleTypeLabelValue!}"/>
-      <#else>
-            <input type="hidden" id="roleTypeLabel" name="roleTypeLabel" value=""/>
-      </#if>
--->
-            <input type="hidden" id="roleTypeLabel" name="roleTypeLabel" value=""/>
+        <input type="hidden" id="roleTypeLabel" name="roleTypeLabel" value=""/>
     </div>		
 
 	<div class="entry">
@@ -106,16 +98,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 				<option value="${key}"  <#if existingAttrTypeValue == key>selected</#if>><#if existingAttrTypeOpts[key] == "Other">${i18n().or_other}<#else>${existingAttrTypeOpts[key]}</#if></option>
 			</#list>
 		</select>
-		
-<#--
-		<#if editMode == "edit" || editMode == "repair">
-				<input type="hidden" id="newAttrTypeLabel" name="attributionTypeLabel" value=""/>
-				<input type="hidden" id="attributionTypeLabel" name="existingAttrTypeLabel" value="${existingAttrTypeLabel!}"/>
-		<#else>
-				<input type="hidden" id="attributionTypeLabel" name="attributionTypeLabel" value=""/>
-		</#if>
--->
-				<input type="hidden" id="attributionTypeLabel" name="attributionTypeLabel" value=""/>
+		<input type="hidden" id="attributionTypeLabel" name="attributionTypeLabel" value=""/>
 	
 	</div>			
 	
@@ -128,20 +111,9 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 				<option value="${key}"  <#if existingMaterialValue == key>selected</#if>><#if existingMaterialOpts[key] == "Other">${i18n().or_other}<#else>${existingMaterialOpts[key]}</#if></option>
 			</#list>
 		</select>
-	
-<#--
-		<#if editMode == "edit" || editMode == "repair">
-				<input type="hidden" id="newMaterialLabel" name="materialLabel" value=""/>
-				<input type="hidden" id="materialLabel" name="existingMaterialLabel" value="${existingMaterialLabelValue!}"/>
-		<#else>
-				<input type="hidden" id="materialLabel" name="materialLabel" value=""/>
-		</#if>
--->
-				<input type="hidden" id="materialLabel" name="materialLabel" value=""/>
+		<input type="hidden" id="materialLabel" name="materialLabel" value=""/>
 	
 	</div>	
-	
-	
 	
 	<div class="entry">
       <label for="techniqueUri">${i18n().technique}</label>
@@ -153,18 +125,8 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
         <option value="${key}" <#if existingTechniqueValue = key>selected</#if>>${existingTechniqueOpts[key]}</option>
         </#list>
       </select>
-<#--
-      <#if editMode == "edit" || editMode == "repair">
-            <input type="hidden" id="newTechniqueLabel" name="techniqueLabel" value=""/>
-            <input type="hidden" id="techniqueLabel" name="existingTechniqueLabel" value="${existingTechniqueLabelValue!}"/>
-      <#else>
-            <input type="hidden" id="techniqueLabel" name="techniqueLabel" value=""/>
-      </#if>
--->
             <input type="hidden" id="techniqueLabel" name="techniqueLabel" value=""/>
     </div>
-	
-	
 	
     <p>
         <label for="placeLabel">${i18n().place_name_capitalized} </label>
@@ -209,29 +171,22 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
         <@formControls />
 </form>
 
-
-<script type="text/javascript">
-var customFormData  = {
-    acUrl: '${urls.base}/autocomplete?tokenize=true&stem=true',
-    editMode: '${editMode}',
-    acTypes: {agent: 'http://xmlns.com/foaf/0.1/Agent' , place: 'http://vivoweb.org/ontology/core#GeographicLocation'},
-	multipleTypeNames: { agent: 'participant' , place: 'place' },
-    baseHref: '${urls.base}/individual?uri=',
-    blankSentinel: '${blankSentinel}',
-    flagClearLabelForExisting: '${flagClearLabelForExisting}',
-    subjectName: '${editConfiguration.subjectName?js_string}'
-};
-var i18nStrings = {
-    selectAnExisting: '${i18n().select_an_existing}',
-    selectAnExistingOrCreateNewOne: '${i18n().select_an_existing_or_create_a_new_one?js_string}',
-    selectedString: '${i18n().selected}'
-};
-
-<#--$(document).ready(function() {
-    objectHasProductionUtils.onLoad();
-});
--->
-
-</script>
+	<script type="text/javascript">
+		var customFormData  = {
+		    acUrl: '${urls.base}/autocomplete?tokenize=true&stem=true',
+		    editMode: '${editMode}',
+		    acTypes: {agent: 'http://xmlns.com/foaf/0.1/Agent' , place: 'http://vivoweb.org/ontology/core#GeographicLocation'},
+			multipleTypeNames: { agent: 'participant' , place: 'place' },
+		    baseHref: '${urls.base}/individual?uri=',
+		    blankSentinel: '${blankSentinel}',
+		    flagClearLabelForExisting: '${flagClearLabelForExisting}',
+		    subjectName: '${editConfiguration.subjectName?js_string}'
+		};
+		var i18nStrings = {
+		    selectAnExisting: '${i18n().select_an_existing}',
+		    selectAnExistingOrCreateNewOne: '${i18n().select_an_existing_or_create_a_new_one?js_string}',
+		    selectedString: '${i18n().selected}'
+		};
+	</script>
 
 </section>

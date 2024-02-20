@@ -54,6 +54,10 @@
             <#if lvf.submissionErrorExists(editSubmission, "newRoleType")>
                 ${i18n().select_role_type_value}<br />
             </#if>
+            <#--Checking if Role Type field is empty-->
+            <#if lvf.submissionErrorExists(editSubmission, "existingRoleType")>
+                ${i18n().select_role_type_value}<br />
+            </#if>
             <#--Checking if Place field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "newPlace")>
                 ${i18n().select_a_place}
