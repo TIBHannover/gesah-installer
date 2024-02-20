@@ -144,3 +144,6 @@
 
 <http://ontology.tib.eu/gesah/is_attribution_type_of>
     display:listViewConfigFile "listViewConfig-over-role-information_with_image.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/realizes>
+    display:listViewConfigFile "listViewConfig-realizes.xml"^^xsd:string .
