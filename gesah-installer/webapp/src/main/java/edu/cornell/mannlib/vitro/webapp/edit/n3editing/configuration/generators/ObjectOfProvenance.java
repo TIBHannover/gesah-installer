@@ -2,8 +2,6 @@
 package edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators;
 
 
-import static edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary.MOST_SPECIFIC_TYPE;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -88,9 +86,6 @@ public class ObjectOfProvenance extends AbstractCulturalObjectGenerator implemen
         VAR + ACTIVITY_OBJ + " a " + VAR + PROVENANCE_CURRENT_TYPE + " . \n" +
         VAR + ACTIVITY_OBJ + " <" + GESAH_HAS_PROVENANCE_OBJECT + "> " +  VAR + CULT_OBJECT + " .";
 		
-    //VAR + ACTIVITY_OBJ + " <" + GESAH_REALIZES + "> " + VAR + NEW_ACTOR_ROLE + " . \n" +
-    //VAR + NEW_ACTOR_ROLE + " <" + GESAH_REALIZED_IN + "> " + VAR + ACTIVITY_OBJ + " . \n" +
-  
     @Override
 	protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {
 		List<String> predicates = new ArrayList<String>();

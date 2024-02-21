@@ -13,37 +13,6 @@ import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.
 import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils.EditMode;
 import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
 
-/**
-    Form for adding an educational attainment to an individual
-
-    Classes:
-    gesah:Production - primary new individual being created
-    foaf:Person - new or existing individual
-    foaf:Organization - new or existing individual - has to be implemented
-    gesah:Cultural_Object - existing individual
-	obo:BFO_0000023 - new individual or existing while being edited
-	gesah:Role_Type - existing individual while being edited
-	gesah:Attribution_Type - existing individual 
-	gesah:Material - existing individual 
-	gesah:Technique - existing individual 
-    core:GeographicLocation - new or existing individual
-
-
-
-    There are 4 modes that this form can be in:
-     1.  Add, there is a subject and a predicate but no position and nothing else.
-
-     2. normal edit where everything should already be filled out.  There is a subject, a object and an individual on
-        the other end of the object's relationship.
-
-     3. Repair a bad role node.  There is a subject, predicate and object but there is no individual on the
-        other end of the object's  relationship.  This should be similar to an add but the form should be expanded.
-
-     4. Really bad node. multiple statements on the other end of the object's  relationship.
-
- *
- *
- */
 public class ObjectHasProductionGenerator extends AbstractCulturalObjectGenerator implements EditConfigurationGenerator{
 
 	private static final String EXISTING_MATERIAL_LABEL = "existingMaterialLabel";
@@ -65,7 +34,6 @@ public class ObjectHasProductionGenerator extends AbstractCulturalObjectGenerato
         addComment(conf);
         addAttributeType(conf);
         addExistingRoleType(conf);
-        addExistingActivityRole(conf);
         addNewActorRole(conf);		
         addNewActor(conf);	
         addExistingActor(conf);	
@@ -81,11 +49,9 @@ public class ObjectHasProductionGenerator extends AbstractCulturalObjectGenerato
 
     /* N3 assertions for production of a cultural object */
 
-    final static String n3ForNewObProduction =
+	private final static String n3ForNewObProduction =
         "?cultObject" + " " + "<" + GESAH + "output_of_production> " + " " + VAR + ACTIVITY_OBJ + " .\n" +
-        VAR + ACTIVITY_OBJ + "  a" + " " + "<" + GESAH + "Production> ; \n" +
-        "	<" + REALIZES + ">" + " " + VAR + NEW_ROLE + " . \n" +
-        VAR + NEW_ROLE +" " + "<" + GESAH + "realized_in" + ">" + " " + VAR + ACTIVITY_OBJ + " . \n" +
+        VAR + ACTIVITY_OBJ + "  a " + "<" + GESAH + "Production> ; \n" +
         VAR + ACTIVITY_OBJ +" " + "<" + GESAH + "has_production_output> ?cultObject .";
 
     //Query for inverse property

@@ -137,9 +137,10 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 
     private final static String litDateAppelQuery  =
       "SELECT" + SPACE + VAR + EXISTINGLIT_DATE_APPEL + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + LITERAL_DATE_APPEAL_PRED + ">" + SPACE + VAR + EXISTINGLIT_DATE_APPEL + " . }";
+      VAR + ACTIVITY_OBJ + SPACE + "<" + LITERAL_DATE_APPEAL_PRED + ">" + SPACE + VAR + EXISTINGLIT_DATE_APPEL + 
+      " . }";
 
-  private final static String litDateAppelAssertion  =
+    private final static String litDateAppelAssertion  =
       VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_LITERAL_DATE_APPELATION + "> " + VAR + LIT_DATE_APPEL + " .";
 
 
@@ -158,10 +159,11 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + EXISTING_PLACE + " . " + "\n" +
       VAR + EXISTING_PLACE + SPACE + "<" + GESAH_IS_PLACE_OF + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " ;
 
-  private final static String existingPlaceQuery =
-      "SELECT " + SPACE + VAR + EXISTING_PLACE + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + EXISTING_PLACE + "  . }";
-
+    private final static String existingPlaceQuery =
+      "SELECT " + SPACE + VAR + EXISTING_PLACE + SPACE +
+      " WHERE {" + "\n" +
+          VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + EXISTING_PLACE + " ." + 
+      "}";
 
     protected void addPlace(EditConfigurationVTwo conf) throws Exception {
         conf.addNewResource(NEW_PLACE,DEFAULT_NS_FOR_NEW_RESOURCE);
@@ -182,16 +184,16 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
                 setRangeDatatypeUri(XSD.xstring.toString() ));
     }
 
-  private final static String existingPlaceLabelQuery =
+    private final static String existingPlaceLabelQuery =
       "SELECT Distinct" + SPACE + VAR + EXISTING_PLACE_LABEL + " WHERE {" + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + EXISTING_PLACE + " . " + "\n" +
       VAR + EXISTING_PLACE + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_PLACE_LABEL + " .}";
 
-  private final static String n3ForNewPlace  =
+    private final static String n3ForNewPlace  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + NEW_PLACE + " . " + "\n" +
-      VAR + NEW_PLACE + SPACE + "<" + GESAH_IS_PLACE_OF + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-      VAR + NEW_PLACE + SPACE + "<" + LABEL + ">" + SPACE + VAR + PLACE_LABEL + " . " + "\n" +
+      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_HAS_PLACE + ">" + SPACE + VAR + NEW_PLACE + " .\n" +
+      VAR + NEW_PLACE + SPACE + "<" + GESAH_IS_PLACE_OF + ">" + SPACE + VAR + ACTIVITY_OBJ + " .\n" +
+      VAR + NEW_PLACE + SPACE + "<" + LABEL + ">" + SPACE + VAR + PLACE_LABEL + " .\n" +
       VAR + NEW_PLACE + " a <http://vivoweb.org/ontology/core#GeographicLocation> .";
 
 
@@ -205,14 +207,14 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
                         .setValidators(list(DATATYPE + XSD.xstring.toString())));
     }
 
-  private final static String commentAssertion  =
+    private final static String commentAssertion  =
       VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_COMMENT + ">" + SPACE + VAR + COMMENT + " .";
 
-  private final static String commentQuery  =
+    private final static String commentQuery  =
       "SELECT" + SPACE + VAR + EXISTING_COMMENT + " WHERE {" + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + COMMENT_PRED + ">" + SPACE + VAR + EXISTING_COMMENT + " . }";
 
-  private final static String commentValueQuery  =
+    private final static String commentValueQuery  =
       "SELECT" + SPACE + " (STR(?existCommentColumn) as " + VAR + EXISTING_COMMENT_VALUE + " ) WHERE {" + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + COMMENT_PRED + ">" + SPACE + VAR + "existCommentColumn" + " . }";
 
@@ -221,41 +223,24 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
         conf.addN3Optional(Arrays.asList(n3ForNewAttrTypeNewActorRole));
         conf.addNewResource(NEW_ATTR_TYPE,DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addLiteralsOnForm( Arrays.asList(EXISTING_ATTR_TYPE_LABEL));
-        conf.addSparqlForExistingLiteral(EXISTING_ATTR_TYPE_LABEL, existingAttrTypeLabelQuery);
         conf.addField( new FieldVTwo().
         setName(EXISTING_ATTR_TYPE_LABEL).
         setRangeDatatypeUri(XSD.xstring.toString() ).
         setValidators( list(DATATYPE + XSD.xstring.toString())));
-        conf.addN3Optional(Arrays.asList(n3ForExistingActorRoleExistingAttrType, n3ForNewActorRoleExistingAttrType));
+        conf.addN3Optional(Arrays.asList(n3ForNewActorRoleExistingAttrType));
         conf.addUrisOnForm(Arrays.asList(EXISTING_ATTR_TYPE));
 
-        conf.addSparqlForExistingUris(EXISTING_ATTR_TYPE, existingAttrTypeQuery);
         conf.addField( new FieldVTwo().
                 setName(EXISTING_ATTR_TYPE).
                 setOptions( new IndividualsViaVClassOptions(
                         ATTRIBUTION_TYPE_CLASS)));
     }
 
-    private final static String existingAttrTypeQuery =
-      "SELECT" + SPACE + VAR + EXISTING_ATTR_TYPE + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . }" + "\n";
-
-    private final static String n3ForExistingActorRoleExistingAttrType  =
-      "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
-      VAR + EXISTING_ATTR_TYPE + SPACE + "<" + IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + EXISTING_ROLE + " . ";
-
     private final static String n3ForNewActorRoleExistingAttrType =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
       VAR + NEW_ROLE + SPACE + "<" + HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
       VAR + EXISTING_ATTR_TYPE + SPACE + "<" + IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + NEW_ROLE + " . ";
 
-    private final static String existingAttrTypeLabelQuery =
-      "SELECT Distinct" + SPACE + VAR + EXISTING_ATTR_TYPE_LABEL + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
-      VAR + EXISTING_ATTR_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_ATTR_TYPE_LABEL + " .}";
 
     private final static String n3ForNewAttrTypeNewActorRole  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
@@ -267,74 +252,34 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
     protected void addExistingRoleType(EditConfigurationVTwo conf) throws Exception {
         conf.addN3Optional(Arrays.asList(n3ForExistingRoleType));
         conf.addUrisOnForm( Arrays.asList( EXISTING_ROLE_TYPE ));
-        conf.addSparqlForExistingUris(EXISTING_ROLE_TYPE, existingActorRoleTypeQuery);
         conf.addField( new FieldVTwo().
                 setName(EXISTING_ROLE_TYPE).
                 setOptions( new IndividualsViaVClassOptions(
                         ROLE_TYPE_CLASS)));
     }
 
-    private static final String existingActorRoleTypeQuery =
-        "SELECT" + SPACE + VAR + EXISTING_ROLE_TYPE + " WHERE {" + "\n" +
-        VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
-        VAR + EXISTING_ROLE + SPACE + "<" + REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . \n" +
-        VAR + EXISTING_ROLE + SPACE + "<" + HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . }";
-
     private final static String n3ForExistingRoleType =
         VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
         VAR + NEW_ROLE + SPACE + "<" + REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
         VAR + NEW_ROLE + SPACE + "<" + HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . ";
 
-    protected void addExistingActivityRole(EditConfigurationVTwo conf) {
-        conf.addN3Optional(Arrays.asList(n3ForExistingRole));
-        conf.addUrisOnForm(Arrays.asList(EXISTING_ROLE));
-        conf.addSparqlForExistingUris(EXISTING_ROLE, existingRoleQuery);
-
-    }
-
-    private final static String n3ForExistingRole = 
-            "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " .\n" + 
-            VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " .\n";
-
-    private static final String existingRoleQuery = 
-            "SELECT" + SPACE + VAR + EXISTING_ROLE + SPACE +
-            "WHERE {\n" + 
-                VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + "  .\n" +
-            "}";
-
     protected void addNewActorRole(EditConfigurationVTwo conf) throws Exception {
-        conf.addSparqlForExistingUris(NEW_ROLE, existingRoleQuery);
         conf.addNewResource(NEW_ROLE, DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addNewResource(NEW_ACTIVITY_ROLE_TYPE, DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addN3Optional(Arrays.asList(n3ForNewActivityRoleType));
-        conf.addN3Optional(Arrays.asList(n3ForNewActivityRole));
         conf.addField(new FieldVTwo().setName(NEW_ROLE).setOptions(new IndividualsViaVClassOptions(ROLE_CLASS)));
         conf.addLiteralsOnForm(Arrays.asList(ACTIVITY_ROLE_TYPE_LABEL));
-        conf.addSparqlForExistingLiteral(ACTIVITY_ROLE_TYPE_LABEL, existingActivityRoleTypeLabelQuery);
         conf.addField(new FieldVTwo().setName(ACTIVITY_ROLE_TYPE_LABEL).setRangeDatatypeUri(XSD.xstring.toString())
                 .setValidators(list(DATATYPE + XSD.xstring.toString())));
     }
 
-  private static final String existingActivityRoleTypeLabelQuery =
-      "SELECT Distinct" + SPACE + VAR + EXISTING_ROLE_TYPE_LABEL + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . " + "\n" +
-      VAR + EXISTING_ROLE_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_ROLE_TYPE_LABEL + " . }";
-
-  private final static String n3ForNewActivityRoleType  =
+    private final static String n3ForNewActivityRoleType  =
             "@prefix rdfs:" + SPACE + "<" + RDFS + ">" + "  . " + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
       VAR + NEW_ROLE + SPACE + "<" + REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + NEW_ROLE + SPACE + "<" + HAS_ROLE_TYPE + ">" + SPACE + VAR + NEW_ACTIVITY_ROLE_TYPE + " . " + "\n" +
       VAR + NEW_ACTIVITY_ROLE_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + NEW_ROLE_TYPE_LABEL + " . " + "\n" +
       VAR + NEW_ACTIVITY_ROLE_TYPE + " a " + "<" + ROLE_TYPE + "> . " ;
-
-  private final static String n3ForNewActivityRole  =
-      VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
-      VAR + NEW_ROLE + SPACE + "<" + REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
-        VAR + NEW_ROLE + " a " + "<" + OBO + "BFO_0000023> . " ;
-
 
     protected void addNewActor(EditConfigurationVTwo conf) throws Exception {
         conf.addN3Optional(Arrays.asList(n3ForNewActor));
@@ -344,8 +289,6 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
         conf.addUrisOnForm(Arrays.asList(ACTOR_TYPE));
         conf.addLiteralsOnForm(Arrays.asList(ACTOR_LABEL));
         conf.addLiteralsOnForm(Arrays.asList(ACTOR_LABEL_DISPLAY));
-        conf.addSparqlForExistingLiteral(ACTOR_LABEL, actorLabelQuery);
-        conf.addSparqlForExistingUris(ACTOR_TYPE, actorTypeQuery);
         conf.addField(new FieldVTwo().setName(ACTOR_TYPE).setValidators(list(DATATYPE + XSD.xstring.toString()))
                 .setOptions(new ChildVClassesOptions(ACTOR_CLASS)));
         conf.addField(new FieldVTwo().setName(ACTOR_LABEL).setRangeDatatypeUri(XSD.xstring.toString())
@@ -353,28 +296,8 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
         conf.addField(new FieldVTwo().setName(ACTOR_LABEL_DISPLAY).setRangeDatatypeUri(XSD.xstring.toString()));
     }
 
-  private static final String actorTypeQuery  =
-      "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
-      "SELECT" + SPACE + VAR + ACTOR_TYPE + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " . " + "\n" +
-      VAR + EXISTING_ACTOR + SPACE + "<" + HAS_ROLE + ">" + SPACE + VAR + EXISTING_ROLE + " ." + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " ." + "\n" +
-      VAR + EXISTING_ACTOR + " a" + SPACE + VAR + ACTOR_TYPE + " ." + "\n" +
-      VAR + ACTOR_TYPE + " rdfs:subClassOf <" + ACTOR_CLASS + "> .}";
-
-
-  private static final String actorLabelQuery  =
-      "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
-      "SELECT Distinct" + SPACE + VAR + EXISTING_AGENT_LABEL + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " . " + "\n" +
-      VAR + EXISTING_ACTOR + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_AGENT_LABEL + " ." + "\n" +
-      VAR + EXISTING_ACTOR + " a" + SPACE + VAR + ACTOR_TYPE + " . \n " +
-      VAR + ACTOR_TYPE + " rdfs:subClassOf" + SPACE + "<" + ACTOR_CLASS + ">" + " . }" ;
-
   //Should work only if participant wasn't selected
-  private final static String n3ForNewActor  =
+    private final static String n3ForNewActor  =
       "@prefix rdfs:" + SPACE + "<" + RDFS + ">" + " ." + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
       VAR + NEW_ACTOR + SPACE + "<" + HAS_ROLE + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
@@ -387,24 +310,13 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
     protected void addExistingActor(EditConfigurationVTwo conf) throws Exception {
         conf.addN3Optional(Arrays.asList(n3ForExistingActor));
         conf.addUrisOnForm(Arrays.asList(EXISTING_ACTOR));
-        conf.addSparqlForExistingUris(EXISTING_ACTOR, existingActorQuery);
         conf.addField( new FieldVTwo().
                 setName(EXISTING_ACTOR).
                 setOptions( new IndividualsViaVClassOptions(
                         ACTOR_CLASS)));
     }
 
-    public static final String existingActorQuery  =
-      "PREFIX rdfs:" + SPACE + "<" + RDFS + ">" + "   " + "\n" +
-      "SELECT" + SPACE + VAR + EXISTING_ACTOR + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + EXISTING_ROLE + " . " + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " . " + "\n" +
-      VAR + EXISTING_ACTOR + SPACE + "<" + HAS_ROLE + ">" + SPACE + VAR + EXISTING_ROLE + " ." + "\n" +
-      VAR + EXISTING_ROLE + SPACE + "<" + IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " ." + "\n" +
-      VAR + EXISTING_ACTOR + " a" + SPACE + VAR + ACTOR_TYPE + " . \n " +
-      VAR + ACTOR_TYPE + " rdfs:subClassOf <" + ACTOR_CLASS + "> . }" ;
-
-  private static final String n3ForExistingActor  =
+    private static final String n3ForExistingActor  =
           "@prefix rdfs:" + SPACE + "<" + RDFS +">" + SPACE + " . \n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . \n" +
       VAR + EXISTING_ACTOR +SPACE + "<" + HAS_ROLE + ">" + SPACE + VAR + NEW_ROLE + " . \n" +
@@ -442,7 +354,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
         conf.addValidator(new DateTimeIntervalValidationVTwo(START_FIELD,END_FIELD));
     }
 
-  private final static String existingStartPrecisionQuery  =
+    private final static String existingStartPrecisionQuery  =
       "SELECT" + SPACE + VAR + EXISTING_START_PRECISION + " WHERE {" + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
@@ -450,14 +362,14 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       VAR + START_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " . " + "\n" +
       VAR + START_NODE + SPACE + "<" + DATE_TIME_PRECISION + ">" + SPACE + VAR + EXISTING_START_PRECISION + " . }";
 
-  private final static String existingEndNodeQuery  =
+    private final static String existingEndNodeQuery  =
       "SELECT" + SPACE + VAR + EXISTING_END_NODE + " WHERE { " + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_END + ">" + SPACE + VAR + EXISTING_END_NODE + " . " + "\n" +
       VAR + EXISTING_END_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " .}";
 
-  private final static String existingEndDateQuery  =
+    private final static String existingEndDateQuery  =
       "SELECT" + SPACE + VAR + EXISTING_END_DATE + " WHERE {" + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
@@ -465,7 +377,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       VAR + END_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
       VAR + END_NODE + SPACE + "<" + DATE_TIME_VALUE + ">" + SPACE + VAR + EXISTING_END_DATE + " . }";
 
-  private final static String existingEndPrecisionQuery  =
+    private final static String existingEndPrecisionQuery  =
       "SELECT" + SPACE + VAR + EXISTING_END_PRECISION + " WHERE {" + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
@@ -473,19 +385,19 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       VAR + END_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " ." + "\n" +
       VAR + END_NODE + SPACE + "<" + DATE_TIME_PRECISION + ">" + SPACE + VAR + EXISTING_END_PRECISION + " . }";
 
-  private final static String existingIntervalNodeQuery  =
+    private final static String existingIntervalNodeQuery  =
       "SELECT" + SPACE + VAR + EXISTING_INTERVAL_NODE + " WHERE {" + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + EXISTING_INTERVAL_NODE + " ." + "\n" +
       VAR + EXISTING_INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " . }";
 
-  private final static String existingStartNodeQuery  =
+    private final static String existingStartNodeQuery  =
       "SELECT" + SPACE + VAR + EXISTING_START_NODE + " WHERE {" + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_START + ">" + SPACE + VAR + EXISTING_START_NODE + " . " + "\n" +
       VAR + EXISTING_START_NODE + SPACE + "<" + TYPE + ">" + SPACE + "<" + DATE_TIME_VALUE_TYPE + ">" + " .}";
 
-  private final static String n3ForStart =
+    private final static String n3ForStart =
       VAR + ACTIVITY_OBJ + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_START + ">" + SPACE + VAR + START_NODE + " ." + "\n" +
@@ -493,7 +405,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       VAR + START_NODE + SPACE + SPACE + "<" + DATE_TIME_VALUE + ">" + SPACE + VAR + START_FIELD_VALUE + "." + "\n" +
       VAR + START_NODE + SPACE + SPACE + "<" + DATE_TIME_PRECISION + ">" + SPACE + VAR + START_FIELD_PRECISION + " .";
 
-  private final static String n3ForEnd =
+    private final static String n3ForEnd =
       VAR + ACTIVITY_OBJ + SPACE + SPACE + "<" + TO_INTERVAL + ">" + SPACE + VAR + INTERVAL_NODE + " . " + "\n" +
       VAR + INTERVAL_NODE + SPACE + SPACE + "<" + TYPE + ">" + SPACE + "<" + INTERVAL_TYPE + ">" + " ." + "\n" +
       VAR + INTERVAL_NODE + SPACE + "<" + INTERVAL_TO_END + ">" + SPACE + VAR + END_NODE + " ." + "\n" +

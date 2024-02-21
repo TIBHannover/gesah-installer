@@ -14,8 +14,10 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 <section id="objectOfProvenance" role="region">
 	<form id="objectOfProvenance" class="customForm noIE67" action="${submitUrl}"  role="add/edit provenance">
 		<@print_provenance_type />
-		<@print_actor />
-		<@print_role_type />
+		<#if !editConfiguration.objectUri?has_content>
+			<@print_actor />
+			<@print_role_type />
+		</#if>
 		<@print_place />
 		<@print_lit_date_appeal />
 		<@print_comment />
