@@ -16,6 +16,7 @@ import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.IndividualsVi
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.AntiXssValidation;
 import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils.EditMode;
 import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.vocabulary.XSD;
 
 public class ActivityRoleGenerator extends AbstractCulturalObjectGenerator implements EditConfigurationGenerator{
@@ -36,6 +37,10 @@ public class ActivityRoleGenerator extends AbstractCulturalObjectGenerator imple
         
         conf.addSparqlForAdditionalLiteralsInScope("isAttribution", isAttributionQuery);
 
+        String returnUrl = vreq.getParameter("returnURL");
+        if (!StringUtils.isBlank(returnUrl)) {
+            conf.setUrlToReturnTo(returnUrl);
+        }
         
         addActivityAttributeType(conf);
         addActivityNewActor(conf);

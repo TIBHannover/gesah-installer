@@ -40,8 +40,8 @@ public class ObjectHasCreationGenerator extends AbstractCulturalObjectGenerator 
         addExistingActor(conf);	
         addStartEndInterval(conf);
         addTechnique(conf);
-        addMaterial(conf);	
-
+        addMaterial(conf);
+        
         conf.addN3Required( Arrays.asList(n3ForNewObCreation) );
         conf.addNewResource(ACTIVITY_OBJ, DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addSparqlForAdditionalUrisInScope(CREATION_HAS_OUTPUT, creationHasOutputQuery);

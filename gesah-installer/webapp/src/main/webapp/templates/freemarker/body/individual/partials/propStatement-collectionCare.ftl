@@ -16,13 +16,8 @@
     <#if statement.preservationLabel??>
         <b>${statement.preservationLabel}</b><br />
     </#if>
-    <#if statement.personName??>
-        <a href="${profileUrl(statement.uri("person"))}">${statement.personName}</a>
-        <#if statement.roleTypeLabels??>
-            (${statement.roleTypeLabels})
-        </#if>
-        <br />
-    </#if>
+   	<#assign isEdit = individual?has_content && individual.showAdminPanel />
+    <@lgv.activityRoles statement.preservationObj profileUrl(individual.getUri()) isEdit />
     <#if statement.treatmentLabels??>
         <b>${i18n().treatment_capitalized}:</b> ${statement.treatmentLabels}<br />
     </#if>

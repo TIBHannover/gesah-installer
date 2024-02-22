@@ -50,22 +50,7 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 		<@print_actor />
 		<@print_role_type />
 		<@print_comment />
-	 <#--
-		<p class="inline">
-            <label for="inscriptionOutputType">${i18n().inscription_output_type_capitalized} ${requiredHint}</label>
-            <#assign inscriptionOutputTypeOpts = editConfiguration.pageData.inscriptionOutputType />
-            <select id="typeSelector" name="inscriptionOutputType">
-                <option value="" selected="selected">${i18n().select_one}</option>
-                <#list inscriptionOutputTypeOpts?keys as key>
-                    <#if inscriptionOutputTypeValue = key>
-                        <option value="${key}"  selected >${inscriptionOutputTypeOpts[key]}</option>
-                    <#else>
-                        <option value="${key}">${inscriptionOutputTypeOpts[key]}</option>
-                    </#if>
-                </#list>
-            </select>
-        </p>
-     -->   
+
         <@formControls />
     </form>
 </section>
