@@ -47,8 +47,11 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
             <label for="transcription">${i18n().transcription}</label>
             <textarea  size="60"  type="text" id="transcription" name="transcription">${transcriptionValue}</textarea>
         </p>
-		<@print_actor />
-		<@print_role_type />
+        <#if !editConfiguration.objectUri?has_content>
+			<@print_actor />
+			<@print_role_type />
+        </#if>
+
 		<@print_comment />
 
         <@formControls />

@@ -1,7 +1,5 @@
 package edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators;
 
-import static edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary.MOST_SPECIFIC_TYPE;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
+import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationUtils;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTwo;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesOptions;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.FieldVTwo;
@@ -16,6 +15,7 @@ import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.IndividualsVi
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.AntiXssValidation;
 import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils.EditMode;
 import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class ObjectOfPreservation extends AbstractCulturalObjectGenerator implements EditConfigurationGenerator {
 	private static final String GESAH_IS_SPECIFICS_OF_MEASURE = GESAH + "is_specifics_of_measure";
@@ -46,10 +46,14 @@ public class ObjectOfPreservation extends AbstractCulturalObjectGenerator implem
         
         addPreservationType(conf);
         addTreatmentSpecifics(conf);
-        addExistingActor(conf);	
-        addNewActor(conf);	
-        addExistingRoleType(conf);
-        addNewActorRole(conf);
+        
+        String objectUri = EditConfigurationUtils.getObjectUri(vreq);
+        if (StringUtils.isBlank(objectUri)) {
+            addExistingActor(conf);	
+            addNewActor(conf);	
+            addExistingRoleType(conf);
+            addNewActorRole(conf);
+        }
 
         addStartEndInterval(conf);
         addLitDateAppeal(conf);

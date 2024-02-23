@@ -31,13 +31,9 @@
 			${i18n().comment_capitalized}: ${statement.comments}
 			<br />
 		</#if>
-		<#if statement.person??>
-			<b>${i18n().person_capitalized}:</b> <a href="${profileUrl(statement.uri("person"))}">${statement.personName}</a>
-			<#if statement.roleTypeLabels??>
-				(${statement.roleTypeLabels})
-			</#if>
-			<br />
-		</#if>
+		<#assign isEdit = individual?has_content && individual.showAdminPanel />
+    	<@lgv.activityRoles statement.objInscriptionActivity profileUrl(individual.getUri()) isEdit />
+		
 		<#-- If user can edit individual, show a link to the context object -->
 		<#if individual?has_content && individual.showAdminPanel>
 			<div class="contextLink"><a href="${profileUrl(statement.uri("objInscriptionActivity"))}">${statement.objInscriptionActivity?keep_after_last("/")}</a></div>

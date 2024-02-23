@@ -9,10 +9,12 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
+import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationUtils;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTwo;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.AntiXssValidation;
 import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils.EditMode;
 import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class ObjectHasEditionGenerator extends AbstractCulturalObjectGenerator implements EditConfigurationGenerator{
 
@@ -33,11 +35,14 @@ public class ObjectHasEditionGenerator extends AbstractCulturalObjectGenerator i
         addExistingPlace(conf);
         addPlace(conf);
         addComment(conf);
-        addAttributeType(conf);
-        addExistingRoleType(conf);
-        addNewActorRole(conf);		
-        addNewActor(conf);	
-        addExistingActor(conf);	
+        String objectUri = EditConfigurationUtils.getObjectUri(vreq);
+        if (StringUtils.isBlank(objectUri)) {
+            addAttributeType(conf);
+            addExistingRoleType(conf);
+            addNewActorRole(conf);		
+            addNewActor(conf);	
+            addExistingActor(conf);	
+        }
         addStartEndInterval(conf);
         addTechnique(conf);
         addMaterial(conf);	

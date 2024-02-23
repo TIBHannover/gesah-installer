@@ -5,7 +5,7 @@
         <p>
             <#--Checking if title field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "title")>
-                ${i18n().enter_title_value}<br />
+                ${i18n().enter_title_value}<br>
             </#if>
         </p>
     </section>

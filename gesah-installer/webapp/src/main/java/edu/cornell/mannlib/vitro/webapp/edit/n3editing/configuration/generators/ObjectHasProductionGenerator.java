@@ -8,10 +8,12 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
+import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationUtils;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTwo;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.AntiXssValidation;
 import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils.EditMode;
 import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class ObjectHasProductionGenerator extends AbstractCulturalObjectGenerator implements EditConfigurationGenerator{
 
@@ -32,11 +34,14 @@ public class ObjectHasProductionGenerator extends AbstractCulturalObjectGenerato
         addExistingPlace(conf);
         addPlace(conf);
         addComment(conf);
-        addAttributeType(conf);
-        addExistingRoleType(conf);
-        addNewActorRole(conf);		
-        addNewActor(conf);	
-        addExistingActor(conf);	
+        String objectUri = EditConfigurationUtils.getObjectUri(vreq);
+        if (StringUtils.isBlank(objectUri)) {
+            addAttributeType(conf);
+            addExistingRoleType(conf);
+            addNewActorRole(conf);		
+            addNewActor(conf);	
+            addExistingActor(conf);	
+        }
         addStartEndInterval(conf);
         addTechnique(conf);
         addMaterial(conf);	
@@ -51,7 +56,7 @@ public class ObjectHasProductionGenerator extends AbstractCulturalObjectGenerato
 
 	private final static String n3ForNewObProduction =
         "?cultObject" + " " + "<" + GESAH + "output_of_production> " + " " + VAR + ACTIVITY_OBJ + " .\n" +
-        VAR + ACTIVITY_OBJ + "  a " + "<" + GESAH + "Production> ; \n" +
+        VAR + ACTIVITY_OBJ + "  a " + "<" + GESAH + "Production> . \n" +
         VAR + ACTIVITY_OBJ +" " + "<" + GESAH + "has_production_output> ?cultObject .";
 
     //Query for inverse property

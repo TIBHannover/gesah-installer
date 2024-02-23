@@ -11,27 +11,31 @@
             
             <#--Checking if Person field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "newAgent")>
-                ${i18n().select_a_participant}
+                ${i18n().select_a_participant}<br>
             </#if>
             <#--Checking if Agent Name field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "agentLabel")>
-                ${i18n().select_a_participant}
+                ${i18n().select_a_participant}<br>
             </#if>
             <#--Checking if Agent Type field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "agentType")>
-                ${i18n().select_participant_type}
+                ${i18n().select_participant_type}<br>
             </#if>
 			<#--Checking if Inscription Output Type field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "inscriptionOutputType")>
-                ${i18n().select_inscription_output_type}
+                ${i18n().select_inscription_output_type}<br>
             </#if>
             <#--Checking if Inscription Type field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "newInscType")>
-                ${i18n().select_inscription_type_value}<br />
+                ${i18n().select_inscription_type_value}<br>
             </#if>
             <#--Checking if Role Type field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "newRoleType")>
-                ${i18n().select_role_type_value}<br />
+                ${i18n().select_role_type_value}<br>
+            </#if>
+            <#--Checking if Role Type field is empty-->
+            <#if lvf.submissionErrorExists(editSubmission, "existingRoleType")>
+                ${i18n().select_role_type_value}<br>
             </#if>
             
 

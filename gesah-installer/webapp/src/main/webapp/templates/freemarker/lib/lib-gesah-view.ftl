@@ -168,7 +168,7 @@
 </#macro>
 
 <#macro activityRoles activityUri pageUri isEdit>
-	<@dataGetter uri = "http://gesah-short-view#Roles" var = "roles" parameters = {"activity": activityUri } />
+	<@dataGetter uri = "http://gesah-short-view#ActivityRoles" var = "roles" parameters = {"activity": activityUri } />
 	<#if isEdit>
     	Add role <@p.showAddLink 'role' 'Role' getAddUrl(activityUri, prop_uri, pageUri) '' ''/>
     </#if>
@@ -240,7 +240,7 @@
 </#macro>
 
 <#macro shortDescription co >
-	<@dataGetter uri = "http://gesah-short-view#Roles" parameters = {"cultural_object": co} />
+	<@dataGetter uri = "http://gesah-short-view#CulturalObjectRoles" parameters = {"cultural_object": co} />
 	<#if roles?has_content>
 		<#assign activity = '' /> 
 		<#list roles as role>

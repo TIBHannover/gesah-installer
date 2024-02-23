@@ -12,54 +12,57 @@
             <#list submissionErrors?keys as errorFieldName>
                 <#if errorFieldName == "startField">
                     <#if submissionErrors[errorFieldName]?contains("before")>
-                        ${i18n().start_year_must_precede_end}
+                        ${i18n().start_year_must_precede_end}<br>
                     <#else>
-                        ${submissionErrors[errorFieldName]}
+                        ${submissionErrors[errorFieldName]}<br>
                     </#if>
-                    <br />
                 <#elseif errorFieldName == "endField">
                     <#if submissionErrors[errorFieldName]?contains("after")>
-                        ${i18n().end_year_must_be_later}
+                        ${i18n().end_year_must_be_later}<br>
                     <#else>
-                        ${submissionErrors[errorFieldName]}
+                        ${submissionErrors[errorFieldName]}<br>
                     </#if>
                 </#if>
             </#list>
             <#--Checking if Agent field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "newAgent")>
-                ${i18n().select_a_participant}
+                ${i18n().select_a_participant}<br>
             </#if>
             <#--Checking if Agent Name field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "agentLabel")>
-                ${i18n().select_a_participant}
+                ${i18n().select_a_participant}<br>
             </#if>
             <#--Checking if Agent Type field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "agentType")>
-                ${i18n().select_participant_type}
+                ${i18n().select_participant_type}<br>
             </#if>
             <#--Checking if Attribution Type field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "newAttrType")>
-                ${i18n().select_attribution_type_value}<br />
+                ${i18n().select_attribution_type_value}<br>
             </#if>
             <#--Checking if Technique field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "newTechnique")>
-                ${i18n().select_technique_value}<br />
+                ${i18n().select_technique_value}<br>
             </#if>
             <#--Checking if Material field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "newMaterial")>
-                ${i18n().select_material_value}<br />
+                ${i18n().select_material_value}<br>
             </#if>
             <#--Checking if Role Type field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "newRoleType")>
-                ${i18n().select_role_type_value}<br />
+                ${i18n().select_role_type_value}<br>
+            </#if>
+            <#--Checking if Role Type field is empty-->
+            <#if lvf.submissionErrorExists(editSubmission, "existingRoleType")>
+                ${i18n().select_role_type_value}<br>
             </#if>
             <#--Checking if Place field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "newPlace")>
-                ${i18n().select_a_place}
+                ${i18n().select_a_place}<br>
             </#if>
             <#--Checking if Place Name field is empty-->
             <#if lvf.submissionErrorExists(editSubmission, "placeLabel")>
-                ${i18n().select_a_place}
+                ${i18n().select_a_place}<br>
             </#if>
 
         </p>

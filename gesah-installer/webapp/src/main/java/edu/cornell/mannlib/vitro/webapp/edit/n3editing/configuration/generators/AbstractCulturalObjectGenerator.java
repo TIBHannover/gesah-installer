@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.apache.jena.vocabulary.XSD;
 
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
+import edu.cornell.mannlib.vitro.webapp.edit.n3editing.AutocompleteRequiredInputValidator;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.DateTimeIntervalValidationVTwo;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.DateTimeWithPrecisionVTwo;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTwo;
@@ -252,10 +253,10 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
     protected void addExistingRoleType(EditConfigurationVTwo conf) throws Exception {
         conf.addN3Optional(Arrays.asList(n3ForExistingRoleType));
         conf.addUrisOnForm( Arrays.asList( EXISTING_ROLE_TYPE ));
-        conf.addField( new FieldVTwo().
-                setName(EXISTING_ROLE_TYPE).
-                setOptions( new IndividualsViaVClassOptions(
-                        ROLE_TYPE_CLASS)));
+        conf.addField( new FieldVTwo()
+                .setName(EXISTING_ROLE_TYPE)
+                .setValidators(list(DATATYPE + XSD.xstring.toString(),NONEMPTY))
+                .setOptions(new IndividualsViaVClassOptions(ROLE_TYPE_CLASS)));
     }
 
     private final static String n3ForExistingRoleType =
@@ -289,11 +290,12 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
         conf.addUrisOnForm(Arrays.asList(ACTOR_TYPE));
         conf.addLiteralsOnForm(Arrays.asList(ACTOR_LABEL));
         conf.addLiteralsOnForm(Arrays.asList(ACTOR_LABEL_DISPLAY));
-        conf.addField(new FieldVTwo().setName(ACTOR_TYPE).setValidators(list(DATATYPE + XSD.xstring.toString()))
+        conf.addField(new FieldVTwo().setName(ACTOR_TYPE).setValidators(list(DATATYPE + XSD.xstring.toString(),NONEMPTY))
                 .setOptions(new ChildVClassesOptions(ACTOR_CLASS)));
         conf.addField(new FieldVTwo().setName(ACTOR_LABEL).setRangeDatatypeUri(XSD.xstring.toString())
                 .setValidators(list(DATATYPE + XSD.xstring.toString())));
         conf.addField(new FieldVTwo().setName(ACTOR_LABEL_DISPLAY).setRangeDatatypeUri(XSD.xstring.toString()));
+        conf.addValidator(new AutocompleteRequiredInputValidator(EXISTING_ACTOR, ACTOR_LABEL));
     }
 
   //Should work only if participant wasn't selected
@@ -435,7 +437,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
         conf.addSparqlForExistingUris(EXISTING_TECHNIQUE, existingTechniqueQuery);
         conf.addField( new FieldVTwo().
             setName(EXISTING_TECHNIQUE).
-            //setValidators( list("nonempty")).
+            //setValidators( list(NONEMPTY)).
             setOptions( new IndividualsViaVClassOptions(
                     TECHNIQUE_TYPE_CLASS)));
     }
@@ -470,7 +472,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
         conf.addSparqlForExistingLiteral(MATERIAL_LABEL, existingMaterialLabelQuery);
         conf.addField( new FieldVTwo().
             setName(EXISTING_MATERIAL).
-            //setValidators( list("nonempty")).
+            //setValidators( list(NONEMPTY)).
             setOptions( new IndividualsViaVClassOptions(
                     MATERIAL_TYPE_CLASS)));
         conf.addLiteralsOnForm( Arrays.asList(MATERIAL_LABEL));

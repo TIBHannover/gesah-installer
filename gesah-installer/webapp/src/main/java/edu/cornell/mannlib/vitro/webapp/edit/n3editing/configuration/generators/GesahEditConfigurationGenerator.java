@@ -1,16 +1,14 @@
 package edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators;
 
+import java.util.HashMap;
+
+import javax.servlet.http.HttpSession;
+
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
 import edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationUtils;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTwo;
 import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils;
-
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public abstract class GesahEditConfigurationGenerator extends BaseEditConfigurationGenerator implements EditConfigurationGenerator  {
   	protected final static String VIVO_CORE = "http://vivoweb.org/ontology/core#";
