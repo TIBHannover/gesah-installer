@@ -160,6 +160,7 @@
 </#macro>
 
 <#macro activityRoles activityUri isEdit>
+	<#assign prop_uri = 'http://ontology.tib.eu/gesah/realizes' />
 	<@dataGetter uri = "http://gesah-short-view#ActivityRoles" var = "roles" parameters = {"activity": activityUri } />
 	<#if isEdit>
     	Add role <@p.showAddLink 'role' 'Role' getAddUrl(activityUri, prop_uri) '' ''/>
@@ -182,7 +183,6 @@
 </#macro>
 
 <#macro activityDescription activityUri>
-	<#assign prop_uri = 'http://ontology.tib.eu/gesah/realizes' />
 	<#assign isEdit = individual?has_content && individual.showAdminPanel />
 	<div class="listViewCard">
 		<@activityRoles activityUri isEdit />
