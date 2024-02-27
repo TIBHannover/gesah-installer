@@ -17,7 +17,7 @@
         <b>${statement.preservationLabel}</b><br />
     </#if>
    	<#assign isEdit = individual?has_content && individual.showAdminPanel />
-    <@lgv.activityRoles statement.preservationObj profileUrl(individual.getUri()) isEdit />
+    <@lgv.activityRoles statement.preservationObj isEdit />
     <#if statement.treatmentLabels??>
         <b>${i18n().treatment_capitalized}:</b> ${statement.treatmentLabels}<br />
     </#if>

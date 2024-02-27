@@ -124,53 +124,45 @@
 	</#if>
 </#macro>
 
-<#function getAddUrl subjectUri predicateUri returnURL='' >
+<#function getAddUrl subjectUri predicateUri>
 	<#return 
 	urls.base + 
 	"/editRequestDispatch?subjectUri=" + subjectUri + 
 	"&predicateUri=" + predicateUri + 
-	"&returnURL=" + returnURL /> 
+	"&returnURL=" + urls.requestUrl /> 
 </#function>
 
-<#function getDeletePropertyUrl subjectUri predicateUri objectUri redirectUrl=''>
-	<#return 
-	urls.base + 
-	"/editRequestDispatch" + 
-	"?subjectUri=" + subjectUri + 
-	"?predicateUri=" + predicateUri +
-	"?objectUri=" + objectUri + 
-	"&cmd=delete&objectKey=object" /> 
-</#function>
-
-<#function getDeleteIndividualUrl objectUri individualName redirectUrl=''>
+<#function getDeleteIndividualUrl objectUri individualName>
 	<#return 
 		urls.base + 
 		"/editRequestDispatch" + 
 		"?objectUri=" + objectUri + 
 		"&individualName=" + individualName +
 		"&cmd=delete&objectKey=object" + 
-		"&redirectUrl=" + redirectUrl?keep_after("/")?keep_after("/")
+		"&redirectUrl=" + urls.requestUrl
 	 /> 
 </#function>
 
-<#function getEditUrl subjectUri predicateUri objectUri returnURL=''>
+<#function getEditUrl subjectUri predicateUri objectUri>
 	<#return 
 	urls.base + 
 	"/editRequestDispatch" + 
 	"?subjectUri=" + subjectUri + 
 	"&predicateUri=" + predicateUri +
 	"&objectUri=" + objectUri + 
-	"&returnURL=" + returnURL /> 
+	"&returnURL=" + urls.requestUrl /> 
 </#function>
 
 <#macro showActivityDescription statement>
-	<@activityDescription statement.activity profileUrl(individual.getUri()) />
+    <#if individual?has_content>
+		<@activityDescription statement.activity />
+	</#if>
 </#macro>
 
-<#macro activityRoles activityUri pageUri isEdit>
+<#macro activityRoles activityUri isEdit>
 	<@dataGetter uri = "http://gesah-short-view#ActivityRoles" var = "roles" parameters = {"activity": activityUri } />
 	<#if isEdit>
-    	Add role <@p.showAddLink 'role' 'Role' getAddUrl(activityUri, prop_uri, pageUri) '' ''/>
+    	Add role <@p.showAddLink 'role' 'Role' getAddUrl(activityUri, prop_uri) '' ''/>
     </#if>
 	<#if roles?has_content>
 		<#list roles as role>
@@ -181,19 +173,19 @@
 			    	<span class="titleTypeListItem">${role.attribution_label}</span>
 			    </#if>
 			    <#if isEdit>
-				    <@p.showEditLink 'role' '' getEditUrl(activityUri, prop_uri, role.role, pageUri) />
-	                <@p.showDeleteLink 'role' '' getDeleteIndividualUrl(role.role, "Role of " + role.agent_label, pageUri) />
+				    <@p.showEditLink 'role' '' getEditUrl(activityUri, prop_uri, role.role) />
+	                <@p.showDeleteLink 'role' '' getDeleteIndividualUrl(role.role, "Role of " + role.agent_label) />
                 </#if>
 			</p>
 		</#list>
 	</#if>
 </#macro>
 
-<#macro activityDescription activityUri pageUri>
+<#macro activityDescription activityUri>
 	<#assign prop_uri = 'http://ontology.tib.eu/gesah/realizes' />
 	<#assign isEdit = individual?has_content && individual.showAdminPanel />
 	<div class="listViewCard">
-		<@activityRoles activityUri pageUri isEdit />
+		<@activityRoles activityUri isEdit />
 		<@placesAndDates activityUri/>
 		<@dataGetter uri = "http://gesah-short-view#TechniquesMaterials" parameters = {"_participation": activityUri} />
 		<#if techniques_materials?has_content>

@@ -32,7 +32,7 @@
 			<br />
 		</#if>
 		<#assign isEdit = individual?has_content && individual.showAdminPanel />
-    	<@lgv.activityRoles statement.objInscriptionActivity profileUrl(individual.getUri()) isEdit />
+    	<@lgv.activityRoles statement.objInscriptionActivity isEdit />
 		
 		<#-- If user can edit individual, show a link to the context object -->
 		<#if individual?has_content && individual.showAdminPanel>

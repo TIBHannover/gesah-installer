@@ -17,7 +17,7 @@
         <b>${statement.provenanceLabel}</b><br />
     </#if>
    	<#assign isEdit = individual?has_content && individual.showAdminPanel />
-    <@lgv.activityRoles statement.provenanceObj profileUrl(individual.getUri()) isEdit />
+    <@lgv.activityRoles statement.provenanceObj isEdit />
     
     <#assign place_printed = false />
 	<#if statement.placeObj??>
