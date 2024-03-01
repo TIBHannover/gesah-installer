@@ -106,7 +106,7 @@
         </xsl:template>
 
         <xsl:template name="isil-id">
-            <xsl:value-of select="concat('ld.zdb-services.de/resource/organisations/', text())" />
+            <xsl:value-of select="concat('http://ld.zdb-services.de/resource/organisations/', text())" />
         </xsl:template>
 
         <xsl:template name="event-date">
