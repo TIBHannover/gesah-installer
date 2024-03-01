@@ -1654,7 +1654,7 @@
                 <xsl:variable name="cultural_object" select="current()" />
                 
                 <lido:lidoRecID
-                    lido:type="http://terminology.lido-schema.org/lido00099"
+                    lido:type="http://terminology.lido-schema.org/lido00100"
                     lido:source="http://ld.zdb-services.de/resource/organisations/DE-89"
                 ><xsl:value-of select="concat('DE-89/sah/lido/' , tokenize($uri,'/')[last()])" /></lido:lidoRecID>
 
