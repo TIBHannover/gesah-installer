@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- $This file is distributed under the terms of the license in LICENSE$ -->
+
+<list-view-config>
+	<query-select>
+        PREFIX gesah: &lt;http://ontology.tib.eu/gesah/&gt;
+        PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+        SELECT ?object ?role_type_label ?agent ?agent_label ?attribution_label
+        WHERE {
+            ?subject ?property ?object .
+            OPTIONAL { 
+            	?object gesah:has_role_type ?role_type .
+            	?role_type rdfs:label ?role_type_label .
+            }
+            OPTIONAL { 
+            	?object gesah:is_role_of ?agent .
+            	?agent rdfs:label ?agent_label .
+            }
+            OPTIONAL { 
+            	?object gesah:has_type_of_attribution ?attribution .
+            	?attribution rdfs:label ?attribution_label .
+            }
+            
+        } ORDER BY ?object
+	 </query-select>
+	<template>propStatement-realizes.ftl</template>
+</list-view-config>

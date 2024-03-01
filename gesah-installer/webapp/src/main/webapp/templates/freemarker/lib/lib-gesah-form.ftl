@@ -52,32 +52,33 @@
 <#macro print_attribution_type>
 	<#assign existingAttrTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingAttrType") />
 
-    <div class="entry">
-        <label for="attributionType">${i18n().attribution_type} </label>
-        <#assign existingAttrTypeOpts = editConfiguration.pageData.existingAttrType />
-        <select name="existingAttrType" style="margin-top:-2px" >
-            <option value="" <#if existingAttrTypeValue == "">selected</#if>>${i18n().select_one}</option>
-            <#list existingAttrTypeOpts?keys as key>
-                <option value="${key}"  <#if existingAttrTypeValue == key>selected</#if>><#if existingAttrTypeOpts[key] == "Other">${i18n().or_other}<#else>${existingAttrTypeOpts[key]}</#if></option>
-            </#list>
-        </select>
-		<input type="hidden" id="attributionTypeLabel" name="attributionTypeLabel" value=""/>
-	</div>
+	    <div class="entry">
+	        <label for="attributionType">${i18n().attribution_type} </label>
+	        <#assign existingAttrTypeOpts = editConfiguration.pageData.existingAttrType />
+	        <select name="existingAttrType" style="margin-top:-2px" >
+	            <option value="" <#if existingAttrTypeValue == "">selected</#if>>${i18n().select_one}</option>
+	            <#list existingAttrTypeOpts?keys as key>
+	                <option value="${key}"  <#if existingAttrTypeValue == key>selected</#if>><#if existingAttrTypeOpts[key] == "Other">${i18n().or_other}<#else>${existingAttrTypeOpts[key]}</#if></option>
+	            </#list>
+	        </select>
+			<input type="hidden" id="attributionTypeLabel" name="attributionTypeLabel" value=""/>
+		</div>
 </#macro>
 
 <#macro print_role_type>
 	<#assign existingRoleTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingRoleType") />
-    <div class="entry">
-        <label for="roleType">${i18n().role_type} </label>
-        <#assign existingRoleTypeOpts = editConfiguration.pageData.existingRoleType />
-        <select name="existingRoleType" style="margin-top:-2px" >
-            <option value="" <#if existingRoleTypeValue == "">selected</#if>>${i18n().select_one}</option>
-            <#list existingRoleTypeOpts?keys as key>
-                <option value="${key}"  <#if existingRoleTypeValue == key>selected</#if>><#if existingRoleTypeOpts[key] == "Other">${i18n().or_other}<#else>${existingRoleTypeOpts[key]}</#if></option>
-            </#list>
-        </select>
-        <input type="hidden" id="roleTypeLabel" name="roleTypeLabel" value=""/>
-    </div>
+	
+	    <div class="entry">
+	        <label for="roleType">${i18n().role_type} ${requiredHint}</label>
+	        <#assign existingRoleTypeOpts = editConfiguration.pageData.existingRoleType />
+	        <select name="existingRoleType" style="margin-top:-2px" >
+	            <option value="" <#if existingRoleTypeValue == "">selected</#if>>${i18n().select_one}</option>
+	            <#list existingRoleTypeOpts?keys as key>
+	                <option value="${key}"  <#if existingRoleTypeValue == key>selected</#if>><#if existingRoleTypeOpts[key] == "Other">${i18n().or_other}<#else>${existingRoleTypeOpts[key]}</#if></option>
+	            </#list>
+	        </select>
+	        <input type="hidden" id="roleTypeLabel" name="roleTypeLabel" value=""/>
+	    </div>
 </#macro>
 
 
@@ -149,13 +150,13 @@
 </#macro>
 
 <#macro print_actor>
-		<#assign agentTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType")/>
-		<#assign agentLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentLabel") />
-		<#assign agentLabelDisplayValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentLabelDisplay") />
-		<#assign existingAgentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingAgent") />
-
+	<#assign agentTypeValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentType")/>
+	<#assign agentLabelValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentLabel") />
+	<#assign agentLabelDisplayValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "agentLabelDisplay") />
+	<#assign existingAgentValue = lvf.getFormFieldValue(editSubmission, editConfiguration, "existingAgent") />
+	
 		<p class="inline">
-            <label for="agentType">${i18n().agent_type_capitalized}</label>
+            <label for="agentType">${i18n().agent_type_capitalized} ${requiredHint}</label>
             <#assign agentTypeOpts = editConfiguration.pageData.agentType />
             <select id="typeSelector" name="agentType" acGroupName="agent">
                 <option value="" selected="selected">${i18n().select_one}</option>
@@ -169,7 +170,7 @@
             </select>
         </p>
         <p>
-            <label for="relatedIndLabel">${i18n().agent_capitalized} ${i18n().name_capitalized}</label>
+            <label for="relatedIndLabel">${i18n().agent_capitalized} ${i18n().name_capitalized} ${requiredHint}</label>
             <input class="acSelector" size="50"  type="text" id="relatedIndLabel" name="agentLabel" acGroupName="agent" value="${agentLabelValue}"  />
             <input class="display" type="hidden" id="agentDisplay" acGroupName="agent" name="agentLabelDisplay" value="${agentLabelDisplayValue}">
         </p>
@@ -182,6 +183,7 @@
             </p>
             <input class="acUriReceiver" type="hidden" id="agentUri" name="existingAgent" value="${existingAgentValue}" ${flagClearLabelForExisting}="true" />
         </div>
+        
 </#macro>
 
 <#macro print_place>

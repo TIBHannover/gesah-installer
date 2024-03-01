@@ -16,13 +16,8 @@
     <#if statement.provenanceLabel??>
         <b>${statement.provenanceLabel}</b><br />
     </#if>
-    <#if statement.personName??>
-        <a href="${profileUrl(statement.uri("person"))}">${statement.personName}</a>
-        <#if statement.roleTypeLabels??>
-            (${statement.roleTypeLabels})
-        </#if>
-        <br />
-    </#if>
+   	<#assign isEdit = individual?has_content && individual.showAdminPanel />
+    <@lgv.activityRoles statement.provenanceObj isEdit />
     
     <#assign place_printed = false />
 	<#if statement.placeObj??>

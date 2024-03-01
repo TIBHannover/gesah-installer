@@ -7,9 +7,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.vocabulary.XSD;
 
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
+import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationUtils;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTwo;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesOptions;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.FieldVTwo;
@@ -67,11 +69,14 @@ public class ObjectHasInscriptionGenerator extends AbstractCulturalObjectGenerat
         conf.addN3Optional(Arrays.asList(n3ForInscriptionOutputType));
         conf.addSparqlForAdditionalUrisInScope("hasInscriptionObject", hasInscriptionObjectQuery);
 
-		addNewActor(conf);
-		addNewActorRole(conf);
-        addExistingActor(conf);
+        String objectUri = EditConfigurationUtils.getObjectUri(vreq);
+        if (StringUtils.isBlank(objectUri)) {        
+    		addNewActor(conf);
+    		addNewActorRole(conf);
+            addExistingActor(conf);
+            addExistingRoleType(conf);
+        }
         addComment(conf);
-        addExistingRoleType(conf);
         addTranscription(conf);
         addInscriptionSpecification(conf);
         addInscriptionOutputType(conf);

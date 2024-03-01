@@ -1,9 +1,6 @@
 /* $This file is distributed under the terms of the license in LICENSE$ */
 package edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.generators;
 
-
-import static edu.cornell.mannlib.vitro.webapp.dao.VitroVocabulary.MOST_SPECIFIC_TYPE;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,12 +8,14 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import edu.cornell.mannlib.vitro.webapp.controller.VitroRequest;
+import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationUtils;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.EditConfigurationVTwo;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.ChildVClassesOptions;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.VTwo.fields.FieldVTwo;
 import edu.cornell.mannlib.vitro.webapp.edit.n3editing.configuration.validators.AntiXssValidation;
 import edu.cornell.mannlib.vitro.webapp.utils.FrontEndEditingUtils.EditMode;
 import edu.cornell.mannlib.vitro.webapp.utils.generators.EditModeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class ObjectOfProvenance extends AbstractCulturalObjectGenerator implements EditConfigurationGenerator {
 	private static final String GESAH_HAS_PROVENANCE_OBJECT = GESAH + "has_provenance_object";
@@ -41,10 +40,14 @@ public class ObjectOfProvenance extends AbstractCulturalObjectGenerator implemen
         conf.addValidator(new AntiXssValidation());
         
         addProvinenceType(conf);
-        addExistingActor(conf);	
-        addNewActor(conf);	
-        addExistingRoleType(conf);
-        addNewActorRole(conf);
+        
+        String objectUri = EditConfigurationUtils.getObjectUri(vreq);
+        if (StringUtils.isBlank(objectUri)) {
+            addExistingActor(conf);	
+            addNewActor(conf);	
+            addExistingRoleType(conf);
+            addNewActorRole(conf);
+        }
 
         addStartEndInterval(conf);
         addLitDateAppeal(conf);
@@ -88,9 +91,6 @@ public class ObjectOfProvenance extends AbstractCulturalObjectGenerator implemen
         VAR + ACTIVITY_OBJ + " a " + VAR + PROVENANCE_CURRENT_TYPE + " . \n" +
         VAR + ACTIVITY_OBJ + " <" + GESAH_HAS_PROVENANCE_OBJECT + "> " +  VAR + CULT_OBJECT + " .";
 		
-    //VAR + ACTIVITY_OBJ + " <" + GESAH_REALIZES + "> " + VAR + NEW_ACTOR_ROLE + " . \n" +
-    //VAR + NEW_ACTOR_ROLE + " <" + GESAH_REALIZED_IN + "> " + VAR + ACTIVITY_OBJ + " . \n" +
-  
     @Override
 	protected EditMode getEditMode(EditConfigurationVTwo editConf, VitroRequest vreq) {
 		List<String> predicates = new ArrayList<String>();

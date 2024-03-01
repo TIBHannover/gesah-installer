@@ -1,3 +1,4 @@
+<#import "lib-properties.ftl" as p>
 
 <#assign iiifSlash="%5E" /> 
 <#assign height = "200" />
@@ -84,52 +85,6 @@
   </div>
 </#macro>
 
-<#--  start new marco -->
-<#macro printParticipations individual>
-	<@dataGetter uri = "http://gesah-short-view#Participants" var = "parts" parameters = {"cultural_object": individual.uri} />
-	<#if parts?has_content>
-		<#list parts as participant>
-			<p><a href="${profileUrl(participant.uri)}">${participant.label}</a>
-				<@dataGetter uri = "http://gesah-short-view#Attributions" parameters = {"cultural_object": individual.uri, "participant": participant.uri} />
-				<#if attributions?has_content>
-					<#list attributions as attribution>
-					    <@dataGetter uri = "http://gesah-short-view#Roles" parameters = {"cultural_object": individual.uri, "participant": participant.uri , "attribution": attribution.uri} />
-					    <br>
-					    <@printRoles roles />
-						<span class="titleTypeListItemInv">${attribution.label}</span>
-						<@dataGetter uri = "http://gesah-short-view#PlacesDates" parameters = {"cultural_object": individual.uri, "participant": participant.uri , "attribution": attribution.uri} />
-						<#if place_dates?has_content>
-							<#list place_dates as place_date>
-								<@printPlaceAndDate place_date />
-							</#list>
-						</#if>
-					</#list>
-				</#if>
-				<@dataGetter uri = "http://gesah-short-view#RolesNoAttribution" parameters = { "cultural_object": individual.uri, "participant": participant.uri} />
-			    <@printRoles roles />
-				<@dataGetter uri = "http://gesah-short-view#PlacesDatesNoAttribution" parameters = { "cultural_object": individual.uri, "participant": participant.uri} />
-				<#if place_dates?has_content>
-					<#list place_dates as place_date>
-						<@printPlaceAndDate place_date />
-					</#list>
-				</#if>
-			</p>
-		</#list>
-		<@dataGetter uri = "http://gesah-short-view#TechniquesMaterials" parameters = {"cultural_object": individual.uri} />
-		<#if techniques_materials?has_content>
-		    <#assign previousParticipation = "" />
-		    <#assign previousMaterial = "" />
-			<#list techniques_materials as technique_on_material>
-				<#if previousParticipation != technique_on_material.participation || previousMaterial != technique_on_material.material_label>
-					<p> <@printTechniques technique_on_material.participation technique_on_material.material_label techniques_materials /> ${i18n().gesah_made_on} ${technique_on_material.material_label}</p>
-					<#assign previousParticipation = technique_on_material.participation />
-					<#assign previousMaterial = technique_on_material.material_label />
-				</#if>
-			</#list>
-		</#if>
-	</#if>
-</#macro>
-
 <#macro printTechniques participation material techniques_materials>
     <#assign techniquesStarted = false />
 	<#list techniques_materials as technique_on_material>
@@ -143,99 +98,108 @@
 	</#list>
 </#macro>
 
-<#macro printRoles roles>
-	<#if roles?has_content>
-	    <#assign rolesStarted = false />
-	    (<#rt>
-	    <#list roles as role>
-	    	<#if rolesStarted>
-				,<#lt>
-		    <#else>
-		    	<#assign rolesStarted = true />
-		    </#if>
-	    	<#lt>${role.label}<#rt>
-	    </#list>
-	    )<#lt>
-	</#if>
-</#macro>
-
 <#macro printPlaceAndDate place_date>
 	<#assign place_printed = false />
 	<#if place_date.place?has_content && place_date.place_label?has_content>
-	    <br><a href="${profileUrl(place_date.place)}">${place_date.place_label}</a><#rt>
+	    <a href="${profileUrl(place_date.place)}">${place_date.place_label}</a><#rt>
 		<#assign place_printed = true />
 	</#if>
 	<#if place_date.literalDate?has_content>
 		<#if place_printed>
 	        ,<#lt>
-        <#else>
-			<br>
 		</#if>
 	    ${place_date.literalDate}
 	<#elseif place_date.yearEnd?has_content>
 		<#if place_date.yearStart?has_content && ( place_date.yearStart != place_date.yearEnd ) >
 			<#if place_printed>
 	            ,<#lt>
-            <#else>
-				<br>
 			</#if>
 	        ${place_date.yearStart} - ${place_date.yearEnd}
 		<#else>
 			<#if place_printed>
 	        	,<#lt>
-            <#else>
-				<br>
 			</#if>
 	        ${place_date.yearEnd}
 		</#if>
 	</#if>
 </#macro>
 
+<#function getAddUrl subjectUri predicateUri>
+	<#return 
+	urls.base + 
+	"/editRequestDispatch?subjectUri=" + subjectUri + 
+	"&predicateUri=" + predicateUri + 
+	"&returnURL=" + urls.requestUrl /> 
+</#function>
+
+<#function getDeleteIndividualUrl objectUri individualName>
+	<#return 
+		urls.base + 
+		"/editRequestDispatch" + 
+		"?objectUri=" + objectUri + 
+		"&individualName=" + individualName +
+		"&cmd=delete&objectKey=object" + 
+		"&redirectUrl=" + urls.requestUrl
+	 /> 
+</#function>
+
+<#function getEditUrl subjectUri predicateUri objectUri>
+	<#return 
+	urls.base + 
+	"/editRequestDispatch" + 
+	"?subjectUri=" + subjectUri + 
+	"&predicateUri=" + predicateUri +
+	"&objectUri=" + objectUri + 
+	"&returnURL=" + urls.requestUrl /> 
+</#function>
+
 <#macro showActivityDescription statement>
+    <#if individual?has_content>
+		<@activityDescription statement.activity />
+	</#if>
+</#macro>
+
+<#macro activityRoles activityUri isEdit>
+	<#assign prop_uri = 'http://ontology.tib.eu/gesah/realizes' />
+	<@dataGetter uri = "http://gesah-short-view#ActivityRoles" var = "roles" parameters = {"activity": activityUri } />
+	<#if isEdit>
+    	Add role <@p.showAddLink 'role' 'Role' getAddUrl(activityUri, prop_uri) '' ''/>
+    </#if>
+	<#if roles?has_content>
+		<#list roles as role>
+			<p>
+				<a href="${profileUrl(role.agent)}">${role.agent_label}</a><br>
+			    (${role.role_type_label!'no role'}) 
+			    <#if role.attribution_label?has_content>
+			    	<span class="titleTypeListItem">${role.attribution_label}</span>
+			    </#if>
+			    <#if isEdit>
+				    <@p.showEditLink 'role' '' getEditUrl(activityUri, prop_uri, role.role) />
+	                <@p.showDeleteLink 'role' '' getDeleteIndividualUrl(role.role, "Role of " + role.agent_label) />
+                </#if>
+			</p>
+		</#list>
+	</#if>
+</#macro>
+
+<#macro activityDescription activityUri>
+	<#assign isEdit = individual?has_content && individual.showAdminPanel />
 	<div class="listViewCard">
-		<@dataGetter uri = "http://gesah-short-view#Participants" var = "participants" parameters = {"participation": statement.activity } />
-		<#if participants?has_content>
-			<#list participants as participant>
-				<p><a href="${profileUrl(participant.uri)}">${participant.label}</a>
-					<@dataGetter uri = "http://gesah-short-view#Attributions" parameters = {"participation": statement.activity, "participant": participant.uri} />
-					<#if attributions?has_content>
-						<#list attributions as attribution>
-						    <@dataGetter uri = "http://gesah-short-view#Roles" parameters = {"participation": statement.activity, "participant": participant.uri , "attribution": attribution.uri} />
-						    <br>
-						    <@printRoles roles />
-							<span class="titleTypeListItem">${attribution.label}</span>
-							<@dataGetter uri = "http://gesah-short-view#PlacesDates" parameters = {"participation": statement.activity, "participant": participant.uri , "attribution": attribution.uri} />
-							<#if place_dates?has_content>
-								<#list place_dates as place_date>
-									<@printPlaceAndDate place_date />
-								</#list>
-							</#if>
-						</#list>
-					</#if>
-					<@dataGetter uri = "http://gesah-short-view#RolesNoAttribution" parameters = {"participation": statement.activity, "participant": participant.uri} />
-				    <@printRoles roles />
-					<@dataGetter uri = "http://gesah-short-view#PlacesDatesNoAttribution" parameters = {"participation": statement.activity, "participant": participant.uri} />
-					<#if place_dates?has_content>
-						<#list place_dates as place_date>
-							<@printPlaceAndDate place_date />
-						</#list>
-					</#if>
-				</p>
+		<@activityRoles activityUri isEdit />
+		<@placesAndDates activityUri/>
+		<@dataGetter uri = "http://gesah-short-view#TechniquesMaterials" parameters = {"_participation": activityUri} />
+		<#if techniques_materials?has_content>
+		    <#assign previousParticipation = "" />
+		    <#assign previousMaterial = "" />
+			<#list techniques_materials as technique_on_material>
+				<#if previousParticipation != technique_on_material.participation || previousMaterial != technique_on_material.material_label>
+					<p> <@printTechniques technique_on_material.participation technique_on_material.material_label techniques_materials /> ${i18n().gesah_made_on} ${technique_on_material.material_label}</p>
+					<#assign previousParticipation = technique_on_material.participation />
+					<#assign previousMaterial = technique_on_material.material_label />
+				</#if>
 			</#list>
-			<@dataGetter uri = "http://gesah-short-view#TechniquesMaterials" parameters = {"_participation": statement.activity} />
-			<#if techniques_materials?has_content>
-			    <#assign previousParticipation = "" />
-			    <#assign previousMaterial = "" />
-				<#list techniques_materials as technique_on_material>
-					<#if previousParticipation != technique_on_material.participation || previousMaterial != technique_on_material.material_label>
-						<p> <@printTechniques technique_on_material.participation technique_on_material.material_label techniques_materials /> ${i18n().gesah_made_on} ${technique_on_material.material_label}</p>
-						<#assign previousParticipation = technique_on_material.participation />
-						<#assign previousMaterial = technique_on_material.material_label />
-					</#if>
-				</#list>
-			</#if>
 		</#if>
-		<@dataGetter uri = "http://gesah-short-view#Comments" parameters = {"participation": statement.activity} />
+		<@dataGetter uri = "http://gesah-short-view#Comments" parameters = {"participation": activityUri} />
 		<#if comments?has_content>
 			${i18n().comment_capitalized}:
 			<#assign commentStarted = false />
@@ -248,9 +212,58 @@
 			</#list>
 			<br />
 		</#if>
-		<#-- If user can edit individual, show a link to the context object -->
-		<#if individual?has_content && individual.showAdminPanel>
-			<div class="contextLink"><a href="${profileUrl(statement.activity)}">${statement.activity?keep_after_last("/")}</a></div>
+		<#if isEdit>
+			<div class="contextLink"><a href="${profileUrl(activityUri)}">${activityUri?keep_after_last("/")}</a></div>
 		</#if>
 	</div>
+</#macro>
+
+<#macro placesAndDates activityUri>
+	<@dataGetter uri = "http://gesah-short-view#PlacesDates" parameters = {"participation": activityUri} />
+	<#if place_dates?has_content>
+		<#list place_dates as place_date>
+			<@printPlaceAndDate place_date />
+		</#list>
+	</#if>
+</#macro>
+
+<#macro printParticipations individual>
+    <@shortDescription individual.uri />
+</#macro>
+
+<#macro shortDescription co >
+	<@dataGetter uri = "http://gesah-short-view#CulturalObjectRoles" parameters = {"cultural_object": co} />
+	<#if roles?has_content>
+		<#assign activity = '' /> 
+		<#list roles as role>
+    		<#if activity?has_content && activity != role._activity >
+    			<@placesAndDates activity/>
+			</#if>
+			<p>
+				<a href="${profileUrl(role.agent)}">${role.agent_label}</a><br>
+				(${role.role_type_label!'no role'})
+			    <#if role.attribution_label?has_content>
+			    	 <span class="titleTypeListItemInv">${role.attribution_label}</span>
+			    </#if>
+			    
+			</p>
+			<#assign activity = role._activity />
+		</#list>
+		<#if activity?has_content>
+			<@placesAndDates activity/>
+		</#if>
+		
+		<@dataGetter uri = "http://gesah-short-view#TechniquesMaterials" parameters = {"cultural_object": co} />
+		<#if techniques_materials?has_content>
+		    <#assign previousParticipation = "" />
+		    <#assign previousMaterial = "" />
+			<#list techniques_materials as technique_on_material>
+				<#if previousParticipation != technique_on_material.participation || previousMaterial != technique_on_material.material_label>
+					<p> <@printTechniques technique_on_material.participation technique_on_material.material_label techniques_materials /> ${i18n().gesah_made_on} ${technique_on_material.material_label}</p>
+					<#assign previousParticipation = technique_on_material.participation />
+					<#assign previousMaterial = technique_on_material.material_label />
+				</#if>
+			</#list>
+		</#if>
+	</#if>
 </#macro>

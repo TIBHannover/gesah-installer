@@ -1,5 +1,7 @@
 <#include "customFormInit.ftl">
 <#include "../../lib/lib-gesah-form.ftl">
+<#include "../../lib/lib-gesah-view.ftl">
+
 
 <#assign subjectName=""/>
 <#assign roleActivityUri="mysteryRoleActivityURI"/>
@@ -15,15 +17,17 @@ Set this flag on the input acUriReceiver where you would like this behavior to o
 
 <section id="objectHasCreation" role="region">
     <form id="objectHasCreation" class="customForm noIE67" action="${submitUrl}"  role="add/edit creation">
-        <@print_actor />
-        <@print_role_type />
-        <@print_attribution_type />
+        <#if !editConfiguration.objectUri?has_content>
+        	<@print_actor />
+            <@print_role_type />
+            <@print_attribution_type />
+        </#if>
         <@print_material />
         <@print_technique />
-		<@print_place />
-		<@print_lit_date_appeal />
-		<@print_comment />
-		<@print_dates />
+        <@print_place />
+        <@print_lit_date_appeal />
+        <@print_comment />
+        <@print_dates />
         <@formControls />
     </form>
 </section>
