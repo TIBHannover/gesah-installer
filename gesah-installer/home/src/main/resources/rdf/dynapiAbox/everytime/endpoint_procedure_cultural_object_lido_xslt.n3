@@ -2348,11 +2348,11 @@
                               <lido:resourceID lido:type="http://terminology.lido-schema.org/lido00099"><xsl:value-of select="@rdf:about" /></lido:resourceID>
                               <!-- Preview image-->
                               <lido:resourceRepresentation lido:type="http://terminology.lido-schema.org/lido00451">
-                                <lido:linkResource lido:formatResource="image/jpeg">https://sah.tib.eu/iiif/2/<xsl:value-of select="gesah:barcode/text()" />%5Econtent%5Estreams%5E<xsl:value-of select="gesah:image_file_number/text()" />/full/350,/0/default.jpg</lido:linkResource>
+                                <lido:linkResource lido:formatResource="image/jpeg">https://sah.tib.eu/iiif/2/<xsl:value-of select="gesah:barcode/text()" />%5Econtent%5Estreams%5E<xsl:value-of select="gesah:image_file_number/text()" />/full/!350,700/0/default.jpg</lido:linkResource>
                               </lido:resourceRepresentation>
                               <!-- Full size image-->
                               <lido:resourceRepresentation lido:type="http://terminology.lido-schema.org/lido00464">
-                                <lido:linkResource lido:formatResource="image/jpeg">https://sah.tib.eu/iiif/2/<xsl:value-of select="gesah:barcode/text()" />%5Econtent%5Estreams%5E<xsl:value-of select="gesah:image_file_number/text()" />/full/1200,/0/default.jpg</lido:linkResource>
+                                <lido:linkResource lido:formatResource="image/jpeg">https://sah.tib.eu/iiif/2/<xsl:value-of select="gesah:barcode/text()" />%5Econtent%5Estreams%5E<xsl:value-of select="gesah:image_file_number/text()" />/full/!1200,2000/0/default.jpg</lido:linkResource>
                               </lido:resourceRepresentation>
                               <lido:resourceSource>
                                 <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">http://ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
