@@ -9,6 +9,8 @@
 <#-- import "lib-sequence.ftl" as s -->
 <#import "lib-datetime.ftl" as dt>
 <#import "lib-meta-tags.ftl" as lmt>
+<#import "lib-gesah-view.ftl" as lgv>
+
 
 <@showInscription statement />
 <#-- Use a macro to keep variable assignments local; otherwise the values carry over to the next statement -->
