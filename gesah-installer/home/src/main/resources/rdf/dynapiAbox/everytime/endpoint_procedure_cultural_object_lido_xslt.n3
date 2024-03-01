@@ -2097,30 +2097,36 @@
                                     <xsl:for-each select="local:get($cultural_object/gesah:depicts)[local:id(vitro:mostSpecificType) = 'http://ontology.tib.eu/gesah/Depicted_Person']">
                                         <lido:subjectActor>
                                             <lido:actor>
-                                                <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
-                                                    <xsl:choose>
-                                                        <xsl:when test="./gesah:GND_ID">
-                                                            <xsl:for-each select="./gesah:GND_ID[1]">
+                                                <xsl:choose>
+                                                    <xsl:when test="./gesah:GND_ID">
+                                                        <xsl:for-each select="./gesah:GND_ID[1]">
+                                                            <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
                                                                 <xsl:call-template name="gnd-id"/>
-                                                            </xsl:for-each>
-                                                        </xsl:when>
-                                                        <xsl:when test="./gesah:Iconclass_ID">
-                                                            <xsl:for-each select="./gesah:Iconclass_ID[1]">
+                                                            </lido:actorID>
+                                                        </xsl:for-each>
+                                                    </xsl:when>
+                                                    <xsl:when test="./gesah:Iconclass_ID">
+                                                        <xsl:for-each select="./gesah:Iconclass_ID[1]">
+                                                            <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
                                                                 <xsl:call-template name="iconclass-id"/>
-                                                            </xsl:for-each>
-                                                        </xsl:when>
-                                                        <xsl:when test="./gesah:ULAN_ID">
-                                                            <xsl:for-each select="./gesah:ULAN_ID[1]">
+                                                            </lido:actorID>
+                                                        </xsl:for-each>
+                                                    </xsl:when>
+                                                    <xsl:when test="./gesah:ULAN_ID">
+                                                        <xsl:for-each select="./gesah:ULAN_ID[1]">
+                                                            <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
                                                                 <xsl:call-template name="ulan-id"/>
-                                                            </xsl:for-each>
-                                                        </xsl:when>
-                                                        <xsl:when test="./gesah:Wikidata_ID">
-                                                            <xsl:for-each select="./gesah:Wikidata_ID[1]">
+                                                            </lido:actorID>
+                                                        </xsl:for-each>
+                                                    </xsl:when>
+                                                    <xsl:when test="./gesah:Wikidata_ID">
+                                                        <xsl:for-each select="./gesah:Wikidata_ID[1]">
+                                                            <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
                                                                 <xsl:call-template name="wikidata-id"/>
-                                                            </xsl:for-each>
-                                                        </xsl:when>
-                                                    </xsl:choose>
-                                                </lido:actorID>
+                                                            </lido:actorID>
+                                                        </xsl:for-each>
+                                                    </xsl:when>
+                                                </xsl:choose>
                                                 <lido:nameActorSet>
                                                     <xsl:for-each select="./rdfs:label">
                                                         <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00169">
