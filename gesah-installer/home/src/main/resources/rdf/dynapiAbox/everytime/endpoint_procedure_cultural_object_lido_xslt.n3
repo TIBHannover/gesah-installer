@@ -1829,12 +1829,9 @@
                                         <lido:inscriptions lido:type="Marke">
                                             <lido:inscriptionDescription>
                                                 <!-- This is gesah:mark_URL with gesah:mark_ID, both data properties of class gesah:collector's mark-->
-                                                <xsl:if test="$mark/gesah:mark_ID and $mark/gesah:mark_URL" >
+                                                <xsl:if test="$mark/gesah:mark_URL" >
                                                     <lido:descriptiveNoteID lido:type="http://terminology.lido-schema.org/lido00099">
-                                                        <xsl:attribute name="lido:source">
-                                                           <xsl:value-of select="$mark/gesah:mark_URL" />
-                                                        </xsl:attribute>
-                                                        <xsl:value-of select="$mark/gesah:mark_ID" />
+                                                        <xsl:value-of select="$mark/gesah:mark_URL" />
                                                     </lido:descriptiveNoteID>
                                                 </xsl:if>
                                                 <!--Here we should export label of instances of colletor's mark and gesah:mark_location which is data property of conext node 
