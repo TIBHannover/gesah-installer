@@ -196,7 +196,7 @@
                     <lido:displayActorInRole>
                         <xsl:variable name="text_value" select="text()" />
                         <xsl:if test="$text_value != ''">
-                            <xsl:variable name="lang" select="@xml:lang" />
+                            <xsl:variable name="lang" select="./(@xml:lang, 'de-DE')[1]" />
                             <xsl:if test="$lang != ''">
                                 <xsl:attribute name="xml:lang">
                                    <xsl:value-of select="$lang" />
@@ -279,17 +279,15 @@
     
                     <!-- this is the gesah:has_type_of_attribution, object property to gesah:creation, in some cases we have AAT IDs for this attribution types, how can we model that? Example: "attributed to", in LIDO attributionQualifier
                     <lido:term>attributed to</lido:term>-->
-                    <xsl:for-each select="local:get(local:get(local:get($activity_individual/gesah:has_participant)/gesah:has_role)/gesah:has_type_of_attribution)">
-                        <xsl:for-each select="./rdfs:label">
-                            <lido:attributionQualifierActor>
-                                <xsl:if test="@xml:lang">
-                                    <xsl:attribute name="xml:lang">
-                                        <xsl:value-of select="@xml:lang" />
-                                    </xsl:attribute>
-                                </xsl:if>
-                                <xsl:value-of select="text()" />
-                            </lido:attributionQualifierActor>
-                        </xsl:for-each>
+                    <xsl:for-each select="local:get(local:get(local:get($activity_individual/gesah:has_participant)/gesah:has_role)/gesah:has_type_of_attribution)/rdfs:label">
+                        <lido:attributionQualifierActor>
+                            <xsl:if test="@xml:lang">
+                                <xsl:attribute name="xml:lang">
+                                    <xsl:value-of select="@xml:lang" />
+                                </xsl:attribute>
+                            </xsl:if>
+                            <xsl:value-of select="text()" />
+                        </lido:attributionQualifierActor>
                     </xsl:for-each>
                 </lido:actorInRole>
             </lido:eventActor>
