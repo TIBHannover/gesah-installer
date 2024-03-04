@@ -44,7 +44,9 @@ public class ObjectHasEditionGenerator extends AbstractCulturalObjectGenerator i
             addExistingActor(conf);	
         }
         addStartEndInterval(conf);
-        addTechnique(conf);
+        if (StringUtils.isBlank(objectUri)) {
+            addTechnique(conf);
+        }
         addMaterial(conf);	
 
         conf.addN3Required( Arrays.asList(n3ForNewObEdition) );

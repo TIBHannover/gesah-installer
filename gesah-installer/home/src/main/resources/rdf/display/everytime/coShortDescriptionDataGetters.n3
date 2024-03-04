@@ -91,12 +91,14 @@ sw:TechniquesMaterials
     display:query """
    	    PREFIX gesah:    <http://ontology.tib.eu/gesah/>
 	    PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
-	    SELECT DISTINCT ?technique_label ?material_label ?participation
+	    SELECT DISTINCT ?technique ?technique_label ?material ?material_label ?participation
 	    WHERE {
             ?cultural_object gesah:output_of_creation|gesah:output_of_production|gesah:object_of_edition ?_participation .
             BIND(?_participation as ?participation)
-            ?_participation gesah:uses_technique/rdfs:label ?technique_label .
-            ?_participation gesah:has_material/rdfs:label ?material_label .
+            ?_participation gesah:uses_technique ?technique .
+            ?technique rdfs:label ?technique_label .
+            ?_participation gesah:has_material ?material .
+            ?material rdfs:label ?material_label .
 		} ORDER BY ?participation STR(?technique_label) STR(?material_label)
      """ .
      

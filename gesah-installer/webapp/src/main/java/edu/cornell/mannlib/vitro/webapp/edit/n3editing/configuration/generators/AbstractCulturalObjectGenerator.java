@@ -427,21 +427,18 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
         conf.addN3Optional(Arrays.asList(n3ForNewTechnique));
         conf.addNewResource(NEW_TECHNIQUE,DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addLiteralsOnForm(Arrays.asList(TECHNIQUE_LABEL));
-        conf.addSparqlForExistingLiteral(TECHNIQUE_LABEL, existingTechniqueLabelQuery);
         conf.addField( new FieldVTwo().
             setName(TECHNIQUE_LABEL).
             setRangeDatatypeUri(XSD.xstring.toString() ).
             setValidators( list(DATATYPE + XSD.xstring.toString())));
         conf.addN3Optional(Arrays.asList(n3ForExistingTechnique));
         conf.addUrisOnForm(Arrays.asList(EXISTING_TECHNIQUE));
-        conf.addSparqlForExistingUris(EXISTING_TECHNIQUE, existingTechniqueQuery);
         conf.addField( new FieldVTwo().
             setName(EXISTING_TECHNIQUE).
-            //setValidators( list(NONEMPTY)).
             setOptions( new IndividualsViaVClassOptions(
                     TECHNIQUE_TYPE_CLASS)));
     }
-
+    
     private final static String n3ForNewTechnique  =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + NEW_TECHNIQUE + " . " + "\n" +
@@ -453,15 +450,6 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
       VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + EXISTING_TECHNIQUE + " . " + "\n" +
       VAR + EXISTING_TECHNIQUE + SPACE + "<" + GESAH_USED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" ;
-
-    private final static String existingTechniqueQuery =
-      "SELECT" + SPACE + VAR + EXISTING_TECHNIQUE + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + EXISTING_TECHNIQUE + " . }";
-
-    private final static String existingTechniqueLabelQuery =
-      "SELECT Distinct" + SPACE + VAR + EXISTING_TECHNIQUE_LABEL + " WHERE {" + "\n" +
-      VAR + ACTIVITY_OBJ + SPACE + "<" + GESAH_USES_TECHNIQUE + ">" + SPACE + VAR + EXISTING_TECHNIQUE + " . " + "\n" +
-      VAR + EXISTING_TECHNIQUE + SPACE + "<" + LABEL + ">" + SPACE + VAR + EXISTING_TECHNIQUE_LABEL + " .}";
 
     protected void addMaterial(EditConfigurationVTwo conf) throws Exception {
         conf.addN3Optional(Arrays.asList(n3ForNewMaterial));

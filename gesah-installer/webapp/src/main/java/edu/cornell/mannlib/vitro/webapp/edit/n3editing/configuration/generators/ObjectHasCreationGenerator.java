@@ -46,7 +46,9 @@ public class ObjectHasCreationGenerator extends AbstractCulturalObjectGenerator 
         }
 
         addStartEndInterval(conf);
-        addTechnique(conf);
+        if (StringUtils.isBlank(objectUri)) {
+            addTechnique(conf);
+        }
         addMaterial(conf);
         
         conf.addN3Required( Arrays.asList(n3ForNewObCreation) );
