@@ -1949,44 +1949,45 @@
                                 <xsl:variable name="measurement_width" select="./gesah:measurement_width/text()" />
                                 <xsl:variable name="measurement_diameter" select="./gesah:measurement_diameter/text()" />
                                 <xsl:variable name="measurement_depth" select="./gesah:measurement_depth/text()" />
-
-                                <xsl:for-each select="local:get(gesah:has_measurement_specification)/rdfs:label">
-                                    <xsl:value-of select="local:get(./gesah:has_measurement_specification)/rdfs:label" />
+                                <xsl:if test="local:get(gesah:has_measurement_specification)/rdfs:label">
                                     <lido:objectMeasurementsSet>
-                                        <lido:displayObjectMeasurements>
-                                            <xsl:variable name="lang" select="@xml:lang" />
-                                            <xsl:attribute name="xml:lang">
-                                                <xsl:value-of select="$lang" />
-                                            </xsl:attribute>
-                                            <xsl:value-of select="text()" />
-                                            <xsl:text>: </xsl:text>
-                                            <xsl:choose>
-                                                <xsl:when test="$measurement_diameter">
-                                                     <xsl:value-of select="$measurement_diameter" />
-                                                    <xsl:choose>
-                                                        <xsl:when test="$lang = 'de-DE'">
-                                                            <xsl:text> (Durchmesser)</xsl:text>
-                                                        </xsl:when>
-                                                        <xsl:when test="$lang = 'en-US'">
-                                                            <xsl:text> (diameter)</xsl:text>
-                                                        </xsl:when>
-                                                        <xsl:otherwise>
-                                                           </xsl:otherwise>
-                                                    </xsl:choose>
-                                                </xsl:when>
-                                                <xsl:otherwise>
-                                                     <xsl:value-of select="$measurement_height" />
+                                        <xsl:for-each select="local:get(gesah:has_measurement_specification)/rdfs:label">
+                                            <xsl:value-of select="local:get(./gesah:has_measurement_specification)/rdfs:label" />
+                                            <lido:displayObjectMeasurements>
+                                                <xsl:variable name="lang" select="@xml:lang" />
+                                                <xsl:attribute name="xml:lang">
+                                                    <xsl:value-of select="$lang" />
+                                                </xsl:attribute>
+                                                <xsl:value-of select="text()" />
+                                                <xsl:text>: </xsl:text>
+                                                <xsl:choose>
+                                                    <xsl:when test="$measurement_diameter">
+                                                         <xsl:value-of select="$measurement_diameter" />
+                                                        <xsl:choose>
+                                                            <xsl:when test="$lang = 'de-DE'">
+                                                                <xsl:text> (Durchmesser)</xsl:text>
+                                                            </xsl:when>
+                                                            <xsl:when test="$lang = 'en-US'">
+                                                                <xsl:text> (diameter)</xsl:text>
+                                                            </xsl:when>
+                                                            <xsl:otherwise>
+                                                               </xsl:otherwise>
+                                                        </xsl:choose>
+                                                    </xsl:when>
+                                                    <xsl:otherwise>
+                                                         <xsl:value-of select="$measurement_height" />
+                                                        <xsl:text> x </xsl:text>
+                                                        <xsl:value-of select="$measurement_width" />
+                                                    </xsl:otherwise>
+                                                </xsl:choose>
+                                                <xsl:if test="$measurement_depth">
                                                     <xsl:text> x </xsl:text>
-                                                    <xsl:value-of select="$measurement_width" />
-                                                </xsl:otherwise>
-                                            </xsl:choose>
-                                            <xsl:if test="$measurement_depth">
-                                                <xsl:text> x </xsl:text>
-                                                <xsl:value-of select="$measurement_depth" />
-                                            </xsl:if>
-                                        </lido:displayObjectMeasurements>
+                                                    <xsl:value-of select="$measurement_depth" />
+                                                </xsl:if>
+                                            </lido:displayObjectMeasurements>
+                                        </xsl:for-each>
                                     </lido:objectMeasurementsSet>
-                                </xsl:for-each>
+                                </xsl:if>
                             </xsl:for-each>
                         </lido:objectMeasurementsWrap>
 
