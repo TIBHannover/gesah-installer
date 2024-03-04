@@ -302,7 +302,9 @@ WHERE {
     { 
       ?object_of_inscription gesah:has_inscription_output ?inscription_output . 
       {
-        ?inscription_output gesah:transcription ?inscription_transcription .
+        ?inscription_output gesah:transcription ?inscription_transcription_lit .
+        BIND(REPLACE(STR(?inscription_transcription_lit), "<[^>]*>", "" ) as ?inscription_transcription )
+        
       } 
         UNION
       {

@@ -1776,7 +1776,7 @@
                                     <xsl:variable name="obj_of_inscription" select="current()" />
                                     <lido:inscriptions lido:type="Inschrift">
                                         <lido:inscriptionTranscription xml:lang="mul">
-                                            <xsl:value-of select="local:get(gesah:has_inscription_output)/gesah:transcription/text()" />
+                                            <xsl:value-of select="local:html-decode(local:get(gesah:has_inscription_output)/gesah:transcription/text())" />
                                         </lido:inscriptionTranscription>
                                         <lido:inscriptionDescription>
                                             <xsl:for-each select="distinct-values(local:get(local:get(gesah:has_inscription_output)/gesah:has_inscription_type)/rdfs:label/@xml:lang)">
@@ -1801,7 +1801,7 @@
                                     <xsl:variable name="obj_of_inscription" select="current()" />
                                     <lido:inscriptions lido:type="Inschrift">
                                         <lido:inscriptionTranscription xml:lang="mul">
-                                            <xsl:value-of select="gesah:has_inscription_output//gesah:transcription/text()" />
+                                            <xsl:value-of select="local:html-decode(gesah:has_inscription_output//gesah:transcription/text())" />
                                         </lido:inscriptionTranscription>
                                         <lido:inscriptionDescription>
                                             <xsl:for-each select="distinct-values(local:get(local:get(gesah:has_inscription_output)/gesah:has_inscription_type)/rdfs:label/@xml:lang)">
