@@ -1770,7 +1770,7 @@
                             </xsl:for-each>
 
                         </lido:titleWrap>
-                        <xsl:if test="//gesah:object_of_inscription" >
+                        <xsl:if test="//gesah:object_of_inscription or //gesah:has_mark_designation" >
                             <lido:inscriptionsWrap>
                                 <xsl:for-each select="local:get(//gesah:object_of_inscription)[local:get(gesah:has_inscription_output)/rdf-xml-export:string_type/text() = 'http://ontology.tib.eu/gesah/Inscription_on_image']">
                                     <xsl:variable name="obj_of_inscription" select="current()" />
