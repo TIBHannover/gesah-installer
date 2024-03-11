@@ -1,6 +1,3 @@
 [submodule "Vitro"]
 	path = Vitro
-	url = https://git.tib.eu/OSL/VIVO/Vitro.git
-[submodule "Vitro-languages"]
-	path = Vitro-languages
-	url = https://github.com/vivo-de/Vitro-languages.git
+	url = https://github.com/TIBHannover/gesah-vitro.git
