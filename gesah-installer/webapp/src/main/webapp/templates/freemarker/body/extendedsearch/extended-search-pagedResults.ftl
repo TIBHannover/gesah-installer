@@ -29,15 +29,15 @@
     <#if (pagingLinks?size > 0)>
         <div class="searchpages">
             ${i18n().pages}:
-            <#if prevPage??><a class="prev" href="${prevPage}" title="${i18n().previous}">${i18n().previous}</a></#if>
+            <#if prevPage??><a class="prev" href="${prevPage?html}" title="${i18n().previous}">${i18n().previous}</a></#if>
             <#list pagingLinks as link>
                 <#if link.url??>
-                    <a href="${link.url}" title="${i18n().page_link}">${link.text}</a>
+                    <a href="${link.url?html}" title="${i18n().page_link}">${link.text?html}</a>
                 <#else>
-                    <span>${link.text}</span> <#-- no link if current page -->
+                    <span>${link.text?html}</span> <#-- no link if current page -->
                 </#if>
             </#list>
-            <#if nextPage??><a class="next" href="${nextPage}" title="${i18n().next_capitalized}">${i18n().next_capitalized}</a></#if>
+            <#if nextPage??><a class="next" href="${nextPage?html}" title="${i18n().next_capitalized}">${i18n().next_capitalized}</a></#if>
         </div>
     </#if>
 </#macro>
@@ -50,7 +50,7 @@
 	<script type="text/javascript">
 		var url = window.location.toString();
 		if (url.indexOf("?") == -1){
-			var queryText = 'querytext=${querytext}';
+			var queryText = 'querytext=${querytext?js_string}';
 		} else {
 			var urlArray = url.split("?");
 			var queryText = urlArray[1];
@@ -207,11 +207,11 @@
 
 <#macro groupFilters group active>
 	<#if active >
-		<div id="${group.id}" class="tab-pane fade in active filter-area">
+		<div id="${group.id?html}" class="tab-pane fade in active filter-area">
 	<#else>
-		<div id="${group.id}" class="tab-pane fade filter-area">
+		<div id="${group.id?html}" class="tab-pane fade filter-area">
 	</#if>
-			<div id="search-filter-group-container-${group.id}">
+			<div id="search-filter-group-container-${group.id?html}">
 				<ul class="nav nav-tabs">
 					<#assign assignedActive = false>
 					<#list group.filters as filterId>
@@ -225,7 +225,7 @@
 					</#list>
 				</ul>
 			</div>
-			<div id="search-filter-group-tab-content-${group.id}" class="tab-content">
+			<div id="search-filter-group-tab-content-${group.id?html}" class="tab-content">
 				<#assign assignedActive = false>
 				<#list group.filters as filterId>
 					<#assign f = filters[filterId]>
@@ -297,7 +297,7 @@
 	<#else>
 		<li class="form-group-tab">
 	</#if>
-			<a data-toggle="tab" href="#${group.id}">${group.label}</a>
+			<a data-toggle="tab" href="#${group.id?html}">${group.label?html}</a>
 		</li>
 </#macro>
 
@@ -307,7 +307,7 @@
 		<#return>
 	</#if>
 		<li class="filter-tab">
-			<a data-toggle="tab" href="#${filter.id}">${filter.name}</a>
+			<a data-toggle="tab" href="#${filter.id?html}">${filter.name?html}</a>
 		</li>
 </#macro>
 
@@ -353,22 +353,22 @@
 	<#assign from = filter.fromYear >
 	<#assign to = filter.toYear >
 
-	<div class="range-filter" id="${filter.id}" class="tab-pane fade filter-area">
-		<div class="range-slider-container" min="${filter.min}" max="${filter.max}">
+	<div class="range-filter" id="${filter.id?html}" class="tab-pane fade filter-area">
+		<div class="range-slider-container" min="${filter.min?html}" max="${filter.max?html}">
 			<div class="range-slider"></div>
 			${i18n().from}
 			<#if from?has_content>
-				<div class="range-slider-start">${from}</div>
+				<div class="range-slider-start">${from?html}</div>
 			<#else>
-				<div class="range-slider-start">${min}</div>
+				<div class="range-slider-start">${min?html}</div>
 			</#if>
 			${i18n().to}
 			<#if to?has_content>
-				<div class="range-slider-end">${to}</div>
+				<div class="range-slider-end">${to?html}</div>
 			<#else>
-				<div class="range-slider-end">${max}</div>
+				<div class="range-slider-end">${max?html}</div>
 			</#if>
-			<input form="extended-search-form" id="filter_range_${filter.id}" style="display:none;" class="range-slider-input" name="filter_range_${filter.id}" value="${filter.rangeInput}"/>
+			<input form="extended-search-form" id="filter_range_${filter.id?html}" style="display:none;" class="range-slider-input" name="filter_range_${filter.id?html}" value="${filter.rangeInput?html}"/>
 		</div>
 	</div>
 </#macro>
@@ -391,24 +391,24 @@
 	<#if additional=true>
 		<#assign additionalClass = "additional-search-options hidden-search-option" >
 	</#if>
-	<#return "<label class=\"" + additionalClass + "\" for=\"" + getValueID(filter.id, valueNumber) + "\">" + getValueLabel(label, value.count) + "</label>" />
+	<#return "<label class=\"" + additionalClass + "\" for=\"" + getValueID(filter.id, valueNumber)?html + "\">" + getValueLabel(label, value.count)?html + "</label>" />
 </#function>
 
 
 <#macro userSelectedInput filter>
 	<#if filter.inputText?has_content>
-		<button form="extended-search-form" type="button" id="button_filter_input_${filter.id}" onclick="clearInput('filter_input_${filter.id}')" class="checked-search-input-label">${filter.name} : ${filter.inputText}</button>
+		<button form="extended-search-form" type="button" id="button_filter_input_${filter.id?html}" onclick="clearInput('filter_input_${filter.id?js_string?html}')" class="checked-search-input-label">${filter.name?html} : ${filter.inputText?html}</button>
 	</#if>
 	<#assign from = filter.fromYear >
 	<#assign to = filter.toYear >
 	<#if from?has_content && to?has_content >
 		<#assign range = i18n().from + " " + from + " " + i18n().to + " " + to >
-		<button form="extended-search-form" type="button" id="button_filter_range_${filter.id}" onclick="clearInput('filter_range_${filter.id}')" class="checked-search-input-label">${filter.name} : ${range}</button>
+		<button form="extended-search-form" type="button" id="button_filter_range_${filter.id?html}" onclick="clearInput('filter_range_${filter.id?js_string?html}')" class="checked-search-input-label">${filter.name?html} : ${range?html}</button>
 	</#if>
 </#macro>
 
 <#macro createUserInput filter>
-	<input form="extended-search-form" id="filter_input_${filter.id}"  placeholder="${i18n().search_field_placeholder}" class="search-vivo" type="text" name="filter_input_${filter.id}" value="${filter.inputText?html}" autocapitalize="none" />
+	<input form="extended-search-form" id="filter_input_${filter.id?html}"  placeholder="${i18n().search_field_placeholder}" class="search-vivo" type="text" name="filter_input_${filter.id?html}" value="${filter.inputText?html}" autocapitalize="none" />
 </#macro>
 
 <#function getInput filter filterValue valueID valueNumber>
