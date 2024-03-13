@@ -61,7 +61,6 @@
 :operation_export_cultural_object_to_lido 
         a                                   dynapi:SparqlConstructQuery ;
         rdfs:label                          "Get cultural objects operation"@en-US ;
-        dynapi:hasModel                     model:full_union ;
         dynapi:requiresParameter            :parameter_cultural_object_uri ;
 #       dynapi:sparqlQueryText in endpoint_procedure_cultural_object_lido_sparql_construct.n3
         dynapi:providesParameter            :parameter_cultural_object_graph .
