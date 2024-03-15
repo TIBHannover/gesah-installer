@@ -225,13 +225,13 @@
                     </lido:displayActorInRole>
                 </xsl:for-each>
                 <lido:actorInRole>
-                    <!-- This is dynamic, this can be class person http://terminology.lido-schema.org/lido00163 or organization http://terminology.lido-schema.org/lido00413 -->
+                    <!-- This this can be class person http://terminology.lido-schema.org/lido00163 or organization http://terminology.lido-schema.org/lido00413 -->
                     <lido:actor>
                         <xsl:attribute name="lido:type">
                             <xsl:value-of select="$participant_type" />
                         </xsl:attribute>
     
-                        <!--This is dynamic, the GND or ULAN ID stored in GESAH with the individual person/organisation-->
+                        <!--The GND or ULAN ID stored in GESAH with the individual person/organisation-->
                         <xsl:for-each select="./gesah:GND_ID">
                             <lido:actorID lido:type="http://terminology.lido-schema.org/lido00099">
                                 <xsl:call-template name="gnd-id"/>
@@ -256,7 +256,7 @@
                         </lido:nameActorSet>
                     </lido:actor>
     
-                    <!--This is dynamic and equivalent to our gesah:role_types, linked to context node role which is connected with the creation activity, there are 21 role types in GESAH mostly with AAT-ID-->
+                    <!--This is equivalent to our gesah:role_types, linked to context node role which is connected with the creation activity, there are 21 role types in GESAH mostly with AAT-ID-->
                     <lido:roleActor>
                         <xsl:for-each select="local:get(./gesah:has_role)[local:get(gesah:realized_in) = $activity_individual ]">
                             <xsl:for-each select="local:get(./gesah:has_role_type)/gesah:AAT_ID">
@@ -277,9 +277,7 @@
                         </xsl:for-each>
                     </lido:roleActor>
     
-                    <!-- this is the gesah:has_type_of_attribution, object property to gesah:creation, in some cases we have AAT IDs for this attribution types, how can we model that? Example: "attributed to", in LIDO attributionQualifier
-                    <lido:term>attributed to</lido:term>-->
-                    <xsl:for-each select="local:get(local:get(local:get($activity_individual/gesah:has_participant)/gesah:has_role)/gesah:has_type_of_attribution)/rdfs:label">
+                   <xsl:for-each select="local:get(local:get(local:get($activity_individual/gesah:has_participant)/gesah:has_role)/gesah:has_type_of_attribution)/rdfs:label">
                         <lido:attributionQualifierActor>
                             <xsl:if test="@xml:lang">
                                 <xsl:attribute name="xml:lang">
@@ -434,7 +432,6 @@
         <xsl:template name="event-place">
             <lido:eventPlace>
                 <lido:place>
-                    <!-- BR: our graphic_location should have TGN ID and/or Geonames ID,  maybe we can export both if available-->
                     <xsl:for-each select="./gesah:TGN_ID">
                         <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">
                             <xsl:call-template name="tgn-id"/>
@@ -518,7 +515,7 @@
                 <lido:eventSet>
                     <lido:event>
                         <lido:eventType>
-                           <!-- BR: eventType designing (lido00224) is correct only for gesah:creation when connected with prints, printed material and photmechanical prints.
+                           <!-- eventType designing (lido00224) is correct only for gesah:creation when connected with prints, printed material and photmechanical prints.
                             First check the class of CO, if CO is class:print,class:photomechanical_print, class:seal or class:printed_material use following pattern with three eventSets -->
                             <xsl:choose>
                                 <xsl:when test="$type = 'print' or $type = 'printed-materials' or $type = 'photomechanical-print' or $type = 'seal'">
@@ -559,7 +556,7 @@
                         </xsl:if>
 
 
-                        <!-- BR: this is dynamic and equivalent to our data property literal_date or in case of empty text field diplay the time span of earliest date and latest date or if both are the same display it only once (as below in the example) -->
+                        <!-- This is equivalent to our data property literal_date or in case of empty text field display the time span of earliest date and latest date or if both are the same display it only once -->
                         <xsl:call-template name="event-date"/>
 
                         <xsl:if test="$is-culture-and-period-output">
@@ -568,7 +565,7 @@
                                </xsl:call-template>
                         </xsl:if>
 
-                        <!-- BR: This is equivalent to gesah:has_place with vivo:geographic_location-->
+                        <!-- This is equivalent to gesah:has_place with vivo:geographic_location-->
                         <xsl:call-template name="event-places"/>
 
                         <xsl:if test="./gesah:has_material or ./gesah:uses_technique">
@@ -671,7 +668,7 @@
         <xsl:template name="object-of-preservation-individual">
             <lido:eventSet>
                 <lido:event>
-                    <!-- This is dynamic in GESAH: subclasses of preservation/collection care are "preventive conservation", "conservation" and "restoration", if an activity is of classes "preventive conservation" or "conservation" it is type http://terminology.lido-schema.org/lido00402, if an activity is of class "restoration" it is type http://terminology.lido-schema.org/lido00034-->
+                    <!-- subclasses of preservation/collection care are "preventive conservation", "conservation" and "restoration", if an activity is of classes "preventive conservation" or "conservation" it is type http://terminology.lido-schema.org/lido00402, if an activity is of class "restoration" it is type http://terminology.lido-schema.org/lido00034-->
                     <lido:eventType>
                          <xsl:variable name="object_of_preservation_type" select="rdf-xml-export:string_type/text()" />
                          <xsl:choose>
@@ -815,14 +812,14 @@
             <lido:eventSet>
                 <lido:event>
                     <lido:eventType>
-                        <!--BR: this lido type remains always the same-->
+                        <!--this lido type remains always the same-->
                         <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00225</lido:conceptID>
                         <lido:term xml:lang="de">Ausstellung (Aktivität)</lido:term>
                         <lido:term xml:lang="en">Exhibition (Activity)</lido:term>
                     </lido:eventType>
                     <xsl:if test="./rdfs:label">
                         <lido:eventName>
-                            <!--BR: This is label of instance of class exhibition-->
+                            <!-- This is label of instance of class exhibition-->
                             <xsl:for-each select="./rdfs:label">
                                 <lido:appellationValue lido:pref="http://terminology.lido-schema.org/lido00169">
                                     <xsl:if test="@xml:lang">
@@ -846,7 +843,7 @@
                 
         <xsl:template name="has-measure-specifics-individual">
             <lido:eventDescriptionSet>
-                <!-- This is the label of instances of class gesah:treatment_specifics, we have it in German and English and if available with AAT-identifier - I hope that my LIDO-modelling will fit here-->
+                <!-- This is the label of instances of class gesah:treatment_specifics, we have it in German and English and if available with AAT-identifier -->
                 <!--conservation description-->
                 <xsl:for-each select="./gesah:AAT_ID">
                     <descriptiveNoteID lido:type="http://terminology.lido-schema.org/lido00099">
@@ -1844,7 +1841,7 @@
                                                         <xsl:value-of select="$mark/gesah:mark_URL" />
                                                     </lido:descriptiveNoteID>
                                                 </xsl:if>
-                                                <!--Here we should export label of instances of colletor's mark and gesah:mark_location which is data property of conext node 
+                                                <!--Here we export label of instances of colletor's mark and gesah:mark_location which is data property of context node 
                                                 mark_designation and gesah:comment which is data property of class gesah:collector's mark in the following pattern -->
                                                 <lido:descriptiveNoteValue>
                                                 <xsl:value-of select="local:individual-first-de-or-other-label($mark, '', '')"/>
@@ -1863,22 +1860,21 @@
                         </xsl:if>
 
                         <lido:repositoryWrap>
-                            <!-- lido type is "current repository" which is equivalent to gesah:has_current_holding_institution, in our case this is always static Technische Informationsbibliothek (TIB) + "Hannover" as it is on the vitro surface, too -->
+                            <!-- lido type is "current repository" which is equivalent to gesah:has_current_holding_institution, in our case this is always Technische Informationsbibliothek (TIB) -->
                             <lido:repositorySet lido:type="http://terminology.lido-schema.org/lido01017">
-                                <!-- LIDO 1.1 <lido:displayRepository xml:lang="de">Technische Informationsbibliothek (TIB), Hannover</lido:displayRepository> -->
-                                <lido:repositoryName>
+                                 <lido:repositoryName>
                                    <lido:legalBodyID lido:type="http://terminology.lido-schema.org/lido00099">http://ld.zdb-services.de/resource/organisations/DE-89</lido:legalBodyID>
                                     <lido:legalBodyName>
                                         <lido:appellationValue>Technische Informationsbibliothek (TIB) / Leibniz-Informationszentrum Technik und Naturwissenschaften und Universitätsbibliothek</lido:appellationValue>
                                     </lido:legalBodyName>
                                     <lido:legalBodyWeblink lido:pref="http://terminology.lido-schema.org/lido00169">https://www.tib.eu/de/</lido:legalBodyWeblink>
                                 </lido:repositoryName>
-                                <!-- Inventarnummer (lido00113) is dynamic, it is equavalent to gesah:current_inventory_number-->
+                                <!-- Inventarnummer (lido00113) is equivalent to gesah:current_inventory_number-->
                                 <lido:workID lido:type="http://terminology.lido-schema.org/lido00113"><xsl:value-of select="//gesah:current_inventory_number[1]/text()[1]"/></lido:workID>
                                 <xsl:for-each select="//gesah:former_inventory_number">
                                     <lido:workID lido:type="http://terminology.lido-schema.org/lido00188"><xsl:value-of select="text()"/></lido:workID>
                                 </xsl:for-each>
-                                <!-- this is static , always Hannover-->
+                                <!-- this is always Hannover-->
                                 <lido:repositoryLocation>
                                     <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">http://www.wikidata.org/entity/Q1715</lido:placeID>
                                     <lido:namePlaceSet>
@@ -1902,14 +1898,7 @@
                                     </lido:partOfPlace>
                                 </lido:repositoryLocation>
 
-                                <!-- the URI of the cultural object and current date -->
-                                <!-- LIDO 1.1
-                                <sourceRepositorySet>
-                                    <xsl:variable name="today_date" select="current-date()"/>
-                                    <xsl:value-of select="concat($uri, ' [', format-date($today_date,'[Y0001].[M01].[D01]'), ']')" />
-                                </sourceRepositorySet>
-                                -->
-                            </lido:repositorySet>
+                             </lido:repositorySet>
                         </lido:repositoryWrap>
 
                         <xsl:if test="//gesah:plate_state or //gesah:print_run">
@@ -1928,7 +1917,7 @@
                         </xsl:if>
 
                         <lido:objectDescriptionWrap>
-                            <!-- this is dynamic data property of CO gesah:description, it is a general description and has no type -->
+                            <!-- this is data property of CO gesah:description, it is a general description and has no type -->
                             <xsl:if test="//gesah:description">
                                 <lido:objectDescriptionSet>
                                     <lido:descriptiveNoteValue xml:lang="de">
@@ -1942,7 +1931,7 @@
                                 </lido:objectDescriptionSet>
                             </xsl:if>
 
-                               <!-- this is dynamic and data property of CO gesah:condition_state, it is a special aspect that is described, in gesah therefore its own property, in LIDO it has a type-->
+                               <!-- this is data property of CO gesah:condition_state, it is a special aspect that is described, in gesah therefore its own property, in LIDO it has a type-->
                             <xsl:if test="//gesah:condition_state">
                                 <lido:objectDescriptionSet lido:type="http://terminology.lido-schema.org/lido00268">
                                     <lido:descriptiveNoteValue xml:lang="de">
@@ -1953,7 +1942,7 @@
                         </lido:objectDescriptionWrap>
 
                         <lido:objectMeasurementsWrap>
-                            <!-- This is dynamic, in Vitro it is object property gesah:has_measurements of CO with gesah:measurement_height, gesah:measurement_width, gesah:measurement_diameter and gesah:has_measurement_specification, there are four types of measurment specification: support, plate, sheet and image in German and English. In the aviarium example plate and image is not existant-->
+                            <!-- This is object property gesah:has_measurements of CO with gesah:measurement_height, gesah:measurement_width, gesah:measurement_diameter and gesah:has_measurement_specification, there are four types of measurment specification: support, plate, sheet and image in German and English. -->
                             <xsl:for-each select="local:get(//gesah:has_measurements)">
                                 <xsl:variable name="measurement_height" select="./gesah:measurement_height/text()" />
                                 <xsl:variable name="measurement_width" select="./gesah:measurement_width/text()" />
@@ -2082,7 +2071,7 @@
                     </xsl:if>
 
                     <lido:objectRelationWrap>
-                     <!-- BR: This is on the represented subjects, we should map here: gesah:has_object_category_generic_term (object property of CO), gesah:has_object_category_narrower_term (object property of CO), gesah:depicts (object property of CO), the instances of the range classes have often Identifiers AAT, GND or ICONCLASS and others, those should be exported too -->
+                     <!-- This is on the represented subjects, we should map here: gesah:has_object_category_generic_term (object property of CO), gesah:has_object_category_narrower_term (object property of CO), gesah:depicts (object property of CO), the instances of the range classes have often Identifiers AAT, GND or ICONCLASS and others, those should be exported too -->
                         <lido:subjectWrap>
                             <lido:subjectSet>
                                 <lido:subject>
@@ -2168,7 +2157,7 @@
                                                 </lido:displayPlace>
                                             </xsl:for-each>
                                             <lido:place>
-                                                <!-- BR: our graphic_location should have TGN ID and/or Geonames ID,  maybe we can export both if available-->
+                                                <!-- our graphic_location should have TGN ID and/or Geonames ID,  maybe we can export both if available-->
 
                                                 <xsl:for-each select="./gesah:TGN_ID">
                                                     <lido:placeID lido:type="http://terminology.lido-schema.org/lido00099">
@@ -2197,8 +2186,7 @@
                                         </lido:subjectPlace>
                                     </xsl:for-each>
                                     
-                                    <!-- GK: Dargestelltes Objekt habe ich hier von Hand ergänzt ohne Verweis auf Normdaten.
-                                      BR: this is gesah:depicts (object property) with range class gesah:depicted_object, instances can have identifiers from AAT, GND,CONA,ICONCLASS or Wikidata, those should be delivered if existant, in this example we do not have any identifier for the object-->
+                                    <!-- this is gesah:depicts (object property) with range class gesah:depicted_object, instances can have identifiers from AAT, GND,CONA,ICONCLASS or Wikidata, those should be delivered if existant, in this example we do not have any identifier for the object-->
                                     <xsl:for-each select="local:get($cultural_object/gesah:depicts)[local:id(vitro:mostSpecificType) = 'http://ontology.tib.eu/gesah/Depicted_Object']">
                                         <lido:subjectObject>
                                             <xsl:for-each select="./rdfs:label">
@@ -2246,7 +2234,7 @@
                             </lido:subjectSet>
                         </lido:subjectWrap>
                         <lido:relatedWorksWrap>
-                            <!-- BR: This is work index entry-->
+                            <!-- This is work index entry-->
                             <xsl:for-each select="local:get($cultural_object/gesah:has_Work_Index_Entry)">
                                 <lido:relatedWorkSet>
                                    <lido:relatedWork>
@@ -2256,7 +2244,7 @@
                                                   <xsl:value-of select="./gesah:index_number_URL/text()" />
                                               </lido:objectWebResource>
                                           </xsl:if>
-                                        <!-- BR: This is equivalent to gesah:has_Work_Index_Entry, object property to class:Work_Index and context node Work_Index_entry. We need the label of instance of class:work_Index and gesah:index_number, data propery to context node Work_Index_entry-->
+                                        <!-- This is equivalent to gesah:has_Work_Index_Entry, object property to class:Work_Index and context node Work_Index_entry. We need the label of instance of class:work_Index and gesah:index_number, data propery to context node Work_Index_entry-->
                                         <lido:objectID lido:type="http://terminology.lido-schema.org/lido00100">
                                           <xsl:value-of select="concat((local:get(./gesah:is_listed_in)/rdfs:label)[1]/text(), ' ', ./gesah:index_number/text())" />
                                         </lido:objectID>
@@ -2271,8 +2259,7 @@
                             </xsl:for-each>
 
 
-                            <!-- GK: Hier ist die Sekundärliteratur gelandet.
-                            BR: This is equivalent to our data property of CO gesah:secondary_literature, this is a html field, we sometimes use hyperlinks... cfr. objectDescriptionSet, I guess it is similar-->
+                            <!-- This is equivalent to our data property of CO gesah:secondary_literature -->
                             <xsl:for-each select="$cultural_object/gesah:secondary_literature">
                                 <lido:relatedWorkSet>
                                    <lido:relatedWork>
@@ -2304,7 +2291,7 @@
                     <lido:rightsWorkWrap>
                         <lido:rightsWorkSet> <!-- This is for the real physical described object: for all our objects this is true-->
                             <lido:rightsType>
-                                <!-- rdf about entfernt, Typattribut bei conceptID ergänzt -->
+                              
                                 <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">https://creativecommons.org/publicdomain/mark/1.0/</lido:conceptID>
                                 <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="en">Public Domain Mark 1.0</lido:term>
                                 <lido:term lido:pref="http://terminology.lido-schema.org/lido00169" xml:lang="de">Public Domain Mark 1.0</lido:term>
@@ -2354,7 +2341,7 @@
                     </lido:recordWrap>
 
                     <lido:resourceWrap>
-                        <!-- This is on images. It sais normally one high resolution image and one small preview is delivered. The internal IDs of these files I don't know, I use here the URI of the image in Vitro.-->
+                        <!-- This is on images -->
                         <xsl:for-each select="local:get(//gesah:has_digital_representation)">
                             <lido:resourceSet>
                               <lido:resourceID lido:type="http://terminology.lido-schema.org/lido00099"><xsl:value-of select="@rdf:about" /></lido:resourceID>
