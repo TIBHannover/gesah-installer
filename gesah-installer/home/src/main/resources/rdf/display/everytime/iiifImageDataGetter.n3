@@ -6,27 +6,12 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix core: <http://vivoweb.org/ontology/core#> .
 @prefix vivoweb: <http://vivoweb.org/ontology#> .
-@prefix afn:  <http://jena.apache.org/ARQ/function#> .
 
- 
-## associate the classes with the datagetter ##
 
-<http://ontology.tib.eu/gesah/Drawing> display:hasDataGetter display:checkForIIIFDG .
-<http://ontology.tib.eu/gesah/Print> display:hasDataGetter display:checkForIIIFDG .
-<http://ontology.tib.eu/gesah/Photomechanical_Print> display:hasDataGetter display:checkForIIIFDG .
-<http://ontology.tib.eu/gesah/Painting> display:hasDataGetter display:checkForIIIFDG .
-<http://ontology.tib.eu/gesah/Digital_Image> display:hasDataGetter display:checkForIIIFDG .
-<http://ontology.tib.eu/gesah/Seal> display:hasDataGetter display:checkForIIIFDG .
-<http://ontology.tib.eu/gesah/Manuscript> display:hasDataGetter display:checkForIIIFDG .
-<http://ontology.tib.eu/gesah/Musical_Notation> display:hasDataGetter display:checkForIIIFDG .
-<http://ontology.tib.eu/gesah/Printed_Materials> display:hasDataGetter display:checkForIIIFDG .
-
- 
-## define the datagetter ##
-
-display:checkForIIIFDG
+<http://gesah#digitalRepresentations>
     a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter>;
     display:saveToVar "digitalRepresentations";
+    display:uri "individualURI";
     display:query 
         """
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
