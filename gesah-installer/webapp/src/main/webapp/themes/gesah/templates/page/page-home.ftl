@@ -50,7 +50,7 @@
                    		</div>
 		                          
                         <div class="home-page-heading2">${i18n().search_collection_text}</div>
-                        	<form id="search-homepage" action="${urls.base}/extendedsearch" name="search-home" role="search" method="GET" class="form-horizontal">
+                        	<form id="search-homepage" action="${urls.base}/search" name="search-home" role="search" method="GET" class="form-horizontal">
 		                        <fieldset>
 		                            <div class="form-group">
 			                             <div id="search-line-container">
@@ -62,7 +62,7 @@
 			                                         </button>
 			                                     </span>
 			                                 </div>
-			                              	<a class="home-page-help-icon" href="${urls.base}/extendedsearch"><img class="search-icon search-icon-settings" src="images/icons/settings.svg"></a>
+			                              	<a class="home-page-help-icon" href="${urls.base}/search"><img class="search-icon search-icon-settings" src="images/icons/settings.svg"></a>
 			                              	<div class="home-page-help-text">${i18n().search_filters_help_text}</div>
 			                             	<a class="home-page-help-icon"><img class="search-icon search-icon-question"  src="images/icons/question.svg"></a>
 			                             	<div class="home-page-help-text">${i18n().search_help_text}</div>
