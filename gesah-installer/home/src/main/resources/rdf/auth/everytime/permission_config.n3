@@ -169,13 +169,34 @@ auth:PUBLIC
 
     # permissions for ANY user, even if they are not logged in.
     auth:hasPermission simplePermission:QueryFullModel ;
-    auth:hasPermission simplePermission:PageViewablePublic ;
+	auth:hasPermission simplePermission:PageViewablePublic ;
 
     auth:hasPermission displayPermission:PUBLIC ;
     auth:hasPermission publishPermission:PUBLIC ;
     .
 
+auth:SPARQL_API_ROLE
+    a auth:PermissionSet ;
+    rdfs:label "SPARQL API role" ;
+
+    # permissions for ANY user, even if they are not logged in.
+    auth:hasPermission simplePermission:QueryFullModel ;
+    auth:hasPermission simplePermission:PageViewablePublic ;
+
+    auth:hasPermission simplePermission:UseSparqlQueryApi;
+
+    auth:hasPermission displayPermission:SPARQL_API_ROLE;
+    auth:hasPermission updatePermission:SPARQL_API_ROLE ;
+    auth:hasPermission publishPermission:SPARQL_API_ROLE ;
+
+    .
+
+
 # Register display / update / publish sets that are referenced above
+
+displayPermission:SPARQL_API_ROLE
+    a displayPermission:Set ;
+    .
 
 displayPermission:PUBLIC
     a displayPermission:Set ;
@@ -197,6 +218,10 @@ displayPermission:ADMIN
     a displayPermission:Set ;
     .
 
+updatePermission:SPARQL_API_ROLE
+    a updatePermission:Set ;
+    .
+
 updatePermission:PUBLIC
     a updatePermission:Set ;
     .
@@ -216,6 +241,10 @@ updatePermission:CURATOR
 
 updatePermission:ADMIN
     a updatePermission:Set ;
+    .
+
+publishPermission:SPARQL_API_ROLE
+    a publishPermission:Set ;
     .
 
 publishPermission:PUBLIC
