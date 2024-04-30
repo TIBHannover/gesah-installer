@@ -170,7 +170,6 @@ auth:PUBLIC
     # permissions for ANY user, even if they are not logged in.
     auth:hasPermission simplePermission:QueryFullModel ;
     auth:hasPermission simplePermission:PageViewablePublic ;
-    auth:hasPermission simplePermission:UseSparqlQueryApi;
 
     auth:hasPermission displayPermission:PUBLIC ;
     auth:hasPermission publishPermission:PUBLIC ;
