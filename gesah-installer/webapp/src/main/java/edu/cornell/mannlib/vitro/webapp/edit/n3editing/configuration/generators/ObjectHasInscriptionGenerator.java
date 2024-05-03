@@ -71,10 +71,10 @@ public class ObjectHasInscriptionGenerator extends AbstractCulturalObjectGenerat
 
         String objectUri = EditConfigurationUtils.getObjectUri(vreq);
         if (StringUtils.isBlank(objectUri)) {        
-    		addNewActor(conf);
-    		addNewActorRole(conf);
+            addNewOptionalActor(conf, false);
+            addNewOptionalActorRole(conf, false);
             addExistingActor(conf);
-            addExistingRoleType(conf);
+            addOptionalExistingRoleType(conf, false);
         }
         addComment(conf);
         addTranscription(conf);
