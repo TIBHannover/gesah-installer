@@ -6,7 +6,7 @@
     <fieldset>
         <legend>${i18n().search_form}</legend>
 
-        <form id="search-form" action="${urls.base}/extendedsearch" name="search" role="search" accept-charset="UTF-8" method="GET"> 
+        <form id="search-form" action="${urls.base}/search" name="search" role="search" accept-charset="UTF-8" method="GET"> 
             <div id="search-field">
                 <input type="text" name="querytext" class="search-vivo" placeholder="${i18n().search_field_placeholder}"  value="${querytext!?html}" autocapitalize="off" />
                 <input type="submit" value="${i18n().search_button}" class="search">

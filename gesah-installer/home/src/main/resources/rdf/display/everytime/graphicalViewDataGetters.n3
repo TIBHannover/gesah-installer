@@ -7,8 +7,9 @@
 display:graphicalViewDataGetter
     a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
     display:saveToVar "categories" ;
+    display:queryModel "vitro:requestDisplayModel" ;
     display:query """
-    PREFIX search: <https://osl.tib.eu/vitro-searchOntology#>
+    PREFIX search: <https://vivoweb.org/ontology/vitro-search#>
     PREFIX gesah:    <http://ontology.tib.eu/gesah/>
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
