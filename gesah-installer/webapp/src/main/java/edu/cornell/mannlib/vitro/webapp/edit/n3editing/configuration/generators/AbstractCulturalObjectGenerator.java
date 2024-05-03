@@ -251,12 +251,18 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       VAR + NEW_ATTR_TYPE + " a " + "<" + ATTRIBUTION_TYPE + "> .";
 
     protected void addExistingRoleType(EditConfigurationVTwo conf) throws Exception {
+        addOptionalExistingRoleType(conf, false);
+    }
+
+    protected void addOptionalExistingRoleType(EditConfigurationVTwo conf, boolean addValidators) throws Exception {
         conf.addN3Optional(Arrays.asList(n3ForExistingRoleType));
-        conf.addUrisOnForm( Arrays.asList( EXISTING_ROLE_TYPE ));
-        conf.addField( new FieldVTwo()
-                .setName(EXISTING_ROLE_TYPE)
-                .setValidators(list(DATATYPE + XSD.xstring.toString(),NONEMPTY))
-                .setOptions(new IndividualsViaVClassOptions(ROLE_TYPE_CLASS)));
+        conf.addUrisOnForm(Arrays.asList(EXISTING_ROLE_TYPE));
+        FieldVTwo existingRoleTypeField = new FieldVTwo().setName(EXISTING_ROLE_TYPE)
+                .setOptions(new IndividualsViaVClassOptions(ROLE_TYPE_CLASS));
+        conf.addField(existingRoleTypeField);
+        if (addValidators) {
+            existingRoleTypeField.setValidators(list(DATATYPE + XSD.xstring.toString(), NONEMPTY));
+        }
     }
 
     private final static String n3ForExistingRoleType =
@@ -265,13 +271,20 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
         VAR + NEW_ROLE + SPACE + "<" + HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . ";
 
     protected void addNewActorRole(EditConfigurationVTwo conf) throws Exception {
+        addNewOptionalActorRole(conf, false);
+    }
+
+    protected void addNewOptionalActorRole(EditConfigurationVTwo conf, boolean addValidators) throws Exception {
         conf.addNewResource(NEW_ROLE, DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addNewResource(NEW_ACTIVITY_ROLE_TYPE, DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addN3Optional(Arrays.asList(n3ForNewActivityRoleType));
         conf.addField(new FieldVTwo().setName(NEW_ROLE).setOptions(new IndividualsViaVClassOptions(ROLE_CLASS)));
         conf.addLiteralsOnForm(Arrays.asList(ACTIVITY_ROLE_TYPE_LABEL));
-        conf.addField(new FieldVTwo().setName(ACTIVITY_ROLE_TYPE_LABEL).setRangeDatatypeUri(XSD.xstring.toString())
-                .setValidators(list(DATATYPE + XSD.xstring.toString())));
+        FieldVTwo activityRoleTypeField = new FieldVTwo().setName(ACTIVITY_ROLE_TYPE_LABEL).setRangeDatatypeUri(XSD.xstring.toString());
+        conf.addField(activityRoleTypeField);
+        if (addValidators) {
+            activityRoleTypeField.setValidators(list(DATATYPE + XSD.xstring.toString()));
+        }
     }
 
     private final static String n3ForNewActivityRoleType  =
@@ -283,6 +296,10 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       VAR + NEW_ACTIVITY_ROLE_TYPE + " a " + "<" + ROLE_TYPE + "> . " ;
 
     protected void addNewActor(EditConfigurationVTwo conf) throws Exception {
+        addNewOptionalActor(conf, true);
+    }
+
+    protected void addNewOptionalActor(EditConfigurationVTwo conf, boolean addValidators) throws Exception {
         conf.addN3Optional(Arrays.asList(n3ForNewActor));
         conf.addNewResource(NEW_ACTOR, DEFAULT_NS_FOR_NEW_RESOURCE);
         conf.addField(new FieldVTwo().setName(NEW_ACTOR).setOptions(new IndividualsViaVClassOptions(ACTOR_CLASS)));
@@ -290,12 +307,20 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
         conf.addUrisOnForm(Arrays.asList(ACTOR_TYPE));
         conf.addLiteralsOnForm(Arrays.asList(ACTOR_LABEL));
         conf.addLiteralsOnForm(Arrays.asList(ACTOR_LABEL_DISPLAY));
-        conf.addField(new FieldVTwo().setName(ACTOR_TYPE).setValidators(list(DATATYPE + XSD.xstring.toString(),NONEMPTY))
-                .setOptions(new ChildVClassesOptions(ACTOR_CLASS)));
-        conf.addField(new FieldVTwo().setName(ACTOR_LABEL).setRangeDatatypeUri(XSD.xstring.toString())
-                .setValidators(list(DATATYPE + XSD.xstring.toString())));
+        
+        FieldVTwo actorTypeField = new FieldVTwo().setName(ACTOR_TYPE);
+        actorTypeField.setOptions(new ChildVClassesOptions(ACTOR_CLASS));
+        conf.addField(actorTypeField);
+        
+        FieldVTwo actorLabelField = new FieldVTwo().setName(ACTOR_LABEL).setRangeDatatypeUri(XSD.xstring.toString());
+        conf.addField(actorLabelField);
         conf.addField(new FieldVTwo().setName(ACTOR_LABEL_DISPLAY).setRangeDatatypeUri(XSD.xstring.toString()));
-        conf.addValidator(new AutocompleteRequiredInputValidator(EXISTING_ACTOR, ACTOR_LABEL));
+        
+        if (addValidators) {
+            actorTypeField.setValidators(list(DATATYPE + XSD.xstring.toString(),NONEMPTY));
+            actorLabelField.setValidators(list(DATATYPE + XSD.xstring.toString()));
+            conf.addValidator(new AutocompleteRequiredInputValidator(EXISTING_ACTOR, ACTOR_LABEL));    
+        }
     }
 
   //Should work only if participant wasn't selected
