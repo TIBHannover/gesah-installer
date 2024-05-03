@@ -7,8 +7,8 @@
         <legend>${i18n().search_form}</legend>
 
             <div id="search-field">
-                <input form="extended-search-form" id="filter_input_querytext" type="text" name="querytext" class="search-vivo" placeholder="${i18n().search_field_placeholder}"  value="${querytext!?html}" autocapitalize="off" />
-                <input form="extended-search-form" type="submit" value="${i18n().search_button}" class="search">
+                <input form="search-form" id="filter_input_querytext" type="text" name="querytext" class="search-vivo" placeholder="${i18n().search_field_placeholder}"  value="${querytext!?html}" autocapitalize="off" />
+                <input form="search-form" type="submit" value="${i18n().search_button}" class="search">
             </div>
     </fieldset>
 </section>

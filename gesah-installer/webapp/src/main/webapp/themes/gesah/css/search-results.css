@@ -130,12 +130,12 @@ input[type=checkbox]:not(:checked) + label {
 	display: inline-block;
 }
 
-#extended-search-form input {
+#search-form input {
 	margin-top: 1px;
 	height: 2.5em;
 }
 
-.extended-search-input-group{
+.search-input-group{
 	padding-left:  0px;
 	padding-right: 0px;
 }
@@ -217,6 +217,6 @@ a.hidden-search-option {
   border: 0px;
 }
 
-.extended-search-input-group {
+.search-input-group {
   display: none;
 }
