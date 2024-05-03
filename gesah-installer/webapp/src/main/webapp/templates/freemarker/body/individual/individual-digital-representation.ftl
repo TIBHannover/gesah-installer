@@ -19,6 +19,7 @@
 <#-- Default individual profile page template -->
 <#--@dumpAll /-->
 <#include "individual-adminPanel.ftl">
+<@dataGetter uri = "http://gesah#digitalRepresentations" parameters = {"individualURI": individual.uri} />
 <section id="individual-intro" class="vcard" role="region" <@mf.sectionSchema individual/>>
     <!-- start section individual-info -->
     <section id="individual-info" ${infoClass!} role="region">
