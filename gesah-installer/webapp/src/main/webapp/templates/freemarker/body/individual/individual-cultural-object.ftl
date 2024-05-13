@@ -106,7 +106,7 @@
             });
         }
         
-        loadScript("${urls.base}/seadragon/openseadragon.js").then(successOpenSeaDragonLoad);
+        loadScript("${urls.base}/seadragon/openseadragon.min.js").then(successOpenSeaDragonLoad);
         
         var viewer;
  
@@ -237,7 +237,7 @@
 ${stylesheets.add('<link rel="stylesheet" href="${urls.base}/css/individual/individual.css" />',
 '<link rel="stylesheet" href="${urls.base}/css/jquery_plugins/qtip/jquery.qtip.min.css" media="print" onload="this.media=\'all\'; this.onload=null;"/>')}
 
-${headScripts.add('<script type="text/javascript" src="${urls.base}/js/jquery_plugins/qtip/jquery.qtip.min.js"></script>')}
+${headScripts.add('<script type="text/javascript" src="${urls.base}/js/jquery_plugins/qtip/jquery.qtip.min.js" async></script>')}
 <#if user.loggedIn>
   ${headScripts.add('<script type="text/javascript" src="${urls.base}/js/tiny_mce/tiny_mce.js"></script>')}
 </#if>

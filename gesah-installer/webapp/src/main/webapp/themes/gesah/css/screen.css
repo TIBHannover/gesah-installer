@@ -38,6 +38,4 @@ VIVO tenderfoot theme: screen styles
 @import url("tib-overrides.css");
 @import url("tib-fonts.css");
 @import url("../../../local/css/local.css");
-@import url("search-results.css?nocache=1");
-@import url("nouislider.css?nocache=1");
 
