@@ -235,14 +235,16 @@
 
 
 ${stylesheets.add('<link rel="stylesheet" href="${urls.base}/css/individual/individual.css" />',
-'<link rel="stylesheet" type="text/css" href="${urls.base}/css/jquery_plugins/qtip/jquery.qtip.min.css" />')}
+'<link rel="stylesheet" href="${urls.base}/css/jquery_plugins/qtip/jquery.qtip.min.css" media="print" onload="this.media=\'all\'; this.onload=null;"/>')}
 
-${headScripts.add('<script type="text/javascript" src="${urls.base}/js/jquery_plugins/qtip/jquery.qtip.min.js"></script>',
-'<script type="text/javascript" src="${urls.base}/js/tiny_mce/tiny_mce.js"></script>')}
+${headScripts.add('<script type="text/javascript" src="${urls.base}/js/jquery_plugins/qtip/jquery.qtip.min.js"></script>')}
+<#if user.loggedIn>
+  ${headScripts.add('<script type="text/javascript" src="${urls.base}/js/tiny_mce/tiny_mce.js"></script>')}
+</#if>
 
-${scripts.add('<script type="text/javascript" src="${urls.base}/js/imageUpload/imageUploadUtils.js"></script>',
-'<script type="text/javascript" src="${urls.base}/js/individual/moreLessController.js"></script>',
-'<script type="text/javascript" src="${urls.base}/js/individual/individualUriRdf.js"></script>')}
+${scripts.add('<script type="text/javascript" src="${urls.base}/js/imageUpload/imageUploadUtils.js" async></script>',
+'<script type="text/javascript" src="${urls.base}/js/individual/moreLessController.js" async></script>',
+'<script type="text/javascript" src="${urls.base}/js/individual/individualUriRdf.js" async></script>')}
 
 <script type="text/javascript">
     i18n_confirmDelete = "${i18n().confirm_delete}";
