@@ -74,21 +74,40 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-        var imageDownloadUrls = [
+    <script type="text/javascript" async>
+        
+        function loadScript(src) {
+            return new Promise(function (resolve, reject) {
+                var el;
+                el = document.createElement('script');
+                el.src = src;
+                el.onload = resolve;
+                el.onerror = reject;
+                document.head.appendChild(el);
+            });
+        }
+        
+        loadScript("${urls.base}/seadragon/openseadragon.min.js").then(successOpenSeaDragonLoad);
+        
+        var viewer;
+ 
+        function successOpenSeaDragonLoad(result) {
+			viewer = OpenSeadragon({
+			    id: "viewer",
+			    collectionMode:       true,
+			    collectionRows:       3,
+			    collectionTileSize:   1024,
+			    collectionTileMargin: 56,
+			    prefixUrl: "${urls.base}/seadragon/images/",
+			    tileSources: [
+			        <#list digitalRepresentations as digRep>"${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/info.json"<#sep>, </#list>
+			    ]
+       		});
+        }
+		var imageDownloadUrls = [
             <#list digitalRepresentations as digRep>"${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/full/full/0/default.tif"<#sep>, </#list>
         ];
-        var viewer = OpenSeadragon({
-            id: "viewer",
-            collectionMode:       true,
-            collectionRows:       3,
-            collectionTileSize:   1024,
-            collectionTileMargin: 56,
-            prefixUrl: "${urls.base}/seadragon/images/",
-            tileSources: [
-                <#list digitalRepresentations as digRep>"${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/info.json"<#sep>, </#list>
-            ]
-        });
+        
         function downloadImage() {
             window.location = imageDownloadUrls[viewer.currentPage()];
         }
@@ -119,15 +138,16 @@
 </script>
 
 ${stylesheets.add('<link rel="stylesheet" href="${urls.base}/css/individual/individual.css" />',
-'<link rel="stylesheet" type="text/css" href="${urls.base}/css/jquery_plugins/qtip/jquery.qtip.min.css" />')}
+'<link rel="stylesheet" href="${urls.base}/css/jquery_plugins/qtip/jquery.qtip.min.css" media="print" onload="this.media=\'all\'; this.onload=null;" />')}
 
-${headScripts.add('<script type="text/javascript" src="${urls.base}/js/jquery_plugins/qtip/jquery.qtip.min.js"></script>',
-'<script type="text/javascript" src="${urls.base}/js/tiny_mce/tiny_mce.js"></script>',
-'<script type="text/javascript" src="${urls.base}/seadragon/openseadragon.js"></script>')}
+${headScripts.add('<script type="text/javascript" src="${urls.base}/js/jquery_plugins/qtip/jquery.qtip.min.js" async></script>')}
+<#if user.loggedIn>
+  ${headScripts.add('<script type="text/javascript" src="${urls.base}/js/tiny_mce/tiny_mce.js"></script>')}
+</#if>
 
-${scripts.add('<script type="text/javascript" src="${urls.base}/js/imageUpload/imageUploadUtils.js"></script>',
-'<script type="text/javascript" src="${urls.base}/js/individual/moreLessController.js"></script>',
-'<script type="text/javascript" src="${urls.base}/js/individual/individualUriRdf.js"></script>')}
+${scripts.add('<script type="text/javascript" src="${urls.base}/js/imageUpload/imageUploadUtils.js" async></script>',
+'<script type="text/javascript" src="${urls.base}/js/individual/moreLessController.js" async></script>',
+'<script type="text/javascript" src="${urls.base}/js/individual/individualUriRdf.js" async></script>')}
 
 <script type="text/javascript">
     i18n_confirmDelete = "${i18n().confirm_delete}";
