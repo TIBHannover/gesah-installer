@@ -7,8 +7,8 @@
 
 <https://vivoweb.org/ontology/vitro-dynamic-api/resourceAPI/resource/agent>
         a                                   dynapi:ResourceAPI ;
-        rdfs:label                          "Cultural object resourceAPI"@en-US ;
-        dynapi:name                         "cultural_object" ;
+        rdfs:label                          "Agent resource"@en-US ;
+        dynapi:name                         "agent" ;
         dynapi:minAPIVersion                "0.1.0" ;
         dynapi:hasCustomRESTAction          <https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/get_agent_by_gnd_id> ;
         .
