@@ -1,0 +1,68 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dynapi: <https://vivoweb.org/ontology/vitro-dynamic-api#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/get-place/> .
+@prefix paramType: <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/> .
+
+:procedure
+        a                                   dynapi:Procedure ;
+        rdfs:label                          "Get place uri by label"@en-US ;
+        dynapi:publicAccess                 "true"^^xsd:boolean ;
+        dynapi:hasFirstStep                 :step1 ;
+        dynapi:providesParameter            :parameter-place-uri ;
+        .
+:step1
+         a                                   dynapi:OperationalStep ;
+         dynapi:hasNextStep                  :step2 ;
+         dynapi:hasOperation                 :is-place-exists .       
+
+:is-place-exists
+         a                                   dynapi:SparqlSelectQuery ;
+         dynapi:sparqlQueryText              """
+				PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+				PREFIX core: <http://vivoweb.org/ontology/core#>
+				SELECT ?exists ?place WHERE {
+				  OPTIONAL{
+					?place a core:GeographicLocation .
+					?place rdfs:label ?place_label .
+					FILTER (STR(?place_label) = ?label)
+				  }
+				  BIND(COALESCE(BOUND(?place), false) As ?exists )
+				} LIMIT 1
+             """ ;
+         dynapi:providesParameter            :parameter-is-place-exists ;
+         dynapi:requiresParameter            :parameter-label ;
+         dynapi:providesParameter            :parameter-place-uri ;
+         .
+
+:step2
+         a                                   dynapi:ConditionalStep ;
+         dynapi:nextIfNotSatisfied           :place-not-exists ;
+         dynapi:hasCondition                 :condition-is-place-exists .       
+
+:condition-is-place-exists
+         a                                   dynapi:ConditionHasTrueValue ;
+         dynapi:requiresParameter            :parameter-is-place-exists .
+
+:place-not-exists
+        a                                   dynapi:ErrorStep ;
+        dynapi:errorCode                    "404"^^xsd:int .
+
+#######################################################################################################################
+
+:parameter-place-uri
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "place" ;
+        dynapi:hasType                      paramType:uri .
+
+:parameter-label
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "label" ;
+        dynapi:hasType                      paramType:string-literal .
+
+:parameter-is-place-exists
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "exists" ;
+        dynapi:hasType                      paramType:boolean .
+
