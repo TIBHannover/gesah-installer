@@ -1,3 +1,414 @@
+@font-face {
+    font-family: 'FontAwesome';
+    src: url('../fonts/fontawesome-webfont.eot?v=4.4.0');
+    src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.4.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.4.0') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.4.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.4.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.4.0#fontawesomeregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+/* Common colors from TIB Portal */
+@font-face {
+    font-family: 'Cabin Condensed';
+    src: url("../fonts/CabinCondensed-Regular.woff2") format("woff2");
+}
+@font-face {
+    font-family: 'Cabin Condensed';
+    font-weight: 500;
+    src: url("../fonts/CabinCondensed-Medium.woff2") format("woff2");
+}
+@font-face {
+    font-family: 'Cabin Condensed';
+    font-weight: 600;
+    src: url("../fonts/CabinCondensed-SemiBold.woff2") format("woff2");
+}
+@font-face {
+    font-family: 'Cabin Condensed';
+    font-weight: bold;
+    src: url("../fonts/CabinCondensed-Bold.woff2") format("woff2");
+}
+@font-face {
+    font-family: Generika;
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/Generika-Regular_web.eot');
+    src: url('../fonts/Generika-Regular_web.eot?#iefix') format('embedded-opentype'), url('../fonts/Generika-Regular_web.woff') format('woff'), url('../fonts/Generika-Regular_web.ttf') format('truetype');
+}
+@font-face {
+    font-family: GenerikaLight;
+    font-style: normal;
+    font-weight: 300;
+    src: url('../fonts/Generika-Light_web.eot');
+    src: url('../fonts/Generika-Light_web.eot?#iefix') format('embedded-opentype'), url('../fonts/Generika-Light_web.woff') format('woff'), url('../fonts/Generika-Light_web.ttf') format('truetype');
+}
+@font-face {
+    font-family: GenerikaBold;
+    font-style: normal;
+    font-weight: 700;
+    src: url('../fonts/Generika-Bold_web.eot');
+    src: url('../fonts/Generika-Bold_web.eot?#iefix') format('embedded-opentype'), url('../fonts/Generika-Bold_web.woff') format('woff'), url('../fonts/Generika-Bold_web.ttf') format('truetype');
+}
+@font-face {
+    font-family: GenerikaItalic;
+    font-style: italic;
+    font-weight: 400;
+    src: url('../fonts/Generika-Italic_web.eot');
+    src: url('../fonts/Generika-Italic_web.eot?#iefix') format('embedded-opentype'), url('../fonts/Generika-Italic_web.woff') format('woff'), url('../fonts/Generika-Italic_web.ttf') format('truetype');
+}
+
+.hero form input {
+    margin-top: 1px;
+    height: 2.5em;
+}
+
+.hero form input:focus {
+    outline-color: #af1414;
+}
+
+input[type="text"], select, input[type="password"] {
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #fff;
+}
+.navbar-default .navbar-nav>li>a:hover {
+    color: #af1414;
+}
+
+form select {
+    height: 3em;
+}
+
+#individual-intro ul.individual-urls {
+    list-style-type: none;
+    margin: 0 0 15px 0px;
+}
+
+#add-relation input.pos-submit {
+    background-color: #af1414;
+}
+
+table#table-listing th {
+    background-color: #E3E3E3;
+}
+
+.tab-content, .col-md-4 {
+    padding-right: 0px!important;
+    padding-left: 0px!important;
+}
+
+.col-md-8 {
+    padding-right: 0px!important;
+    padding-left: 20px!important;
+}
+.form-control:focus {
+
+    border-color: #af1414;
+    outline: 0;
+    outline-color: currentcolor;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(175, 20, 20, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(175, 20, 20, .6);
+}
+
+.navbar-brand, .navbar-nav > li > a {
+text-shadow: unset!important;
+}
+
+
+.collaboratorship-link h3 a {
+    color: #4b4b4b;
+    text-decoration: none;
+}
+
+.btn {
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+}
+
+#header-entity-label, #noPublications-header, #noPubsOrGrants-header {
+    color: #af1414;
+}
+
+#main-science-areas-table-footer, #download-unlocated-journal-info {
+    background-color: #af1414;
+    padding-bottom: 25px;
+}
+
+#main-science-areas-table-footer:hover, #download-unlocated-journal-info:hover {
+    background-color: #4b4b4b;
+    border-color: #4b4b4b;
+    color: #fafafa;
+}
+
+#main-science-areas-table-footer a:hover {
+    color: #fafafa;
+}
+.bottom-logos > div {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+#header-entity-label a {
+    font-size: 1.5em;
+}
+
+a.temporalGraphLinks {
+    background-color: #af1414;
+    padding: 5px;
+}
+
+a.temporalGraphLinks:hover {
+    background-color: #4b4b4b;
+    border-color: #4b4b4b;
+    color: #fafafa;
+}
+
+.filter-option {
+    color: #af1414;
+}
+
+.active-filter {
+    color: #4b4b4b;
+}
+
+#temporal-graph-response #bottom p {
+    clear: both;
+}
+#temporal-graph-response p.displayCounter {
+    clear: both;
+}
+#datatable_paginate span {
+    color: #af1414;
+}
+
+.searchTOC ul {
+    background-color: #E3E3E3;
+}
+.searchTOC ul li {
+    margin-left: 0px;
+    padding-left: 20px;
+    width: 100%;
+}
+.searchTOC ul li:hover {
+    background-color: #af1414;
+    color: #ffffff;
+}
+.searchTOC ul li:hover a,
+.searchTOC ul li:hover span {
+    color: #ffffff;
+}
+
+.searchTOC {
+    margin-right: 0px;
+    background-color: #af1414;
+}
+
+span#searchHelp {
+    padding-right: 0px;
+}
+
+.searchResultsHeader {
+	width: unset!important;
+}
+
+.co-short-description {
+	padding: 10px 20px 10px 20px;
+	background-color: #f1f1f1;
+	margin-bottom: 20px;
+}
+
+/*TIB Bootstrap modifications*/
+
+h2 {
+    color: #4b4b4b;
+}
+
+h3 {
+    color: #4b4b4b;
+}
+
+.input-group{
+    padding-top: 10px;
+    padding-right: 75px;
+}
+
+.input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group {
+    z-index: 2;
+    margin-left: -1px;
+    background: #AF1414;
+}
+
+.input-group-btn:last-child > .btn:hover, .input-group-btn:last-child > .btn-group:hover {
+    background-color: #4b4b4b;
+    border-color: #4b4b4b;
+    color: #fafafa;
+}
+
+.icon-search{
+    color: #FFFFFF;
+}
+
+.btn-default {
+    /* text-shadow: 0 1px 0 #fff; */
+}
+
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.icons-home {
+    background-image: url('../images/bg4.jpg');
+    background-repeat: no-repeat;
+}
+
+.icons-home .col-md-4 {
+    padding: 45px;
+}
+
+/*
+.col-md-4 {
+    width: 33.33333333%;
+}
+*/
+
+.icons-home a#icon1 {
+    background: #fff;
+    padding-left: 42.0%;
+}
+.icons-home a#icon1:hover {
+    background-color: #AF1414;
+    border-color: #AF1414;
+    color: #fafafa;
+}
+.icons-home a#icon1:hover .glyphicon,
+.icons-home a#icon1:hover h3 {
+    color: #fafafa;
+}
+
+.icons-home a#icon2 {
+    background: #fff;
+    padding-left: 42.0%;
+}
+.icons-home a#icon2:hover {
+    background-color: #AF1414;
+    border-color: #AF1414;
+    color: #fafafa;
+}
+.icons-home a#icon2:hover .glyphicon,
+.icons-home a#icon2:hover h3 {
+    color: #fafafa;
+}
+
+.icons-home a#icon3 {
+    background: #fff;
+    padding-left: 42.0%;
+}
+.icons-home a#icon3:hover {
+    background-color: #AF1414;
+    border-color: #AF1414;
+    color: #fafafa;
+}
+.icons-home a#icon3:hover .glyphicon,
+.icons-home a#icon3:hover h3 {
+    color: #fafafa;
+}
+
+.icons-home a {
+    padding: 30px 0 45px 0;
+    display: block;
+    color: #4B4B4B;
+    text-decoration: none;
+    transition: background 0.65s, color 0.45s;
+
+}
+
+.icons-home .glyphicon {
+    font-size: 75px;
+    width: 100%;
+    height: 100%;
+    line-height: 2em;
+}
+
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#search-field input.search {
+    margin-top: 5px;
+}
+
+#search-field input.search:hover {
+    background-color: #4b4b4b;
+    border-color: #4b4b4b;
+    color: #fafafa;
+}
+
+.person-details {
+    background-color: #E3E3E3;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+}
+
+#individual-admin .col-md-12 {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#property-tabs {
+    padding-left: 0px;
+}
+
+#ind-right-panel {
+    padding-right: 0px;
+}
+
+#property-tabs .col-md-12 {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#property-group-tabs .col-md-12 {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.photo-wrapper {
+    background-color: #E3E3E3;
+}
+
+#wrapper-content > p {
+  font-size: 1.2rem;
+  text-align: justify;
+  line-height: 1.6rem;
+}
+
+#wrapper-content > p > a {
+  font-size: 1.2rem;
+  text-align: justify;
+  line-height: 1.6rem;
+}
+
+#wrapper-content > h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
+}
+
+
+
+
 legend {
     display: none;
 }

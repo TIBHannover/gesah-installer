@@ -21,7 +21,6 @@ VIVO tenderfoot theme: screen styles
 @import url("reset.css");
 @import url("dark-bottom.css");
 @import url("tenderfoot.css");
-@import url("tenderfoot-tib.css");
 @import url("edit.css");
 @import url("navbar-breakpoint.css");
 @import url("page-admin.css");
@@ -33,9 +32,5 @@ VIVO tenderfoot theme: screen styles
 @import url("page-login.css");
 @import url("page-menu.css");
 @import url("page-createAndLink.css");
-@import url("tib-page-browse.css");
-@import url("tib-page-home.css");
-@import url("tib-overrides.css");
-@import url("tib-fonts.css");
 @import url("../../../local/css/local.css");
 

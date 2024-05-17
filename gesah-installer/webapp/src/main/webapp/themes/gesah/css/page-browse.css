@@ -84,3 +84,31 @@ nav#alpha-browse-container {
 #individuals-in-class {
     margin-right: 0px;
 }
+
+#browse-by {
+    width: 100%;
+}
+
+ul#browse-classes {
+    width: 25%;
+    margin-left: 0px;
+    margin-top: 0px;
+}
+
+nav#alpha-browse-container {
+    margin-left: 0px;
+    margin-top: 0px;
+}
+
+
+nav#alpha-browse-container {
+    width: 70%;
+}
+
+#individuals-in-class {
+    width: 70%;
+}
+
+#individuals-in-class .pagination {
+    margin-left: 10px;
+}
