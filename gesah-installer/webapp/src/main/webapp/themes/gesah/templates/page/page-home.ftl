@@ -20,7 +20,6 @@
         <#if geoFocusMapsEnabled >
             <#include "geoFocusMapScripts.ftl">
         </#if>
-        <script async type="text/javascript" src="${urls.base}/js/homePageUtils.js?version=x"></script>
         <style>
             #nav.affix-top section#search {
                 display: none;
