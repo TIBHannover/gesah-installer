@@ -71,7 +71,30 @@
         <div class="row">
             <div class="col-md-4">
 	            <div class="co-short-description">
+	            <#assign shortDescription >
 					<@lgv.printParticipations individual />
+				</#assign>
+				${shortDescription}
+				<@dataGetter uri = "http://gesah-short-view#mostSpecificType" parameters = {"object": individual.uri} />
+				<#if mostSpecificTypes?has_content>
+					<#assign participantsDescription = shortDescription?replace('<[^>]+>','','r')?replace('\\r?\\n',' ','r')?replace('\\ +',' ','r')?trim />
+					<#assign coType = (mostSpecificTypes?first).type!'http://ontology.tib.eu/gesah/Cultural_Object' />
+					<#assign typeLabel = individual.mostSpecificTypes?first!'cultural object' />
+					<#if participantsDescription?has_content>
+						<#if title?contains('"') || title?contains("'")>
+							<#assign descriptionTitle = title?html />
+						<#else>
+            				<#assign descriptionTitle = "&quot;" + title?html + "&quot;" />
+    					</#if>
+						<#if "http://ontology.tib.eu/gesah/Composite_Volume" == coType || "http://ontology.tib.eu/gesah/Photomechanical_Print" == coType >
+							${metaTags.add("<meta tag=\"description\" content=\"" + i18n().meta_description_co_text_participants_2(typeLabel?html, descriptionTitle, participantsDescription?html) + "\" />")}
+						<#elseif "http://ontology.tib.eu/gesah/Seal" == coType >
+							${metaTags.add("<meta tag=\"description\" content=\"" + i18n().meta_description_co_text_participants_3(typeLabel?html, descriptionTitle, participantsDescription?html) + "\" />")}
+						<#else>
+							${metaTags.add("<meta tag=\"description\" content=\"" + i18n().meta_description_co_text_participants_1(typeLabel?html, descriptionTitle, participantsDescription?html) + "\" />")}
+						</#if>
+					</#if>
+				</#if>
 				</div>
                 <div style="overflow: auto; overflow-x: hidden; height: 65vh">
                 <#include "individual-property-group-notabs.ftl">

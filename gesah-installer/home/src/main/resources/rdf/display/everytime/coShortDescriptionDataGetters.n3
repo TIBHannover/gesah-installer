@@ -114,3 +114,18 @@ sw:Comments
             ?participation gesah:comment ?comment .
 		} ORDER BY ?comment
      """ .
+
+sw:mostSpecificType
+    a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter> ;
+    display:saveToVar "mostSpecificTypes" ;
+    display:uri "object" ;
+    display:query """
+            PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+            PREFIX vitro:    <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#>
+            PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+            SELECT DISTINCT ?type
+            WHERE {
+              ?object vitro:mostSpecificType ?type .
+              ?object a gesah:Cultural_Object .
+            } ORDER BY ?type
+     """ .
