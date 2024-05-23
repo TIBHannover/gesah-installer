@@ -703,15 +703,16 @@ a.powered-by-vivo:hover {
     margin-bottom: 1.3em;
 }
 /* BRANDING ------>  */
-h1.vivo-logo {
+p.vivo-logo {
     width: 100%;
     height: 50px;
     top: 15px;
     left: 0;
     background-size: auto 100% !important;
     z-index: -1;
+    position: absolute;
 }
-h1.vivo-logo a {
+p.vivo-logo a {
     display: block;
     width: 100%;
     height: 59px;
