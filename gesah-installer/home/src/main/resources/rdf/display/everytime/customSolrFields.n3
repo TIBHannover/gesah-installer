@@ -450,6 +450,24 @@ WHERE
 		}
 """ .
 
+:vitrodocumentModifier_default_public_filter_field
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "public filter" ;
+    :hasTargetField "public_filter_ss" ;
+    :hasSelectQuery """
+PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+SELECT ?filter
+WHERE {
+  ?uri a gesah:Cultural_Object .
+  BIND ("public_cultural_object" as ?filter)
+  FILTER NOT EXISTS {
+    ?uri gesah:hide true 
+  }
+}
+""" .
+
+
 :vitrodocumentModifier_place
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
