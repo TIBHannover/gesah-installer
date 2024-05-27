@@ -505,6 +505,9 @@ body {
     padding-top: 20px;
     padding-bottom: 20px;
 }
+#wrapper-content a:not([data-toggle]) {
+	text-decoration: underline;
+}
 
 #property-tabs {
     /*
