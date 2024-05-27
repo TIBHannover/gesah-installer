@@ -98,6 +98,11 @@
 			    collectionRows:       3,
 			    collectionTileSize:   1024,
 			    collectionTileMargin: 56,
+                            showRotationControl: true,
+                            // Enable touch rotation on tactile devices
+                            gestureSettingsTouch: {
+                                pinchRotate: true
+                            },
 			    prefixUrl: "${urls.base}/seadragon/images/",
 			    tileSources: [
 			        <#list digitalRepresentations as digRep>"${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/info.json"<#sep>, </#list>
