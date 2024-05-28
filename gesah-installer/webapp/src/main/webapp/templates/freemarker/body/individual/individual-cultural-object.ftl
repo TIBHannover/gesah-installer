@@ -139,6 +139,11 @@
               prefixUrl: "${urls.base}/seadragon/images/",
               sequenceMode:         true,
               showReferenceStrip:   true,
+              showRotationControl: true,
+              // Enable touch rotation on tactile devices
+              gestureSettingsTouch: {
+                  pinchRotate: true
+              },
               tileSources: [
               <#list digitalRepresentations as digRep>"${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/info.json"<#sep>, </#list>
               ]
