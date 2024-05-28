@@ -517,3 +517,16 @@ WHERE {
                 }
 """ .
 
+:vitrodocumentModifier_part_of_collection
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "part of collection" ;
+    :hasTargetField "part_of_collection_ss" ;
+    :hasSelectQuery """
+PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+SELECT ?collection
+WHERE {
+  ?uri a gesah:Cultural_Object .
+  ?uri gesah:is_part_of_collection ?collection .
+}
+""" .
