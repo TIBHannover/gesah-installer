@@ -13,30 +13,37 @@
     display:saveToVar "digitalRepresentations";
     display:uri "individualURI";
     display:query 
-        """
-        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        SELECT DISTINCT ?barcode ?fileNum  (MIN(?rightLabels) AS ?rightlabel )
-        WHERE {
-            {
-                ?individualURI <http://ontology.tib.eu/gesah/has_digital_representation> ?digRep .
-                ?digRep <http://ontology.tib.eu/gesah/barcode> ?barcode .
-                ?digRep <http://ontology.tib.eu/gesah/image_file_number> ?fileNum .
-                BIND(exists{?individualURI <http://ontology.tib.eu/gesah/has_main_image> ?digRep .} as ?first) 
-                OPTIONAL{
-                        ?digRep <http://ontology.tib.eu/gesah/digital_image_right> ?right .
-                        ?right rdfs:label ?rightLabels .
-                }       
-            }
-            UNION
-            {
-                ?individualURI a <http://ontology.tib.eu/gesah/Digital_Image> .
-                ?individualURI <http://ontology.tib.eu/gesah/barcode> ?barcode .
-                ?individualURI <http://ontology.tib.eu/gesah/image_file_number> ?fileNum .
-                OPTIONAL{
-                        ?individualURI <http://ontology.tib.eu/gesah/digital_image_right> ?right .      
-                        ?right rdfs:label ?rightLabels .
-                }
-            }
-        } GROUP BY  ?barcode ?fileNum  ORDER BY DESC(?first) ASC(?fileNum)
-        """ .
+    """
+		PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+		SELECT DISTINCT ?digRep ?barcode ?fileNum (MIN(?rightLabels) AS ?rightlabel ) (COUNT(?co) as ?co_count)
+		WHERE {
+		  ?individualURI <http://ontology.tib.eu/gesah/has_digital_representation>* ?digRep .
+		  ?digRep a <http://ontology.tib.eu/gesah/Digital_Image> .
+		  ?digRep <http://ontology.tib.eu/gesah/barcode> ?barcode .
+		  ?digRep <http://ontology.tib.eu/gesah/image_file_number> ?fileNum .
+		  BIND(exists{
+		      ?individualURI <http://ontology.tib.eu/gesah/has_main_image> ?digRep .
+		    } as ?first)
+		  OPTIONAL{
+		    ?digRep ^<http://ontology.tib.eu/gesah/has_digital_representation> ?co .
+		  }
+		  OPTIONAL{
+		    ?digRep <http://ontology.tib.eu/gesah/digital_image_right> ?right .
+		    ?right rdfs:label ?rightLabels .
+		  }
+		} GROUP BY ?barcode ?fileNum ?digRep ORDER BY DESC(?first) ASC(?fileNum)
+    """.
 
+<http://gesah#coTypes>
+    a <java:edu.cornell.mannlib.vitro.webapp.utils.dataGetter.SparqlQueryDataGetter>;
+    display:saveToVar "coTypes";
+    display:uri "no_uri";
+    display:query 
+    """
+		PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+		SELECT DISTINCT ?co_type ?label
+		WHERE {
+		  ?co_type rdfs:subClassOf <http://ontology.tib.eu/gesah/Cultural_Object> .
+		  ?co_type rdfs:label ?label .	  
+		} 
+    """.
