@@ -110,7 +110,6 @@
 					    	}
 					    	function createObjects(){
 					    		let formData = $('#part-creation').serializeArray();
-					    		console.log(formData);
 					    		let type = formData.filter(obj => { return obj.name === "coType" });
 					    		if (!type ||!type[0] || !type[0].value){
 					    			alert("Please select cultural object type.");
@@ -148,7 +147,7 @@
 					    		let stylisticAssignments = [];
 					    		let formStylisticAssignments = formData.filter(obj => { return obj.name.startsWith('stylistic-') });
 					    		formStylisticAssignments.forEach((element) => stylisticAssignments.push(element.value));
-					    		jsonData.formStylisticAssignments = stylisticAssignments;
+					    		jsonData.stylisticAssignments = stylisticAssignments;
 					    		
 					    		let culturalObjects = [];
 					    		images.forEach((element) => 
@@ -175,9 +174,8 @@
 					    			});
 								jsonData.culturalObjects = culturalObjects;
 
-					    		console.log(jsonData);
 					    		var body = JSON.stringify( jsonData );
-					    		fetch("/gesah/api/rest/1/cultural_object/create",
+					    		fetch("/gesah/api/rest/1/cultural_object/copy",
 								{
 								    method: "POST",
 									headers: {
@@ -186,12 +184,12 @@
 									},
 								    body: body
 								}).then(function(res){ return res.json(); })
-					            .then(function(data){ var dialog = document.createElement("dialog");
-					                document.body.appendChild(dialog)
-					                var text = document.createTextNode(data.objects);
-					                dialog.style.setProperty('white-space', 'pre');
-					                dialog.appendChild(text);
-					                dialog.showModal();
+					            .then(function(data){ 
+					                let objects = data.objects;
+					                for (let i = 0; i < objects.length; i++) {
+					                  let objectUri = objects[i].value ;
+					                  window.open("${urls.base}/entity?uri=" + encodeURIComponent(objectUri), '_blank');
+					                } 
 					            })
 					    	}
 					    </script>

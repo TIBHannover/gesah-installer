@@ -47,7 +47,7 @@
 	          <#assign valueNumber += 1>
 	        </#list>              
           </select>
-          <input form="part-creation" type="checkbox" name="main-image-${statement.digRep}" value="true">
+          <input form="part-creation" type="checkbox" autocomplete="off" name="main-image-${statement.digRep}" value="true">
 		  <label style="display:inline;" for="main-image-${statement.digRep}">Is main image</label>
 	    </div>
     </div>
@@ -266,8 +266,8 @@
         </#if>
 		<#if isEdit>
 		  <div class="partObjectCreation" style="display:none;" >
-		    <input form="part-creation" type="checkbox" name="activity-${activityUri}" value="${activityUri}">
-		    <label style="display:inline;" for="activity-${activityUri}">Use activity</label>
+		    <input form="part-creation" type="checkbox" autocomplete="off" name="activity-${activityUri}" value="${activityUri}">
+		    <label style="display:inline;" for="activity-${activityUri}">Copy activity</label>
 		  </div>
 		</#if>
     </div>
