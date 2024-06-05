@@ -859,6 +859,9 @@ img.add-individual {
   margin-top: -35px;
 }
 
+#create-co-button {
+	margin-bottom:20px;
+}
 
 @media screen and (min-width: 640px) {
 	#branding {
@@ -914,3 +917,5 @@ img.add-individual {
 		margin-bottom: 10px;
 	}
 }
+
+
