@@ -240,6 +240,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
     private final static String n3ForNewActorRoleExistingAttrType =
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
       VAR + NEW_ROLE + SPACE + "<" + HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + EXISTING_ATTR_TYPE + " . " + "\n" +
+      VAR + NEW_ROLE + SPACE + " a " + SPACE + "<" + ROLE_CLASS + "> .\n" +
       VAR + EXISTING_ATTR_TYPE + SPACE + "<" + IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + NEW_ROLE + " . ";
 
 
@@ -247,6 +248,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       "@prefix gesah:" + SPACE + "<" + GESAH + ">" + " ." + "\n" +
       VAR + NEW_ROLE + SPACE + "<" + HAS_TYPE_OF_ATTRIBUTION + ">" + SPACE + VAR + NEW_ATTR_TYPE + " . " + "\n" +
       VAR + NEW_ATTR_TYPE + SPACE + "<" + IS_ATTRIBUTION_TYPE_OF + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
+      VAR + NEW_ROLE + SPACE + " a " + SPACE + "<" + ROLE_CLASS + "> .\n" +
       VAR + NEW_ATTR_TYPE + SPACE + "<" + LABEL + ">" + SPACE + VAR + ATTR_TYPE_LABEL + " . " + "\n" +
       VAR + NEW_ATTR_TYPE + " a " + "<" + ATTRIBUTION_TYPE + "> .";
 
@@ -267,6 +269,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
 
     private final static String n3ForExistingRoleType =
         VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
+        VAR + NEW_ROLE + SPACE + " a " + SPACE + "<" + ROLE_CLASS + "> .\n" +
         VAR + NEW_ROLE + SPACE + "<" + REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
         VAR + NEW_ROLE + SPACE + "<" + HAS_ROLE_TYPE + ">" + SPACE + VAR + EXISTING_ROLE_TYPE + " . ";
 
@@ -329,6 +332,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
       VAR + NEW_ACTOR + SPACE + "<" + HAS_ROLE + ">" + SPACE + VAR + NEW_ROLE + " . " + "\n" +
       VAR + NEW_ROLE + SPACE + "<" + IS_ROLE_OF + ">" + SPACE + VAR + NEW_ACTOR + " . " + "\n" +
+      VAR + NEW_ROLE + SPACE + " a " + SPACE + "<" + ROLE_CLASS + "> .\n" +
       VAR + NEW_ROLE + SPACE + "<" + REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . " + "\n" +
       VAR + NEW_ACTOR + " a " + VAR + ACTOR_TYPE + " . " + "\n" +
       VAR + ACTOR_TYPE + " rdfs:subClassOf <" + ACTOR_CLASS + "> ." + "\n" +
@@ -348,6 +352,7 @@ public abstract class AbstractCulturalObjectGenerator extends GesahEditConfigura
       VAR + ACTIVITY_OBJ + SPACE + "<" + REALIZES + ">" + SPACE + VAR + NEW_ROLE + " . \n" +
       VAR + EXISTING_ACTOR +SPACE + "<" + HAS_ROLE + ">" + SPACE + VAR + NEW_ROLE + " . \n" +
       VAR + NEW_ROLE +SPACE + "<" + REALIZED_IN + ">" + SPACE + VAR + ACTIVITY_OBJ + " . \n" +
+      VAR + NEW_ROLE + SPACE + " a " + SPACE + "<" + ROLE_CLASS + "> .\n" +
       VAR + NEW_ROLE +SPACE + "<" + IS_ROLE_OF + ">" + SPACE + VAR + EXISTING_ACTOR + " . " ;
 
 
