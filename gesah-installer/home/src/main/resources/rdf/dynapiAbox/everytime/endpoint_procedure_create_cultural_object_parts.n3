@@ -83,6 +83,7 @@
 
 :contains_next_object
         a                                   dynapi:Procedure ;
+        dynapi:accessWhiteList              :accessGroups ;
         dynapi:providesParameter            :default-condition-result ;
         dynapi:hasFirstStep                 :conditional_step1 .
         
@@ -146,6 +147,7 @@
 #######################################################################################################################
 :create_next_activity
         a                                   dynapi:Procedure ;
+        dynapi:accessWhiteList              :accessGroups ;
         dynapi:providesParameter            :activity-iteration-int-param ;
         dynapi:providesParameter            :objectGraph ;
         dynapi:hasFirstStep                 :create_next_activity_step1 .
@@ -289,6 +291,7 @@
 
 :create_next_co_procedure
         a                                   dynapi:Procedure ;
+        dynapi:accessWhiteList              :accessGroups ;
         dynapi:providesParameter            :iteration-int-param ;
         dynapi:providesParameter            :objects ;
         dynapi:providesParameter            :internalObjectGraph ;
@@ -478,7 +481,7 @@
 			        FILTER(STRSTARTS(STR(?someLabel), CONCAT(STR(?label), " Part ")))
 			      }
 			      BIND(COALESCE(?someLabel,  CONCAT(STR(?label), " Part ")) as ?targetLabel)
-			      BIND( STRDT(SUBSTR(STR(?targetLabel), STRLEN(CONCAT(STR(?label), " Part ")) + 1), xsd:integer) as ?highestNumber)
+			      BIND( STRDT( "0" + SUBSTR(STR(?targetLabel), STRLEN(CONCAT(STR(?label), " Part ")) + 1), xsd:integer) as ?highestNumber)
 			    } ORDER BY DESC(?highestNumber) LIMIT 1
 			  }
 			  BIND (CONCAT("0000000000000000000000000", str(?highestNumber + 1)) as ?formatted_number )
@@ -553,6 +556,7 @@
 
 :contains_next_activity
         a                                   dynapi:Procedure ;
+        dynapi:accessWhiteList              :accessGroups ;
         dynapi:providesParameter            :default-condition-result ;
         dynapi:hasFirstStep                 :contains_activity_step1 .
         
