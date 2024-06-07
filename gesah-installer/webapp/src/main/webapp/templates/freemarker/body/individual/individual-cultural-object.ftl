@@ -357,7 +357,7 @@
 		    {
 		      "@context": "https://schema.org/",
 		      "@type": "ImageObject",
-		      "contentUrl": "${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/full/300,/0/default.jpg",
+		      "contentUrl": "${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/full/!2048,1366/0/default.jpg",
 		      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
 		      "creditText": "Technische Informationsbibliothek (TIB)",
 		      "acquireLicensePage": "https://sah.tib.eu/images_and_metadata",
