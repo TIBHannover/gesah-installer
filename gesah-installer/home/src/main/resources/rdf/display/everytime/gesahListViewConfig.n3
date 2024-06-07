@@ -147,3 +147,19 @@
 
 <http://ontology.tib.eu/gesah/realizes>
     display:listViewConfigFile "listViewConfig-realizes.xml"^^xsd:string .
+    
+<http://ontology.tib.eu/gesah/has_digital_representation>
+    display:listViewConfigFile "listViewConfig-information_image.xml"^^xsd:string .
+    
+<http://ontology.tib.eu/gesah/has_stylistic_assignment>
+    display:listViewConfigFile "listViewConfig-has_stylistic_classification.xml"^^xsd:string .
+    
+<http://ontology.tib.eu/gesah/has_object_category_narrower_term>
+    display:listViewConfigFile "listViewConfig-has_object_category_narrower_term.xml"^^xsd:string .
+    
+<http://ontology.tib.eu/gesah/has_object_category_generic_term>
+    display:listViewConfigFile "listViewConfig-has_object_category_generic_term.xml"^^xsd:string .
+    
+<http://ontology.tib.eu/gesah/has_geographic_assignment>
+    display:listViewConfigFile "listViewConfig-has_geographic_assignment.xml"^^xsd:string .
+    

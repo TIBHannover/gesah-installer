@@ -28,6 +28,32 @@
     </div>
 </#macro>
 
+<#macro printImageInfo statement >
+  <a href="${profileUrl(statement.digRep)}" title="${title}">${statement.strlabel}</a>
+  <#if user.loggedIn>
+    <div class="partObjectCreation" style="display:none;" >
+	    <div>
+	      <a href="${profileUrl(statement.digRep)}" title="${title}">
+	        <img src="${urls.iiif}/iiif/2/${statement.barcode}${iiifSlash}content${iiifSlash}streams${iiifSlash}${statement.fileNum}/full/${maxWidth},/0/default.jpg" />
+	      </a>
+	    </div>
+	    <div class="listElementInformation">
+	      <p>Already assigned to ${statement.co_count} cultural objects</p>
+          <select name="image-${statement.digRep}" autocomplete="off" form="part-creation">
+            <option selected value="">not assigned</option>
+            <#assign valueNumber = 1>
+            <#list digitalReps as rep>
+	          <option value="${valueNumber}">${valueNumber}</option>
+	          <#assign valueNumber += 1>
+	        </#list>              
+          </select>
+          <input form="part-creation" type="checkbox" autocomplete="off" name="main-image-${statement.digRep}" value="true">
+		  <label style="display:inline;" for="main-image-${statement.digRep}">Is main image</label>
+	    </div>
+    </div>
+  </#if>
+</#macro>
+
 <#function labelWithLink url title type >
     <#return "<a class=\"listElementIndividualLink\"  href=\"" + url + "\" title=\"" + title + "\">" + title + " " + type + "</a>" />
 </#function>
@@ -238,6 +264,12 @@
         <#if isEdit>
             <div class="contextLink"><a href="${profileUrl(activityUri)}">${activityUri?keep_after_last("/")}</a></div>
         </#if>
+		<#if isEdit>
+		  <div class="partObjectCreation" style="display:none;" >
+		    <input form="part-creation" type="checkbox" autocomplete="off" name="activity-${activityUri}" value="${activityUri}">
+		    <label style="display:inline;" for="activity-${activityUri}">Copy activity</label>
+		  </div>
+		</#if>
     </div>
 </#macro>
 

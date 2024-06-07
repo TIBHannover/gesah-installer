@@ -22,6 +22,7 @@
 <#include "individual-adminPanel.ftl">
 <@dataGetter uri = "http://gesah#digitalRepresentations" parameters = {"individualURI": individual.uri} />
 
+<#global digitalReps = digitalRepresentations>
 <section id="individual-intro" class="vcard" role="region" <@mf.sectionSchema individual/>>
 
     <!-- start section individual-info -->
@@ -71,33 +72,144 @@
         <div class="row">
             <div class="col-md-4">
 	            <div class="co-short-description">
-	            <#assign shortDescription >
-					<@lgv.printParticipations individual />
-				</#assign>
-				${shortDescription}
-				<@dataGetter uri = "http://gesah-short-view#mostSpecificType" parameters = {"object": individual.uri} />
-				<#if mostSpecificTypes?has_content>
-					<#assign participantsDescription = shortDescription?replace('<[^>]+>','','r')?replace('\\r?\\n',' ','r')?replace('\\ +',' ','r')?trim />
-					<#assign coType = (mostSpecificTypes?first).type!'http://ontology.tib.eu/gesah/Cultural_Object' />
-					<#assign typeLabel = individual.mostSpecificTypes?first!'cultural object' />
-					<#if participantsDescription?has_content>
-						<#if title?contains('"') || title?contains("'")>
-							<#assign descriptionTitle = title?html />
-						<#else>
-            				<#assign descriptionTitle = "&quot;" + title?html + "&quot;" />
-    					</#if>
-						<#if "http://ontology.tib.eu/gesah/Composite_Volume" == coType || "http://ontology.tib.eu/gesah/Photomechanical_Print" == coType >
-							${metaTags.add("<meta tag=\"description\" content=\"" + i18n().meta_description_co_text_participants_2(typeLabel?html, descriptionTitle, participantsDescription?html) + "\" />")}
-						<#elseif "http://ontology.tib.eu/gesah/Seal" == coType >
-							${metaTags.add("<meta tag=\"description\" content=\"" + i18n().meta_description_co_text_participants_3(typeLabel?html, descriptionTitle, participantsDescription?html) + "\" />")}
-						<#else>
-							${metaTags.add("<meta tag=\"description\" content=\"" + i18n().meta_description_co_text_participants_1(typeLabel?html, descriptionTitle, participantsDescription?html) + "\" />")}
+		            <#assign shortDescription >
+						<@lgv.printParticipations individual />
+					</#assign>
+					${shortDescription}
+					<@dataGetter uri = "http://gesah-short-view#mostSpecificType" parameters = {"object": individual.uri} />
+					<#if mostSpecificTypes?has_content>
+						<#assign participantsDescription = shortDescription?replace('<[^>]+>','','r')?replace('\\r?\\n',' ','r')?replace('\\ +',' ','r')?trim />
+						<#assign coType = (mostSpecificTypes?first).type!'http://ontology.tib.eu/gesah/Cultural_Object' />
+						<#assign typeLabel = individual.mostSpecificTypes?first!'cultural object' />
+						<#if participantsDescription?has_content>
+							<#if title?contains('"') || title?contains("'")>
+								<#assign descriptionTitle = title?html />
+							<#else>
+	            				<#assign descriptionTitle = "&quot;" + title?html + "&quot;" />
+	    					</#if>
+							<#if "http://ontology.tib.eu/gesah/Composite_Volume" == coType || "http://ontology.tib.eu/gesah/Photomechanical_Print" == coType >
+								${metaTags.add("<meta tag=\"description\" content=\"" + i18n().meta_description_co_text_participants_2(typeLabel?html, descriptionTitle, participantsDescription?html) + "\" />")}
+							<#elseif "http://ontology.tib.eu/gesah/Seal" == coType >
+								${metaTags.add("<meta tag=\"description\" content=\"" + i18n().meta_description_co_text_participants_3(typeLabel?html, descriptionTitle, participantsDescription?html) + "\" />")}
+							<#else>
+								${metaTags.add("<meta tag=\"description\" content=\"" + i18n().meta_description_co_text_participants_1(typeLabel?html, descriptionTitle, participantsDescription?html) + "\" />")}
+							</#if>
 						</#if>
 					</#if>
-				</#if>
 				</div>
-                <div style="overflow: auto; overflow-x: hidden; height: 65vh">
-                <#include "individual-property-group-notabs.ftl">
+				    <#if user.loggedIn>
+				        <button type="button" id="create-co-button" onclick="showPartObjectForm()">Open creation form</button>
+				        <script>
+					    	function showPartObjectForm(){
+					    		$(".partObjectCreation").show();
+					    		$("#create-co-button").hide();
+					    	}
+					    	function hidePartObjectForm(){
+					    		$(".partObjectCreation").hide();
+					    		$("#create-co-button").show();
+					    	}
+					    	function createObjects(){
+					    		let formData = $('#part-creation').serializeArray();
+					    		let type = formData.filter(obj => { return obj.name === "coType" });
+					    		if (!type ||!type[0] || !type[0].value){
+					    			alert("Please select cultural object type.");
+					    			return;
+					    		}
+					    		let images = formData.filter(obj => { return obj.name.startsWith('image-')&& obj.value });
+					    		if (images.length === 0){
+					    			alert("Please assign at least one image.");
+					    			return;
+					    		}
+					    		let jsonData = {};
+					    		jsonData.type = type[0].value;
+					    		jsonData.parent = '${individual.uri?js_string}';
+					    		
+					    		let activities = [];
+					    		let formActivities = formData.filter(obj => { return obj.name.startsWith('activity-') });
+					    		formActivities.forEach((element) => activities.push(element.value));
+					    		jsonData.activities = activities;
+					    		
+					    		let genericTerms = [];
+					    		let formGenericTerms = formData.filter(obj => { return obj.name.startsWith('generic_term-') });
+					    		formGenericTerms.forEach((element) => genericTerms.push(element.value));
+					    		jsonData.genericTerms = genericTerms;
+					    		
+					    		let narrowerTerms = [];
+					    		let formNarrowerTerms = formData.filter(obj => { return obj.name.startsWith('narrower_term-') });
+					    		formNarrowerTerms.forEach((element) => narrowerTerms.push(element.value));
+					    		jsonData.narrowerTerms = narrowerTerms;
+					    		
+					    		let geographicAssignments = [];
+					    		let formGeorgraphicAssignments = formData.filter(obj => { return obj.name.startsWith('geographic_assignment-') });
+					    		formGeorgraphicAssignments.forEach((element) => geographicAssignments.push(element.value));
+					    		jsonData.geographicAssignments = geographicAssignments;
+					    		
+					    		let stylisticAssignments = [];
+					    		let formStylisticAssignments = formData.filter(obj => { return obj.name.startsWith('stylistic-') });
+					    		formStylisticAssignments.forEach((element) => stylisticAssignments.push(element.value));
+					    		jsonData.stylisticAssignments = stylisticAssignments;
+					    		
+					    		let culturalObjects = [];
+					    		images.forEach((element) => 
+					    			{
+					    				let id = element.value;
+					    			    let cos = culturalObjects.filter(obj => { return obj.id === id });
+					    				let co = {};
+					    				let co_images = [];
+					    				if (cos.length > 0){
+					    					co = cos[0];
+					    					co_images = co.images;
+					    				}
+					    				let image_uri = element.name.replace('image-', '');
+					    				co_images.push(image_uri);
+					    				co.images = co_images;
+					    				let mainImageEntries = formData.filter(obj => { return obj.name.startsWith("main-image-" + image_uri) });
+					    				if (mainImageEntries.length > 0){
+					    					co.mainImage = image_uri;
+					    				}
+					    				if (cos.length === 0){
+					    					co.id = id;
+					    					culturalObjects.push(co);
+					    				}
+					    			});
+								jsonData.culturalObjects = culturalObjects;
+
+					    		var body = JSON.stringify( jsonData );
+					    		fetch("/gesah/api/rest/1/cultural_object/copy",
+								{
+								    method: "POST",
+									headers: {
+										'Accept': '*/*',
+										'Content-Type': 'application/json;charset=UTF-8'
+									},
+								    body: body
+								}).then(function(res){ return res.json(); })
+					            .then(function(data){ 
+					                let objects = data.objects;
+					                for (let i = 0; i < objects.length; i++) {
+					                  let objectUri = objects[i].value ;
+					                  window.open("${urls.base}/entity?uri=" + encodeURIComponent(objectUri), '_blank');
+					                } 
+					            })
+					    	}
+					    </script>
+		                <div class="partObjectCreation" style="display:none;">
+		                    <@dataGetter uri = "http://gesah#coTypes" />
+		            		<form id="part-creation" name="part-creation" action="${urls.base}/search">
+		            		    <label for="coType">Select CO type</label>
+				        		<select name="coType" form="part-creation">
+						            <option selected value="">not selected</option>
+						            <#list coTypes as coType>
+							          <option value="${coType.co_type}">${coType.label}</option>
+							        </#list>              
+						        </select>
+						        <#-- <button type="button" id="create-co-abort" onclick="hidePartObjectForm()">Close form</button> -->
+						        <button type="button" id="create-co-submit" onclick="createObjects()">Create objects</button>
+		            		</form>
+		            	</div>
+	                </#if>
+	            <div style="overflow: auto; overflow-x: hidden; height: 65vh">
+	                <#include "individual-property-group-notabs.ftl">
             	</div>
             </div>
             
@@ -245,7 +357,7 @@
 		    {
 		      "@context": "https://schema.org/",
 		      "@type": "ImageObject",
-		      "contentUrl": "${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/full/300,/0/default.jpg",
+		      "contentUrl": "${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/full/!2048,1366/0/default.jpg",
 		      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
 		      "creditText": "Technische Informationsbibliothek (TIB)",
 		      "acquireLicensePage": "https://sah.tib.eu/images_and_metadata",

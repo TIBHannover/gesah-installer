@@ -1,0 +1,780 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix vitro: <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> .
+@prefix dynapi: <https://vivoweb.org/ontology/vitro-dynamic-api#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix userGroup: <https://vivoweb.org/ontology/vitro-dynamic-api/user-group/> .
+@prefix default-format: <https://vivoweb.org/ontology/vitro-dynamic-api/default-format/> .
+@prefix paramType: <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/> .
+@prefix model: <https://vivoweb.org/ontology/vitro-dynamic-api/model/> .
+@prefix dynapi-serialization-type: <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/serializedtype/> .
+@prefix : <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/copy-cultural-object/> .
+
+:procedure
+        a                                   dynapi:Procedure ;
+        rdfs:label                          "Create cultural objects from another one"@en-US ;
+        dynapi:accessWhiteList              :accessGroups ;
+        dynapi:hasFirstStep                 :step1 ;
+        dynapi:providesParameter            :objectGraph ;
+        dynapi:providesParameter            :objects .
+
+:step1
+         a                                   dynapi:OperationalStep ;
+         dynapi:hasNextStep                  :step2 ;
+         dynapi:hasOperation                 :is_cultural_object .       
+
+:is_cultural_object
+         a                                   dynapi:SparqlSelectQuery ;
+         dynapi:sparqlQueryText              """
+             PREFIX gesah: <http://ontology.tib.eu/gesah/>
+             PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+             PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+             SELECT ?is_cultural_object WHERE { 
+             bind( if(exists{
+                 ?parent rdf:type gesah:Cultural_Object .
+                 ?type rdfs:subClassOf gesah:Cultural_Object .
+                 }, true, false) as ?is_cultural_object ) 
+             }
+             """ ;
+         dynapi:providesParameter            :parent-is-cultural-object-param ;
+         dynapi:requiresParameter            :parent-object-param ;
+         dynapi:requiresParameter            :type-param ;
+         .
+
+:step2
+         a                                   dynapi:ConditionalStep ;
+         dynapi:nextIfSatisfied              :step3 ;
+         dynapi:nextIfNotSatisfied           :parent_object_not_exists ;
+         dynapi:hasCondition                 :condition_is_cultural_object .       
+
+:condition_is_cultural_object
+         a                                   dynapi:ConditionHasTrueValue ;
+         dynapi:requiresParameter            :parent-is-cultural-object-param .
+
+:parent_object_not_exists
+        a                                    dynapi:ErrorStep ;
+        dynapi:errorCode                     "400"^^xsd:int .
+
+:step3
+        a                                    dynapi:OperationalStep ;
+        rdfs:label                           "Step 1"@en-US ;
+        dynapi:hasOperation                  :create-cultural-objects .
+
+:create-cultural-objects
+        a                                    dynapi:LoopOperation ;
+        dynapi:conditionDescriptor           :condition_has_next_co_descriptor ;
+        dynapi:executableDescriptor          :create_next_co_descriptor ;
+		dynapi:providesParameter             :objectGraph ;
+        dynapi:providesParameter             :objects ;
+        .
+
+#######################################################################################################################
+
+:condition_has_next_co_descriptor
+        a                                   dynapi:ProcedureDescriptor ;
+        dynapi:requiresParameter            :iteration-int-param-internal ;
+        dynapi:providesParameter            :expected-condition-result ;
+        dynapi:requiresParameter            :culturalObjects ;
+        dynapi:call                         :contains_next_object .
+
+
+#######################################################################################################################
+
+:contains_next_object
+        a                                   dynapi:Procedure ;
+        dynapi:accessWhiteList              :accessGroups ;
+        dynapi:providesParameter            :default-condition-result ;
+        dynapi:hasFirstStep                 :conditional_step1 .
+        
+:conditional_step1
+        a                                   dynapi:ConditionalStep ;
+        dynapi:nextIfSatisfied              :condition_satisfied_step ;
+        dynapi:hasCondition                 :condition_contains .
+
+:condition_contains
+        a                                   dynapi:ConditionContainerContains ;
+        dynapi:targetContainer              :culturalObjects ;
+        dynapi:requiresParameter            :iteration-int-param .
+
+:condition_satisfied_step
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasOperation                 :condition-add-operation .
+        
+:condition-add-operation
+        a                                   dynapi:SumOperation ;
+        dynapi:requiresParameter            :iteration-step-int ;
+        dynapi:requiresParameter            :default-condition-result ;
+        dynapi:providesParameter            :default-condition-result .
+
+        
+#######################################################################################################################
+
+:create_next_co_descriptor
+        a                                   dynapi:ProcedureDescriptor ;
+        dynapi:requiresParameter            :iteration-int-param-internal ;
+        dynapi:providesParameter            :iteration-int-param ;
+        dynapi:requiresParameter            :objects ;
+        dynapi:requiresParameter            :culturalObjects ;
+        
+        dynapi:requiresParameter            :generic-terms-param ;
+        dynapi:requiresParameter            :narrow-terms-param ;
+        dynapi:requiresParameter            :type-param ;
+        dynapi:requiresParameter            :stylistic-assignments-param ;
+        dynapi:requiresParameter            :georgraphic-assignments-param ;
+        dynapi:requiresParameter            :parent-object-param ;     
+        dynapi:requiresParameter            :activities ;
+        dynapi:providesParameter            :objects ;
+        dynapi:providesParameter            :internalObjectGraph ;
+        dynapi:call                         :create_next_co_procedure ;
+        .
+
+#######################################################################################################################
+
+:create_next_activity_descriptor
+        a                                   dynapi:ProcedureDescriptor ;
+        dynapi:requiresParameter            :activity-iteration-int-param-internal ;
+        dynapi:requiresParameter            :activities ;
+        dynapi:requiresParameter            :parent-object-param ;
+        dynapi:requiresParameter            :objectGraph ;
+        dynapi:requiresParameter            :co-uri ;
+
+        dynapi:providesParameter            :activity-iteration-int-param ;
+        dynapi:providesParameter            :objectGraph ;
+
+        dynapi:call                         :create_next_activity ;
+        .
+#######################################################################################################################
+:create_next_activity
+        a                                   dynapi:Procedure ;
+        dynapi:accessWhiteList              :accessGroups ;
+        dynapi:providesParameter            :activity-iteration-int-param ;
+        dynapi:providesParameter            :objectGraph ;
+        dynapi:hasFirstStep                 :create_next_activity_step1 .
+
+:create_next_activity_step1
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_next_activity_step2 ;
+        dynapi:hasOperation                 :getActivityObjectDataFromArray .
+        
+:getActivityObjectDataFromArray
+        a                                   dynapi:ContainerQuery ;
+        dynapi:targetContainer              :activities ;
+        dynapi:providesParameter            :activity-param ;
+        dynapi:requiresParameter            :activity-iteration-int-param .
+        
+:create_next_activity_step2
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_next_activity_step3 ;
+        dynapi:hasOperation                 :create_next_activity_increment .
+        
+:create_next_activity_increment
+        a                                   dynapi:SumOperation ;
+        dynapi:requiresParameter            :iteration-step-int ;
+        dynapi:requiresParameter            :activity-iteration-int-param ;
+        dynapi:providesParameter            :activity-iteration-int-param .
+
+:create_next_activity_step3
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasOperation                 :copyParentActivityData .
+        
+:copyParentActivityData
+  		a                           		dynapi:SparqlConstructQuery ;
+        dynapi:sparqlQueryText
+        """
+            PREFIX gesah: <http://ontology.tib.eu/gesah/>
+            PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+			PREFIX vivo:  <http://vivoweb.org/ontology/core#>
+        	CONSTRUCT{
+        	  ?culturalObject ?activity_property ?new_activity .
+        	  ?new_activity rdf:type ?activity_type .
+        	  ?new_activity gesah:has_material ?material .
+        	  ?new_activity gesah:uses_technique ?technique .
+        	  ?new_activity gesah:has_place ?place .
+        	  ?new_activity gesah:comment ?comment .
+        	  ?new_activity gesah:literal_date_appellation ?literal_date .
+        	  ?new_activity gesah:has_measure_specifics ?measure_specifics .
+        	  
+        	  ?new_activity vivo:dateTimeInterval ?new_date_time_interval .
+        	  ?new_date_time_interval rdf:type ?intervalType .
+        	  
+        	  ?new_date_time_interval vivo:end ?new_date_time_interval_end .
+        	  ?new_date_time_interval_end rdf:type ?date_time_interval_end_type .
+        	  ?new_date_time_interval_end vivo:dateTimePrecision ?date_time_interval_end_precision .
+      	  	  ?new_date_time_interval_end vivo:dateTime ?date_time_interval_end_date_time .
+      	  	  
+          	  ?new_date_time_interval vivo:start ?new_date_time_interval_start .
+        	  ?new_date_time_interval_start rdf:type ?date_time_interval_start_type .
+        	  ?new_date_time_interval_start vivo:dateTimePrecision ?date_time_interval_start_precision .
+      	  	  ?new_date_time_interval_start vivo:dateTime ?date_time_interval_start_date_time .
+        	  
+          	  ?new_activity gesah:realizes ?new_role .
+        	  ?new_role rdf:type ?role_type .
+      	  	  ?new_role gesah:is_role_of ?role_person .
+    	  	  ?new_role gesah:has_role_type ?role_has_type .
+        	  ?new_role gesah:has_type_of_attribution ?attribution_type .
+        	  
+      	      ?new_activity gesah:has_inscription_output ?new_inscription_output .
+              ?new_inscription_output rdf:type ?inscription_type .
+    	      ?new_inscription_output gesah:has_inscription_type ?inscription_has_type .      	    
+    	      ?new_inscription_output gesah:transcription ?inscription_transcription .
+    	      ?new_inscription_output gesah:comment ?inscription_comment .
+        	  
+        	} WHERE {
+        	  ?parent ?activity_property ?activity .
+        	  ?activity rdf:type ?activity_type .
+        	  OPTIONAL { ?activity gesah:has_material ?material . }
+        	  OPTIONAL { ?activity gesah:uses_technique ?technique . }
+        	  OPTIONAL { ?activity gesah:has_place ?place . }
+        	  OPTIONAL { ?activity gesah:comment ?comment . }
+        	  OPTIONAL { ?activity gesah:literal_date_appellation ?literal_date . }
+
+        	  OPTIONAL { 
+        	  	?activity vivo:dateTimeInterval ?date_time_interval .
+        	  	?date_time_interval rdf:type ?intervalType .
+        	  	BIND(IRI(CONCAT(STR(?new_activity), "_", REPLACE(STR(?date_time_interval), "^.*/([^/]*)$", "$1"))) as ?new_date_time_interval)
+        	  	OPTIONAL {
+        	  	  ?date_time_interval vivo:end ?date_time_interval_end .
+        	  	  ?date_time_interval_end rdf:type ?date_time_interval_end_type .
+        	  	  ?date_time_interval_end vivo:dateTimePrecision ?date_time_interval_end_precision .
+        	  	  ?date_time_interval_end vivo:dateTime ?date_time_interval_end_date_time .
+        	  	  BIND(IRI(CONCAT(STR(?new_activity), "_", REPLACE(STR(?date_time_interval_end), "^.*/([^/]*)$", "$1"))) as ?new_date_time_interval_end)
+        	  	}
+        	  	OPTIONAL {
+        	  	  ?date_time_interval vivo:start ?date_time_interval_start .
+        	  	  ?date_time_interval_start rdf:type ?date_time_interval_start_type .
+        	  	  ?date_time_interval_start vivo:dateTimePrecision ?date_time_interval_start_precision .
+        	  	  ?date_time_interval_start vivo:dateTime ?date_time_interval_start_date_time .
+        	  	  BIND(IRI(CONCAT(STR(?new_activity), "_", REPLACE(STR(?date_time_interval_start), "^.*/([^/]*)$", "$1"))) as ?new_date_time_interval_start)
+        	  	}
+        	  }
+
+        	  OPTIONAL {
+        	  	?activity gesah:realizes ?role .
+        	  	?role rdf:type ?role_type .
+        	  	BIND(IRI(CONCAT(STR(?new_activity), "_", REPLACE(STR(?role), "^.*/([^/]*)$", "$1"))) as ?new_role)
+        	  	OPTIONAL {
+        	  	  ?role gesah:is_role_of ?role_person .
+        	  	}
+        	  	OPTIONAL {
+        	  	  ?role gesah:has_role_type ?role_has_type .
+        	  	}
+        	  	OPTIONAL {
+        	  	  ?role gesah:has_type_of_attribution ?attribution_type .
+        	  	}
+        	  }
+        	  OPTIONAL {
+				?activity gesah:has_measure_specifics ?measure_specifics .
+			  }
+        	  OPTIONAL {
+        	    ?activity gesah:has_inscription_output ?inscription_output .
+                ?inscription_output rdf:type ?inscription_type .
+                BIND(IRI(CONCAT(STR(?new_activity), "_", REPLACE(STR(?inscription_output), "^.*/([^/]*)$", "$1"))) as ?new_inscription_output)
+        	    OPTIONAL{
+        	      ?inscription_output gesah:has_inscription_type ?inscription_has_type .      	    
+        	    }
+        	    OPTIONAL{
+        	      ?inscription_output gesah:transcription ?inscription_transcription .
+        	    }
+        	    OPTIONAL{
+        	      ?inscription_output gesah:comment ?inscription_comment .
+        	    }
+        	  }
+        	}
+        """ ;
+        dynapi:requiresParameter            :parent-object-param ;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:requiresParameter            :activity-param ;
+        dynapi:requiresParameter            :new-activity-param ;
+        dynapi:hasModel                     model:abox_assertions ;
+        dynapi:providesParameter    		:objectGraph ;
+		.
+
+#######################################################################################################################
+
+:create_next_co_procedure
+        a                                   dynapi:Procedure ;
+        dynapi:accessWhiteList              :accessGroups ;
+        dynapi:providesParameter            :iteration-int-param ;
+        dynapi:providesParameter            :objects ;
+        dynapi:providesParameter            :internalObjectGraph ;
+        dynapi:hasFirstStep                 :create_step1 .
+
+:create_step1
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step2 ;
+        dynapi:hasOperation                 :addUriToArray .
+        
+:addUriToArray
+        a                                   dynapi:ContainerLoader ;
+        dynapi:targetContainer              :objects ;
+        dynapi:requiresParameter            :co-uri .
+
+:create_step2
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step3 ;
+        dynapi:hasOperation                 :getObjectDataFromArray .
+        
+:getObjectDataFromArray
+        a                                   dynapi:ContainerQuery ;
+        dynapi:targetContainer              :culturalObjects ;
+        dynapi:providesParameter            :objectData ;
+        dynapi:requiresParameter            :iteration-int-param .
+        
+:create_step3
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step4 ;
+        dynapi:hasOperation                 :create_increment .
+        
+:create_increment
+        a                                   dynapi:SumOperation ;
+        dynapi:requiresParameter            :iteration-step-int ;
+        dynapi:requiresParameter            :iteration-int-param ;
+        dynapi:providesParameter            :iteration-int-param .
+                
+:create_step4
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step5 ;
+        dynapi:hasOperation                 :getImagesFromArray .
+        
+:getImagesFromArray
+        a                                   dynapi:ContainerQuery ;
+        dynapi:targetContainer              :objectData ;
+        dynapi:providesParameter            :images ;
+        dynapi:requiresParameter            :images_key .
+
+:create_step5
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step6 ;
+        dynapi:hasOperation                 :createImageMetadata .
+        
+:createImageMetadata
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :images ;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions              
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:has_digital_representation ?images .
+        """ .
+
+:create_step6
+        a                                    dynapi:OperationalStep ;
+        dynapi:hasNextStep                   :create_step7 ;
+        dynapi:hasOperation                  :createActivities .
+
+:createActivities
+        a                                    dynapi:LoopOperation ;
+        dynapi:conditionDescriptor           :contains_next_activity_descriptor ;
+        dynapi:executableDescriptor          :create_next_activity_descriptor ;
+		dynapi:providesParameter             :objectGraph ;
+        .
+
+:create_step7
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step8 ;
+        dynapi:hasOperation                 :createStylisticAssignmentMetadata .
+        
+:createStylisticAssignmentMetadata
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :stylistic-assignments-param ;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions              
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:has_stylistic_assignment ?stylisticAssignments .
+        """ .
+
+:create_step8
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                 :create_step9 ;
+        dynapi:hasOperation                 :createGenericTermsMetadata .
+        
+:createGenericTermsMetadata
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :generic-terms-param ;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions              
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:has_object_category_generic_term ?genericTerms .
+        """ .
+
+:create_step9
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step10 ;
+        dynapi:hasOperation                 :createNarrowTermsMetadata .
+        
+:createNarrowTermsMetadata
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :narrow-terms-param ;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions              
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:has_object_category_narrower_term ?narrowerTerms .
+        """ .
+
+:create_step10
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step11 ;
+        dynapi:hasOperation                 :createGeorgraphicMetadata .
+        
+:createGeorgraphicMetadata
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :georgraphic-assignments-param ;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions              
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:has_geographic_assignment ?geographicAssignments .
+        """ .
+
+:create_step11
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step12 ;
+        dynapi:hasOperation                 :copyParentData .
+        
+:copyParentData
+  		a                           		dynapi:SparqlConstructQuery ;
+        dynapi:sparqlQueryText
+        """
+            PREFIX gesah: <http://ontology.tib.eu/gesah/>
+            PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd:      <http://www.w3.org/2001/XMLSchema#>
+            PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        	CONSTRUCT{
+        	  ?culturalObject 
+        	   	gesah:is_part_of ?parent ;
+        	  	gesah:hide ?hide ;
+        	  	rdf:type ?type ;
+        	  	rdfs:label ?new_label ;
+        	  	gesah:current_inventory_number ?inv_no ;
+        	  	gesah:metadata_right ?right ;
+        	  	gesah:has_current_holding_institution ?institution ;
+        	  	gesah:is_part_of_collection ?collection .
+        	} WHERE {
+        	  ?parent rdf:type gesah:Cultural_Object .
+        	  OPTIONAL { ?parent gesah:hide ?hide . }
+        	  OPTIONAL { ?parent gesah:current_inventory_number ?inv_no . }
+        	  OPTIONAL { ?parent gesah:metadata_right ?right . }
+        	  OPTIONAL { ?parent gesah:has_current_holding_institution ?institution . }
+        	  OPTIONAL { ?parent gesah:is_part_of_collection ?collection . }
+        	  
+			  {
+			    SELECT ?label ?highestNumber
+			    WHERE {
+			      {
+			        SELECT ?label
+			        WHERE {
+			          OPTIONAL{
+			            ?parent rdfs:label ?labelDe
+			            FILTER (langMatches(LANG(?labelDe), "de-DE"))
+			          }
+			          BIND(COALESCE(?labelDe, "Unlabeled ") as ?label)
+			        } LIMIT 1
+			      }
+			      OPTIONAL {
+			        ?someObject rdfs:label ?someLabel .
+			        FILTER(STRSTARTS(STR(?someLabel), CONCAT(STR(?label), " Part ")))
+			      }
+			      BIND(COALESCE(?someLabel,  CONCAT(STR(?label), " Part ")) as ?targetLabel)
+			      BIND( STRDT( "0" + SUBSTR(STR(?targetLabel), STRLEN(CONCAT(STR(?label), " Part ")) + 1), xsd:integer) as ?highestNumber)
+			    } ORDER BY DESC(?highestNumber) LIMIT 1
+			  }
+			  BIND (CONCAT("0000000000000000000000000", str(?highestNumber + 1)) as ?formatted_number )
+			  BIND(STRLANG(CONCAT(?label, " Part ", SUBSTR(?formatted_number, STRLEN(?formatted_number) - 3 )),"de-DE") as ?new_label)
+        	  
+        	}
+        """ ;
+        dynapi:requiresParameter            :parent-object-param ;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:requiresParameter            :type-param ;
+        dynapi:providesParameter    		:internalObjectGraph ;
+		.
+
+:create_step12
+        a                                   dynapi:ConditionalStep ;
+        dynapi:nextIfSatisfied              :create_step13 ;
+        dynapi:nextIfNotSatisfied           :create_step_last ;
+        dynapi:hasCondition                 :hasMainImage .
+
+:hasMainImage
+        a                                   dynapi:ConditionContainerContains ;
+        dynapi:targetContainer              :objectData ;
+        dynapi:requiresParameter            :main_image_key .
+
+:create_step13
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step14 ;
+        dynapi:hasOperation                 :getMainImage .
+        
+:getMainImage
+        a                                   dynapi:ContainerQuery ;
+        dynapi:targetContainer              :objectData ;
+        dynapi:providesParameter            :mainImage ;
+        dynapi:requiresParameter            :main_image_key .
+        
+:create_step14
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step_last ;
+        dynapi:hasOperation                 :addMainImage .
+        
+:addMainImage
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :mainImage ;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions              
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:has_main_image ?mainImage .
+        """ .
+
+:create_step_last
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasOperation                 :write_cultural_object .
+
+:write_cultural_object
+        a                                   dynapi:ModelWriter ;
+        dynapi:additionModel                :internalObjectGraph ;
+        dynapi:targetModel                  model:abox_assertions ;
+ .
+
+#######################################################################################################################
+
+:contains_next_activity_descriptor
+        a                                   dynapi:ProcedureDescriptor ;
+        dynapi:requiresParameter            :activity-iteration-int-param-internal ;
+        dynapi:providesParameter            :expected-condition-result ;
+        dynapi:requiresParameter            :activities ;
+        dynapi:call                         :contains_next_activity .
+
+#######################################################################################################################
+
+:contains_next_activity
+        a                                   dynapi:Procedure ;
+        dynapi:accessWhiteList              :accessGroups ;
+        dynapi:providesParameter            :default-condition-result ;
+        dynapi:hasFirstStep                 :contains_activity_step1 .
+        
+:contains_activity_step1
+        a                                   dynapi:ConditionalStep ;
+        dynapi:nextIfSatisfied              :contains_activity_satisfied_step ;
+        dynapi:hasCondition                 :contains_activity_contains .
+
+:contains_activity_contains
+        a                                   dynapi:ConditionContainerContains ;
+        dynapi:targetContainer              :activities ;
+        dynapi:requiresParameter            :activity-iteration-int-param .
+
+:contains_activity_satisfied_step
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasOperation                 :contains_activity-add-operation .
+        
+:contains_activity-add-operation
+        a                                   dynapi:SumOperation ;
+        dynapi:requiresParameter            :iteration-step-int ;
+        dynapi:requiresParameter            :default-condition-result ;
+        dynapi:providesParameter            :default-condition-result .
+
+        
+#######################################################################################################################
+
+
+
+#######################################################################################################################
+
+:accessGroups 
+        a dynapi:GroupAccessWhitelist ;
+        dynapi:userGroup userGroup:admin .
+
+#######################################################################################################################
+
+:objectGraph
+        a                                   dynapi:Model ;
+        dynapi:name                         "object_graph" ;
+        dynapi:hasType                      paramType:model .
+
+:internalObjectGraph
+        a                                   dynapi:Model ;
+        dynapi:name                         "object_graph" ;
+        dynapi:isInternal                   "true"^^xsd:boolean ;
+        dynapi:hasType                      paramType:model .
+
+:activity-iteration-int-param-internal
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "activity_iteration_param" ;
+        dynapi:isInternal                   "true"^^xsd:boolean ;
+        dynapi:defaultValue                 "0" ;
+        dynapi:hasType                      paramType:integer .
+
+:activity-iteration-int-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "activity_iteration_param" ;
+        dynapi:defaultValue                 "0" ;
+        dynapi:hasType                      paramType:integer .
+
+:iteration-int-param-internal
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "iteration_param" ;
+        dynapi:isInternal                   "true"^^xsd:boolean ;
+        dynapi:defaultValue                 "0" ;
+        dynapi:hasType                      paramType:integer .
+
+:iteration-int-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "iteration_param" ;
+        dynapi:defaultValue                 "0" ;
+        dynapi:hasType                      paramType:integer .
+
+:expected-int-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "condition_result" ;
+        dynapi:defaultValue                 "1" ;
+        dynapi:hasType                      paramType:integer .
+
+:default-condition-result
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "condition_result" ;
+        dynapi:defaultValue                 "0" ;
+        dynapi:isInternal                   "true"^^xsd:boolean ;
+        dynapi:hasType                      paramType:integer .
+        
+:expected-condition-result
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "condition_result" ;
+        dynapi:defaultValue                 "1" ;
+        dynapi:isInternal                   "true"^^xsd:boolean ;
+        dynapi:hasType                      paramType:integer .
+
+:iteration-step-int
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "int_1" ;
+        dynapi:defaultValue                 "1" ;
+        dynapi:isInternal                   "true"^^xsd:boolean ;
+        dynapi:hasType                      paramType:integer .
+
+#######################################################################################################################
+
+:images_key
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "images_key" ;
+        dynapi:isInternal                   "true"^^xsd:boolean ;
+        dynapi:defaultValue                 "images" ;
+        dynapi:hasType                      paramType:string .
+
+:main_image_key
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "mainImage" ;
+        dynapi:isInternal                   "true"^^xsd:boolean ;
+        dynapi:defaultValue                 "mainImage" ;
+        dynapi:hasType                      paramType:string .
+
+:co-uri
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "culturalObject" ;
+        dynapi:defaultValue                 "https://sah.tib.eu/individual/,java_uuid_no_dash" ;
+        dynapi:isInternal                   "true"^^xsd:boolean ;
+        dynapi:hasType                      paramType:generated-uri .
+
+
+:objects
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "objects" ;
+        dynapi:defaultValue                 "[]" ;
+        dynapi:isInternal                   "true"^^xsd:boolean ;
+        dynapi:hasType                      paramType:ArrayOfResources .
+
+:activity-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "activity" ;
+        dynapi:hasType                      paramType:uri .
+
+:new-activity-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "new_activity" ;
+        dynapi:defaultValue                 "https://sah.tib.eu/individual/,java_uuid_no_dash" ;
+        dynapi:isInternal                   "true"^^xsd:boolean ;
+        dynapi:hasType                      paramType:generated-uri .
+
+:parent-object-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "parent" ;
+        dynapi:hasType                      paramType:uri .
+
+:mainImage
+		a                                   dynapi:Parameter ;
+        dynapi:name                         "mainImage" ;
+        dynapi:hasType                      paramType:uri .
+
+:type-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "type" ;
+        dynapi:hasType                      paramType:uri .
+
+
+:stylistic-assignments-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "stylisticAssignments" ;
+        dynapi:hasType                      paramType:ArrayOfResources .
+
+:georgraphic-assignments-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "geographicAssignments" ;
+        dynapi:hasType                      paramType:ArrayOfResources .
+
+:generic-terms-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "genericTerms" ;
+        dynapi:hasType                      paramType:ArrayOfResources .
+
+:narrow-terms-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "narrowerTerms" ;
+        dynapi:hasType                      paramType:ArrayOfResources .
+        
+:activities
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "activities" ;
+        dynapi:hasType                      paramType:ArrayOfResources .
+        
+:culturalObjects
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "culturalObjects" ;
+        dynapi:hasType                      paramType:JsonContainerArray .
+
+:images
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "images" ;
+        dynapi:hasType                      paramType:ArrayOfResources .
+
+:objectData
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "objectData" ;
+        dynapi:hasType                      paramType:JsonContainer .
+        
+:parent-is-cultural-object-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "is_cultural_object" ;
+        dynapi:hasType                      paramType:boolean .
+
+:parameter_cultural_object_graph
+        a                                   dynapi:Model ;
+        dynapi:name                         "cultural_object_graph" ;
+        dynapi:hasType                      paramType:model .
+
+paramType:ArrayOfResources
+        a                                   dynapi:ParameterType ;
+        dynapi:nestedType                   paramType:uri ;
+        dynapi:hasFormat                    default-format:json-container-array ;
+        dynapi:interface                    "edu.cornell.mannlib.vitro.webapp.dynapi.data.implementation.JsonContainer" ;
+        dynapi:interface                    "edu.cornell.mannlib.vitro.webapp.dynapi.data.implementation.JsonArray" ;
+        dynapi:serializationType            dynapi-serialization-type:json-container ;        
+        

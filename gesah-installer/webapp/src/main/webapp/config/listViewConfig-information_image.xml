@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- $This file is distributed under the terms of the license in LICENSE$ -->
+
+<!-- See guidelines at https://wiki.duraspace.org/x/eYXVAw -->
+
+<list-view-config>
+    <query-select>
+        PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+		PREFIX gesah: &lt;http://ontology.tib.eu/gesah/&gt;
+		SELECT ?digRep ?barcode ?fileNum ?strlabel (COUNT(?co) as ?co_count)
+		WHERE {
+			?subject ?property ?digRep .
+			?digRep gesah:barcode ?barcode .
+			?digRep rdfs:label ?strlabel .
+		    ?digRep gesah:image_file_number ?fileNum .
+		    OPTIONAL{
+              ?digRep ^&lt;http://ontology.tib.eu/gesah/has_digital_representation&gt; ?co .
+            }
+		} GROUP BY ?digRep ?barcode ?fileNum ?strlabel ORDER BY ASC( ?strlabel )
+	    </query-select>
+     <template>propStatement-info_image.ftl</template>
+</list-view-config>

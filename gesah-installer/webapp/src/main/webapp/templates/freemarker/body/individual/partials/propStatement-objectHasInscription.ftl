@@ -40,5 +40,11 @@
 		<#if individual?has_content && individual.showAdminPanel>
 			<div class="contextLink"><a href="${profileUrl(statement.uri("objInscriptionActivity"))}">${statement.objInscriptionActivity?keep_after_last("/")}</a></div>
 		</#if>
+		<#if isEdit>
+		  <div class="partObjectCreation" style="display:none;" >
+		    <input form="part-creation" type="checkbox" autocomplete="off" name="activity-${statement.uri("objInscriptionActivity")}" value="${statement.uri("objInscriptionActivity")}">
+		    <label style="display:inline;" for="activity-${statement.uri("objInscriptionActivity")}">Copy inscription</label>
+		  </div>
+		</#if>
 	</div>
 </#macro>
