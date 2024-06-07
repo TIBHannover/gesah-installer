@@ -57,4 +57,10 @@
     <#if individual?has_content &&  individual.showAdminPanel>
         <div class="contextLink"><a href="${profileUrl(statement.uri("provenanceObj"))}">${statement.provenanceObj?keep_after_last("/")}</a></div>
     </#if>
+	<#if isEdit>
+	  <div class="partObjectCreation" style="display:none;" >
+	    <input form="part-creation" type="checkbox" autocomplete="off" name="activity-${statement.uri("provenanceObj")}" value="${statement.uri("provenanceObj")}">
+	    <label style="display:inline;" for="activity-${statement.uri("provenanceObj")}">Copy provenance</label>
+	  </div>
+	</#if>
 </#macro>

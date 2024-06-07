@@ -194,6 +194,8 @@
         	  ?new_activity gesah:has_place ?place .
         	  ?new_activity gesah:comment ?comment .
         	  ?new_activity gesah:literal_date_appellation ?literal_date .
+        	  ?new_activity gesah:has_measure_specifics ?measure_specifics .
+        	  
         	  ?new_activity vivo:dateTimeInterval ?new_date_time_interval .
         	  ?new_date_time_interval rdf:type ?intervalType .
         	  
@@ -262,7 +264,9 @@
         	  	  ?role gesah:has_type_of_attribution ?attribution_type .
         	  	}
         	  }
-
+        	  OPTIONAL {
+				?activity gesah:has_measure_specifics ?measure_specifics .
+			  }
         	  OPTIONAL {
         	    ?activity gesah:has_inscription_output ?inscription_output .
                 ?inscription_output rdf:type ?inscription_type .
