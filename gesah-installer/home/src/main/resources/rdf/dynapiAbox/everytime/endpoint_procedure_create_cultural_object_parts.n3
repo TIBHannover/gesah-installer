@@ -223,7 +223,7 @@
         	  
         	} WHERE {
         	  ?parent ?activity_property ?activity .
-        	  ?activity rdf:type ?activity_type .
+        	  ?activity <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?activity_type .
         	  OPTIONAL { ?activity gesah:has_material ?material . }
         	  OPTIONAL { ?activity gesah:uses_technique ?technique . }
         	  OPTIONAL { ?activity gesah:has_place ?place . }
@@ -232,18 +232,18 @@
 
         	  OPTIONAL { 
         	  	?activity vivo:dateTimeInterval ?date_time_interval .
-        	  	?date_time_interval rdf:type ?intervalType .
+        	  	?date_time_interval <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?intervalType .
         	  	BIND(IRI(CONCAT(STR(?new_activity), "_", REPLACE(STR(?date_time_interval), "^.*/([^/]*)$", "$1"))) as ?new_date_time_interval)
         	  	OPTIONAL {
         	  	  ?date_time_interval vivo:end ?date_time_interval_end .
-        	  	  ?date_time_interval_end rdf:type ?date_time_interval_end_type .
+        	  	  ?date_time_interval_end <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?date_time_interval_end_type .
         	  	  ?date_time_interval_end vivo:dateTimePrecision ?date_time_interval_end_precision .
         	  	  ?date_time_interval_end vivo:dateTime ?date_time_interval_end_date_time .
         	  	  BIND(IRI(CONCAT(STR(?new_activity), "_", REPLACE(STR(?date_time_interval_end), "^.*/([^/]*)$", "$1"))) as ?new_date_time_interval_end)
         	  	}
         	  	OPTIONAL {
         	  	  ?date_time_interval vivo:start ?date_time_interval_start .
-        	  	  ?date_time_interval_start rdf:type ?date_time_interval_start_type .
+        	  	  ?date_time_interval_start <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?date_time_interval_start_type .
         	  	  ?date_time_interval_start vivo:dateTimePrecision ?date_time_interval_start_precision .
         	  	  ?date_time_interval_start vivo:dateTime ?date_time_interval_start_date_time .
         	  	  BIND(IRI(CONCAT(STR(?new_activity), "_", REPLACE(STR(?date_time_interval_start), "^.*/([^/]*)$", "$1"))) as ?new_date_time_interval_start)
@@ -252,7 +252,9 @@
 
         	  OPTIONAL {
         	  	?activity gesah:realizes ?role .
-        	  	?role rdf:type ?role_type .
+        	  	OPTIONAL {
+        	  		?role <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?role_type .
+        	  	}
         	  	BIND(IRI(CONCAT(STR(?new_activity), "_", REPLACE(STR(?role), "^.*/([^/]*)$", "$1"))) as ?new_role)
         	  	OPTIONAL {
         	  	  ?role gesah:is_role_of ?role_person .
@@ -269,7 +271,7 @@
 			  }
         	  OPTIONAL {
         	    ?activity gesah:has_inscription_output ?inscription_output .
-                ?inscription_output rdf:type ?inscription_type .
+                ?inscription_output <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?inscription_type .
                 BIND(IRI(CONCAT(STR(?new_activity), "_", REPLACE(STR(?inscription_output), "^.*/([^/]*)$", "$1"))) as ?new_inscription_output)
         	    OPTIONAL{
         	      ?inscription_output gesah:has_inscription_type ?inscription_has_type .      	    
@@ -287,7 +289,6 @@
         dynapi:requiresParameter            :co-uri ;
         dynapi:requiresParameter            :activity-param ;
         dynapi:requiresParameter            :new-activity-param ;
-        dynapi:hasModel                     model:abox_assertions ;
         dynapi:providesParameter    		:objectGraph ;
 		.
 
