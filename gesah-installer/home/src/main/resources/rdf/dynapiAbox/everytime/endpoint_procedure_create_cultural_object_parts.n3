@@ -252,7 +252,9 @@
 
         	  OPTIONAL {
         	  	?activity gesah:realizes ?role .
-        	  	?role rdf:type ?role_type .
+        	  	OPTIONAL {
+        	  		?role rdf:type ?role_type .
+        	  	}
         	  	BIND(IRI(CONCAT(STR(?new_activity), "_", REPLACE(STR(?role), "^.*/([^/]*)$", "$1"))) as ?new_role)
         	  	OPTIONAL {
         	  	  ?role gesah:is_role_of ?role_person .
