@@ -30,7 +30,7 @@
 
 <#macro printImageInfo statement >
   <a href="${profileUrl(statement.digRep)}" title="${title}">${statement.strlabel}</a>
-  <#if user.loggedIn>
+  <#if user.loggedIn && digitalReps?has_content>
     <div class="partObjectCreation" style="display:none;" >
 	    <div>
 	      <a href="${profileUrl(statement.digRep)}" title="${title}">
