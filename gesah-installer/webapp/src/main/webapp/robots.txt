@@ -16,4 +16,4 @@ Disallow: /pubsbyorg/
 Disallow: /fedsearch/
 Disallow: /comments.jsp
 Disallow: /dataservice/
-Sitemap: https://sah.tib.eu/sitemap.xml
+Sitemap: https://sah.tib.eu/image-sitemap.xml
