@@ -54,6 +54,35 @@
   </#if>
 </#macro>
 
+<#macro addImageMetadata digitalRepresentations>
+   <#local imageMetadata>
+   <#assign addComma = false>
+	<script type="application/ld+json">
+		[
+		<#list digitalRepresentations as digRep>
+			 <#if addComma >,</#if>
+		    {
+		      "@context": "https://schema.org/",
+		      "@type": "ImageObject",
+		      "contentUrl": "${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/full/!2048,1366/0/default.jpg",
+		      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+		      "creditText": "Technische Informationsbibliothek (TIB)",
+		      "acquireLicensePage": "https://sah.tib.eu/images_and_metadata",
+		      "copyrightNotice": "Technische Informationsbibliothek (TIB)",
+		      "creator": {
+		        "@type": "Organization",
+		        "name": "Technische Informationsbibliothek (TIB)"
+		       }
+		    }
+	   		<#assign addComma = true>
+	    </#list>
+		]
+	</script>
+	</#local>
+	${headScripts.add(imageMetadata)}
+</#macro>
+
+
 <#function labelWithLink url title type >
     <#return "<a class=\"listElementIndividualLink\"  href=\"" + url + "\" title=\"" + title + "\">" + title + " " + type + "</a>" />
 </#function>

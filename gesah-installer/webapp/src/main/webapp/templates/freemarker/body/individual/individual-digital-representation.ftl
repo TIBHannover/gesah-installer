@@ -1,6 +1,8 @@
 <#include "individual-setup.ftl">
 <#-- $This file is distributed under the terms of the license in LICENSE$ -->
 <#import "lib-microformats.ftl" as mf>
+<#import "lib-gesah-view.ftl" as lgv>
+
 <#assign iiifSlash="%5E" /> 
 
 <#--Number of labels present-->
@@ -139,8 +141,9 @@
         displayMoreEllipsis: '${i18n().display_more_ellipsis}',
         showMoreContent: '${i18n().show_more_content}',
     };
-
 </script>
+
+<@lgv.addImageMetadata digitalRepresentations />
 
 ${stylesheets.add('<link rel="stylesheet" href="${urls.base}/css/individual/individual.css" />',
 '<link rel="stylesheet" href="${urls.base}/css/jquery_plugins/qtip/jquery.qtip.min.css" media="print" onload="this.media=\'all\'; this.onload=null;" />')}
