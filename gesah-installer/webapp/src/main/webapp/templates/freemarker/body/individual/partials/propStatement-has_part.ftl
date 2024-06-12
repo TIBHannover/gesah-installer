@@ -8,4 +8,5 @@
 
 <#include "lib-gesah-view.ftl">
 
-<@printImageInfo statement />
+<#assign cLabel = labelWithLink(profileUrl(statement.cultObject), statement.cultObjectLabel!"", typeFromStatement(statement)) />
+<@printLabelWithImage statement.cultObject cLabel statement.barcode statement.fileNum />

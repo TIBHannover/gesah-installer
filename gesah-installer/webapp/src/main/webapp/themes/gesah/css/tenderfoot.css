@@ -85,6 +85,16 @@ form select {
     margin: 0 0 15px 0px;
 }
 
+.toggleImage {
+	width: 1.5rem;
+	float: right;
+}
+
+.coLabelWithImage > a {
+	display: block;
+	margin-bottom: 5px;
+}
+
 #add-relation input.pos-submit {
     background-color: #af1414;
 }

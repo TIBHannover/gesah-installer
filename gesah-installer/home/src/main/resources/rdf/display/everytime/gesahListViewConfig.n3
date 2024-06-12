@@ -151,6 +151,9 @@
 <http://ontology.tib.eu/gesah/has_digital_representation>
     display:listViewConfigFile "listViewConfig-information_image.xml"^^xsd:string .
     
+<http://ontology.tib.eu/gesah/has_part>
+    display:listViewConfigFile "listViewConfig-has_part.xml"^^xsd:string .
+    
 <http://ontology.tib.eu/gesah/has_stylistic_assignment>
     display:listViewConfigFile "listViewConfig-has_stylistic_classification.xml"^^xsd:string .
     

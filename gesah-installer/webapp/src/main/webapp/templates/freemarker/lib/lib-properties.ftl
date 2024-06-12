@@ -154,6 +154,10 @@ name will be used as the label. -->
     </#if>
 </#macro>
 
+<#macro addToggle propertyLocalName>
+    <img class="toggleImage" onclick="togglePropertyList('${propertyLocalName?js_string}');" src="${urls.images}/icons/collapse.svg">
+</#macro>
+
 <#macro propertyLabel property label="${property.name?capitalize}">
     <h2 id="${property.localName}" title="${property.publicDescription!}">${label}  <@verboseDisplay property /></h2>
 </#macro>

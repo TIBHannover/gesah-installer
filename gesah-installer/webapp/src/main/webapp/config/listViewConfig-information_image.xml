@@ -18,5 +18,5 @@
             }
 		} GROUP BY ?digRep ?barcode ?fileNum ?strlabel ORDER BY ASC( ?strlabel )
 	    </query-select>
-     <template>propStatement-info_image.ftl</template>
+     <template>propStatement-has_digital_representation.ftl</template>
 </list-view-config>
