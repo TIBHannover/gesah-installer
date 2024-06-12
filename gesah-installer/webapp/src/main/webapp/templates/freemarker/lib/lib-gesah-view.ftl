@@ -29,14 +29,10 @@
 </#macro>
 
 <#macro printLabelWithImage uri label barcode fileName>
-  
   <div class="coLabelWithImage">
-    <a href="${profileUrl(uri)}">${label}</a>
-    <div>
-      <a href="${profileUrl(uri)}" title="${title}">
-        <img src="${urls.iiif}/iiif/2/${barcode}${iiifSlash}content${iiifSlash}streams${iiifSlash}${fileName}/full/!335,700/0/default.jpg" />
-      </a>
-    </div>
+    <a href="${profileUrl(uri)}" title="${label}">
+      <img src="${urls.iiif}/iiif/2/${barcode}${iiifSlash}content${iiifSlash}streams${iiifSlash}${fileName}/full/!125,400/0/default.jpg" />
+    </a>
   </div>
 </#macro>
 

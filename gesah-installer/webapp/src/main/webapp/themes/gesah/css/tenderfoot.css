@@ -95,6 +95,70 @@ form select {
 	margin-bottom: 5px;
 }
 
+#has_part-Cultural_Object-List li {
+  width: 125px;
+}
+
+
+#has_part-Cultural_Object-List li > div > a > img {
+  width: 100%;
+}
+
+#has_part-Cultural_Object-List li {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#has_part-Cultural_Object-List {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: end;
+  justify-content: space-around;
+}
+
+#has_part-Cultural_Object-List > div {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: end;
+  justify-content: space-around;
+}
+
+#has_digital_representation-Digital_Image-List li {
+  width: 125px;
+}
+
+
+#has_digital_representation-Digital_Image-List li > div > a > img {
+  width: 100%;
+}
+
+#has_digital_representation-Digital_Image-List li {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#has_digital_representation-Digital_Image-List {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: end;
+  justify-content: space-around;
+}
+
+#has_digital_representation-Digital_Image-List > div {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: end;
+  justify-content: space-around;
+}
+
+.listElementInformation > select {
+	width: 100%;
+}
+
 #add-relation input.pos-submit {
     background-color: #af1414;
 }
@@ -871,6 +935,12 @@ img.add-individual {
 
 #create-co-button {
 	margin-bottom:20px;
+}
+
+@media (min-width:1280px) {
+	.container{
+		width: 1280px!important;
+	}
 }
 
 @media screen and (min-width: 640px) {
