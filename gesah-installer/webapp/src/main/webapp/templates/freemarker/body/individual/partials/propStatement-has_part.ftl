@@ -8,4 +8,4 @@
 
 <#include "lib-gesah-view.ftl">
 
-<@printImageInfo statement />
+<@printLabelWithImage statement.cultObject statement.cultObjectLabel!"" statement.barcode statement.fileNum />

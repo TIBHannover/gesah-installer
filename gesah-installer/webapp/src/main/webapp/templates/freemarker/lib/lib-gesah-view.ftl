@@ -28,30 +28,12 @@
     </div>
 </#macro>
 
-<#macro printImageInfo statement >
-  <a href="${profileUrl(statement.digRep)}" title="${title}">${statement.strlabel}</a>
-  <#if user.loggedIn && digitalReps?has_content>
-    <div class="partObjectCreation" style="display:none;" >
-	    <div>
-	      <a href="${profileUrl(statement.digRep)}" title="${title}">
-	        <img src="${urls.iiif}/iiif/2/${statement.barcode}${iiifSlash}content${iiifSlash}streams${iiifSlash}${statement.fileNum}/full/${maxWidth},/0/default.jpg" />
-	      </a>
-	    </div>
-	    <div class="listElementInformation">
-	      <p>Already assigned to ${statement.co_count} cultural objects</p>
-          <select name="image-${statement.digRep}" autocomplete="off" form="part-creation">
-            <option selected value="">not assigned</option>
-            <#assign valueNumber = 1>
-            <#list digitalReps as rep>
-	          <option value="${valueNumber}">${valueNumber}</option>
-	          <#assign valueNumber += 1>
-	        </#list>              
-          </select>
-          <input form="part-creation" type="checkbox" autocomplete="off" name="main-image-${statement.digRep}" value="true">
-		  <label style="display:inline;" for="main-image-${statement.digRep}">Is main image</label>
-	    </div>
-    </div>
-  </#if>
+<#macro printLabelWithImage uri label barcode fileName>
+  <div class="coLabelWithImage">
+    <a href="${profileUrl(uri)}" title="${label}">
+      <img src="${urls.iiif}/iiif/2/${barcode}${iiifSlash}content${iiifSlash}streams${iiifSlash}${fileName}/full/!125,400/0/default.jpg" />
+    </a>
+  </div>
 </#macro>
 
 <#macro addImageMetadata digitalRepresentations>
