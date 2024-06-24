@@ -2,6 +2,7 @@
 
 <@widget name="login" include="assets" />
 
+${metaTags.add("<meta tag=\"description\" content=\"The portal provides access to digitized and annotated images of cultural objects associated with the collection of architect and building historian Albrecht Haupt.\" />")}
 <#-- 
         With release 1.6, the home page no longer uses the "browse by" class group/classes display. 
         If you prefer to use the "browse by" display, replace the import statement below with the
