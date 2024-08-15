@@ -594,7 +594,10 @@
 
 :accessGroups 
         a dynapi:GroupAccessWhitelist ;
+        dynapi:userGroup userGroup:editor ;
+        dynapi:userGroup userGroup:curator ;
         dynapi:userGroup userGroup:admin .
+        
 
 #######################################################################################################################
 
