@@ -38,4 +38,11 @@
     <#if individual?has_content && individual.showAdminPanel>
         <div class="contextLink"><a href="${profileUrl(statement.uri("markDesignationObj"))}">${statement.markDesignationObj?keep_after_last("/")}</a></div>
     </#if>
+    <#assign isEdit = individual?has_content && individual.showAdminPanel />
+	<#if isEdit>
+	  <div class="partObjectCreation" style="display:none;" >
+	    <input form="part-creation" type="checkbox" name="mark-designation-${statement.uri("markDesignationObj")}" value="${statement.uri("markDesignationObj")}">
+	    <label style="display:inline;" for="mark-designation-${statement.uri("markDesignationObj")}">Use collector's mark</label>
+	  </div>
+	</#if>
 </#macro>

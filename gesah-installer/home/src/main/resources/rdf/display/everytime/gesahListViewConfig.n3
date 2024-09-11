@@ -166,3 +166,16 @@
 <http://ontology.tib.eu/gesah/has_geographic_assignment>
     display:listViewConfigFile "listViewConfig-has_geographic_assignment.xml"^^xsd:string .
     
+<http://ontology.tib.eu/gesah/description> 
+    display:listViewConfigFile "listViewConfig-description.xml"^^xsd:string .
+<http://ontology.tib.eu/gesah/has_depiction_type> 
+    display:listViewConfigFile "listViewConfig-has-depiction-type.xml"^^xsd:string .
+<http://ontology.tib.eu/gesah/has_watermark> 
+    display:listViewConfigFile "listViewConfig-has-watermark.xml"^^xsd:string .
+<http://ontology.tib.eu/gesah/record_author_initials> 
+    display:listViewConfigFile "listViewConfig-record-author-initials.xml"^^xsd:string .
+<http://ontology.tib.eu/gesah/secondary_literature>	
+    display:listViewConfigFile "listViewConfig-secondary-literature.xml"^^xsd:string .
+
+
+
