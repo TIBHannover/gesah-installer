@@ -10,6 +10,7 @@
 @prefix model: <https://vivoweb.org/ontology/vitro-dynamic-api/model/> .
 @prefix dynapi-serialization-type: <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/serializedtype/> .
 @prefix : <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/copy-cultural-object/> .
+@prefix dynapi-rdf-type: <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/rdftype/> .
 
 :procedure
         a                                   dynapi:Procedure ;
@@ -127,6 +128,15 @@
         dynapi:providesParameter            :objects ;
         dynapi:providesParameter            :internalObjectGraph ;
         dynapi:call                         :create_next_co_procedure ;
+        
+        dynapi:requiresParameter            :author-initials-param ;
+        dynapi:requiresParameter            :secondary-literature-param ;
+        dynapi:requiresParameter            :descriptions-param ;
+        dynapi:requiresParameter            :watermarks-param ;
+        dynapi:requiresParameter            :work-index-entries-param ;
+        dynapi:requiresParameter            :mark-designations-param ;
+        dynapi:requiresParameter            :depiction-types-param ;
+        
         .
 
 #######################################################################################################################
@@ -391,7 +401,7 @@
 
 :create_step8
         a                                   dynapi:OperationalStep ;
-        dynapi:hasNextStep                 :create_step9 ;
+        dynapi:hasNextStep                  :create_step81 ;
         dynapi:hasOperation                 :createGenericTermsMetadata .
         
 :createGenericTermsMetadata
@@ -403,6 +413,118 @@
         """
 	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
 	        ?culturalObject gesah:has_object_category_generic_term ?genericTerms .
+        """ .
+        
+:create_step81
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step82 ;
+        dynapi:hasOperation                 :createWatermarkMetadata .
+        
+:createWatermarkMetadata
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :watermarks-param ;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions              
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:has_watermark ?watermarks .
+        """ .
+
+:create_step82
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step83 ;
+        dynapi:hasOperation                 :createWorkIndexEntriesMetadata .
+        
+:createWorkIndexEntriesMetadata
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :work-index-entries-param ;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions              
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:has_Work_Index_Entry ?workIndexEntries .
+        """ .
+
+:create_step83
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step84 ;
+        dynapi:hasOperation                 :createMarkDesignationsMetadata .
+        
+:createMarkDesignationsMetadata
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :mark-designations-param ;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions              
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:has_mark_designation ?markDesignations .
+        """ .
+
+:create_step84
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step85 ;
+        dynapi:hasOperation                 :createDepictionTypesMetadata .
+        
+:createDepictionTypesMetadata
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :depiction-types-param ;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions              
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:has_depiction_type ?depictionTypes .
+        """ .
+
+:create_step85
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step86 ;
+        dynapi:hasOperation                 :createSecondaryLiteratureMetadata .
+        
+:createSecondaryLiteratureMetadata
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :secondary-literature-param;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions              
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:secondary_literature ?secondaryLiterature .
+        """ .
+
+:create_step86
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step87 ;
+        dynapi:hasOperation                 :createDescriptionMetadata .
+        
+:createDescriptionMetadata
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :descriptions-param;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions              
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:description ?descriptions .
+        """ .
+
+:create_step87
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step9 ;
+        dynapi:hasOperation                 :createAuthorInitialsMetadata .
+        
+:createAuthorInitialsMetadata
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :author-initials-param;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions              
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:record_author_initials ?authorInitials .
         """ .
 
 :create_step9
@@ -594,7 +716,10 @@
 
 :accessGroups 
         a dynapi:GroupAccessWhitelist ;
+        dynapi:userGroup userGroup:editor ;
+        dynapi:userGroup userGroup:curator ;
         dynapi:userGroup userGroup:admin .
+        
 
 #######################################################################################################################
 
@@ -736,6 +861,46 @@
         dynapi:name                         "genericTerms" ;
         dynapi:hasType                      paramType:ArrayOfResources .
 
+#<http://www.w3.org/2001/XMLSchema#string>
+:author-initials-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "authorInitials" ;
+        dynapi:hasType                      paramType:ArrayOfStringLiterals .
+
+#<http://www.w3.org/2000/01/rdf-schema#Literal>
+:secondary-literature-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "secondaryLiterature" ;
+        dynapi:hasType                      paramType:ArrayOfLiterals .
+
+#<http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral>
+:descriptions-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "descriptions" ;
+        dynapi:hasType                      paramType:ArrayOfXMLLiterals .
+
+:watermarks-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "watermarks" ;
+        dynapi:hasType                      paramType:ArrayOfResources .
+
+:work-index-entries-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "workIndexEntries" ;
+        dynapi:hasType                      paramType:ArrayOfResources .
+
+:mark-designations-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "markDesignations" ;
+        dynapi:hasType                      paramType:ArrayOfResources .
+
+:depiction-types-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "depictionTypes" ;
+        dynapi:hasType                      paramType:ArrayOfResources .
+
+
+
 :narrow-terms-param
         a                                   dynapi:Parameter ;
         dynapi:name                         "narrowerTerms" ;
@@ -778,4 +943,61 @@ paramType:ArrayOfResources
         dynapi:interface                    "edu.cornell.mannlib.vitro.webapp.dynapi.data.implementation.JsonContainer" ;
         dynapi:interface                    "edu.cornell.mannlib.vitro.webapp.dynapi.data.implementation.JsonArray" ;
         dynapi:serializationType            dynapi-serialization-type:json-container ;        
+        .
         
+paramType:ArrayOfStringLiterals
+        a                                   dynapi:ParameterType ;
+        dynapi:nestedType                   paramType:string-literal ;
+        dynapi:hasFormat                    default-format:json-container-array ;
+        dynapi:interface                    "edu.cornell.mannlib.vitro.webapp.dynapi.data.implementation.JsonContainer" ;
+        dynapi:interface                    "edu.cornell.mannlib.vitro.webapp.dynapi.data.implementation.JsonArray" ;
+        dynapi:serializationType            dynapi-serialization-type:json-container ;        
+        .
+
+paramType:ArrayOfXMLLiterals
+        a                                   dynapi:ParameterType ;
+        dynapi:nestedType                   paramType:rdf-xml-literal ;
+        dynapi:hasFormat                    default-format:json-container-array ;
+        dynapi:interface                    "edu.cornell.mannlib.vitro.webapp.dynapi.data.implementation.JsonContainer" ;
+        dynapi:interface                    "edu.cornell.mannlib.vitro.webapp.dynapi.data.implementation.JsonArray" ;
+        dynapi:serializationType            dynapi-serialization-type:json-container ;        
+        .
+
+paramType:ArrayOfLiterals
+        a                                   dynapi:ParameterType ;
+        dynapi:nestedType                   paramType:rdf-literal ;
+        dynapi:hasFormat                    default-format:json-container-array ;
+        dynapi:interface                    "edu.cornell.mannlib.vitro.webapp.dynapi.data.implementation.JsonContainer" ;
+        dynapi:interface                    "edu.cornell.mannlib.vitro.webapp.dynapi.data.implementation.JsonArray" ;
+        dynapi:serializationType            dynapi-serialization-type:json-container ;        
+        .
+
+paramType:rdf-xml-literal
+        a                        dynapi:ParameterType ;
+        rdfs:label               "RDF XML literal type"@en-US ;
+        dynapi:serializationType dynapi-serialization-type:string ;
+        dynapi:rdfType		     dynapi-rdf-type:xml-literal ;
+        dynapi:hasFormat         default-format:string-literal ;
+        dynapi:interface         "org.apache.jena.rdf.model.Literal" ;
+        .
+        
+paramType:rdf-literal
+        a                        dynapi:ParameterType ;
+        rdfs:label               "RDF Literal type"@en-US ;
+        dynapi:serializationType dynapi-serialization-type:string ;
+        dynapi:rdfType		     dynapi-rdf-type:literal ;
+        dynapi:hasFormat         default-format:string-literal ;
+        dynapi:interface         "org.apache.jena.rdf.model.Literal" ;
+        .
+
+dynapi-rdf-type:literal
+        a                       dynapi:RDFType;
+        dynapi:name         	"Literal" ;
+        rdfs:label              "Literal rdf type"@en-US ;
+        .
+
+dynapi-rdf-type:xml-literal
+        a                       dynapi:RDFType;
+        dynapi:name         	"XMLLiteral" ;
+        rdfs:label              "XMLLiteral rdf type"@en-US ;
+        .

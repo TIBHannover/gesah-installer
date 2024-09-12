@@ -8,6 +8,7 @@
 
 <#import "lib-meta-tags.ftl" as lmt>
 <#import "lib-gesah-view.ftl" as lgv>
+<#import "lib-datetime.ftl" as dt>
 
 <@showCollectionCare statement />
 <#-- Use a macro to keep variable assignments local; otherwise the values carry over to the next statement -->

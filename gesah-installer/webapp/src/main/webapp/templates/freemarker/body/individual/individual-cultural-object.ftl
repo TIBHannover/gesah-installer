@@ -149,6 +149,42 @@
 					    		formStylisticAssignments.forEach((element) => stylisticAssignments.push(element.value));
 					    		jsonData.stylisticAssignments = stylisticAssignments;
 					    		
+					    		
+					    		let depictionTypes = [];
+					    		let formDepictionTypes = formData.filter(obj => { return obj.name.startsWith('depiction-type-') });
+					    		formDepictionTypes.forEach((element) => depictionTypes.push(element.value));
+					    		jsonData.depictionTypes = depictionTypes;
+					    		
+					    		let markDesignations = [];
+					    		let formMarkDesignations = formData.filter(obj => { return obj.name.startsWith('mark-designation-') });
+					    		formMarkDesignations.forEach((element) => markDesignations.push(element.value));
+					    		jsonData.markDesignations = markDesignations;
+					    		
+					    		let workIndexEntries = [];
+					    		let formWorkIndexEntries = formData.filter(obj => { return obj.name.startsWith('work_index_entry-') });
+					    		formWorkIndexEntries.forEach((element) => workIndexEntries.push(element.value));
+					    		jsonData.workIndexEntries = workIndexEntries;
+					    		
+					    		let watermarks = [];
+					    		let formWatermarks = formData.filter(obj => { return obj.name.startsWith('watermark-') });
+					    		formWatermarks.forEach((element) => watermarks.push(element.value));
+					    		jsonData.watermarks = watermarks;
+					    		
+					    		let descriptions = [];
+					    		let formDescriptions = formData.filter(obj => { return obj.name.startsWith('description') });
+					    		formDescriptions.forEach((element) => descriptions.push(element.value));
+					    		jsonData.descriptions = descriptions;
+					    		
+					    		let authorInitials = [];
+					    		let formAuthorInitials = formData.filter(obj => { return obj.name.startsWith('record-author-initials') });
+					    		formAuthorInitials.forEach((element) => authorInitials.push(element.value));
+					    		jsonData.authorInitials = authorInitials;
+					    		
+					    		let secondaryLiterature = [];
+					    		let formSecondaryLiterature = formData.filter(obj => { return obj.name.startsWith('secondary-literature') });
+					    		formSecondaryLiterature.forEach((element) => secondaryLiterature.push(element.value));
+					    		jsonData.secondaryLiterature = secondaryLiterature;
+					    		
 					    		let culturalObjects = [];
 					    		images.forEach((element) => 
 					    			{

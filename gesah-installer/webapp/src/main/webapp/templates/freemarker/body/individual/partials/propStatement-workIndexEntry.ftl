@@ -19,10 +19,17 @@
         <#if statement.indexNoUrl?has_content>
             <a href="${statement.indexNoUrl}" target="_blank">${statement.indexNo}</a>
         <#else>
-	    ${statement.indexNo}
-	</#if>
+	    	${statement.indexNo}
+		</#if>
         <br />
     <#else>
     	<a href="${profileUrl(statement.uri("object"))}">${statement.object?keep_after_last("/")}</a>
     </#if>
+	<#assign isEdit = individual?has_content && individual.showAdminPanel />
+	<#if isEdit>
+	  <div class="partObjectCreation" style="display:none;" >
+	    <input form="part-creation" type="checkbox" name="work_index_entry-${statement.uri("object")}" value="${statement.uri("object")}" >
+	    <label style="display:inline;" for="work_index_entry-${statement.uri("object")}">Use work index entry</label>
+	  </div>
+	</#if>
 </#macro>
