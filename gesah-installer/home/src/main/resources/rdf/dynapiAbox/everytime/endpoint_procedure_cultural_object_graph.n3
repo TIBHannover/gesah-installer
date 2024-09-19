@@ -13,7 +13,8 @@
 :procedure
         a                                   dynapi:Procedure ;
         rdfs:label                          "Export cultural object to LIDO"@en-US ;
-        dynapi:accessWhiteList              :accessGroups ;
+        #dynapi:accessWhiteList              :accessGroups ;
+        dynapi:publicAccess                 "true"^^xsd:boolean ;
         dynapi:hasFirstStep                 :step1 ;
         dynapi:providesParameter            :parameter_cultural_object_graph .
 
