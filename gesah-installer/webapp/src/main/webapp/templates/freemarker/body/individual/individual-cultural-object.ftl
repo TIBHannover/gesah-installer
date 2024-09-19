@@ -37,10 +37,8 @@
             <!-- Download button -->
             <div onclick="downloadImage()" style="float: right; margin-right: 5px;"><img title="${i18n().download_image}" src="${urls.images}/icons/down-arrow.svg?v=2" width="30"></div>
         </#if>
-        <#if user.loggedIn>
-        	<div onclick="exportLIDO()" style="float: right; margin-right: 5px;"><img alt="LIDO" width="30"></div>
-        	<div onclick="exportRDF()" style="float: right; margin-right: 5px;"><img alt="RDF/XML" width="30"></div>
-		</#if>
+       	<div onclick="exportLIDO()" style="float: right; margin-right: 5px;"><img alt="LIDO" width="30"></div>
+       	<div onclick="exportRDF()" style="float: right; margin-right: 5px;"><img alt="RDF/XML" width="30"></div>
         <header style="float: left">
             <#if relatedSubject??>
                 <h2>${relatedSubject.relatingPredicateDomainPublic} for ${relatedSubject.name}</h2>
