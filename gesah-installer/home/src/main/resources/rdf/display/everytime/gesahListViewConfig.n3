@@ -177,5 +177,6 @@
 <http://ontology.tib.eu/gesah/secondary_literature>	
     display:listViewConfigFile "listViewConfig-secondary-literature.xml"^^xsd:string .
 
-
+<http://ontology.tib.eu/gesah/goobi_doi>
+    display:listViewConfigFile "listViewConfig-goobi_doi.xml"^^xsd:string .  
 
