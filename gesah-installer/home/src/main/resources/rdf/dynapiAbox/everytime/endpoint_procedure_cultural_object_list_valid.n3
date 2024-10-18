@@ -30,6 +30,9 @@
         SELECT DISTINCT ?cultural_object WHERE {
           ?cultural_object rdf:type <http://ontology.tib.eu/gesah/Cultural_Object> .
           ?cultural_object gesah:output_of_production|gesah:output_of_creation|gesah:object_of_edition ?activity .
+          FILTER NOT EXISTS {
+            ?cultural_object gesah:hide true .
+          }
         } ORDER BY ?cultural_object
         """ ;
         dynapi:providesParameter            :cultural_objects .
