@@ -50,9 +50,12 @@ gesah:ULAN_ID rdfs:domain [ a owl:Class; owl:unionOf (foaf:Person gesah:Depicted
 
 gesah:TGN_ID rdfs:domain [ a owl:Class; owl:unionOf (gesah:Depicted_Place vivo:GeographicLocation )] .
 
-gesah:GND_ID rdfs:domain [ a owl:Class; owl:unionOf (ecrm:E35_Title gesah:Cultural_Object gesah:Iconography foaf:Agent gesah:Object_Category_Narrower_Term gesah:Object_Category_Generic_Term )] .
+gesah:GND_ID rdfs:domain [ a owl:Class; owl:unionOf (ecrm:E35_Title gesah:Cultural_Object gesah:Iconography foaf:Agent gesah:Object_Category_Narrower_Term gesah:Object_Category_Generic_Term vivo:GeographicLocation )] .
 
 gesah:AAT_ID rdfs:domain [ a owl:Class; owl:unionOf (gesah:Attribution_Type gesah:Depicted_Object gesah:Depiction_Type gesah:Geographic_Assingment gesah:Inscription_Type gesah:Material gesah:Measurement_Specification gesah:Preservation_Measure_Specifics gesah:Role_Type gesah:Stylistic_Assignment gesah:Technique gesah:Title_Type gesah:Object_Category_Generic_Term gesah:Object_Category_Narrower_Term )] .
 
 gesah:comment rdfs:domain [ a owl:Class; owl:unionOf (gesah:Watermark gesah:Collection gesah:Feature gesah:Inscription gesah:Mark gesah:Series vivo:Exhibit gesah:Watermark ecrm:E35_Title obo:BFO_0000015 gesah:Object_Category_Generic_Term gesah:Object_Category_Narrower_Term )] .	   
-gesah:uses_technique rdfs:domain [ a owl:Class; owl:unionOf (gesah:Creation gesah:Edition gesah:Production )] .	   
+gesah:uses_technique rdfs:domain [ a owl:Class; owl:unionOf (gesah:Creation gesah:Edition gesah:Production )] .	  
+
+gesah:depicted_in rdfs:domain [ a owl:Class; owl:unionOf (gesah:Iconography foaf:Person foaf:Organization vivo:GeographicLocation )] .
+gesah:depicts rdfs:range [ a owl:Class; owl:unionOf (gesah:Iconography foaf:Person foaf:Organization vivo:GeographicLocation )] .
