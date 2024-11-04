@@ -320,12 +320,12 @@ WHERE
     :hasTargetField "depicted_persons_ss" ;
     :hasSelectQuery """
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+        PREFIX foaf: <http://xmlns.com/foaf/0.1/>
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 		SELECT DISTINCT ?person
 		 	WHERE {
 		 	   ?uri gesah:depicts ?person .
-		 	   ?person rdf:type gesah:Depicted_Person .
-		 	   
+		 	   ?person rdf:type foaf:Person .
 		 	} 
 """ .
 
