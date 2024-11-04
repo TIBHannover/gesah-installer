@@ -130,6 +130,9 @@
 <http://ontology.tib.eu/gesah/has_role>
     display:listViewConfigFile "listViewConfig-has_role.xml"^^xsd:string .
 
+<http://ontology.tib.eu/gesah/depicted_object_localisied_in>
+    display:listViewConfigFile "listViewConfig-depicts.xml"^^xsd:string .
+
 <http://ontology.tib.eu/gesah/depicts>
     display:listViewConfigFile "listViewConfig-depicts.xml"^^xsd:string .
 
