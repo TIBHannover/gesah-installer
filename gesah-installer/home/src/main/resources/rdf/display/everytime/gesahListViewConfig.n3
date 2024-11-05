@@ -124,6 +124,9 @@
 <http://ontology.tib.eu/gesah/includes>
     display:listViewConfigFile "listViewConfig-information_with_image.xml"^^xsd:string .
 
+<http://ontology.tib.eu/gesah/localisation_of_depicted_object>
+    display:listViewConfigFile "listViewConfig-information_with_image.xml"^^xsd:string .
+
 <http://ontology.tib.eu/gesah/mark_used_in>
     display:listViewConfigFile "listViewConfig-mark_used_in.xml"^^xsd:string .
 
