@@ -7,13 +7,13 @@
 
     <groupId>eu.tib.osl</groupId>
     <artifactId>gesah-installer-webapp</artifactId>
-    <version>1.14.1-SNAPSHOT</version>
+    <version>1.15.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <parent>
         <groupId>eu.tib.osl</groupId>
         <artifactId>gesah-installer</artifactId>
-        <version>1.14.1-SNAPSHOT</version>
+        <version>1.15.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 

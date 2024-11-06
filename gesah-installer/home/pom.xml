@@ -7,13 +7,13 @@
 
     <groupId>eu.tib.osl</groupId>
     <artifactId>gesah-installer-home</artifactId>
-    <version>1.14.1-SNAPSHOT</version>
+    <version>1.15.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>eu.tib.osl</groupId>
         <artifactId>gesah-installer</artifactId>
-        <version>1.14.1-SNAPSHOT</version>
+        <version>1.15.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 

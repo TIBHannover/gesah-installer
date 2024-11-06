@@ -109,6 +109,21 @@ WHERE
 }
         """ .
 
+:vitrodocumentModifier_former_folder
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "former folder" ;
+    :hasTargetField "former_folder_ss" ;
+    :hasSelectQuery """
+PREFIX gesah:    <http://ontology.tib.eu/gesah/>
+SELECT ?folder
+WHERE
+{
+  ?uri gesah:is_part_of_former_folder ?folder .
+}
+        """ .
+
+
 :vitrodocumentModifier_production_place
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
