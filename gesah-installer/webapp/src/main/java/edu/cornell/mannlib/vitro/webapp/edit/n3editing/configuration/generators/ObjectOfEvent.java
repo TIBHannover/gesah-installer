@@ -75,7 +75,8 @@ public class ObjectOfEvent extends AbstractCulturalObjectGenerator implements Ed
         addPlace(conf);
         addPublications(conf);
         addOrganizers(conf);
-        
+        conf.addN3OptionalAssertions(conf.getN3Optional());
+        conf.setN3Optional(new ArrayList<>());
     }
 	
 	private void addOrganizers(EditConfigurationVTwo conf) throws Exception {
