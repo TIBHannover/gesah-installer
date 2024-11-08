@@ -10,6 +10,7 @@
             <div id="search-field">
                 <input type="text" name="querytext" class="search-vivo" placeholder="${i18n().search_field_placeholder}"  value="${querytext!?html}" autocapitalize="off" />
                 <input type="submit" value="${i18n().search_button}" class="search">
+                <input type="checkbox" value="type:http://ontology.tib.eu/gesah/Cultural_Object" name="filters_type__3" form="search-form" style="display:none;" checked="checked">
             </div>
         </form>
     </fieldset>

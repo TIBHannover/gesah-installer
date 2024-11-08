@@ -25,9 +25,6 @@ ${metaTags.add("<meta tag=\"description\" content=\"Digital collection of prints
             #nav.affix-top section#search {
                 display: none;
             }
-            #navbarContent > ul:first-child {
-                display: none;
-            }
         </style>
 
     </head>
@@ -56,6 +53,7 @@ ${metaTags.add("<meta tag=\"description\" content=\"Digital collection of prints
 			                             <div id="search-line-container">
 			                                 <div class="input-group home-page-input-group">
 			                                     <input type="text" name="querytext" class="form-control" value="" placeholder="${i18n().search_field_placeholder}" autocapitalize="off" />
+			                                     <input type="checkbox" value="type:http://ontology.tib.eu/gesah/Cultural_Object" name="filters_type__3" style="display:none;" checked="checked">
 			                                     <span class="input-group-btn">
 			                                         <button class="btn btn-default" type="submit">
 			                                             <span class="icon-search">${i18n().search_button}</span>

@@ -478,11 +478,10 @@ WHERE
         PREFIX gesah:    <http://ontology.tib.eu/gesah/>
         SELECT ?filter
         WHERE {
-          ?uri a gesah:Cultural_Object .
-          BIND ("public_cultural_object" as ?filter)
           FILTER NOT EXISTS {
             ?uri gesah:hide true 
           }
+          BIND ("public_cultural_object" as ?filter)
         }
     """ .
 
@@ -578,11 +577,11 @@ WHERE
         }
     """ .
 
-:vitrodocumentModifier_theme_types
+:vitrodocumentModifier_subject_types
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
-    rdfs:label "theme types" ;
-    :hasTargetField "theme_type_ss" ;
+    rdfs:label "subject types" ;
+    :hasTargetField "subject_type_ss" ;
     :hasSelectQuery """
         PREFIX gesah: <http://ontology.tib.eu/gesah/>
         SELECT ?type
@@ -608,14 +607,16 @@ WHERE
             ?uri gesah:depicted_in ?co .
           }
           ?uri <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?type .
+          FILTER NOT EXISTS { ?uri <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> <http://ontology.tib.eu/gesah/Feature> .}
+          
         }
     """ .
 
-:vitrodocumentModifier_theme_collections
+:vitrodocumentModifier_subject_collections
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
-    rdfs:label "theme collections" ;
-    :hasTargetField "theme_collections_ss" ;
+    rdfs:label "subject collections" ;
+    :hasTargetField "subject_collections_ss" ;
     :hasSelectQuery """
         PREFIX gesah: <http://ontology.tib.eu/gesah/>
         SELECT ?collection
@@ -657,14 +658,14 @@ WHERE
         }
     """ .
 
-:vitrodocumentModifier_theme_dates
+:vitrodocumentModifier_subject_dates
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
-    rdfs:label "theme dates" ;
-    :hasTargetField "theme_dates_ss" ;
+    rdfs:label "subject dates" ;
+    :hasTargetField "subject_dates_drsim" ;
     :hasSelectQuery """
         PREFIX gesah: <http://ontology.tib.eu/gesah/>
-        SELECT ?uri ?result
+        SELECT ?result
         WHERE
         {
           { ?uri a <http://ontology.tib.eu/gesah/Object_Category_Narrower_Term> .
@@ -699,7 +700,7 @@ WHERE
             ?uri gesah:depicted_in ?co .
           }
           ?co a gesah:Cultural_Object .
-          ?co gesah:output_of_production | gesah:output_of_creation | gesah:object_of_edition | gesah:object_of_inscription | gesah:object_of_preservation | gesah:object_of_event | gesah:object_of_provenance ?activity .
+          ?co gesah:output_of_production | gesah:output_of_creation | gesah:object_of_edition ?activity .
           ?activity <http://vivoweb.org/ontology/core#dateTimeInterval> ?interval .
           ?interval <http://vivoweb.org/ontology/core#end> ?start .
           ?start <http://vivoweb.org/ontology/core#dateTime> ?startTime .
@@ -776,6 +777,8 @@ WHERE
           ?uri a <http://xmlns.com/foaf/0.1/Agent> .
           ?uri (gesah:participates_in|gesah:has_role/gesah:realized_in) ?activity .
           ?activity <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?type .
+          FILTER NOT EXISTS { ?activity <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> <http://ontology.tib.eu/gesah/Activity> .}
+          
         }
     """ .
 
@@ -801,7 +804,7 @@ WHERE
     :hasTargetField "agent_is_depicted_ss" ;
     :hasSelectQuery """
         PREFIX gesah: <http://ontology.tib.eu/gesah/>
-        SELECT ?uri ?result
+        SELECT ?result
         WHERE
         {
           ?uri a <http://xmlns.com/foaf/0.1/Agent> .
@@ -816,7 +819,7 @@ WHERE
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
     rdfs:label "agent activity dates" ;
-    :hasTargetField "agent_activity_dates_ss" ;
+    :hasTargetField "agent_activity_dates_drsim" ;
     :hasSelectQuery """
         PREFIX gesah: <http://ontology.tib.eu/gesah/>
         SELECT DISTINCT ?result
@@ -857,7 +860,7 @@ WHERE
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
     rdfs:label "place activity dates" ;
-    :hasTargetField "place_activity_dates_ss" ;
+    :hasTargetField "place_activity_dates_drsim" ;
     :hasSelectQuery """
         PREFIX gesah: <http://ontology.tib.eu/gesah/>
         SELECT DISTINCT ?result
@@ -881,7 +884,7 @@ WHERE
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
     rdfs:label "place activity dates" ;
-    :hasTargetField "place_activity_dates_ss" ;
+    :hasTargetField "place_activity_type_ss" ;
     :hasSelectQuery """
         PREFIX gesah: <http://ontology.tib.eu/gesah/>
         SELECT DISTINCT ?type
@@ -892,6 +895,7 @@ WHERE
           { ?uri a gesah:Depicted_Place . }
           ?uri gesah:is_place_of ?activity .
           ?activity <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?type .
+          FILTER NOT EXISTS { ?activity <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> <http://ontology.tib.eu/gesah/Activity> .}
         }
     """ .
 
