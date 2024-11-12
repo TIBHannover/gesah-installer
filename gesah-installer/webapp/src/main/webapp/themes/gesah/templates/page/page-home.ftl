@@ -25,9 +25,6 @@ ${metaTags.add("<meta tag=\"description\" content=\"Digital collection of prints
             #nav.affix-top section#search {
                 display: none;
             }
-            #navbarContent > ul:first-child {
-                display: none;
-            }
         </style>
 
     </head>
@@ -56,13 +53,15 @@ ${metaTags.add("<meta tag=\"description\" content=\"Digital collection of prints
 			                             <div id="search-line-container">
 			                                 <div class="input-group home-page-input-group">
 			                                     <input type="text" name="querytext" class="form-control" value="" placeholder="${i18n().search_field_placeholder}" autocapitalize="off" />
+			                                     <input type="radio" value="limit-to:cultural-object" name="filters_limit-to" style="display:none;" checked="checked">
 			                                     <span class="input-group-btn">
 			                                         <button class="btn btn-default" type="submit">
 			                                             <span class="icon-search">${i18n().search_button}</span>
 			                                         </button>
 			                                     </span>
 			                                 </div>
-			                              	<a class="home-page-help-icon" href="${urls.base}/search"><img class="search-icon search-icon-settings" src="images/icons/settings.svg"></a>
+			                                <#assign typeFilter = "?filters_limit-to=limit-to%3Acultural-object" />
+			                              	<a class="home-page-help-icon" href="${urls.base}/search${typeFilter}"><img class="search-icon search-icon-settings" src="images/icons/settings.svg"></a>
 			                              	<div class="home-page-help-text">${i18n().search_filters_help_text}</div>
 			                             	<a class="home-page-help-icon"><img class="search-icon search-icon-question"  src="images/icons/question.svg"></a>
 			                             	<div class="home-page-help-text">${i18n().search_help_text}</div>
