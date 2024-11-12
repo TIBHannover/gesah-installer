@@ -10,7 +10,7 @@
             <div id="search-field">
                 <input type="text" name="querytext" class="search-vivo" placeholder="${i18n().search_field_placeholder}"  value="${querytext!?html}" autocapitalize="off" />
                 <input type="submit" value="${i18n().search_button}" class="search">
-                <input type="radio" value="limit-to:https://sah.tib.eu/individual/value_co" name="filters_limit-to" form="search-form" style="display:none;" checked="checked">
+                <input type="radio" value="limit-to:cultural-object" name="filters_limit-to" form="search-form" style="display:none;" checked="checked">
             </div>
         </form>
     </fieldset>

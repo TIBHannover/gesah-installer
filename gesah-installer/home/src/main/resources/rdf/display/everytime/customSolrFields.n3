@@ -479,7 +479,7 @@ WHERE
         {
             {
                 ?uri a gesah:Cultural_Object .
-                BIND ("https://sah.tib.eu/individual/value_co" as ?category_uri)
+                BIND ("cultural-object" as ?category_uri)
             }
             UNION
             {
@@ -502,17 +502,17 @@ WHERE
               { ?uri a <http://xmlns.com/foaf/0.1/Agent> .
                 ?uri gesah:depicted_in ?co .
               }
-              BIND ("https://sah.tib.eu/individual/value_subject" as ?category_uri)
+              BIND ("subject" as ?category_uri)
             }
             UNION
             {
               ?uri a <http://xmlns.com/foaf/0.1/Agent> .
-              BIND ("https://sah.tib.eu/individual/value_agent" as ?category_uri)
+              BIND ("person-or-organization" as ?category_uri)
             }
             UNION
             {
               ?uri gesah:is_place_of ?some_object .
-              BIND ("https://sah.tib.eu/individual/value_place" as ?category_uri)
+              BIND ("place" as ?category_uri)
             }
         }
     """ .
@@ -804,8 +804,8 @@ WHERE
         {
           ?uri a <http://ontology.tib.eu/gesah/Cultural_Object> .
           BIND ( IF( EXISTS{ ?uri gesah:has_digital_representation ?digital_representation . }, 
-              "https://sah.tib.eu/individual/value_yes", 
-              "https://sah.tib.eu/individual/value_no")
+              "yes", 
+              "no")
           AS ?result)
         }
     """ .
@@ -874,8 +874,8 @@ WHERE
         {
           ?uri a <http://xmlns.com/foaf/0.1/Agent> .
           BIND ( IF( EXISTS{ ?uri gesah:depicted_in ?co . }, 
-              "https://sah.tib.eu/individual/value_yes", 
-              "https://sah.tib.eu/individual/value_no")
+              "yes", 
+              "no")
           AS ?result)
         }
     """ .
@@ -978,8 +978,8 @@ WHERE
             UNION
           { ?uri a gesah:Depicted_Place . }
           BIND ( IF( EXISTS{ ?uri gesah:depicted_in ?co . }, 
-              "https://sah.tib.eu/individual/value_yes", 
-              "https://sah.tib.eu/individual/value_no")
+              "yes", 
+              "no")
           AS ?result)
         }
     """ .
@@ -998,8 +998,8 @@ WHERE
             UNION
           { ?uri a gesah:Depicted_Place . }
           BIND ( IF( EXISTS{ ?uri gesah:localisation_of_depicted_object ?co . }, 
-              "https://sah.tib.eu/individual/value_yes", 
-              "https://sah.tib.eu/individual/value_no")
+              "yes", 
+              "no")
           AS ?result)
         }
     """ .

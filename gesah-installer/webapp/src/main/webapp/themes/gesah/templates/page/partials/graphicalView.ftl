@@ -18,7 +18,7 @@
 
 <#macro printCategory category>
 	<#if category?has_content>
-	  <#assign typeFilter = "&filters_limit-to=limit-to%3Ahttps%3A%2F%2Fsah.tib.eu%2Findividual%2Fvalue_co">
+	  <#assign typeFilter = "&filters_limit-to=limit-to%3Acultural-object">
 	  <div class="category_facet">
 		<a class="facet_link" href="${urls.base}/search?filters=${category.filter_id}:${category.id}${typeFilter}">
 		  <img alt="${category.label}" src="${iiifImage(category.barcode category.fileName category.crop_bottom category.crop_top category.crop_left category.crop_right)}" />
