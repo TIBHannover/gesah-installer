@@ -452,6 +452,71 @@ WHERE
         }
     """ .
 
+:vitrodocumentModifier_object_type
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "cultural object type" ;
+    :hasTargetField "object_type_ss" ;
+    :hasSelectQuery """
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX gesah: <http://ontology.tib.eu/gesah/>
+        SELECT ?type
+        WHERE {
+            ?uri rdf:type gesah:Cultural_Object .
+            ?uri <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#mostSpecificType> ?type .
+        }
+""" .
+
+:vitrodocumentModifier_search_category
+    a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
+        <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
+    rdfs:label "search category" ;
+    :hasTargetField "category_uri_ss" ;
+    :hasSelectQuery """
+        PREFIX gesah: <http://ontology.tib.eu/gesah/>
+        SELECT ?category_uri
+        WHERE
+        {
+            {
+                ?uri a gesah:Cultural_Object .
+                BIND ("https://sah.tib.eu/individual/value_co" as ?category_uri)
+            }
+            UNION
+            {
+              { ?uri a <http://ontology.tib.eu/gesah/Object_Category_Narrower_Term> . }
+                UNION
+              { ?uri a <http://ontology.tib.eu/gesah/Object_Category_Generic_Term> . }
+                UNION
+              { ?uri a <http://ontology.tib.eu/gesah/Keyword> .}
+                UNION
+              { ?uri a <http://ontology.tib.eu/gesah/Depicted_Object> .}
+                UNION
+              { ?uri a <http://ontology.tib.eu/gesah/Depicted_Event> .}
+                UNION
+              { ?uri a <http://ontology.tib.eu/gesah/Depicted_Place> .}
+                UNION
+              { ?uri a <http://vivoweb.org/ontology/core#GeographicLocation> .
+                ?uri gesah:depicted_in ?co .
+              }
+                UNION
+              { ?uri a <http://xmlns.com/foaf/0.1/Agent> .
+                ?uri gesah:depicted_in ?co .
+              }
+              BIND ("https://sah.tib.eu/individual/value_subject" as ?category_uri)
+            }
+            UNION
+            {
+              ?uri a <http://xmlns.com/foaf/0.1/Agent> .
+              BIND ("https://sah.tib.eu/individual/value_agent" as ?category_uri)
+            }
+            UNION
+            {
+              ?uri gesah:is_place_of ?some_object .
+              BIND ("https://sah.tib.eu/individual/value_place" as ?category_uri)
+            }
+        }
+    """ .
+
 :vitrodocumentModifier_participants
     a   <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.SelectQueryDocumentModifier> ,
         <java:edu.cornell.mannlib.vitro.webapp.searchindex.documentBuilding.DocumentModifier> ;
