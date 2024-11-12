@@ -49,6 +49,7 @@
                             <li class="nav-item" role="listitem"><a href="/gesah/digitalisate" title="Digitalisate menu item" class="nav-link">Digitalisate</a></li>
                             <li class="nav-item" role="listitem"><a href="/gesah/werke" title="Werke menu item" class="nav-link">Werke</a></li>
                             <li class="nav-item" role="listitem"><a href="/gesah/imagesToLink" title="Images to link menu item" class="nav-link">Images to link</a></li>
+                            <li class="nav-item" role="listitem"><a href="/travel_sketches" title="Reiseskizzen" class="nav-link">Reiseskizzen</a></li>
                         </#if>
                     </ul>
                 </div>
