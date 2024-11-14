@@ -122,6 +122,11 @@ CONSTRUCT {
   ?depicted_object vitro:mostSpecificType ?depicted_object_mst .
   ?depicted_object ?depicted_object_property ?depicted_object_id .
   
+  ?resource_id gesah:depicted_object_localisied_in ?localisation_of_depicted_object .
+  ?localisation_of_depicted_object rdf-xml-export:type ?localisation_of_depicted_object_type .
+  ?localisation_of_depicted_object vitro:mostSpecificType ?localisation_of_depicted_object_mst .
+  ?localisation_of_depicted_object ?localisation_of_depicted_object_property ?localisation_of_depicted_object_id .
+  
   ?resource_id gesah:has_Work_Index_Entry ?work_index_entry .
   ?work_index_entry gesah:is_listed_in ?work_index .
   ?work_index rdfs:label ?work_index_label .
@@ -523,6 +528,25 @@ WHERE {
     	gesah:Wikidata_ID
     	gesah:CONA_ID
     }
+    
+  }  
+    UNION
+  {
+    ?resource_id gesah:depicted_object_localisied_in ?localisation_of_depicted_object .
+    ?localisation_of_depicted_object a ?localisation_of_depicted_object_type .
+    ?localisation_of_depicted_object vitro:mostSpecificType ?localisation_of_depicted_object_mst .
+    ?localisation_of_depicted_object ?localisation_of_depicted_object_property ?localisation_of_depicted_object_id .
+  	VALUES ?localisation_of_depicted_object_property {
+  	    rdfs:label
+    	gesah:AAT_ID 
+    	gesah:TGN_ID 
+    	gesah:ULAN_ID
+    	gesah:GND_ID
+    	gesah:Iconclass_ID
+    	gesah:Wikidata_ID
+    	gesah:CONA_ID
+    }
+    
   }  
     UNION
   {
