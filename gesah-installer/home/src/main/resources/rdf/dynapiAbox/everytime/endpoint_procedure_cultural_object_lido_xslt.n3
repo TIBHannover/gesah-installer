@@ -2094,9 +2094,21 @@
                                     </xsl:for-each>
 
                                     <!--BR: we have range class gesah:depicted_person which could be mapped too, I guess. This is added by me. We do not have a depicted person in this example, but it should be as follows, with GND, ICONCLASS, ULAN or Wikidata -identifier if existant:-->
-                                    <xsl:for-each select="local:get($cultural_object/gesah:depicts)[local:id(vitro:mostSpecificType) = 'http://xmlns.com/foaf/0.1/Person']">
+                                    <xsl:for-each select="local:get($cultural_object/gesah:depicts)[local:id(rdf-xml-export:type) = 'http://xmlns.com/foaf/0.1/Agent']"> 
                                         <lido:subjectActor>
                                             <lido:actor>
+                                                <xsl:choose>
+                                                    <xsl:when test="local:id(rdf-xml-export:type) = 'http://xmlns.com/foaf/0.1/Person'">
+                                                        <xsl:attribute name="lido:type">
+                                                            <xsl:text>person</xsl:text>
+                                                        </xsl:attribute>
+                                                    </xsl:when>
+                                                    <xsl:when test="local:id(rdf-xml-export:type) = 'http://xmlns.com/foaf/0.1/Organization'">
+                                                        <xsl:attribute name="lido:type">
+                                                            <xsl:text>organization</xsl:text>
+                                                        </xsl:attribute>
+                                                    </xsl:when>
+                                                </xsl:choose>
                                                 <xsl:choose>
                                                     <xsl:when test="./gesah:GND_ID">
                                                         <xsl:for-each select="./gesah:GND_ID[1]">
@@ -2144,7 +2156,7 @@
                                     </xsl:for-each>
 
                                     <!--BR: we have range class gesah:depicted_place which could be mapped here. This is added by me, too. We do not have a depicted place in this example, but it should be as follows, with GND, TGN or Wikidata -identifier if existant:-->
-                                    <xsl:for-each select="local:get($cultural_object/gesah:depicts)[local:id(vitro:mostSpecificType) = 'http://ontology.tib.eu/gesah/Depicted_Place']">
+                                    <xsl:for-each select="local:get($cultural_object/gesah:depicts)[local:id(vitro:mostSpecificType) = 'http://ontology.tib.eu/gesah/Depicted_Place' or local:id(rdf-xml-export:type) = 'http://vivoweb.org/ontology/core#GeographicLocation']">
                                         <lido:subjectPlace>
                                             <xsl:for-each select="./rdfs:label">
                                                 <lido:displayPlace>

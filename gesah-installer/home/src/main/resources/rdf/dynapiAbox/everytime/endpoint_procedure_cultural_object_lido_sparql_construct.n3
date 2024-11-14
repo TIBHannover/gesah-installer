@@ -118,7 +118,8 @@ CONSTRUCT {
   ?geographic_assignment gesah:AAT_ID ?geographic_assignment_AAT_ID .
   
   ?resource_id gesah:depicts ?depicted_object .
-  ?depicted_object vitro:mostSpecificType ?depicted_object_type .
+  ?depicted_object rdf-xml-export:type ?depicted_object_type .
+  ?depicted_object vitro:mostSpecificType ?depicted_object_mst .
   ?depicted_object ?depicted_object_property ?depicted_object_id .
   
   ?resource_id gesah:has_Work_Index_Entry ?work_index_entry .
@@ -509,7 +510,8 @@ WHERE {
     UNION
   {
     ?resource_id gesah:depicts ?depicted_object .
-    ?depicted_object vitro:mostSpecificType ?depicted_object_type .
+    ?depicted_object a ?depicted_object_type .
+    ?depicted_object vitro:mostSpecificType ?depicted_object_mst .
     ?depicted_object ?depicted_object_property ?depicted_object_id .
   	VALUES ?depicted_object_property {
   	    rdfs:label
