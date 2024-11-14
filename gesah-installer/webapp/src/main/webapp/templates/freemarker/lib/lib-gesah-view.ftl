@@ -8,7 +8,8 @@
 , <#lt>
 </#macro>
 
-<#macro printElementContainer statement uri title aLabel pageLink>
+<#macro printElementContainer statement uri title aLabel pageLink hideFromPublic="" >
+  <#if user.loggedIn || hideFromPublic = "">
     <div class="listElementContainer">
         <#if statement.fileNum?has_content && statement.barcode?has_content>
           <@createImageThumbnail statement.barcode statement.fileNum profileUrl(uri) title />
@@ -26,6 +27,7 @@
             </#if>
           </div>
     </div>
+  </#if>
 </#macro>
 
 <#macro printLabelWithImage uri label barcode fileName>
