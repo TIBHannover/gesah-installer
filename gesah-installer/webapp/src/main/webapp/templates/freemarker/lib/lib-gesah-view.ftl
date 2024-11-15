@@ -41,29 +41,29 @@
 <#macro addImageMetadata digitalRepresentations>
    <#local imageMetadata>
    <#assign addComma = false>
-	<script type="application/ld+json">
-		[
-		<#list digitalRepresentations as digRep>
-			 <#if addComma >,</#if>
-		    {
-		      "@context": "https://schema.org/",
-		      "@type": "ImageObject",
-		      "contentUrl": "${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/full/!2048,1366/0/default.jpg",
-		      "license": "https://creativecommons.org/publicdomain/mark/1.0/",
-		      "creditText": "Technische Informationsbibliothek (TIB)",
-		      "acquireLicensePage": "https://sah.tib.eu/images_and_metadata",
-		      "copyrightNotice": "Technische Informationsbibliothek (TIB)",
-		      "creator": {
-		        "@type": "Organization",
-		        "name": "Technische Informationsbibliothek (TIB)"
-		       }
-		    }
-	   		<#assign addComma = true>
-	    </#list>
-		]
-	</script>
-	</#local>
-	${headScripts.add(imageMetadata)}
+    <script type="application/ld+json">
+        [
+        <#list digitalRepresentations as digRep>
+             <#if addComma >,</#if>
+            {
+              "@context": "https://schema.org/",
+              "@type": "ImageObject",
+              "contentUrl": "${urls.iiif}/iiif/2/${digRep["barcode"]}${iiifSlash}content${iiifSlash}streams${iiifSlash}${digRep["fileNum"]}/full/!2048,1366/0/default.jpg",
+              "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+              "creditText": "Technische Informationsbibliothek (TIB)",
+              "acquireLicensePage": "https://sah.tib.eu/images_and_metadata",
+              "copyrightNotice": "Technische Informationsbibliothek (TIB)",
+              "creator": {
+                "@type": "Organization",
+                "name": "Technische Informationsbibliothek (TIB)"
+               }
+            }
+               <#assign addComma = true>
+        </#list>
+        ]
+    </script>
+    </#local>
+    ${headScripts.add(imageMetadata)}
 </#macro>
 
 
@@ -189,16 +189,16 @@
 </#function>
 
 <#function getDeletePropertyUrl subjectUri predicateUri objectUri label=''>
-	<#return 
-	urls.base + 
-	"/editRequestDispatch" + 
-	"?subjectUri=" + subjectUri + 
-	"&predicateUri=" + predicateUri +
-	"&objectUri=" + objectUri + 
+    <#return 
+    urls.base + 
+    "/editRequestDispatch" + 
+    "?subjectUri=" + subjectUri + 
+    "&predicateUri=" + predicateUri +
+    "&objectUri=" + objectUri + 
     "&returnURL=" + urls.requestUrl + 
-	"&cmd=delete&objectKey=object" +
-	"&statement_label=" + label
-	 /> 
+    "&cmd=delete&objectKey=object" +
+    "&statement_label=" + label
+     /> 
 </#function>
 
 <#function getEditUrl subjectUri predicateUri objectUri>
@@ -277,12 +277,12 @@
         <#if isEdit>
             <div class="contextLink"><a href="${profileUrl(activityUri)}">${activityUri?keep_after_last("/")}</a></div>
         </#if>
-		<#if isEdit>
-		  <div class="partObjectCreation" style="display:none;" >
-		    <input form="part-creation" type="checkbox" autocomplete="off" name="activity-${activityUri}" value="${activityUri}">
-		    <label style="display:inline;" for="activity-${activityUri}">Copy activity</label>
-		  </div>
-		</#if>
+        <#if isEdit>
+          <div class="partObjectCreation" style="display:none;" >
+            <input form="part-creation" type="checkbox" autocomplete="off" name="activity-${activityUri}" value="${activityUri}">
+            <label style="display:inline;" for="activity-${activityUri}">Copy activity</label>
+          </div>
+        </#if>
     </div>
 </#macro>
 

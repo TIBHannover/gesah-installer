@@ -9,4 +9,4 @@
 <#include "lib-gesah-view.ftl">
 <#assign aLabel = labelWithLink(profileUrl(statement.uri("cultObject")), statement.cultObjectLabel!"", typeFromStatement(statement)) />
 <#assign supplementaryPage = getSupplementaryPageLink(statement, statement.supplementaryType!"Activity") />
-<@printElementContainer statement statement.uri("cultObject") statement.cultObjectLabel!"" aLabel supplementaryPage />
+<@printElementContainer statement statement.uri("cultObject") statement.cultObjectLabel!"" aLabel supplementaryPage statement.hideFromPublic!"" />
