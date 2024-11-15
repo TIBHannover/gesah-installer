@@ -9,4 +9,4 @@
 <#include "lib-gesah-view.ftl">
 
 <#assign aLabel = labelWithLink(profileUrl(statement.object), statement.cultObjectLabel!"", typeFromStatement(statement)) />
-<@printElementContainer statement statement.object statement.cultObjectLabel!"" aLabel "" />
+<@printElementContainer statement statement.object statement.cultObjectLabel!"" aLabel "" statement.hideFromPublic!"" />
