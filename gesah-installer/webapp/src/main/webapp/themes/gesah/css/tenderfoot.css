@@ -784,7 +784,7 @@ p.vivo-logo {
     left: 0;
     background-size: auto 100% !important;
     z-index: -1;
-    position: absolute;
+    position: relative;
 }
 p.vivo-logo a {
     display: block;
@@ -975,7 +975,6 @@ img.add-individual {
 	ul#header-nav {
 	    list-style: none;
 	    height: 30px;
-	    padding-top: 20px;
 	}
 	ul#header-nav li {
 	    float: left;
