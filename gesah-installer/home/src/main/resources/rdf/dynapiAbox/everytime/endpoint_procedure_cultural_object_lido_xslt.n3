@@ -2352,9 +2352,11 @@
                             <lido:recordInfoLink>
                                 <xsl:value-of select="$uri" />
                             </lido:recordInfoLink>
+                            <!-- commented out to simplify comparision of lido outputs
                             <lido:recordMetadataDate lido:type="http://terminology.lido-schema.org/lido00472">
                                 <xsl:value-of select="$cultural_object/xsd:date/text()" />
                             </lido:recordMetadataDate>
+                            -->
                         </lido:recordInfoSet>
                     </lido:recordWrap>
 
