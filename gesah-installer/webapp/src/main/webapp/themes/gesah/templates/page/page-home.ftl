@@ -54,11 +54,7 @@ ${metaTags.add("<meta tag=\"description\" content=\"Digital collection of prints
                                              <div class="input-group home-page-input-group">
                                                  <input type="text" name="querytext" class="form-control" value="" placeholder="${i18n().search_field_placeholder}" autocapitalize="off" />
                                                  <input type="radio" value="limit-to:cultural-object" name="filters_limit-to" style="display:none;" checked="checked">
-                                                 <span class="input-group-btn">
-                                                     <button class="btn btn-default" type="submit">
-                                                         <span class="icon-search">${i18n().search_button}</span>
-                                                     </button>
-                                                 </span>
+                                                 <input type="submit" value="Search" class="search">
                                              </div>
                                             <#assign typeFilter = "?filters_limit-to=limit-to%3Acultural-object" />
                                               <a class="home-page-help-icon" href="${urls.base}/search${typeFilter}"><img class="search-icon search-icon-settings" src="images/icons/settings.svg"></a>
