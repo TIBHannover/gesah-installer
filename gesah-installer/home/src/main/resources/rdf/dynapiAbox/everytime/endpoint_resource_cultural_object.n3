@@ -14,6 +14,7 @@
         dynapi:hasCustomRESTAction          <https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/copy_cultural_object> ;
         dynapi:hasCustomRESTAction          <https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/export_cultural_object_graph> ;
         dynapi:hasCustomRESTAction          <https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/get_valid_cultural_objects> ;
+        dynapi:hasCustomRESTAction          <https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/get_cultural_object_by_inv_no> ;
         dynapi:onGetAll                     <https://vivoweb.org/ontology/vitro-dynamic-api/procedure/gesah/get_cultural_objects> .
 
 <https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/export_cultural_object_to_lido>
@@ -44,3 +45,10 @@
         dynapi:name                         "copy" ;
         dynapi:hasDefaultMethod             <https://vivoweb.org/ontology/vitro-dynamic-api/http_method/post> ;
         dynapi:forwardsTo                   <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/copy-cultural-object/procedure> .
+        
+<https://vivoweb.org/ontology/vitro-dynamic-api/custom_actions/get_cultural_object_by_inv_no>
+        a                                   dynapi:CustomRESTAction ;
+        rdfs:label                          "Get co by current inventory number"@en-US ;
+        dynapi:name                         "get_by_inv_no" ;
+        dynapi:hasDefaultMethod             <https://vivoweb.org/ontology/vitro-dynamic-api/http_method/post> ;
+        dynapi:forwardsTo                   <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/get-co-cur-inv-no/procedure> .

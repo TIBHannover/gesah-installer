@@ -1,0 +1,66 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dynapi: <https://vivoweb.org/ontology/vitro-dynamic-api#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <https://vivoweb.org/ontology/vitro-dynamic-api/gesah/get-co-cur-inv-no/> .
+@prefix paramType: <https://vivoweb.org/ontology/vitro-dynamic-api/parameter/type/> .
+
+:procedure
+        a                                   dynapi:Procedure ;
+        rdfs:label                          "Get co uri by inventory number"@en-US ;
+        dynapi:publicAccess                 "true"^^xsd:boolean ;
+        dynapi:hasFirstStep                 :step1 ;
+        dynapi:providesParameter            :parameter-co-uri ;
+        .
+:step1
+         a                                   dynapi:OperationalStep ;
+         dynapi:hasNextStep                  :step2 ;
+         dynapi:hasOperation                 :is-co-exists .       
+
+:is-co-exists
+         a                                   dynapi:SparqlSelectQuery ;
+         dynapi:sparqlQueryText              """
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX core: <http://vivoweb.org/ontology/core#>
+                SELECT ?exists ?co WHERE {
+                  OPTIONAL{
+                    ?co <http://ontology.tib.eu/gesah/current_inventory_number> ?label .
+                  }
+                  BIND(COALESCE(BOUND(?co), false) As ?exists )
+                } LIMIT 1
+             """ ;
+         dynapi:providesParameter            :parameter-is-co-exists ;
+         dynapi:requiresParameter            :parameter-inventory_number ;
+         dynapi:providesParameter            :parameter-co-uri ;
+         .
+
+:step2
+         a                                   dynapi:ConditionalStep ;
+         dynapi:nextIfNotSatisfied           :co-not-exists ;
+         dynapi:hasCondition                 :condition-is-co-exists .
+
+:condition-is-co-exists
+         a                                   dynapi:ConditionHasTrueValue ;
+         dynapi:requiresParameter            :parameter-is-co-exists .
+
+:co-not-exists
+        a                                   dynapi:ErrorStep ;
+        dynapi:errorCode                    "404"^^xsd:int .
+
+#######################################################################################################################
+
+:parameter-co-uri
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "co" ;
+        dynapi:hasType                      paramType:uri .
+
+:parameter-inventory_number
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "label" ;
+        dynapi:hasType                      paramType:string-literal .
+
+:parameter-is-co-exists
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "exists" ;
+        dynapi:hasType                      paramType:boolean .
+
