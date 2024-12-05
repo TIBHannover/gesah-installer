@@ -2352,6 +2352,9 @@
                             <lido:recordInfoLink>
                                 <xsl:value-of select="$uri" />
                             </lido:recordInfoLink>
+                            <lido:recordInfoLink lido:formatResource="application/lido+xml">
+                                <xsl:value-of select="concat('https://sah.tib.eu/oai/provider?verb=GetRecord&amp;metadataPrefix=lido_xml&amp;identifier=oai:sah.tib.eu:', tokenize($uri,'/')[last()] )" />
+                            </lido:recordInfoLink>
                             <!-- commented out to simplify comparision of lido outputs
                             <lido:recordMetadataDate lido:type="http://terminology.lido-schema.org/lido00472">
                                 <xsl:value-of select="$cultural_object/xsd:date/text()" />
