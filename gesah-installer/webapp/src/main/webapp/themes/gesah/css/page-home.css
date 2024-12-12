@@ -123,7 +123,8 @@ a.home-page-help-icon:hover + div {
 }
 
 .home-page-input-group {
-	width: 100%;
+	display: flex;
+	flex-grow: 1;
 	padding-right: unset!important;
 }
 
@@ -452,6 +453,7 @@ div.faculty-home {
 	position: absolute;
 	top: 18px;
 	left: 30px;
+	right: 15px;
 	color: white;
 	font-size: 1.2em;
 	text-shadow: 1px 1px 4px black;
@@ -475,20 +477,32 @@ a.facet_link:hover > div.category_facet_label {
 	flex-grow: 1;
 	background: black;
 	overflow: hidden;
+	height: 300px;
 }
 
 .category_facet > a > img {
-	width: 100%;
+	min-width: 100%;
+}
+.external-link-img {
+	display:inline;
+	height:23px;
+	position: absolute;
+	padding-left: 10px;
+}
+.external-link-container {
+	border:1px solid #2B3C46;
+	height: 40px;
 }
 
-@media screen and (min-width: 640px) {
-	.category_facet {
-		height: 238px;
-	}
+.external-link {
+  padding-left: 30px;
+  padding-right: 60px;
+  padding-top: 5px;
 }
-@media screen and (max-width: 640px) {
-	.category_facet {
-		height: 120px;
-	}
+
+.external-link > div {
+  font-size: 1.1rem;
+  color: #2B3C46;
 }
+
 
