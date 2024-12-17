@@ -412,6 +412,7 @@ div.faculty-home {
 .home-page-intro > p > a {
   font-size: 1.2rem;
   text-decoration: underline;
+  text-decoration-style: dotted;
 }
 
 #searchFacets {
