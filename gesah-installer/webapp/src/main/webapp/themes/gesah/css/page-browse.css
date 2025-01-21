@@ -115,15 +115,12 @@ nav#alpha-browse-container {
 
 #property-and-image a:not(.more-less) {
   text-decoration: underline;
-  text-decoration-style: dotted;
 }
 
 #property-group-notabs a:not(.more-less) {
 	text-decoration: underline;
-	text-decoration-style: dotted;
 }
 
 .contentsBrowseGroup a {
 	text-decoration: underline;
-	text-decoration-style: dotted;
 }
