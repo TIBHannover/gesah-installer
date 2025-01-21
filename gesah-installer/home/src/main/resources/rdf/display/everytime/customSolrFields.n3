@@ -30,7 +30,7 @@
                 WHERE
                 {
                     ?uri gesah:current_inventory_number ?number . 
-                } LIMIT 1
+                } ORDER BY DESC(?inventory_number) LIMIT 1
         """ .
 
 :vitrodocumentModifier_current_inventory_no

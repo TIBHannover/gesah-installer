@@ -112,3 +112,15 @@ nav#alpha-browse-container {
 #individuals-in-class .pagination {
     margin-left: 10px;
 }
+
+#property-and-image a:not(.more-less) {
+  text-decoration: underline;
+}
+
+#property-group-notabs a:not(.more-less) {
+	text-decoration: underline;
+}
+
+.contentsBrowseGroup a {
+	text-decoration: underline;
+}
