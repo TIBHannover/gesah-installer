@@ -224,11 +224,6 @@ CONSTRUCT {
   ?co_relation_property rdfs:seeAlso ?co_relation_property_see_also .
   ?co_relation_property rdfs:label ?co_relation_property_label .
   
-  ?resource_id gesah:is_part_of ?is_part_of_series .
-  ?is_part_of_series rdfs:label ?is_part_of_series_label .
-  gesah:is_part_of rdfs:seeAlso ?is_part_of_series_see_also .
-  gesah:is_part_of rdfs:label ?is_part_of_series_see_also_label .
-  
   ?resource_id gesah:has_mark_designation ?mark_designation .
   ?mark_designation gesah:uses_mark ?mark .
   ?mark gesah:mark_ID ?mark_id .
@@ -837,6 +832,7 @@ WHERE {
     	gesah:is_verso_of
     	gesah:has_part
     	gesah:is_part_of
+    	gesah:is_part_of_series
     	}
     {
       ?related_co rdfs:label ?related_co_label .
@@ -848,19 +844,6 @@ WHERE {
       UNION
     {
       ?co_relation_property rdfs:label ?co_relation_property_label .
-    }
-  }
-    UNION
-  {
-    ?resource_id gesah:is_part_of_series ?is_part_of_series .
-    {
-      ?is_part_of_series rdfs:label ?is_part_of_series_label .
-    }
-      UNION
-    {
-      #use is_part_of instead of is_part_of_series to treat part of series as part_of
-      gesah:is_part_of rdfs:seeAlso ?is_part_of_series_see_also .
-      gesah:is_part_of rdfs:label ?is_part_of_series_see_also_label .
     }
   }
     UNION
