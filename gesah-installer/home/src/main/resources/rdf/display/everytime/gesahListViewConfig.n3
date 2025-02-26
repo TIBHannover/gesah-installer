@@ -197,6 +197,6 @@
     display:listViewConfigFile "listViewConfig-plate_state.xml"^^xsd:string .
 <http://ontology.tib.eu/gesah/depicts> 
     display:listViewConfigFile "listViewConfig-depicts.xml"^^xsd:string .
-<http://ontology.tib.eu/gesah/depicted_object_localized_in>	
+<http://ontology.tib.eu/gesah/depicted_object_localisied_in>
     display:listViewConfigFile "listViewConfig-depicted_object_localized_in.xml"^^xsd:string .
 

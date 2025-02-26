@@ -51,8 +51,8 @@
 	<#assign isEdit = individual?has_content && individual.showAdminPanel />
 	<#if isEdit>
 	  <div class="partObjectCreation" style="display:none;" >
-	    <input form="part-creation" type="checkbox" name="former-inventory-number" value="${theValue?html}">
-	    <label style="display:inline;" for="former-inventory-number">Use former inventory number</label>
+	    <input form="part-creation" type="checkbox" name="former_inventory_number" value="${theValue?html}">
+	    <label style="display:inline;" for="former_inventory_number">Use former inventory number</label>
 	  </div>
 	</#if>
 </#macro>
