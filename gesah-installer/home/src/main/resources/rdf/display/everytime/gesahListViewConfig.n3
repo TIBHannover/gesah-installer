@@ -187,5 +187,16 @@
     display:listViewConfigFile "listViewConfig-secondary-literature.xml"^^xsd:string .
 
 <http://ontology.tib.eu/gesah/goobi_doi>
-    display:listViewConfigFile "listViewConfig-goobi_doi.xml"^^xsd:string .  
+    display:listViewConfigFile "listViewConfig-goobi_doi.xml"^^xsd:string .
+
+<http://ontology.tib.eu/gesah/is_part_of_series> 
+    display:listViewConfigFile "listViewConfig-is_part_of_series.xml"^^xsd:string .
+<http://ontology.tib.eu/gesah/former_inventory_number> 
+    display:listViewConfigFile "listViewConfig-former_inventory_number.xml"^^xsd:string .
+<http://ontology.tib.eu/gesah/plate_state> 
+    display:listViewConfigFile "listViewConfig-plate_state.xml"^^xsd:string .
+<http://ontology.tib.eu/gesah/depicts> 
+    display:listViewConfigFile "listViewConfig-depicts.xml"^^xsd:string .
+<http://ontology.tib.eu/gesah/depicted_object_localized_in>	
+    display:listViewConfigFile "listViewConfig-depicted_object_localized_in.xml"^^xsd:string .
 
