@@ -51,8 +51,9 @@
 	<#assign isEdit = individual?has_content && individual.showAdminPanel />
 	<#if isEdit>
 	  <div class="partObjectCreation" style="display:none;" >
-	    <input form="part-creation" type="checkbox" name="former_inventory_number" value="${theValue?html}">
-	    <label style="display:inline;" for="former_inventory_number">Use former inventory number</label>
+	    <#assign uuid = statics["java.util.UUID"].randomUUID() />
+	    <input form="part-creation" type="checkbox" name="former_inventory_number-${uuid}" value="${theValue?html}">
+	    <label style="display:inline;" for="former_inventory_number-${uuid}">Use former inventory number</label>
 	  </div>
 	</#if>
 </#macro>
