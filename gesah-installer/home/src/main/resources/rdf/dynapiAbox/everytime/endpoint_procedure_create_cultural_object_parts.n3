@@ -136,7 +136,13 @@
         dynapi:requiresParameter            :work-index-entries-param ;
         dynapi:requiresParameter            :mark-designations-param ;
         dynapi:requiresParameter            :depiction-types-param ;
-        
+
+        dynapi:requiresParameter            :plate-states-param ;
+        dynapi:requiresParameter            :former-numbers-param ;
+        dynapi:requiresParameter            :series-parts-param ;
+        dynapi:requiresParameter            :depicts-param ;
+        dynapi:requiresParameter            :depicted-localized-objects-param ;
+
         .
 
 #######################################################################################################################
@@ -513,7 +519,7 @@
 
 :create_step87
         a                                   dynapi:OperationalStep ;
-        dynapi:hasNextStep                  :create_step9 ;
+        dynapi:hasNextStep                  :create_step88 ;
         dynapi:hasOperation                 :createAuthorInitialsMetadata .
         
 :createAuthorInitialsMetadata
@@ -525,6 +531,86 @@
         """
 	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
 	        ?culturalObject gesah:record_author_initials ?authorInitials .
+        """ .
+
+:create_step88
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step89 ;
+        dynapi:hasOperation                 :createIsPartOfSeries .
+
+:createIsPartOfSeries
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :series-parts-param;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:is_part_of_series ?series_parts .
+        """ .
+
+:create_step89
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step90 ;
+        dynapi:hasOperation                 :createFormerInv .
+
+:createFormerInv
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :former-numbers-param;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:former_inventory_number ?former_inventory_numbers .
+        """ .
+
+:create_step90
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step91 ;
+        dynapi:hasOperation                 :createPlateStates .
+
+:createPlateStates
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :plate-states-param;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:plate_state ?plate_states .
+        """ .
+
+:create_step91
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step92 ;
+        dynapi:hasOperation                 :createDepicts .
+
+:createDepicts
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph;
+        dynapi:requiresParameter            :depicts-param;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:depicts ?depicts .
+        """ .
+
+:create_step92
+        a                                   dynapi:OperationalStep ;
+        dynapi:hasNextStep                  :create_step9 ;
+        dynapi:hasOperation                 :createDepictedObjectLocalizedIn .
+
+:createDepictedObjectLocalizedIn
+        a                                   dynapi:N3Template ;
+        dynapi:hasModel                     :internalObjectGraph ;
+        dynapi:requiresParameter            :depicted-localized-objects-param ;
+        dynapi:requiresParameter            :co-uri ;
+        dynapi:N3TextAdditions
+        """
+	        @prefix gesah: <http://ontology.tib.eu/gesah/> .
+	        ?culturalObject gesah:depicted_object_localisied_in ?depictedObjectsLocalizedIn .
         """ .
 
 :create_step9
@@ -872,6 +958,31 @@
         a                                   dynapi:Parameter ;
         dynapi:name                         "secondaryLiterature" ;
         dynapi:hasType                      paramType:ArrayOfLiterals .
+
+:plate-states-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "plate_states" ;
+        dynapi:hasType                      paramType:ArrayOfLiterals .
+
+:former-numbers-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "former_inventory_numbers" ;
+        dynapi:hasType                      paramType:ArrayOfLiterals .
+
+:series-parts-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "series_parts" ;
+        dynapi:hasType                      paramType:ArrayOfResources .
+
+:depicts-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "depicts" ;
+        dynapi:hasType                      paramType:ArrayOfResources .
+
+:depicted-localized-objects-param
+        a                                   dynapi:Parameter ;
+        dynapi:name                         "depictedObjectsLocalizedIn" ;
+        dynapi:hasType                      paramType:ArrayOfResources .
 
 #<http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral>
 :descriptions-param

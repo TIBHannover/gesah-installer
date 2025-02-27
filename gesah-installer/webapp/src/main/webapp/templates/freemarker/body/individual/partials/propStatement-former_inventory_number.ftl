@@ -52,8 +52,8 @@
 	<#if isEdit>
 	  <div class="partObjectCreation" style="display:none;" >
 	    <#assign uuid = statics["java.util.UUID"].randomUUID() />
-	    <input form="part-creation" type="checkbox" name="description-${uuid}" value="${theValue?html}">
-	    <label style="display:inline;" for="description-${uuid}">Use description</label>
+	    <input form="part-creation" type="checkbox" name="former_inventory_number-${uuid}" value="${theValue?html}">
+	    <label style="display:inline;" for="former_inventory_number-${uuid}">Use former inventory number</label>
 	  </div>
 	</#if>
 </#macro>

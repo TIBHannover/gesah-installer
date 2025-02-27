@@ -39,5 +39,5 @@
         } ORDER BY <collated> ?subclass </collated> ASC( ?label ) ASC( ?label ) ASC( ?localName )
     </query-select>
 
-    <template>propStatement-depicts.ftl</template>
+    <template>propStatement-is_part_of_series.ftl</template>
 </list-view-config>

@@ -184,7 +184,33 @@
 					    		let formSecondaryLiterature = formData.filter(obj => { return obj.name.startsWith('secondary-literature') });
 					    		formSecondaryLiterature.forEach((element) => secondaryLiterature.push(element.value));
 					    		jsonData.secondaryLiterature = secondaryLiterature;
-					    		
+
+					    		let plate_states = [];
+					    		let formPlateStates = formData.filter(obj => { return obj.name.startsWith('plate_state') });
+					    		formPlateStates.forEach((element) => plate_states.push(element.value));
+					    		jsonData.plate_states = plate_states;
+
+					    		let former_inventory_numbers = [];
+					    		let formInvNumbers = formData.filter(obj => { return obj.name.startsWith('former_inventory_number') });
+					    		formInvNumbers.forEach((element) => former_inventory_numbers.push(element.value));
+					    		jsonData.former_inventory_numbers = former_inventory_numbers;
+
+					    		let series_parts = [];
+					    		let formSeriesParts = formData.filter(obj => { return obj.name.startsWith('is-part-of-series') });
+					    		formSeriesParts.forEach((element) => series_parts.push(element.value));
+					    		jsonData.series_parts = series_parts;
+
+					    		let depicts = [];
+					    		let formDepicts = formData.filter(obj => { return obj.name.startsWith('depicts') });
+					    		formDepicts.forEach((element) => depicts.push(element.value));
+					    		jsonData.depicts = depicts;
+
+					    		let depictedObjectsLocalizedIn = [];
+					    		let formDepictedObjectsLocalizedIn = formData.filter(obj => { return obj.name.startsWith('depicted-object-localized-in') });
+					    		formDepictedObjectsLocalizedIn.forEach((element) => depictedObjectsLocalizedIn.push(element.value));
+					    		jsonData.depictedObjectsLocalizedIn = depictedObjectsLocalizedIn;
+
+
 					    		let culturalObjects = [];
 					    		images.forEach((element) => 
 					    			{
