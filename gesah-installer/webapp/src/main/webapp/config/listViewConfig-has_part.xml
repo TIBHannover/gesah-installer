@@ -18,8 +18,12 @@
             ?object a gesah:Cultural_Object .
             OPTIONAL { 
                 ?subject ?property ?object .
-                            ?object a gesah:Cultural_Object .
+                ?object a gesah:Cultural_Object .
                 ?object rdfs:label ?cultObjectLabel .
+            }
+            OPTIONAL { 
+                ?subject ?property ?object .
+                ?object gesah:order_number ?orderNumber .
             }
             ?object gesah:has_main_image ?digRep .
             BIND(?object as ?cultObject)
@@ -56,7 +60,7 @@
             }
             FILTER ( REPLACE(STR(?subclass),"^(.*)(#)(.*)$", "$1$2") != "http://vitro.mannlib.cornell.edu/ns/vitro/0.7#" )
             </collated>
-        } ORDER BY  <collated> ?subclass </collated> ASC(?sortOrder)
+        } ORDER BY  <collated> ?subclass </collated> ASC(?orderNumber) ASC(?sortOrder)
         </query-select>
    
      <template>propStatement-has_part.ftl</template>
