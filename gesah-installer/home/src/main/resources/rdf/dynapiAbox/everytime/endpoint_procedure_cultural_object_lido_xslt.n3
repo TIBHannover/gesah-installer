@@ -518,7 +518,7 @@
                            <!-- eventType designing (lido00224) is correct only for gesah:creation when connected with prints, printed material and photmechanical prints.
                             First check the class of CO, if CO is class:print,class:photomechanical_print, class:seal or class:printed_material use following pattern with three eventSets -->
                             <xsl:choose>
-                                <xsl:when test="$type = 'print' or $type = 'printed-materials' or $type = 'photomechanical-print' or $type = 'seal'">
+                                <xsl:when test="$type = 'print' or $type = 'printed-materials' or $type = 'photomechanical-print' or $type = 'seal' or $type = 'composite-volume-no-drawings'">
                                     <xsl:if test="$activity_property_name = 'gesah:output_of_creation'">
                                         <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00224</lido:conceptID>
                                         <lido:term xml:lang="de">Entwurf (Aktivität)</lido:term>
@@ -535,7 +535,7 @@
                                         <lido:term xml:lang="en">Publishing</lido:term>
                                     </xsl:if>
                                 </xsl:when>
-                                <xsl:when test="$type = 'drawing' or $type = 'manuscript' or $type = 'book-illumination' or $type = 'musical-notation'">
+                                <xsl:when test="$type = 'drawing' or $type = 'manuscript' or $type = 'book-illumination' or $type = 'musical-notation' or $type = 'composite-volume-with-drawings'">
                                     <xsl:if test="$activity_property_name = 'gesah:output_of_creation'">
                                         <lido:conceptID lido:type="http://terminology.lido-schema.org/lido00099">http://terminology.lido-schema.org/lido00007</lido:conceptID>
                                         <lido:term xml:lang="de">Herstellung</lido:term>
@@ -868,7 +868,7 @@
             
             <xsl:for-each select="$cur_element/rdf-xml-export:type">
                 <xsl:variable name="resource_uri">
-                    <xsl:value-of select="local:id(current())" />                
+                    <xsl:value-of select="local:id(current())" />
                 </xsl:variable>
                 <xsl:choose>
                     <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Print'">
@@ -894,6 +894,12 @@
                     </xsl:when>
                     <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Photomechanical_Print'">
                         <xsl:value-of select="'photomechanical-print'" />
+                    </xsl:when>
+                    <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Composite_Volume' and local:get(//gesah:has_part)[local:id(vitro:mostSpecificType) = 'http://ontology.tib.eu/gesah/Drawing']">
+                        <xsl:value-of select="'composite-volume-with-drawings'" />
+                    </xsl:when>
+                    <xsl:when test="$resource_uri = 'http://ontology.tib.eu/gesah/Composite_Volume'">
+                        <xsl:value-of select="'composite-volume-no-drawings'" />
                     </xsl:when>
                 </xsl:choose>
             </xsl:for-each>
