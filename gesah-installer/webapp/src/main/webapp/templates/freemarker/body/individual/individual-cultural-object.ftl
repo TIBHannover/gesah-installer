@@ -64,6 +64,57 @@
 </section> <!-- individual-intro -->
 </#if>
 
+    <script type="text/javascript" async>
+        function exportLIDO() {
+			var payload = {
+			    resource_id: "${individual.uri}"
+			};
+			var body = JSON.stringify( payload );
+			fetch("${urls.base}/api/rest/1/cultural_object/lido_export",
+			{
+			    method: "POST",
+				headers: {
+					'Accept': '*/*',
+					'Content-Type': 'application/json;charset=UTF-8'
+				},
+			    body: body
+			})
+			.then(function(res){ return res.json(); })
+            .then(function(data){ var dialog = document.createElement("dialog");
+                document.body.appendChild(dialog)
+                var text = document.createTextNode(data.lido);
+                dialog.style.setProperty('white-space', 'pre');
+                dialog.appendChild(text);
+                dialog.showModal();
+            })
+
+        }
+
+        function exportRDF() {
+			var payload = {
+			    resource_id: "${individual.uri}"
+			};
+			var body = JSON.stringify( payload );
+			fetch("${urls.base}/api/rest/1/cultural_object/graph_export",
+			{
+			    method: "POST",
+				headers: {
+					'Accept': '*/*',
+					'Content-Type': 'application/json;charset=UTF-8'
+				},
+			    body: body
+			})
+			.then(function(res){ return res.json(); })
+            .then(function(data){ var dialog = document.createElement("dialog");
+                document.body.appendChild(dialog)
+                var text = document.createTextNode(data.cultural_object_graph);
+                dialog.style.setProperty('white-space', 'pre');
+                dialog.appendChild(text);
+                dialog.showModal();
+            })
+
+        }
+    </script>
 <#assign nameForOtherGroup = "${i18n().other}">
 
 <!-- Property group menu or tabs -->
@@ -330,56 +381,6 @@
 
         function downloadImage() {
             window.location = imageDownloadUrls[viewer.currentPage()];
-        }
-
-        function exportLIDO() {
-			var payload = {
-			    resource_id: "${individual.uri}"
-			};
-			var body = JSON.stringify( payload );
-			fetch("${urls.base}/api/rest/1/cultural_object/lido_export",
-			{
-			    method: "POST",
-				headers: {
-					'Accept': '*/*',
-					'Content-Type': 'application/json;charset=UTF-8'
-				},
-			    body: body
-			})
-			.then(function(res){ return res.json(); })
-            .then(function(data){ var dialog = document.createElement("dialog");
-                document.body.appendChild(dialog)
-                var text = document.createTextNode(data.lido);
-                dialog.style.setProperty('white-space', 'pre');
-                dialog.appendChild(text);
-                dialog.showModal();
-            })
-
-        }
-
-        function exportRDF() {
-			var payload = {
-			    resource_id: "${individual.uri}"
-			};
-			var body = JSON.stringify( payload );
-			fetch("${urls.base}/api/rest/1/cultural_object/graph_export",
-			{
-			    method: "POST",
-				headers: {
-					'Accept': '*/*',
-					'Content-Type': 'application/json;charset=UTF-8'
-				},
-			    body: body
-			})
-			.then(function(res){ return res.json(); })
-            .then(function(data){ var dialog = document.createElement("dialog");
-                document.body.appendChild(dialog)
-                var text = document.createTextNode(data.cultural_object_graph);
-                dialog.style.setProperty('white-space', 'pre');
-                dialog.appendChild(text);
-                dialog.showModal();
-            })
-
         }
     </script>
 <#else>

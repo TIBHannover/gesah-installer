@@ -221,6 +221,7 @@ CONSTRUCT {
   
   ?resource_id ?co_relation_property ?related_co .
   ?related_co rdfs:label ?related_co_label .
+  ?related_co vitro:mostSpecificType ?related_type .
   ?co_relation_property rdfs:seeAlso ?co_relation_property_see_also .
   ?co_relation_property rdfs:label ?co_relation_property_label .
   
@@ -844,6 +845,10 @@ WHERE {
       UNION
     {
       ?co_relation_property rdfs:label ?co_relation_property_label .
+    }
+      UNION
+    {
+      ?related_co vitro:mostSpecificType ?related_type .
     }
   }
     UNION
